@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Discovery Week 2026 - Story Mode</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- SCANLINE OVERLAY -->
+  <div class="scanlines"></div>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <div class="nav-logo" onclick="showPage('home')">🎮 DW2026</div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">☰</button>
+    <ul class="nav-links" id="nav-links">
+      <li><a onclick="showPage('home')" class="nav-item active" data-page="home">HOME</a></li>
+      <li class="nav-dropdown">
+        <a class="nav-item" data-page="week">THE WEEK ▾</a>
+        <ul class="dropdown">
+          <li><a onclick="showPage('monday')">DAY 1 - Story & Characters</a></li>
+          <li><a onclick="showPage('tuesday')">DAY 2 - Game Research</a></li>
+          <li><a onclick="showPage('wednesday')">DAY 3 - Tool Taster</a></li>
+          <li><a onclick="showPage('thursday')">DAY 4 - Dev Sprint</a></li>
+          <li><a onclick="showPage('friday')">DAY 5 - The Arcade</a></li>
+        </ul>
+      </li>
+      <li><a onclick="showPage('tools')" class="nav-item" data-page="tools">TOOLS</a></li>
+      <li><a onclick="showPage('ai')" class="nav-item" data-page="ai">AI GUIDE</a></li>
+      <li><a onclick="showPage('criteria')" class="nav-item" data-page="criteria">SUCCESS CRITERIA</a></li>
+      <li><a onclick="showPage('downloads')" class="nav-item" data-page="downloads">DOWNLOADS</a></li>
+    </ul>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════
+       HOME PAGE
+  ═══════════════════════════════════════════ -->
+  <div id="page-home" class="page active">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-bg-grid"></div>
+      <div class="hero-content">
+        <div class="pixel-badge">DISCOVERY WEEK 2026</div>
+        <h1 class="hero-title">
+          <span class="glitch" data-text="STORY MODE">STORY MODE</span>
+        </h1>
+        <p class="hero-subtitle">Build Your Own Game World</p>
+        <div class="hero-image-wrap">
+          <img src="hero-image.png" alt="Story Mode: Build Your Own Game World - retro arcade pixel art school" class="hero-image" />
+        </div>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="showPage('monday')">▶ START THE WEEK</button>
+          <button class="btn-secondary" onclick="showPage('tools')">🛠 TOOLS & TUTORIALS</button>
+        </div>
+      </div>
+      <div class="hero-characters">
+        <div class="pixel-char char1">👾</div>
+        <div class="pixel-char char2">🤖</div>
+        <div class="pixel-char char3">🎮</div>
+        <div class="pixel-char char4">⚔️</div>
+      </div>
+    </section>
+
+    <!-- WEEK AT A GLANCE -->
+    <section class="section">
+      <h2 class="section-title">WEEK AT A GLANCE</h2>
+      <div class="week-grid">
+        <div class="day-card" onclick="showPage('monday')">
+          <div class="day-num">DAY 1</div>
+          <div class="day-icon">📖</div>
+          <div class="day-label">Story &amp; Characters</div>
+          <div class="day-desc">Build your world, write your characters, create your game brief</div>
+          <div class="day-lead">Story &amp; World Building</div>
+        </div>
+        <div class="day-card" onclick="showPage('tuesday')">
+          <div class="day-num">DAY 2</div>
+          <div class="day-icon">🕹️</div>
+          <div class="day-label">Game Research</div>
+          <div class="day-desc">Off-site arcade trip - play games, study what makes them great</div>
+          <div class="day-lead">Off-site trip</div>
+        </div>
+        <div class="day-card highlight" onclick="showPage('wednesday')">
+          <div class="day-num">DAY 3</div>
+          <div class="day-icon">🛠️</div>
+          <div class="day-label">Choose Your Tool</div>
+          <div class="day-desc">Try all 4 engines, pick your platform, start building</div>
+          <div class="day-lead">Tool Taster Sessions</div>
+        </div>
+        <div class="day-card" onclick="showPage('thursday')">
+          <div class="day-num">DAY 4</div>
+          <div class="day-icon">⚙️</div>
+          <div class="day-label">Dev Sprint</div>
+          <div class="day-desc">Build, test, debug, iterate - use AI wisely</div>
+          <div class="day-lead">Full build day</div>
+        </div>
+        <div class="day-card gold" onclick="showPage('friday')">
+          <div class="day-num">DAY 5</div>
+          <div class="day-icon">🏆</div>
+          <div class="day-label">The Arcade</div>
+          <div class="day-desc">Live showcase, success criteria judging, and prize giving - 11:40am</div>
+          <div class="day-lead">The Arcade opens!</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUCCESS CRITERIA PREVIEW -->
+    <section class="section dark-section">
+      <h2 class="section-title">🏆 SUCCESS CRITERIA</h2>
+      <p class="section-intro">Games are judged across seven domains. Know the criteria from day one - build with intention.</p>
+      <div class="criteria-preview-grid">
+        <div class="crit-chip">🎨 Best Game Design &amp; Idea</div>
+        <div class="crit-chip">🖥️ Best Coding &amp; Functionality</div>
+        <div class="crit-chip">🎭 Best Visual Design</div>
+        <div class="crit-chip">🔊 Best Sound &amp; Engagement</div>
+        <div class="crit-chip">🕹️ Best User Experience</div>
+        <div class="crit-chip">🔬 Best Testing &amp; Improvement</div>
+        <div class="crit-chip gold-chip">📖 Best Character & Storyline</div>
+      </div>
+      <button class="btn-primary" onclick="showPage('criteria')" style="margin-top:2rem">VIEW SUCCESS CRITERIA →</button>
+    </section>
+
+    <!-- AI RULES QUICK CALLOUT -->
+    <section class="section">
+      <div class="ai-callout">
+        <div class="ai-callout-icon">🤖</div>
+        <div class="ai-callout-content">
+          <h3>AI Rules - Quick Reminder</h3>
+          <div class="ai-rules-row">
+            <div class="ai-yes">
+              <div class="rule-header">✅ YOU MAY use AI to:</div>
+              <ul>
+                <li>Debug code that isn't working</li>
+                <li>Test and find edge cases</li>
+                <li>Get feedback on mechanics</li>
+                <li>Refine and improve your work</li>
+              </ul>
+            </div>
+            <div class="ai-no">
+              <div class="rule-header">❌ You may NOT use AI to:</div>
+              <ul>
+                <li>Generate your whole game</li>
+                <li>Make creative decisions for you</li>
+                <li>Plan your story or characters</li>
+                <li>Replace your own thinking</li>
+              </ul>
+            </div>
+          </div>
+          <button class="btn-secondary" onclick="showPage('ai')" style="margin-top:1.5rem">READ THE FULL AI GUIDE →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOLS QUICK ACCESS -->
+    <section class="section dark-section">
+      <h2 class="section-title">🛠 YOUR TOOLS</h2>
+      <div class="tools-home-grid">
+        <div class="tool-home-card scratch" onclick="showPage('tools')">
+          <div class="tool-emoji">🐱</div>
+          <div class="tool-name">Scratch</div>
+          <div class="tool-tag">Story &amp; Platformers</div>
+        </div>
+        <div class="tool-home-card makecode" onclick="showPage('tools')">
+          <div class="tool-emoji">👾</div>
+          <div class="tool-name">MakeCode Arcade</div>
+          <div class="tool-tag">Retro &amp; Arcade</div>
+        </div>
+        <div class="tool-home-card minecraft" onclick="showPage('tools')">
+          <div class="tool-emoji">⛏️</div>
+          <div class="tool-name">Minecraft Edu</div>
+          <div class="tool-tag">World-building &amp; 3D</div>
+        </div>
+        <div class="tool-home-card cospaces" onclick="showPage('tools')">
+          <div class="tool-emoji">🌐</div>
+          <div class="tool-name">DelightEx</div>
+          <div class="tool-tag">3D &amp; VR Worlds</div>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="showPage('tools')" style="margin-top:2rem">TUTORIALS & TIPS →</button>
+    </section>
+
+  </div><!-- /home -->
+
+
+  <!-- ═══════════════════════════════════════════
+       MONDAY PAGE
+  ═══════════════════════════════════════════ -->
+  <div id="page-monday" class="page">
+    <div class="page-hero monday-hero">
+      <div class="page-hero-content">
+        <div class="day-badge">DAY 1 - LEVEL 1</div>
+        <h1>📖 Story &amp; Characters</h1>
+        <p>Your job: build the world and people who will live inside your game.</p>
+      </div>
+    </div>
+    <section class="section">
+      <div class="schedule-block">
+        <h2 class="section-title">DAY SCHEDULE</h2>
+        <div class="schedule-table">
+          <div class="sched-row">
+            <div class="sched-time">Morning</div>
+            <div class="sched-activity"><strong>Story Development Workshops</strong> - narrative structure, setting, and theme</div>
+          </div>
+          <div class="sched-row">
+            <div class="sched-time">Mid-morning</div>
+            <div class="sched-activity"><strong>Character Creation</strong> - heroes, villains, and supporting cast</div>
+          </div>
+          <div class="sched-row">
+            <div class="sched-time">Afternoon</div>
+            <div class="sched-activity"><strong>World Building</strong> - game world, backstory, and player journey</div>
+          </div>
+          <div class="sched-row">
+            <div class="sched-time">End of day</div>
+            <div class="sched-activity"><strong>Game Brief</strong> - document story concept and character sketches</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section dark-section">
+      <h2 class="section-title">📋 STUDENT TASKS</h2>
+      <div class="tasks-grid">
+        <div class="task-card">
+          <div class="task-num">TASK 1</div>
+          <div class="task-title">📖 My Game Story</div>
+          <p>Answer these three questions in your workbook:</p>
+          <ul class="task-list">
+            <li>What is the <strong>world</strong>? (fantasy, sci-fi, real world, underwater, space…)</li>
+            <li>What <strong>problem</strong> does the player need to solve?</li>
+            <li>What is the <strong>ending</strong> - how does the player win?</li>
+          </ul>
+        </div>
+        <div class="task-card">
+          <div class="task-num">TASK 2</div>
+          <div class="task-title">🦸 My Characters</div>
+          <p>Design at least <strong>2 characters</strong>. For each one, think about:</p>
+          <ul class="task-list">
+            <li>Name &amp; appearance</li>
+            <li>Personality traits</li>
+            <li>Special ability or power</li>
+            <li>Their role in the story</li>
+          </ul>
+        </div>
+        <div class="task-card">
+          <div class="task-num">TASK 3</div>
+          <div class="task-title">🌍 My Game World</div>
+          <p>Sketch or describe your game world:</p>
+          <ul class="task-list">
+            <li>What does it look like?</li>
+            <li>What dangers or challenges exist?</li>
+            <li>What is the atmosphere/mood?</li>
+          </ul>
+        </div>
+        <div class="task-card gold-card">
+          <div class="task-num">END OF DAY</div>
+          <div class="task-title">🎯 My Game Brief</div>
+          <p>Summarise your whole game idea in <strong>3–5 sentences</strong> in your workbook. This is your creative foundation for the whole week.</p>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <h2 class="section-title">🌟 END OF DAY REFLECTION</h2>
+      <div class="reflection-prompts">
+        <div class="reflect-q">What are you most excited to <strong>build</strong> this week?</div>
+        <div class="reflect-q">What part of your story idea feels <strong>strongest</strong> right now?</div>
+        <div class="reflect-q">What will you need to figure out <strong>tomorrow</strong>?</div>
+      </div>
+    </section>
+    <div class="page-nav-btns">
+      <button class="btn-secondary" onclick="showPage('home')">← HOME</button>
+      <button class="btn-primary" onclick="showPage('tuesday')">DAY 2 → GAME RESEARCH</button>
+    </div>
+  </div><!-- /monday -->
+
+
+  <!-- ═══════════════════════════════════════════
+       TUESDAY PAGE
+  ═══════════════════════════════════════════ -->
+  <div id="page-tuesday" class="page">
+    <div class="page-hero tuesday-hero">
+      <div class="page-hero-content">
+        <div class="day-badge">DAY 2 - LEVEL 2</div>
+        <h1>🕹️ Game Research</h1>
+        <p>Off-site arcade trip. Play games as a researcher - not just a player. Study what makes them great.</p>
+      </div>
+    </div>
+    <section class="section">
+      <div class="schedule-block">
+        <h2 class="section-title">DAY SCHEDULE</h2>
+        <div class="schedule-table">
+          <div class="sched-row"><div class="sched-time">Morning</div><div class="sched-activity"><strong>Travel to arcade</strong> - free play across a variety of game types</div></div>
+          <div class="sched-row"><div class="sched-time">Mid-session</div><div class="sched-activity"><strong>Structured Play</strong> - use the Game Analysis Framework for 2 games</div></div>
+          <div class="sched-row"><div class="sched-time">Late session</div><div class="sched-activity"><strong>Group Reflection</strong> - what makes a great game?</div></div>
+          <div class="sched-row"><div class="sched-time">Return</div><div class="sched-activity"><strong>Key Insights</strong> - capture inspiration for your own design</div></div>
+        </div>
+      </div>
+    </section>
+    <section class="section dark-section">
+      <h2 class="section-title">🎮 GAME ANALYSIS FRAMEWORK</h2>
+      <p class="section-intro">Complete this for <strong>2 different games</strong> at the arcade. Think like a designer, not just a player!</p>
+      <div class="analysis-grid">
+        <div class="analysis-q">🎯 <strong>What is the goal?</strong><br><span>Was it clear from the start?</span></div>
+        <div class="analysis-q">💭 <strong>How did it make you feel?</strong><br><span>What kept you playing?</span></div>
+        <div class="analysis-q">🕹️ <strong>What are the controls like?</strong><br><span>Easy or hard? Why?</span></div>
+        <div class="analysis-q">⚡ <strong>How is the challenge?</strong><br><span>Too easy, too hard, or just right?</span></div>
+        <div class="analysis-q">👁️ <strong>What does it look &amp; sound like?</strong><br><span>Describe the style and feel</span></div>
+        <div class="analysis-q">💡 <strong>What would you borrow?</strong><br><span>One idea to use in your own game</span></div>
+      </div>
+    </section>
+    <section class="section">
+      <h2 class="section-title">💡 3 BIG TAKEAWAYS</h2>
+      <p class="section-intro">In your workbook, record <strong>3 specific things</strong> from today that will influence your game design. Be specific!</p>
+      <div class="takeaway-boxes">
+        <div class="takeaway-box"><div class="takeaway-num">1</div><p>What design choice surprised you most?</p></div>
+        <div class="takeaway-box"><div class="takeaway-num">2</div><p>What mechanic do you want to use or adapt?</p></div>
+        <div class="takeaway-box"><div class="takeaway-num">3</div><p>What would you do completely differently?</p></div>
+      </div>
+    </section>
+    <section class="section dark-section">
+      <h2 class="section-title">🌟 END OF DAY REFLECTION</h2>
+      <div class="reflection-prompts">
+        <div class="reflect-q">What surprised you most about visiting the arcade?</div>
+        <div class="reflect-q">What is one design choice you saw that you really want to use?</div>
+        <div class="reflect-q">Are you still happy with your story from Day 1, or do you want to change anything?</div>
+      </div>
+    </section>
+    <div class="page-nav-btns">
+      <button class="btn-secondary" onclick="showPage('monday')">← DAY 1</button>
+      <button class="btn-primary" onclick="showPage('wednesday')">DAY 3 → TOOL TASTER</button>
+    </div>
+  </div><!-- /tuesday -->
+
+
+  <!-- ═══════════════════════════════════════════
+       WEDNESDAY PAGE
+  ═══════════════════════════════════════════ -->
+  <div id="page-wednesday" class="page">
+    <div class="page-hero wednesday-hero">
+      <div class="page-hero-content">
+        <div class="day-badge">DAY 3 - LEVEL 3</div>
+        <h1>🛠️ Choose Your Tool &amp; Start Building</h1>
+        <p>The most important decision of the week. Try all four tools this morning - then commit and build.</p>
+      </div>
+    </div>
+    <section class="section">
+      <div class="schedule-block">
+        <h2 class="section-title">DAY SCHEDULE</h2>
+        <div class="schedule-table">
+          <div class="sched-row"><div class="sched-time">Morning</div><div class="sched-activity"><strong>Tool Taster Sessions</strong> - Play → Learn → Build for each tool (30 mins each)</div></div>
+          <div class="sched-row"><div class="sched-time">Late morning</div><div class="sched-activity"><strong>Tool Reflection</strong> - compare the four tools, decide which fits your game</div></div>
+          <div class="sched-row"><div class="sched-time">After lunch</div><div class="sched-activity"><strong>Tool Selection</strong> - commit to one platform and complete your Game Design Brief</div></div>
+          <div class="sched-row"><div class="sched-time">Afternoon</div><div class="sched-activity"><strong>Development Begins</strong> - start building your game!</div></div>
+          <div class="sched-row"><div class="sched-time">End of day</div><div class="sched-activity"><strong>Reflection</strong> - what did you build? What is your plan for Day 4?</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL TASTER SESSION STEPS -->
+    <section class="section dark-section">
+      <h2 class="section-title">🕹️ TOOL TASTER SESSIONS</h2>
+      <div class="taster-steps">
+        <div class="taster-step">
+          <div class="step-icon">🎮</div>
+          <div class="step-label">STEP 1 - PLAY</div>
+          <p>Try the sample game and see what the tool can do</p>
+          <div class="step-time">5–8 mins</div>
+        </div>
+        <div class="taster-arrow">→</div>
+        <div class="taster-step">
+          <div class="step-icon">📖</div>
+          <div class="step-label">STEP 2 - LEARN</div>
+          <p>Follow the intro tutorial to learn the key features</p>
+          <div class="step-time">10–12 mins</div>
+        </div>
+        <div class="taster-arrow">→</div>
+        <div class="taster-step">
+          <div class="step-icon">🔨</div>
+          <div class="step-label">STEP 3 - BUILD</div>
+          <p>Make your own simple game - 10 minutes, go!</p>
+          <div class="step-time">10–12 mins</div>
+        </div>
+      </div>
+      <div class="taster-timer-note">⏱ 30 minutes per tool - follow the steps at your own pace</div>
+
+      <!-- TOOL TASTER LINK -->
+      <div class="taster-cta-wrap">
+        <p class="taster-cta-intro">All sample games, tutorials, and build challenges are on the Tool Taster page. Open it now and follow the instructions for each tool.</p>
+        <a href="tool-taster.html" target="_blank" class="taster-cta-btn">
+          <span class="taster-cta-icon">▶</span>
+          <div class="taster-cta-text">
+            <span class="taster-cta-label">OPEN TOOL TASTER SESSIONS</span>
+            <span class="taster-cta-sub">Scratch · MakeCode · Minecraft · Delightex</span>
+          </div>
+          <span class="taster-cta-arrow">→</span>
+        </a>
+        <p class="taster-cta-note">💡 Keep this page open the whole morning and follow it at your own pace. Switch between the four tool tabs as your teacher directs.</p>
+      </div>
+    </section>
+
+    <!-- THE FOUR TOOLS -->
+    <section class="section">
+      <h2 class="section-title">THE FOUR TOOLS</h2>
+      <div class="four-tools-grid">
+        <div class="tool-detail-card scratch-card">
+          <div class="tool-detail-header">
+            <span class="tool-big-emoji">🐱</span>
+            <div>
+              <h3>Scratch</h3>
+              <a href="https://scratch.mit.edu" target="_blank" class="tool-link">scratch.mit.edu ↗</a>
+            </div>
+          </div>
+          <p class="tool-best">Best for: story-based games, creative platformers, interactive narratives</p>
+          <ul class="tool-pros">
+            <li>✅ Beginner-friendly block coding</li>
+            <li>✅ Huge sprite &amp; backdrop library</li>
+            <li>✅ Works on iPad and iMac</li>
+            <li>✅ Easy to share and play</li>
+          </ul>
+          <button class="btn-tool" onclick="showPage('tools')">TUTORIALS →</button>
+        </div>
+        <div class="tool-detail-card makecode-card">
+          <div class="tool-detail-header">
+            <span class="tool-big-emoji">👾</span>
+            <div>
+              <h3>MakeCode Arcade</h3>
+              <a href="https://arcade.makecode.com" target="_blank" class="tool-link">arcade.makecode.com ↗</a>
+            </div>
+          </div>
+          <p class="tool-best">Best for: retro arcade games, tile maps, sprite-based games</p>
+          <ul class="tool-pros">
+            <li>✅ Block coding + optional JavaScript</li>
+            <li>✅ Built-in sprite editor</li>
+            <li>✅ Retro pixel aesthetic built in</li>
+            <li>✅ Great for platformers and shooters</li>
+          </ul>
+          <button class="btn-tool" onclick="showPage('tools')">TUTORIALS →</button>
+        </div>
+        <div class="tool-detail-card minecraft-card">
+          <div class="tool-detail-header">
+            <span class="tool-big-emoji">⛏️</span>
+            <div>
+              <h3>Minecraft Education</h3>
+              <a href="https://education.minecraft.net" target="_blank" class="tool-link">education.minecraft.net ↗</a>
+            </div>
+          </div>
+          <p class="tool-best">Best for: world-building, adventure maps, quest-style games, immersive 3D</p>
+          <ul class="tool-pros">
+            <li>✅ Unlimited 3D building freedom</li>
+            <li>✅ NPCs, quests, and triggers</li>
+            <li>✅ Story-driven adventure maps</li>
+            <li>✅ iPad app available (free)</li>
+          </ul>
+          <button class="btn-tool" onclick="showPage('tools')">TUTORIALS →</button>
+        </div>
+        <div class="tool-detail-card cospaces-card">
+          <div class="tool-detail-header">
+            <span class="tool-big-emoji">🌐</span>
+            <div>
+              <h3>DelightEx</h3>
+              <a href="https://delightex.com" target="_blank" class="tool-link">delightex.com ↗</a>
+            </div>
+          </div>
+          <p class="tool-best">Best for: 3D scenes, VR-ready experiences, interactive story worlds</p>
+          <ul class="tool-pros">
+            <li>✅ Drag-and-drop 3D building</li>
+            <li>✅ DelightEx Blocks visual scripting</li>
+            <li>✅ VR-ready on iPad</li>
+            <li>✅ Interactive scenes and exploration</li>
+          </ul>
+          <button class="btn-tool" onclick="showPage('tools')">TUTORIALS →</button>
+        </div>
+      </div>
+      <div class="own-tool-note">
+        <span class="own-tool-icon">💡</span>
+        <p>Have a different tool in mind? You may use your own preferred game creation tool - as long as it is <strong>approved by a teacher before you start</strong>.</p>
+      </div>
+    </section>
+
+    <!-- GAME DESIGN BRIEF -->
+    <section class="section dark-section">
+      <h2 class="section-title">📋 GAME DESIGN BRIEF</h2>
+      <p class="section-intro">Complete this in your workbook <strong>before you start building</strong>. This is your blueprint - refer back to it all week!</p>
+      <div class="brief-table">
+        <div class="brief-row"><div class="brief-label">Game Title</div><div class="brief-desc">What will you call it?</div></div>
+        <div class="brief-row"><div class="brief-label">Genre / Type</div><div class="brief-desc">e.g. platformer, adventure, puzzle, racing…</div></div>
+        <div class="brief-row"><div class="brief-label">Player Goal</div><div class="brief-desc">What does the player have to do to win?</div></div>
+        <div class="brief-row"><div class="brief-label">Main Character</div><div class="brief-desc">Who does the player control?</div></div>
+        <div class="brief-row"><div class="brief-label">Setting / World</div><div class="brief-desc">Where does the game take place?</div></div>
+        <div class="brief-row"><div class="brief-label">Challenge / Enemy</div><div class="brief-desc">What makes it hard?</div></div>
+        <div class="brief-row"><div class="brief-label">Win Condition</div><div class="brief-desc">How do you complete the game?</div></div>
+        <div class="brief-row"><div class="brief-label">Visual Style</div><div class="brief-desc">Pixel art? 3D? Cartoon? What does it look like?</div></div>
+        <div class="brief-row"><div class="brief-label">Sound Plan</div><div class="brief-desc">What mood? Any sound effects you want?</div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">🌟 END OF WEDNESDAY REFLECTION</h2>
+      <div class="reflection-prompts">
+        <div class="reflect-q">Why did you choose your tool? How does it fit your game idea?</div>
+        <div class="reflect-q">What did you manage to build today?</div>
+        <div class="reflect-q">What is your plan for Day 4's Development Sprint?</div>
+      </div>
+    </section>
+    <div class="page-nav-btns">
+      <button class="btn-secondary" onclick="showPage('tuesday')">← DAY 2</button>
+      <button class="btn-primary" onclick="showPage('thursday')">DAY 4 → DEV SPRINT</button>
+    </div>
+  </div><!-- /wednesday -->
+
+
+  <!-- ═══════════════════════════════════════════
+       THURSDAY PAGE
+  ═══════════════════════════════════════════ -->
+  <div id="page-thursday" class="page">
+    <div class="page-hero thursday-hero">
+      <div class="page-hero-content">
+        <div class="day-badge">DAY 4 - LEVEL 4</div>
+        <h1>⚙️ Development Sprint</h1>
+        <p>The big build day. Work hard, test often, use AI wisely, and keep improving. By end of day your game should be nearly complete.</p>
+      </div>
+    </div>
+    <section class="section">
+      <div class="schedule-block">
+        <h2 class="section-title">DAY SCHEDULE</h2>
+        <div class="schedule-table">
+          <div class="sched-row"><div class="sched-time">Morning</div><div class="sched-activity"><strong>Development Sprint</strong> - focused building with guided mini-lessons</div></div>
+          <div class="sched-row"><div class="sched-time">Mid-morning</div><div class="sched-activity"><strong>Peer Testing Round 1</strong> - swap games and give structured feedback</div></div>
+          <div class="sched-row"><div class="sched-time">Afternoon</div><div class="sched-activity"><strong>Iteration &amp; Improvement</strong> - act on feedback, fix bugs, refine gameplay</div></div>
+          <div class="sched-row"><div class="sched-time">End of day</div><div class="sched-activity"><strong>Progress Check</strong> - review against success criteria, set Day 5 targets</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dark-section">
+      <h2 class="section-title">🤖 AI TOOLKIT FOR TODAY</h2>
+      <p class="section-intro">These are the exact types of prompts you can use with AI today. Copy and adapt them!</p>
+      <div class="ai-prompts-grid">
+        <div class="ai-prompt-card">
+          <div class="prompt-type">🐛 DEBUGGING</div>
+          <div class="prompt-example">"Here is my code: [paste code]. It isn't working because [describe problem]. Can you help me find the bug?"</div>
+        </div>
+        <div class="ai-prompt-card">
+          <div class="prompt-type">🧪 TESTING</div>
+          <div class="prompt-example">"My game does [describe mechanic]. What edge cases or problems might a player run into? What should I test?"</div>
+        </div>
+        <div class="ai-prompt-card">
+          <div class="prompt-type">✨ IMPROVING CODE</div>
+          <div class="prompt-example">"Here is my code: [paste]. Is there a more efficient or readable way to write this?"</div>
+        </div>
+        <div class="ai-prompt-card">
+          <div class="prompt-type">🎮 FEEDBACK</div>
+          <div class="prompt-example">"My game mechanic is [describe it]. What could make it more fun or fair for players?"</div>
+        </div>
+        <div class="ai-prompt-card">
+          <div class="prompt-type">💎 REFINEMENT</div>
+          <div class="prompt-example">"What small changes would improve the player experience in a game like this?"</div>
+        </div>
+        <div class="ai-prompt-card warning-card">
+          <div class="prompt-type">⚠️ REMEMBER</div>
+          <div class="prompt-example">AI gives <strong>suggestions</strong>. YOU decide what to use. Keep your creative ownership! Don't let AI make design decisions for you.</div>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="showPage('ai')" style="margin-top:2rem">READ THE FULL AI GUIDE →</button>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">🔄 PEER TESTING GUIDE</h2>
+      <p class="section-intro">When you play someone else's game, use these prompts to give helpful, specific feedback:</p>
+      <div class="peer-feedback-grid">
+        <div class="feedback-card positive">
+          <div class="fb-icon">👍</div>
+          <h4>What worked well?</h4>
+          <p>Be specific. "The controls felt smooth" is better than "it was good."</p>
+        </div>
+        <div class="feedback-card question">
+          <div class="fb-icon">🤔</div>
+          <h4>What was confusing?</h4>
+          <p>What did you not understand? Where did you get stuck?</p>
+        </div>
+        <div class="feedback-card idea">
+          <div class="fb-icon">💡</div>
+          <h4>One suggestion</h4>
+          <p>Give one specific, actionable idea to improve the game.</p>
+        </div>
+        <div class="feedback-card bug">
+          <div class="fb-icon">🐛</div>
+          <h4>Any bugs?</h4>
+          <p>Did anything break or behave unexpectedly? Describe exactly what happened.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dark-section">
+      <h2 class="section-title">🏁 END OF THURSDAY CHECKLIST</h2>
+      <div class="checklist">
+        <div class="check-item">☐ My game loads and starts without crashing</div>
+        <div class="check-item">☐ The player can control their character or navigate the game</div>
+        <div class="check-item">☐ There is a clear goal the player is working towards</div>
+        <div class="check-item">☐ The game has a win or end state</div>
+        <div class="check-item">☐ I have at least some visual design (sprites, backgrounds, or scenes)</div>
+        <div class="check-item">☐ I have collected peer feedback and made at least one improvement</div>
+        <div class="check-item">☐ I know what I still need to fix or add before The Arcade</div>
+      </div>
+    </section>
+    <div class="page-nav-btns">
+      <button class="btn-secondary" onclick="showPage('wednesday')">← DAY 3</button>
+      <button class="btn-primary" onclick="showPage('friday')">DAY 5 → THE ARCADE 🏆</button>
+    </div>
+  </div><!-- /thursday -->
+
+
+  <!-- ═══════════════════════════════════════════
+       FRIDAY PAGE
+  ═══════════════════════════════════════════ -->
+  <div id="page-friday" class="page">
+    <div class="page-hero friday-hero">
+      <div class="page-hero-content">
+        <div class="day-badge gold-badge">DAY 5 - LEVEL 5</div>
+        <h1>🏆 THE ARCADE</h1>
+        <p>This is the day you have been building towards. Finish your game, set up your station, and open The Arcade. Show everyone what you made.</p>
+      </div>
+    </div>
+    <section class="section">
+      <h2 class="section-title">DAY SCHEDULE</h2>
+      <div class="schedule-table">
+        <div class="sched-row"><div class="sched-time">Morning</div><div class="sched-activity"><strong>Final Development &amp; Polish</strong> - fix last bugs, improve visuals</div></div>
+        <div class="sched-row"><div class="sched-time">~11:20am</div><div class="sched-activity"><strong>Set Up Your Station</strong> - game instructions, display, and title ready</div></div>
+        <div class="sched-row highlight-row"><div class="sched-time">11:40am ⭐</div><div class="sched-activity"><strong>THE ARCADE OPENS</strong> - visitors play your game!</div></div>
+        <div class="sched-row"><div class="sched-time">11:40–2pm</div><div class="sched-activity"><strong>Live Judging</strong> - games assessed against the success criteria</div></div>
+        <div class="sched-row"><div class="sched-time">2:00pm</div><div class="sched-activity"><strong>The Arcade Closes</strong></div></div>
+        <div class="sched-row"><div class="sched-time">2:00–2:30pm</div><div class="sched-activity"><strong>Whole-Group Reflection</strong> - what did you create? what did you learn?</div></div>
+        <div class="sched-row gold-row"><div class="sched-time">2:30pm 🏆</div><div class="sched-activity"><strong>Prize Giving</strong> - awards across all success criteria!</div></div>
+      </div>
+    </section>
+
+    <section class="section dark-section">
+      <h2 class="section-title">🖼️ ARCADE STATION CHECKLIST</h2>
+      <p class="section-intro">Before 11:20am, prepare your display station with the following:</p>
+      <div class="station-checklist">
+        <div class="station-item">☐ Game is open and ready to play on screen</div>
+        <div class="station-item">☐ A title sign or label showing your game's name</div>
+        <div class="station-item">☐ A short instruction card (max 5 steps - how to play)</div>
+        <div class="station-item">☐ Your name is clearly visible</div>
+        <div class="station-item">☐ Volume is set appropriately (not too loud!)</div>
+      </div>
+      <div class="instruction-tip">
+        <h4>📝 Writing Your Instruction Card</h4>
+        <p>Write 3–5 simple steps explaining how to play. Make it clear for someone who has <strong>never seen your game before</strong>.</p>
+        <div class="instruction-example">
+          <p>Example:</p>
+          <ol>
+            <li>Press the space bar to start</li>
+            <li>Use arrow keys to move your character</li>
+            <li>Collect all the stars before the timer runs out</li>
+            <li>Avoid the red enemies - they reset your progress</li>
+            <li>Reach the door to complete the level!</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">🏆 SUCCESS CRITERIA</h2>
+      <div class="judging-cats-friday">
+        <div class="jcat">🎨<br><strong>Best Game Design &amp; Idea</strong></div>
+        <div class="jcat">🖥️<br><strong>Best Coding &amp; Functionality</strong></div>
+        <div class="jcat">🎭<br><strong>Best Visual Design</strong></div>
+        <div class="jcat">🔊<br><strong>Best Sound &amp; Engagement</strong></div>
+        <div class="jcat">🕹️<br><strong>Best User Experience</strong></div>
+        <div class="jcat">🔬<br><strong>Best Testing &amp; Improvement</strong></div>
+        <div class="jcat gold-jcat">📖<br><strong>Best Character &amp; Storyline</strong></div>
+      </div>
+      <button class="btn-primary" onclick="showPage('criteria')" style="margin-top:2rem">VIEW FULL SUCCESS CRITERIA →</button>
+    </section>
+
+    <section class="section dark-section">
+      <h2 class="section-title">🌟 FINAL REFLECTION</h2>
+      <div class="reflection-prompts">
+        <div class="reflect-q">The game I am most proud of building is… and here is why.</div>
+        <div class="reflect-q">The hardest part of the week was… and how I handled it.</div>
+        <div class="reflect-q">I used AI to help me with… and this is what I decided to keep or change.</div>
+        <div class="reflect-q">If I made this game again, I would change… because…</div>
+        <div class="reflect-q">One thing I learned this week that I will use in the future.</div>
+      </div>
+      <div class="game-complete-banner">🎮 GAME COMPLETE 🎮<br><span>You went from an idea to a playable game in one week. That is something to be proud of.</span></div>
+    </section>
+
+    <div class="page-nav-btns">
+      <button class="btn-secondary" onclick="showPage('thursday')">← DAY 4</button>
+      <button class="btn-primary" onclick="showPage('home')">🏠 BACK TO HOME</button>
+    </div>
+  </div><!-- /friday -->
+
+
+  <!-- ═══════════════════════════════════════════
+       TOOLS & TUTORIALS PAGE
+  ═══════════════════════════════════════════ -->
+  <div id="page-tools" class="page">
+    <div class="page-hero tools-hero">
+      <div class="page-hero-content">
+        <div class="day-badge">TOOLS &amp; TUTORIALS</div>
+        <h1>🛠️ Your Toolkit</h1>
+        <p>Quick tips, guides, and links for every tool you'll use this week.</p>
+      </div>
+    </div>
+
+    <!-- TOOL TABS -->
+    <section class="section">
+      <div class="tool-tabs">
+        <button class="tab-btn active" onclick="showToolTab('scratch')">🐱 Scratch</button>
+        <button class="tab-btn" onclick="showToolTab('makecode')">👾 MakeCode</button>
+        <button class="tab-btn" onclick="showToolTab('minecraft')">⛏️ Minecraft</button>
+        <button class="tab-btn" onclick="showToolTab('cospaces')">🌐 DelightEx</button>
+        <button class="tab-btn" onclick="showToolTab('design')">🎨 Design</button>
+        <button class="tab-btn" onclick="showToolTab('sound')">🔊 Sound</button>
+      </div>
+
+      <!-- SCRATCH -->
+      <div class="tool-tab-content active" id="tab-scratch">
+        <div class="tool-page-header scratch-header">
+          <span class="tool-page-icon">🐱</span>
+          <div>
+            <h2>Scratch</h2>
+            <a href="https://scratch.mit.edu" target="_blank" class="tool-link-big">scratch.mit.edu ↗</a>
+          </div>
+        </div>
+        <div class="tool-content-grid">
+          <div class="quick-tips">
+            <h3>⚡ Quick Tips</h3>
+            <div class="tip-item"><span class="tip-icon">🎭</span><div><strong>Use costumes for animation</strong> - Switch between costumes rapidly to create walking or attack animations.</div></div>
+            <div class="tip-item"><span class="tip-icon">📡</span><div><strong>Broadcast messages</strong> - Use broadcast/receive to communicate between sprites without complex nesting.</div></div>
+            <div class="tip-item"><span class="tip-icon">📦</span><div><strong>Clone sprites</strong> - Use "create clone" to make multiple enemies or collectibles from one sprite.</div></div>
+            <div class="tip-item"><span class="tip-icon">🧱</span><div><strong>Platform collision</strong> - Use "touching colour" to detect platforms - pick a specific colour for your floor.</div></div>
+            <div class="tip-item"><span class="tip-icon">⭐</span><div><strong>Score display</strong> - Create a variable and set "show variable" to display score on screen.</div></div>
+            <div class="tip-item"><span class="tip-icon">🔊</span><div><strong>Sounds</strong> - Import your GarageBand audio as an MP3 directly into the Sounds tab.</div></div>
+          </div>
+          <div class="tutorials-panel">
+            <h3>📚 Tutorials & Resources</h3>
+            <div class="tutorial-group">
+              <div class="tut-category">Official Scratch</div>
+              <a href="https://scratch.mit.edu/ideas" target="_blank" class="tut-link">🎓 Scratch Ideas &amp; Tutorials (official) ↗</a>
+              <a href="https://scratch.mit.edu/projects/editor/?tutorial=getStarted" target="_blank" class="tut-link">🚀 Getting Started Tutorial ↗</a>
+            </div>
+            <div class="tutorial-group">
+              <div class="tut-category">Platformer Guides</div>
+              <a href="https://www.youtube.com/results?search_query=scratch+platformer+tutorial+for+kids" target="_blank" class="tut-link">📹 YouTube: Scratch Platformer Tutorial ↗</a>
+              <a href="https://www.youtube.com/results?search_query=scratch+gravity+jumping+tutorial" target="_blank" class="tut-link">📹 YouTube: Gravity &amp; Jumping in Scratch ↗</a>
+            </div>
+            <div class="tutorial-group">
+              <div class="tut-category">Story & Adventure</div>
+              <a href="https://www.youtube.com/results?search_query=scratch+scrolling+background+tutorial" target="_blank" class="tut-link">📹 YouTube: Scrolling Backgrounds ↗</a>
+              <a href="https://www.youtube.com/results?search_query=scratch+multiple+levels+tutorial" target="_blank" class="tut-link">📹 YouTube: Making Multiple Levels ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAKECODE -->
+      <div class="tool-tab-content" id="tab-makecode">
+        <div class="tool-page-header makecode-header">
+          <span class="tool-page-icon">👾</span>
+          <div>
+            <h2>MakeCode Arcade</h2>
+            <a href="https://arcade.makecode.com" target="_blank" class="tool-link-big">arcade.makecode.com ↗</a>
+          </div>
+        </div>
+        <div class="tool-content-grid">
+          <div class="quick-tips">
+            <h3>⚡ Quick Tips</h3>
+            <div class="tip-item"><span class="tip-icon">🗺️</span><div><strong>Use tilemap for levels</strong> - The tilemap editor is the fastest way to build platform levels with walls and floors.</div></div>
+            <div class="tip-item"><span class="tip-icon">💥</span><div><strong>Overlaps = collisions</strong> - Use "on sprite of kind overlaps" to handle pickups, enemies, and hazards.</div></div>
+            <div class="tip-item"><span class="tip-icon">🎨</span><div><strong>Built-in sprite editor</strong> - Draw pixel sprites directly in the editor. Use the flip/rotate tools for animations.</div></div>
+            <div class="tip-item"><span class="tip-icon">❤️</span><div><strong>Lives system</strong> - Use the built-in "info: lives" blocks - no custom code needed for a life counter.</div></div>
+            <div class="tip-item"><span class="tip-icon">🎵</span><div><strong>Music blocks</strong> - Use the Music extension to add background music and sound effects without external files.</div></div>
+            <div class="tip-item"><span class="tip-icon">🔢</span><div><strong>Multiple scenes</strong> - Use "scene: set background" and "game: push scene" to switch between levels.</div></div>
+          </div>
+          <div class="tutorials-panel">
+            <h3>📚 Tutorials & Resources</h3>
+            <div class="tutorial-group">
+              <div class="tut-category">Official MakeCode</div>
+              <a href="https://arcade.makecode.com/courses/csintro1" target="_blank" class="tut-link">🎓 Intro to CS with Arcade (official) ↗</a>
+              <a href="https://arcade.makecode.com/docs" target="_blank" class="tut-link">📖 MakeCode Arcade Docs ↗</a>
+            </div>
+            <div class="tutorial-group">
+              <div class="tut-category">Game Types</div>
+              <a href="https://www.youtube.com/results?search_query=makecode+arcade+platformer+tutorial" target="_blank" class="tut-link">📹 YouTube: Platformer Tutorial ↗</a>
+              <a href="https://www.youtube.com/results?search_query=makecode+arcade+top+down+shooter" target="_blank" class="tut-link">📹 YouTube: Top-Down Shooter ↗</a>
+              <a href="https://www.youtube.com/results?search_query=makecode+arcade+maze+game" target="_blank" class="tut-link">📹 YouTube: Maze Game ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MINECRAFT -->
+      <div class="tool-tab-content" id="tab-minecraft">
+        <div class="tool-page-header minecraft-header">
+          <span class="tool-page-icon">⛏️</span>
+          <div>
+            <h2>Minecraft Education</h2>
+            <a href="https://education.minecraft.net" target="_blank" class="tool-link-big">education.minecraft.net ↗</a>
+          </div>
+        </div>
+        <div class="tool-content-grid">
+          <div class="quick-tips">
+            <h3>⚡ Quick Tips</h3>
+            <div class="tip-item"><span class="tip-icon">🗺️</span><div><strong>Plan your map first</strong> - Sketch your world layout before building. Think in zones: start area, challenge area, end goal.</div></div>
+            <div class="tip-item"><span class="tip-icon">🧑‍💬</span><div><strong>NPCs tell the story</strong> - Place NPCs with dialogue to deliver your story, give clues, and guide the player.</div></div>
+            <div class="tip-item"><span class="tip-icon">🎯</span><div><strong>Use Allow and Deny blocks</strong> - Control exactly where players can and can't go to guide the experience.</div></div>
+            <div class="tip-item"><span class="tip-icon">🏆</span><div><strong>Structure blocks for secrets</strong> - Hide secrets and rewards inside structure blocks for players to discover.</div></div>
+            <div class="tip-item"><span class="tip-icon">📋</span><div><strong>Boards for instructions</strong> - Use signs and boards at the start to explain controls and objectives clearly.</div></div>
+            <div class="tip-item"><span class="tip-icon">💡</span><div><strong>Test in Adventure mode</strong> - Set game mode to Adventure to test your map as a player would experience it.</div></div>
+          </div>
+          <div class="tutorials-panel">
+            <h3>📚 Tutorials & Resources</h3>
+            <div class="tutorial-group">
+              <div class="tut-category">Official Resources</div>
+              <a href="https://education.minecraft.net/en-us/resources/resource-library" target="_blank" class="tut-link">🎓 Minecraft Education Resource Library ↗</a>
+              <a href="https://www.youtube.com/results?search_query=minecraft+education+edition+adventure+map+tutorial" target="_blank" class="tut-link">📹 YouTube: Adventure Map Tutorial ↗</a>
+            </div>
+            <div class="tutorial-group">
+              <div class="tut-category">World Building</div>
+              <a href="https://www.youtube.com/results?search_query=minecraft+education+NPC+tutorial" target="_blank" class="tut-link">📹 YouTube: NPC &amp; Dialogue Tutorial ↗</a>
+              <a href="https://www.youtube.com/results?search_query=minecraft+education+quest+map+beginners" target="_blank" class="tut-link">📹 YouTube: Quest Map for Beginners ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COSPACES -->
+      <div class="tool-tab-content" id="tab-cospaces">
+        <div class="tool-page-header cospaces-header">
+          <span class="tool-page-icon">🌐</span>
+          <div>
+            <h2>DelightEx</h2>
+            <a href="https://delightex.com" target="_blank" class="tool-link-big">delightex.com ↗</a>
+          </div>
+        </div>
+        <div class="tool-content-grid">
+          <div class="quick-tips">
+            <h3>⚡ Quick Tips</h3>
+            <div class="tip-item"><span class="tip-icon">🏗️</span><div><strong>Start with a template</strong> - Use a built-in environment template to get up and running quickly, then customise.</div></div>
+            <div class="tip-item"><span class="tip-icon">🧱</span><div><strong>DelightEx Blocks for interaction</strong> - Use DelightEx Blocks (visual code) to make objects clickable, moveable, and interactive.</div></div>
+            <div class="tip-item"><span class="tip-icon">💬</span><div><strong>Speech bubbles</strong> - Add speech bubbles to characters to deliver story, clues, and instructions.</div></div>
+            <div class="tip-item"><span class="tip-icon">🔗</span><div><strong>Link scenes together</strong> - Use "go to scene" in DelightEx Blocks to connect multiple spaces into one journey.</div></div>
+            <div class="tip-item"><span class="tip-icon">🌅</span><div><strong>Atmosphere matters</strong> - Change the skybox, lighting, and fog to match the mood of your story world.</div></div>
+            <div class="tip-item"><span class="tip-icon">📱</span><div><strong>VR preview on iPad</strong> - Use the DelightEx app to preview your scene in VR with a phone or cardboard headset.</div></div>
+          </div>
+          <div class="tutorials-panel">
+            <h3>📚 Tutorials & Resources</h3>
+            <div class="tutorial-group">
+              <div class="tut-category">Official DelightEx</div>
+              <a href="https://delightex.com/learn.html" target="_blank" class="tut-link">🎓 DelightEx Learning Resources ↗</a>
+              <a href="https://www.youtube.com/results?search_query=delightex+tutorial+beginners" target="_blank" class="tut-link">📹 YouTube: DelightEx for Beginners ↗</a>
+            </div>
+            <div class="tutorial-group">
+              <div class="tut-category">Interaction & Coding</div>
+              <a href="https://www.youtube.com/results?search_query=delightex+coblocks+tutorial" target="_blank" class="tut-link">📹 YouTube: DelightEx Blocks Interaction Tutorial ↗</a>
+              <a href="https://www.youtube.com/results?search_query=delightex+interactive+story" target="_blank" class="tut-link">📹 YouTube: Interactive Story in DelightEx ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DESIGN TOOLS -->
+      <div class="tool-tab-content" id="tab-design">
+        <h2 style="margin-bottom:1.5rem">🎨 Design Tools</h2>
+        <div class="design-tools-grid">
+          <div class="design-tool-card">
+            <div class="dtool-header">
+              <span class="dtool-emoji">🖼️</span>
+              <div>
+                <h3>Piskel</h3>
+                <a href="https://www.piskelapp.com" target="_blank" class="tool-link">piskelapp.com ↗</a>
+              </div>
+            </div>
+            <p>Free pixel art editor. Perfect for creating sprites and animations for Scratch and MakeCode.</p>
+            <h4>Quick Tips</h4>
+            <ul class="tip-list">
+              <li>Use the onion skin feature to align animation frames</li>
+              <li>Export as PNG or GIF - both work in Scratch</li>
+              <li>Use the grid to keep pixel art consistent</li>
+              <li>Create a simple walk cycle: 4 frames is enough</li>
+            </ul>
+            <a href="https://www.youtube.com/results?search_query=piskel+app+tutorial+sprites" target="_blank" class="tut-link">📹 Piskel Tutorial for Beginners ↗</a>
+          </div>
+          <div class="design-tool-card">
+            <div class="dtool-header">
+              <span class="dtool-emoji">🎨</span>
+              <div>
+                <h3>Pixilart</h3>
+                <a href="https://www.pixilart.com" target="_blank" class="tool-link">pixilart.com ↗</a>
+              </div>
+            </div>
+            <p>Online pixel art tool with a built-in community. Great for character design and backgrounds.</p>
+            <h4>Quick Tips</h4>
+            <ul class="tip-list">
+              <li>Use the colour palette tool to keep consistent colours</li>
+              <li>Draw characters facing right - easier to flip in Scratch</li>
+              <li>Use layers to separate the character from background</li>
+              <li>Export at 2x or 4x size for crisp results in your game</li>
+            </ul>
+            <a href="https://www.youtube.com/results?search_query=pixilart+tutorial+beginners" target="_blank" class="tut-link">📹 Pixilart Tutorial ↗</a>
+          </div>
+          <div class="design-tool-card">
+            <div class="dtool-header">
+              <span class="dtool-emoji">🖌️</span>
+              <div>
+                <h3>Canva</h3>
+                <a href="https://www.canva.com" target="_blank" class="tool-link">canva.com ↗</a>
+              </div>
+            </div>
+            <p>Use Canva for game posters, title screens, arcade station signs, and promotional materials.</p>
+            <h4>Quick Tips</h4>
+            <ul class="tip-list">
+              <li>Search "game poster" in templates for a head start</li>
+              <li>Use transparent PNG exports to overlay on game screens</li>
+              <li>A5 landscape is a good size for an instruction card</li>
+              <li>Match your poster colours to your in-game colour scheme</li>
+            </ul>
+            <a href="https://www.youtube.com/results?search_query=canva+poster+tutorial+students" target="_blank" class="tut-link">📹 Canva Poster Tutorial ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOUND TOOLS -->
+      <div class="tool-tab-content" id="tab-sound">
+        <h2 style="margin-bottom:1.5rem">🔊 Sound & Music</h2>
+        <div class="design-tool-card" style="max-width:700px;margin:0 auto">
+          <div class="dtool-header">
+            <span class="dtool-emoji">🎸</span>
+            <div>
+              <h3>GarageBand</h3>
+              <p style="color:var(--text-muted);font-size:0.85rem">Available on iPad and iMac</p>
+            </div>
+          </div>
+          <p>GarageBand is your main music and sound effects tool. Use it to create original soundtracks and atmospheric audio for your game.</p>
+          <h4>Quick Tips for Game Audio</h4>
+          <ul class="tip-list">
+            <li><strong>Loops work best</strong> - Create a 15–30 second loop that repeats seamlessly as background music</li>
+            <li><strong>Simple is better</strong> - A few well-chosen instruments beat a cluttered track</li>
+            <li><strong>Match the mood</strong> - Fast BPM = action, slow BPM = exploration, minor key = danger</li>
+            <li><strong>Export as MP3</strong> - Share > Song to Files, then import into your game tool</li>
+            <li><strong>Sound effects</strong> - Use GarageBand's built-in sound library for jump, collect, and win sounds</li>
+            <li><strong>Record yourself</strong> - You can record voice-over narration directly on iPad</li>
+          </ul>
+          <div class="tutorial-group" style="margin-top:1.5rem">
+            <a href="https://www.youtube.com/results?search_query=garageband+ipad+beginner+tutorial+game+music" target="_blank" class="tut-link">📹 GarageBand iPad - Beginner Tutorial ↗</a>
+            <a href="https://www.youtube.com/results?search_query=garageband+simple+game+soundtrack+tutorial" target="_blank" class="tut-link">📹 Creating Simple Game Music in GarageBand ↗</a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /tool-tabs section -->
+    <div class="page-nav-btns">
+      <button class="btn-secondary" onclick="showPage('home')">← HOME</button>
+      <button class="btn-primary" onclick="showPage('ai')">AI GUIDE →</button>
+    </div>
+  </div><!-- /tools -->
+
+
+  <!-- ═══════════════════════════════════════════
+       AI GUIDE PAGE
+  ═══════════════════════════════════════════ -->
+  <div id="page-ai" class="page">
+    <div class="page-hero ai-hero">
+      <div class="page-hero-content">
+        <div class="day-badge">AI GUIDE</div>
+        <h1>🤖 Using AI This Week</h1>
+        <p>AI is your development assistant - not your game developer. Here's everything you need to know.</p>
+      </div>
+    </div>
+
+    <section class="section">
+      <h2 class="section-title">THE CORE RULE</h2>
+      <div class="core-rule-box">
+        <p>AI is a <strong>tool</strong> - like a paintbrush or a calculator. It doesn't create the art or solve the maths problem for you. You decide what to make. You decide what answer you need. AI helps you get there faster and better.</p>
+        <p style="margin-top:1rem">Your game must come from <strong>your ideas, your creativity, and your decisions</strong>. AI helps you refine and improve what you have created.</p>
+      </div>
+    </section>
+
+    <section class="section dark-section">
+      <h2 class="section-title">✅ WHAT YOU MAY USE AI FOR</h2>
+      <div class="ai-permitted-grid">
+        <div class="ai-perm-card">
+          <div class="perm-icon">🐛</div>
+          <h4>Debugging</h4>
+          <p>Paste your code and describe the problem. Ask AI to help find the bug. <em>You still need to understand and apply the fix.</em></p>
+        </div>
+        <div class="ai-perm-card">
+          <div class="perm-icon">🧪</div>
+          <h4>Testing</h4>
+          <p>Ask AI what edge cases might break your game. What happens if a player does something unexpected?</p>
+        </div>
+        <div class="ai-perm-card">
+          <div class="perm-icon">✨</div>
+          <h4>Improving Code</h4>
+          <p>Ask AI if there's a more efficient or readable way to write something you've already built.</p>
+        </div>
+        <div class="ai-perm-card">
+          <div class="perm-icon">💬</div>
+          <h4>Feedback</h4>
+          <p>Describe a mechanic and ask AI what could make it more fun, fair, or interesting for players.</p>
+        </div>
+        <div class="ai-perm-card">
+          <div class="perm-icon">💎</div>
+          <h4>Refinement</h4>
+          <p>After you've built something, ask AI what small changes might improve the player experience.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">❌ WHAT YOU MAY NOT USE AI FOR</h2>
+      <div class="ai-banned-grid">
+        <div class="ai-ban-card">
+          <div class="ban-x">✗</div>
+          <h4>Generating your whole game</h4>
+          <p>Don't ask AI to create your game from scratch. The whole point is that YOU build it.</p>
+        </div>
+        <div class="ai-ban-card">
+          <div class="ban-x">✗</div>
+          <h4>Making creative decisions</h4>
+          <p>Don't ask AI "what should my game be about?" or "what characters should I design?" Those decisions belong to you.</p>
+        </div>
+        <div class="ai-ban-card">
+          <div class="ban-x">✗</div>
+          <h4>Planning your story</h4>
+          <p>Your story and world were built on Day 1 - by you. AI shouldn't rewrite your creative foundation.</p>
+        </div>
+        <div class="ai-ban-card">
+          <div class="ban-x">✗</div>
+          <h4>Replacing your thinking</h4>
+          <p>If you're stuck, try to work it out yourself first. Use AI as a last resort for creative blocks, not a first stop.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dark-section">
+      <h2 class="section-title">💬 EXAMPLE PROMPTS</h2>
+      <p class="section-intro">Copy and adapt these prompts when you use AI. Good prompts = better help.</p>
+      <div class="example-prompts">
+        <div class="ep-good">
+          <div class="ep-label">✅ GOOD PROMPT</div>
+          <div class="ep-text">"In Scratch, my character falls through the floor instead of landing on it. Here is my code: [paste]. The platform is coloured blue. Can you help me figure out why the 'touching colour blue' block isn't stopping the fall?"</div>
+          <div class="ep-why">Why it works: specific problem, your own code, clear question</div>
+        </div>
+        <div class="ep-bad">
+          <div class="ep-label">❌ BAD PROMPT</div>
+          <div class="ep-text">"Make me a platformer game in Scratch."</div>
+          <div class="ep-why">Why it doesn't work: this asks AI to do the work for you - that's not allowed and won't help you learn</div>
+        </div>
+        <div class="ep-good">
+          <div class="ep-label">✅ GOOD PROMPT</div>
+          <div class="ep-text">"My game mechanic is: the player has to dodge falling rocks while collecting coins. What are some ways players might find this unfair or frustrating? What should I test to make it feel balanced?"</div>
+          <div class="ep-why">Why it works: your mechanic, asking for testing ideas, keeping creative control</div>
+        </div>
+        <div class="ep-bad">
+          <div class="ep-label">❌ BAD PROMPT</div>
+          <div class="ep-text">"What should my game be about? Give me a good story idea."</div>
+          <div class="ep-why">Why it doesn't work: this is a creative decision that must come from you, not AI</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">📝 AI INTERACTION LOG</h2>
+      <p class="section-intro">Record your AI use in your workbook using this format. This counts towards the <strong>Best Character &amp; Storyline</strong> success criteria!</p>
+      <div class="ai-log-template">
+        <div class="log-col"><strong>What I asked AI</strong><br><em>What was the question or prompt?</em></div>
+        <div class="log-arrow">→</div>
+        <div class="log-col"><strong>What AI suggested</strong><br><em>What did it say?</em></div>
+        <div class="log-arrow">→</div>
+        <div class="log-col"><strong>What I decided to do</strong><br><em>Did you use it? Change it? Reject it? Why?</em></div>
+      </div>
+      <div class="ai-log-tip">💡 The judges want to see that you <strong>thought critically about AI suggestions</strong> - not just copied them. "I used it" is less impressive than "I tried it, but changed it because…"</div>
+    </section>
+
+    <div class="page-nav-btns">
+      <button class="btn-secondary" onclick="showPage('tools')">← TOOLS</button>
+      <button class="btn-primary" onclick="showPage('criteria')">SUCCESS CRITERIA →</button>
+    </div>
+  </div><!-- /ai -->
+
+
+  <!-- ═══════════════════════════════════════════
+       CRITERIA / JUDGING PAGE
+  ═══════════════════════════════════════════ -->
+  <div id="page-criteria" class="page">
+    <div class="page-hero criteria-hero">
+      <div class="page-hero-content">
+        <div class="day-badge">SUCCESS CRITERIA</div>
+        <h1>🏆 Success Criteria</h1>
+        <p>Games are judged across seven domains. Know these from day one - build with intention.</p>
+      </div>
+    </div>
+
+    <section class="section">
+      <p class="section-intro" style="text-align:center;max-width:700px;margin:0 auto 3rem">These criteria are shared with students from the <strong>very start of the week</strong> so that every decision - design, coding, visuals, sound - can be made with the showcase in mind.</p>
+      <div class="rubric-cards">
+
+        <div class="rubric-card">
+          <div class="rubric-icon">🎨</div>
+          <h3>Game Design &amp; Idea</h3>
+          <ul>
+            <li>Clear objective - the player knows what to do</li>
+            <li>Creativity and originality - the idea is the student's own</li>
+            <li>Appropriate for the audience</li>
+          </ul>
+        </div>
+
+        <div class="rubric-card">
+          <div class="rubric-icon">🖥️</div>
+          <h3>Coding &amp; Functionality</h3>
+          <ul>
+            <li>Reliable gameplay - no major crashes or broken mechanics</li>
+            <li>Use of coding concepts (loops, conditions, variables, events)</li>
+            <li>Working controls</li>
+            <li>Progression and challenge</li>
+          </ul>
+        </div>
+
+        <div class="rubric-card">
+          <div class="rubric-icon">🎭</div>
+          <h3>Visual Design &amp; Creativity</h3>
+          <ul>
+            <li>Effective sprites and backgrounds</li>
+            <li>Strong visual communication</li>
+            <li>Design consistency - it looks intentional</li>
+          </ul>
+        </div>
+
+        <div class="rubric-card">
+          <div class="rubric-icon">🔊</div>
+          <h3>Sound &amp; Engagement</h3>
+          <ul>
+            <li>Purposeful sound and music</li>
+            <li>Audio enhances the overall experience</li>
+          </ul>
+        </div>
+
+        <div class="rubric-card">
+          <div class="rubric-icon">🕹️</div>
+          <h3>User Experience</h3>
+          <ul>
+            <li>Clear instructions - a new player knows how to start</li>
+            <li>Playability - it's fun to play</li>
+            <li>Replayability - there's a reason to play again</li>
+            <li>Accessibility - different players can engage with it</li>
+          </ul>
+        </div>
+
+        <div class="rubric-card">
+          <div class="rubric-icon">🔬</div>
+          <h3>Testing &amp; Improvement</h3>
+          <ul>
+            <li>Evidence of iterative testing</li>
+            <li>Bug fixing shown in development log</li>
+            <li>The game improved over the week</li>
+          </ul>
+        </div>
+
+        <div class="rubric-card gold-rubric">
+          <div class="rubric-icon">📖</div>
+          <h3>Best Character &amp; Storyline</h3>
+          <ul>
+            <li>Characters are original, memorable, and well-developed</li>
+            <li>The story has a clear beginning, challenge, and resolution</li>
+            <li>World-building adds depth to the player experience</li>
+            <li>Story and characters are reflected in the game's design</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="page-nav-btns">
+      <button class="btn-secondary" onclick="showPage('ai')">← AI GUIDE</button>
+      <button class="btn-primary" onclick="showPage('home')">🏠 HOME</button>
+    </div>
+  </div><!-- /criteria -->
+
+  <!-- ═══════════════════════════════════════════
+       DOWNLOADS PAGE
+  ═══════════════════════════════════════════ -->
+  <div id="page-downloads" class="page">
+    <div class="page-hero downloads-hero">
+      <div class="page-hero-content">
+        <div class="day-badge">DOWNLOADS</div>
+        <h1>📥 Downloads &amp; Links</h1>
+        <p>Everything you need for the week — workbooks, tools, and apps — all in one place.</p>
+      </div>
+    </div>
+
+    <!-- WORKBOOK -->
+    <section class="section">
+      <h2 class="section-title">📓 WEEK WORKBOOK</h2>
+      <p class="section-intro">Your workbook is your creative home for the week. Use it to plan your story, design your characters, track your build progress, and log your AI interactions.</p>
+      <div class="download-card download-card--primary">
+        <div class="dl-icon">📓</div>
+        <div class="dl-info">
+          <div class="dl-title">Discovery Week 2026 — Story Mode Workbook</div>
+          <div class="dl-desc">Character sheets, game design brief, daily reflection pages, AI interaction log, and peer feedback forms.</div>
+        </div>
+        <a href="workbook.pdf" download class="dl-btn">⬇ DOWNLOAD PDF</a>
+      </div>
+    </section>
+
+    <!-- GAME CREATION TOOLS -->
+    <section class="section dark-section">
+      <h2 class="section-title">🕹️ GAME CREATION TOOLS</h2>
+      <p class="section-intro">All four tools run in your browser — no installation needed on iMac. iPad apps are listed below.</p>
+      <div class="dl-tools-grid">
+
+        <div class="dl-tool-card dl-scratch">
+          <div class="dl-tool-header">
+            <span class="dl-tool-emoji">🐱</span>
+            <div>
+              <div class="dl-tool-name">Scratch</div>
+              <div class="dl-tool-tag">Story &amp; Platformers</div>
+            </div>
+          </div>
+          <div class="dl-tool-links">
+            <a href="https://scratch.mit.edu" target="_blank" class="dl-link-btn dl-link-web">🌐 Open in Browser</a>
+            <a href="https://apps.apple.com/app/scratch/id966062219" target="_blank" class="dl-link-btn dl-link-app">📱 iPad App</a>
+          </div>
+        </div>
+
+        <div class="dl-tool-card dl-makecode">
+          <div class="dl-tool-header">
+            <span class="dl-tool-emoji">👾</span>
+            <div>
+              <div class="dl-tool-name">MakeCode Arcade</div>
+              <div class="dl-tool-tag">Retro &amp; Arcade</div>
+            </div>
+          </div>
+          <div class="dl-tool-links">
+            <a href="https://arcade.makecode.com" target="_blank" class="dl-link-btn dl-link-web">🌐 Open in Browser</a>
+            <div class="dl-no-app">No iPad app — use browser</div>
+          </div>
+        </div>
+
+        <div class="dl-tool-card dl-minecraft">
+          <div class="dl-tool-header">
+            <span class="dl-tool-emoji">⛏️</span>
+            <div>
+              <div class="dl-tool-name">Minecraft Education</div>
+              <div class="dl-tool-tag">World-building &amp; 3D</div>
+            </div>
+          </div>
+          <div class="dl-tool-links">
+            <a href="https://education.minecraft.net" target="_blank" class="dl-link-btn dl-link-web">🌐 Website</a>
+            <a href="https://apps.apple.com/app/minecraft-education/id1196524622" target="_blank" class="dl-link-btn dl-link-app">📱 iPad App</a>
+          </div>
+        </div>
+
+        <div class="dl-tool-card dl-delightex">
+          <div class="dl-tool-header">
+            <span class="dl-tool-emoji">🌐</span>
+            <div>
+              <div class="dl-tool-name">DelightEx</div>
+              <div class="dl-tool-tag">3D &amp; VR Worlds</div>
+            </div>
+          </div>
+          <div class="dl-tool-links">
+            <a href="https://delightex.com" target="_blank" class="dl-link-btn dl-link-web">🌐 Open in Browser</a>
+            <a href="https://apps.apple.com/app/cospaces-edu/id1090251142" target="_blank" class="dl-link-btn dl-link-app">📱 iPad App</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- DESIGN & SOUND TOOLS -->
+    <section class="section">
+      <h2 class="section-title">🎨 DESIGN &amp; SOUND TOOLS</h2>
+      <div class="dl-tools-grid">
+
+        <div class="dl-tool-card">
+          <div class="dl-tool-header">
+            <span class="dl-tool-emoji">🖼️</span>
+            <div>
+              <div class="dl-tool-name">Piskel</div>
+              <div class="dl-tool-tag">Pixel Art &amp; Sprites</div>
+            </div>
+          </div>
+          <div class="dl-tool-links">
+            <a href="https://www.piskelapp.com" target="_blank" class="dl-link-btn dl-link-web">🌐 Open in Browser</a>
+            <div class="dl-no-app">No iPad app — use browser</div>
+          </div>
+        </div>
+
+        <div class="dl-tool-card">
+          <div class="dl-tool-header">
+            <span class="dl-tool-emoji">🎨</span>
+            <div>
+              <div class="dl-tool-name">Pixilart</div>
+              <div class="dl-tool-tag">Pixel Art &amp; Characters</div>
+            </div>
+          </div>
+          <div class="dl-tool-links">
+            <a href="https://www.pixilart.com" target="_blank" class="dl-link-btn dl-link-web">🌐 Open in Browser</a>
+            <div class="dl-no-app">No iPad app — use browser</div>
+          </div>
+        </div>
+
+        <div class="dl-tool-card">
+          <div class="dl-tool-header">
+            <span class="dl-tool-emoji">🖌️</span>
+            <div>
+              <div class="dl-tool-name">Canva</div>
+              <div class="dl-tool-tag">Posters &amp; Station Signs</div>
+            </div>
+          </div>
+          <div class="dl-tool-links">
+            <a href="https://www.canva.com" target="_blank" class="dl-link-btn dl-link-web">🌐 Open in Browser</a>
+            <a href="https://apps.apple.com/app/canva-design-art-ai/id897446215" target="_blank" class="dl-link-btn dl-link-app">📱 iPad App</a>
+          </div>
+        </div>
+
+        <div class="dl-tool-card">
+          <div class="dl-tool-header">
+            <span class="dl-tool-emoji">🎸</span>
+            <div>
+              <div class="dl-tool-name">GarageBand</div>
+              <div class="dl-tool-tag">Music &amp; Sound Effects</div>
+            </div>
+          </div>
+          <div class="dl-tool-links">
+            <div class="dl-no-app">Pre-installed on iPad &amp; iMac</div>
+            <a href="https://apps.apple.com/app/garageband/id408709785" target="_blank" class="dl-link-btn dl-link-app">📱 iPad App Store</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="page-nav-btns">
+      <button class="btn-secondary" onclick="showPage('home')">← HOME</button>
+      <button class="btn-primary" onclick="showPage('tools')">🛠 TOOLS GUIDE →</button>
+    </div>
+  </div><!-- /downloads -->
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">🎮 DISCOVERY WEEK 2026</div>
+      <div class="footer-sub">Story Mode: Build Your Own Game World</div>
+      <div class="footer-links">
+        <a onclick="showPage('home')">Home</a>
+        <a onclick="showPage('tools')">Tools</a>
+        <a onclick="showPage('ai')">AI Guide</a>
+        <a onclick="showPage('criteria')">Success Criteria</a>
+        <a onclick="showPage('downloads')">Downloads</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

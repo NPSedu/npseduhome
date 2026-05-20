@@ -1,39 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NPSedu</title>
-
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NPSedu — Classroom Tools & Projects</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
 
-  <header>
-    <h1>NPSedu</h1>
-    <p>Classroom apps, AI tools and schemes of work for teachers.</p>
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a class="nav-brand" href="#">NPSedu</a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#tools">Tools</a></li>
+        <li><a href="#projects">Projects</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="hero-tag">Teacher · Developer · Educator</p>
+      <h1>Classroom tools &amp;<br>projects for curious learners</h1>
+      <p class="hero-sub">Apps, AI tools, and schemes of work built for real classrooms.</p>
+      <div class="hero-btns">
+        <a class="btn-primary" href="#tools">Explore tools</a>
+        <a class="btn-secondary" href="#projects">View projects</a>
+      </div>
+    </div>
   </header>
 
   <main>
 
-    <section class="card">
-      <h2>Classroom Apps</h2>
-      <ul>
-        <li><a href="#">Random Group Generator</a></li>
-        <li><a href="#">AI Lesson Helper</a></li>
-      </ul>
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="section-header">
+        <span class="section-label">About me</span>
+        <h2>Building better learning experiences</h2>
+        <p>I'm a teacher who builds digital tools to support creative, curious classrooms. This site is where I share the apps, AI experiments, and project ideas I develop — all free to use and adapt.</p>
+      </div>
     </section>
 
-    <section class="card">
-      <h2>Schemes of Work</h2>
-      <ul>
-        <li><a href="#">Year 7 AI Unit</a></li>
-        <li><a href="#">Primary Computing</a></li>
-      </ul>
+    <!-- TOOLS -->
+    <section id="tools">
+      <div class="section-header">
+        <span class="section-label">Tools</span>
+        <h2>Classroom apps</h2>
+        <p>Practical tools designed to save time and spark engagement.</p>
+      </div>
+      <div class="card-grid">
+        <div class="card card--coming-soon">
+          <div class="card-icon">🎲</div>
+          <h3>Random Group Generator</h3>
+          <p>Quickly sort students into balanced, random groups.</p>
+          <span class="badge">Coming soon</span>
+        </div>
+        <div class="card card--coming-soon">
+          <div class="card-icon">🤖</div>
+          <h3>AI Lesson Helper</h3>
+          <p>Generate starter activities, discussion prompts, and success criteria.</p>
+          <span class="badge">Coming soon</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="section-header">
+        <span class="section-label">Projects</span>
+        <h2>Schemes of work &amp; events</h2>
+        <p>Bigger curriculum projects — fully resourced and ready to run.</p>
+      </div>
+      <div class="card-grid">
+        <a class="card card--link" href="discovery-week/index.html">
+          <div class="card-icon">🎮</div>
+          <h3>Story Mode — Discovery Week 2026</h3>
+          <p>A full project week where students design and build their own game world. Includes daily plans, tool tutorials, and an AI guide.</p>
+          <span class="card-cta">Open project →</span>
+        </a>
+        <div class="card card--coming-soon">
+          <div class="card-icon">💡</div>
+          <h3>Year 7 AI Unit</h3>
+          <p>A complete scheme of work introducing AI concepts through practical activities.</p>
+          <span class="badge">Coming soon</span>
+        </div>
+        <div class="card card--coming-soon">
+          <div class="card-icon">🖥️</div>
+          <h3>Primary Computing</h3>
+          <p>Cross-curricular computing activities for KS1 and KS2.</p>
+          <span class="badge">Coming soon</span>
+        </div>
+      </div>
     </section>
 
   </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>NPSedu &mdash; made by a teacher, for teachers.</p>
+  </footer>
 
 </body>
 </html>

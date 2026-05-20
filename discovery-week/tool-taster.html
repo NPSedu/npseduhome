@@ -1,0 +1,2998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tool Taster Sessions — Wednesday — Discovery Week 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a1a;
+    --panel: #12122a;
+    --panel2: #1a1a35;
+    --border: #2a2a5a;
+    --yellow: #f7e94a;
+    --cyan: #4af7e9;
+    --pink: #f74ab0;
+    --green: #4af77a;
+    --orange: #f7924a;
+    --purple: #9b4af7;
+    --white: #e8e8ff;
+    --muted: #7070a0;
+    --scratch: #f77a4a;
+    --makecode: #4a9bf7;
+    --minecraft: #5abf4a;
+    --cospaces: #b04af7;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── SITE NAV BAR ── */
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 10000;
+    background: rgba(8, 8, 20, 0.97);
+    border-bottom: 2px solid #2a2a5a;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .site-nav-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .site-nav-home {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .site-nav-logo { font-size: 18px; }
+  .site-nav-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--yellow);
+    letter-spacing: 1px;
+    white-space: nowrap;
+    line-height: 1;
+  }
+  .site-nav-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    overflow: hidden;
+  }
+  .site-nav-breadcrumb a {
+    color: var(--muted);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.15s;
+  }
+  .site-nav-breadcrumb a:hover { color: var(--cyan); }
+  .site-nav-sep { color: #3a3a6a; font-size: 14px; }
+  .site-nav-current {
+    color: var(--cyan);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .site-nav-back-btn {
+    flex-shrink: 0;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    letter-spacing: 1px;
+    padding: 7px 12px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: border-color 0.15s, color 0.15s;
+    white-space: nowrap;
+  }
+  .site-nav-back-btn:hover {
+    border-color: var(--cyan);
+    color: var(--cyan);
+  }
+  @media (max-width: 600px) {
+    .site-nav-breadcrumb { display: none; }
+    .site-nav-title { font-size: 6px; }
+  }
+
+  /* scanline overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 3px,
+      rgba(0,0,0,0.08) 3px,
+      rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* pixel grid bg */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(74,247,233,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(74,247,233,0.03) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 20px 80px; }
+
+  /* ── HEADER ── */
+  .site-header {
+    text-align: center;
+    padding: 48px 20px 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .eyebrow {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--cyan);
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .site-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(14px, 3vw, 22px);
+    color: var(--yellow);
+    line-height: 1.6;
+    text-shadow: 4px 4px 0 #7a7000, 0 0 40px rgba(247,233,74,0.3);
+    margin-bottom: 16px;
+  }
+
+  .site-subtitle {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+
+  .header-rule {
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--cyan), var(--pink), var(--yellow), transparent);
+    margin: 24px auto;
+    max-width: 600px;
+    border: none;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how-it-works {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    padding: 28px 32px;
+    margin-bottom: 40px;
+    position: relative;
+  }
+
+  .how-it-works::before {
+    content: 'HOW IT WORKS';
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .steps-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .step-card {
+    background: var(--panel2);
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    padding: 18px 16px;
+    text-align: center;
+  }
+
+  .step-num {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 20px;
+    color: var(--yellow);
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .step-icon {
+    font-size: 28px;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .step-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--cyan);
+    display: block;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+  }
+
+  .step-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .timer-bar {
+    background: var(--panel2);
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .timer-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--yellow);
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+
+  .timer-segments {
+    display: flex;
+    gap: 6px;
+    flex: 1;
+    flex-wrap: wrap;
+  }
+
+  .timer-seg {
+    flex: 1;
+    min-width: 80px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 6px 10px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+  }
+
+  .timer-seg span {
+    display: block;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    margin-bottom: 3px;
+  }
+
+  .timer-seg.s1 { border-color: var(--pink); color: var(--pink); }
+  .timer-seg.s1 span { color: var(--pink); }
+  .timer-seg.s2 { border-color: var(--cyan); color: var(--cyan); }
+  .timer-seg.s2 span { color: var(--cyan); }
+  .timer-seg.s3 { border-color: var(--green); color: var(--green); }
+  .timer-seg.s3 span { color: var(--green); }
+
+  /* ── TABS ── */
+  .tabs-nav {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 2px solid var(--border);
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+    overflow: hidden;
+    margin-bottom: 0;
+  }
+
+  .tab-btn {
+    background: var(--panel);
+    border: none;
+    border-right: 2px solid var(--border);
+    padding: 16px 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.15s;
+    color: var(--muted);
+  }
+
+  .tab-btn:last-child { border-right: none; }
+
+  .tab-btn:hover { background: var(--panel2); }
+
+  .tab-btn.active {
+    color: var(--white);
+  }
+
+  .tab-btn.active.scratch  { background: rgba(247,122,74,0.15); border-bottom: 3px solid var(--scratch); }
+  .tab-btn.active.makecode { background: rgba(74,155,247,0.15); border-bottom: 3px solid var(--makecode); }
+  .tab-btn.active.minecraft { background: rgba(90,191,74,0.15); border-bottom: 3px solid var(--minecraft); }
+  .tab-btn.active.cospaces { background: rgba(176,74,247,0.15); border-bottom: 3px solid var(--cospaces); }
+
+  .tab-icon {
+    font-size: 22px;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .tab-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    line-height: 1.5;
+    display: block;
+  }
+
+  /* ── TAB PANELS ── */
+  .tab-panel {
+    display: none;
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 0 0 4px 4px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+
+  .tab-panel.active { display: block; }
+
+  .tool-hero {
+    padding: 28px 32px 24px;
+    border-bottom: 2px solid var(--border);
+    position: relative;
+  }
+
+  .tool-hero.scratch  { border-left: 6px solid var(--scratch);  }
+  .tool-hero.makecode { border-left: 6px solid var(--makecode); }
+  .tool-hero.minecraft { border-left: 6px solid var(--minecraft); }
+  .tool-hero.cospaces { border-left: 6px solid var(--cospaces); }
+
+  .tool-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(12px, 2.5vw, 18px);
+    margin-bottom: 8px;
+  }
+
+  .scratch  .tool-name { color: var(--scratch);  }
+  .makecode .tool-name { color: var(--makecode); }
+  .minecraft .tool-name { color: var(--minecraft); }
+  .cospaces .tool-name { color: var(--cospaces); }
+
+  .tool-tagline {
+    font-size: 15px;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* ── SECTION BLOCKS ── */
+  .tool-section {
+    padding: 24px 32px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .tool-section:last-child { border-bottom: none; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .section-badge {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+
+  .badge-play     { background: rgba(247,74,176,0.2); color: var(--pink);   border: 1px solid var(--pink); }
+  .badge-learn    { background: rgba(74,247,233,0.2); color: var(--cyan);   border: 1px solid var(--cyan); }
+  .badge-build    { background: rgba(74,247,122,0.2); color: var(--green);  border: 1px solid var(--green); }
+
+  .section-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--white);
+    letter-spacing: 1px;
+  }
+
+  .section-time {
+    font-size: 12px;
+    color: var(--muted);
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  .section-intro {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  /* ── GAME CARDS ── */
+  .game-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+
+  .game-card {
+    background: var(--panel2);
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    padding: 16px;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: border-color 0.15s, transform 0.1s;
+    position: relative;
+  }
+
+  .game-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .scratch  .game-card:hover { border-color: var(--scratch);  }
+  .makecode .game-card:hover { border-color: var(--makecode); }
+  .minecraft .game-card:hover { border-color: var(--minecraft); }
+  .cospaces .game-card:hover { border-color: var(--cospaces); }
+
+  .game-num {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .scratch  .game-num { color: var(--scratch);  }
+  .makecode .game-num { color: var(--makecode); }
+  .minecraft .game-num { color: var(--minecraft); }
+  .cospaces .game-num { color: var(--cospaces); }
+
+  .game-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .game-why {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  .play-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    letter-spacing: 1px;
+    padding: 6px 10px;
+    border-radius: 3px;
+    text-decoration: none;
+    transition: opacity 0.15s;
+  }
+
+  .scratch  .play-link { background: rgba(247,122,74,0.2);  color: var(--scratch);  border: 1px solid var(--scratch);  }
+  .makecode .play-link { background: rgba(74,155,247,0.2);  color: var(--makecode); border: 1px solid var(--makecode); }
+  .minecraft .play-link { background: rgba(90,191,74,0.2); color: var(--minecraft);border: 1px solid var(--minecraft);}
+  .cospaces .play-link { background: rgba(176,74,247,0.2); color: var(--cospaces); border: 1px solid var(--cospaces); }
+
+  .play-link:hover { opacity: 0.8; }
+
+  /* ── TUTORIAL BOX ── */
+  .tutorial-box {
+    background: var(--panel2);
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .tutorial-link-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    border-bottom: 2px solid var(--border);
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .tutorial-link-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--yellow);
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+
+  .tutorial-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    border-radius: 3px;
+    transition: opacity 0.15s;
+  }
+
+  .scratch  .tutorial-cta { background: var(--scratch);  color: #0a0a1a; }
+  .makecode .tutorial-cta { background: var(--makecode); color: #0a0a1a; }
+  .minecraft .tutorial-cta { background: var(--minecraft); color: #0a0a1a; }
+  .cospaces .tutorial-cta { background: var(--cospaces); color: #0a0a1a; }
+
+  .tutorial-cta:hover { opacity: 0.85; }
+
+  .tutorial-steps {
+    list-style: none;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .tutorial-steps li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    font-size: 14px;
+    color: var(--white);
+  }
+
+  .step-circle {
+    width: 26px;
+    height: 26px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .scratch  .step-circle { background: rgba(247,122,74,0.25);  color: var(--scratch);  }
+  .makecode .step-circle { background: rgba(74,155,247,0.25);  color: var(--makecode); }
+  .minecraft .step-circle { background: rgba(90,191,74,0.25); color: var(--minecraft);}
+  .cospaces .step-circle { background: rgba(176,74,247,0.25); color: var(--cospaces); }
+
+  /* ── BUILD CHALLENGE ── */
+  .build-challenge {
+    background: var(--panel2);
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .challenge-header {
+    padding: 14px 20px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .challenge-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--green);
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .challenge-text {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.5;
+  }
+
+  .hints-list {
+    padding: 16px 20px;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .hints-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .hint-bullet {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--yellow);
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+
+  /* ── OPEN TOOL CTA ── */
+  .open-tool-row {
+    display: flex;
+    justify-content: center;
+    padding: 20px 24px;
+    border-top: 2px solid var(--border);
+  }
+
+  .open-tool-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    border-radius: 3px;
+    border: 2px solid;
+    transition: transform 0.1s, opacity 0.15s;
+  }
+
+  .open-tool-btn:hover { transform: scale(1.03); opacity: 0.9; }
+
+  .scratch  .open-tool-btn { background: rgba(247,122,74,0.15); color: var(--scratch);  border-color: var(--scratch);  }
+  .makecode .open-tool-btn { background: rgba(74,155,247,0.15); color: var(--makecode); border-color: var(--makecode); }
+  .minecraft .open-tool-btn { background: rgba(90,191,74,0.15);color: var(--minecraft);border-color: var(--minecraft);}
+  .cospaces .open-tool-btn { background: rgba(176,74,247,0.15);color: var(--cospaces); border-color: var(--cospaces); }
+
+  /* ── AI REMINDER ── */
+  .ai-reminder {
+    background: var(--panel);
+    border: 2px solid var(--purple);
+    border-radius: 4px;
+    padding: 20px 28px;
+    margin-top: 8px;
+  }
+
+  .ai-reminder-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--purple);
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .ai-reminder p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .ai-reminder strong { color: var(--white); }
+
+  /* ── FOOTER ── */
+  .site-footer {
+    text-align: center;
+    padding: 32px 20px;
+    border-top: 2px solid var(--border);
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-text {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    line-height: 2;
+  }
+
+  /* ── NAV GUIDE ── */
+  .nav-guide {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .nav-step {
+    padding: 20px 0 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-step--last {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .nav-step-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .nav-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    background: rgba(247,233,74,0.15);
+    border: 2px solid var(--yellow);
+    color: var(--yellow);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .nav-text {
+    font-size: 15px;
+    color: var(--white);
+    line-height: 1.5;
+    padding-top: 3px;
+  }
+
+  /* ── SCRATCH MOCK TOP BAR ── */
+  .scratch-mock-bar {
+    background: #855cd6;
+    border-radius: 6px 6px 0 0;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border: 2px solid #6a48b8;
+  }
+
+  .smb-logo {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .smb-wordmark {
+    color: white;
+    font-size: 17px;
+    font-weight: 900;
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: -0.5px;
+  }
+
+  .smb-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+  }
+
+  .smb-link {
+    color: rgba(255,255,255,0.85);
+    font-size: 13px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+  }
+
+  .smb-dim { color: rgba(255,255,255,0.45); font-style: italic; }
+
+  .smb-tutorials-highlight {
+    background: var(--yellow);
+    color: #1a1200;
+    font-weight: 800;
+    border-radius: 4px;
+    position: relative;
+    padding: 5px 12px;
+    animation: pulse-highlight 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-highlight {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(247,233,74,0.6); }
+    50% { box-shadow: 0 0 0 6px rgba(247,233,74,0); }
+  }
+
+  .smb-arrow-callout {
+    position: absolute;
+    left: 50%;
+    top: calc(100% + 6px);
+    transform: translateX(-50%);
+    background: var(--yellow);
+    color: #1a1200;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    padding: 4px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+    z-index: 10;
+  }
+
+  .smb-arrow-callout::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-bottom-color: var(--yellow);
+  }
+
+  .smb-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+  }
+
+  .smb-flag, .smb-stop {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .smb-flag { background: rgba(255,255,255,0.25); }
+  .smb-stop { background: rgba(255,255,255,0.15); }
+
+  /* ── SCRATCH TUTORIAL PANEL MOCK ── */
+  .scratch-tutorial-panel {
+    background: #f9f9f9;
+    border: 2px solid #ccc;
+    border-radius: 0 0 6px 6px;
+    overflow: hidden;
+    margin-top: 0;
+  }
+
+  .stp-header {
+    background: #e6e6e6;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .stp-heading {
+    font-size: 14px;
+    font-weight: 800;
+    color: #333;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .stp-search {
+    font-size: 12px;
+    color: #888;
+    background: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .stp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .stp-card {
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+
+  .stp-card--highlight {
+    border-color: #f7922a;
+    box-shadow: 0 0 0 3px rgba(247,146,42,0.25);
+  }
+
+  .stp-callout-wrapper {
+    position: relative;
+  }
+
+  .stp-select-arrow {
+    position: absolute;
+    right: -2px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #f7922a;
+    color: white;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 6px;
+    padding: 4px 6px;
+    border-radius: 3px 0 0 3px;
+    white-space: nowrap;
+  }
+
+  .stp-thumb {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .stp-thumb--glow {
+    box-shadow: inset 0 0 12px rgba(247,146,42,0.3);
+  }
+
+  .stp-emoji {
+    font-size: 26px;
+  }
+
+  .stp-title {
+    display: block;
+    padding: 6px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #444;
+    text-align: center;
+    font-family: 'Nunito', sans-serif;
+    line-height: 1.3;
+  }
+
+  .stp-title--active {
+    color: #f7922a;
+    font-size: 12px;
+  }
+
+  /* ── SCRATCH EDITOR MOCK ── */
+  .scratch-editor-mock {
+    display: grid;
+    grid-template-columns: 140px 1fr 200px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #f9f9f9;
+    min-height: 220px;
+  }
+
+  .sem-left {
+    display: flex;
+    border-right: 1px solid #ddd;
+  }
+
+  .sem-categories {
+    width: 52px;
+    background: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: 4px;
+    border-right: 1px solid #ddd;
+  }
+
+  .sem-cat {
+    color: white;
+    font-size: 8px;
+    font-weight: 800;
+    padding: 5px 3px;
+    border-radius: 3px;
+    text-align: center;
+    line-height: 1.2;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .sem-blocks-area {
+    flex: 1;
+    padding: 8px 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: #f9f9f9;
+  }
+
+  .sem-block {
+    color: white;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 5px 8px;
+    border-radius: 4px;
+    font-family: 'Nunito', sans-serif;
+    white-space: nowrap;
+  }
+
+  .sem-input {
+    background: rgba(255,255,255,0.35);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  .sem-stage {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sem-stage-label {
+    background: #e6e6e6;
+    font-size: 10px;
+    font-weight: 700;
+    color: #555;
+    padding: 4px 8px;
+    border-bottom: 1px solid #ddd;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .sem-stage-inner {
+    flex: 1;
+    background: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sem-sprite {
+    position: absolute;
+    font-size: 22px;
+  }
+
+  .sem-sprite--cat { left: 45%; top: 42%; }
+  .sem-sprite--apple { left: 20%; top: 22%; }
+
+  .sem-stage-controls {
+    background: #e6e6e6;
+    padding: 4px 8px;
+    display: flex;
+    gap: 6px;
+    border-top: 1px solid #ddd;
+  }
+
+  .sem-flag-btn, .sem-stop-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    background: white;
+    border: 1px solid #ccc;
+  }
+
+  .sem-tutorial-panel {
+    background: white;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #ddd;
+  }
+
+  .sem-tp-header {
+    background: #4C97FF;
+    padding: 8px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .sem-tp-title {
+    color: white;
+    font-size: 9px;
+    font-weight: 800;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .sem-tp-progress {
+    color: rgba(255,255,255,0.75);
+    font-size: 8px;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .sem-tp-progress-bar {
+    height: 3px;
+    background: #e0e0e0;
+  }
+
+  .sem-tp-progress-fill {
+    height: 100%;
+    background: #4C97FF;
+  }
+
+  .sem-tp-body {
+    flex: 1;
+    padding: 10px;
+  }
+
+  .sem-tp-instruction {
+    font-size: 10px;
+    color: #333;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .sem-tp-block-preview {
+    background: #f0f0f0;
+    border-radius: 4px;
+    padding: 8px;
+    text-align: center;
+  }
+
+  .sem-block-pill {
+    color: white;
+    font-size: 9px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .sem-input-white {
+    background: rgba(255,255,255,0.35);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  .sem-tp-footer {
+    padding: 8px 10px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .sem-tp-btn {
+    font-size: 9px;
+    font-weight: 700;
+    color: #888;
+    padding: 4px 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .sem-tp-btn--next {
+    background: #4C97FF;
+    color: white;
+    border-color: #4C97FF;
+  }
+
+  /* ── EXTRA TUTORIALS BOX ── */
+  .extra-tutorials-box {
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin-top: 4px;
+  }
+
+  .extra-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .extra-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .extra-chip {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 3px;
+  }
+
+  /* ── MAKECODE SKILLMAP MOCK ── */
+  .mc-skillmap-mock {
+    background: #fdf5e8;
+    border: 2px solid #e8d5a0;
+    border-radius: 6px;
+    padding: 16px;
+    margin-top: 4px;
+  }
+  .mc-sm-header {
+    font-weight: 800;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 12px;
+    font-family: 'Nunito', sans-serif;
+  }
+  .mc-sm-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+  .mc-sm-card {
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+  }
+  .mc-sm-card--featured { border-color: #f7922a; }
+  .mc-sm-ribbon {
+    position: absolute;
+    top: 6px; left: -2px;
+    background: #f7922a;
+    color: white;
+    font-size: 7px;
+    font-weight: 800;
+    padding: 3px 6px;
+    border-radius: 0 3px 3px 0;
+    font-family: 'Nunito', sans-serif;
+    z-index: 2;
+    white-space: nowrap;
+  }
+  .mc-sm-thumb {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .mc-sm-thumb--stories { background: #c8e8ff; }
+  .mc-sm-thumb--bug     { background: #2a2a1a; }
+  .mc-sm-thumb--mole    { background: #4a8c3a; }
+  .mc-sm-thumb--star    { background: #1a1a3a; }
+  .mc-sm-thumb--dino    { background: #3a8c4a; }
+  .mc-sm-emoji { font-size: 24px; }
+  .mc-sm-title {
+    display: block;
+    font-size: 9px;
+    font-weight: 700;
+    color: #333;
+    text-align: center;
+    padding: 5px 4px;
+    font-family: 'Nunito', sans-serif;
+    line-height: 1.3;
+  }
+
+  /* ── MAKECODE TUTORIAL RUNNING MOCK ── */
+  .mc-tutorial-running-mock {
+    display: grid;
+    grid-template-columns: 110px 1fr 180px;
+    border: 2px solid #333;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #1e1e1e;
+    min-height: 180px;
+  }
+  .mc-tr-sidebar {
+    background: #252526;
+    border-right: 1px solid #333;
+    padding: 10px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .mc-tr-activity {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: #888;
+    padding: 5px 6px;
+    border-radius: 3px;
+    font-family: 'Nunito', sans-serif;
+  }
+  .mc-tr-activity--done { color: #4a9bf7; }
+  .mc-tr-activity--active { color: white; background: rgba(74,155,247,0.15); }
+  .mc-tr-check { color: #4a9bf7; font-size: 10px; }
+  .mc-tr-dot { width: 8px; height: 8px; border-radius: 50%; background: #4a9bf7; flex-shrink: 0; }
+  .mc-tr-lock { font-size: 10px; }
+  .mc-tr-editor {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #333;
+  }
+  .mc-tr-editor-header {
+    background: #2d2d2d;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 4px 8px;
+    border-bottom: 1px solid #333;
+  }
+  .mc-tr-tab {
+    font-size: 10px;
+    color: #888;
+    padding: 3px 8px;
+    border-radius: 3px 3px 0 0;
+    font-family: 'Nunito', sans-serif;
+  }
+  .mc-tr-tab--active { background: #1e1e1e; color: white; }
+  .mc-tr-run {
+    margin-left: auto;
+    background: #5abf4a;
+    color: white;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-family: 'Nunito', sans-serif;
+  }
+  .mc-tr-blocks {
+    flex: 1;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .mc-tr-block {
+    color: white;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-family: 'Nunito', sans-serif;
+    display: inline-block;
+    align-self: flex-start;
+  }
+  .mc-tr-block--indent { margin-left: 16px; }
+  .mc-tr-val {
+    background: rgba(255,255,255,0.25);
+    padding: 1px 4px;
+    border-radius: 2px;
+  }
+  .mc-tr-instructions {
+    background: white;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+  }
+  .mc-tr-inst-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .mc-tr-inst-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: #4a9bf7;
+    font-family: 'Nunito', sans-serif;
+  }
+  .mc-tr-inst-bar {
+    width: 60px;
+    height: 4px;
+    background: #e0e0e0;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .mc-tr-inst-text {
+    font-size: 10px;
+    color: #333;
+    line-height: 1.5;
+    margin-bottom: 8px;
+    font-family: 'Nunito', sans-serif;
+    flex: 1;
+  }
+  .mc-tr-inst-hint {
+    font-size: 9px;
+    color: #666;
+    background: #f0f0f0;
+    padding: 5px 8px;
+    border-radius: 3px;
+    margin-bottom: 8px;
+    font-family: 'Nunito', sans-serif;
+  }
+  .mc-tr-inst-footer {
+    display: flex;
+    justify-content: space-between;
+  }
+  .mc-tr-inst-btn {
+    font-size: 9px;
+    color: #888;
+    padding: 3px 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-family: 'Nunito', sans-serif;
+  }
+  .mc-tr-inst-btn--next {
+    background: #4a9bf7;
+    color: white;
+    border-color: #4a9bf7;
+  }
+
+  /* ── MINECRAFT MOCKS ── */
+  .mc-edu-mock {
+    background: #1a1a1a;
+    border: 2px solid #333;
+    border-radius: 6px;
+    overflow: hidden;
+    max-width: 320px;
+    margin-top: 4px;
+  }
+  .mc-edu-header {
+    background: #2d5a1b;
+    padding: 10px 16px;
+  }
+  .mc-edu-logo {
+    color: white;
+    font-weight: 800;
+    font-size: 14px;
+    font-family: 'Nunito', sans-serif;
+  }
+  .mc-edu-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .mc-edu-btn {
+    background: #2a2a2a;
+    border: 1px solid #444;
+    color: #ccc;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 16px;
+    border-radius: 4px;
+    font-family: 'Nunito', sans-serif;
+    position: relative;
+    cursor: pointer;
+  }
+  .mc-edu-btn--highlight {
+    background: #5abf4a;
+    border-color: #5abf4a;
+    color: white;
+  }
+  .mc-edu-callout {
+    position: absolute;
+    left: calc(100% + 10px);
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--yellow);
+    color: #1a1200;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    padding: 4px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+  .mc-edu-callout::before {
+    content: '';
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 5px solid transparent;
+    border-right-color: var(--yellow);
+  }
+  .mc-new-world-mock {
+    background: #1a1a1a;
+    border: 2px solid #333;
+    border-radius: 6px;
+    overflow: hidden;
+    max-width: 380px;
+    margin-top: 4px;
+  }
+  .mc-nw-header {
+    background: #2d5a1b;
+    color: white;
+    font-weight: 800;
+    font-size: 13px;
+    padding: 10px 16px;
+    font-family: 'Nunito', sans-serif;
+  }
+  .mc-nw-options {
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .mc-nw-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .mc-nw-label {
+    color: #888;
+    font-size: 12px;
+    font-family: 'Nunito', sans-serif;
+    min-width: 80px;
+  }
+  .mc-nw-value {
+    background: #2a2a2a;
+    border: 1px solid #444;
+    color: #888;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-family: 'Nunito', sans-serif;
+  }
+  .mc-nw-value--selected {
+    background: rgba(90,191,74,0.2);
+    border-color: #5abf4a;
+    color: #5abf4a;
+  }
+  .mc-nw-create {
+    background: #5abf4a;
+    color: white;
+    font-weight: 800;
+    font-size: 13px;
+    text-align: center;
+    padding: 10px;
+    font-family: 'Nunito', sans-serif;
+    margin: 0 16px 16px;
+    border-radius: 4px;
+  }
+  .controls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .ctrl-card {
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .ctrl-key {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--minecraft);
+    letter-spacing: 0.5px;
+  }
+  .ctrl-label {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'Nunito', sans-serif;
+  }
+  .mc-npc-mock {
+    background: #2a2a2a;
+    border: 2px solid #555;
+    border-radius: 6px;
+    max-width: 360px;
+    overflow: hidden;
+    margin-top: 4px;
+  }
+  .mc-npc-header {
+    background: #4a4a4a;
+    color: white;
+    font-weight: 800;
+    font-size: 12px;
+    padding: 8px 14px;
+    font-family: 'Nunito', sans-serif;
+  }
+  .mc-npc-body { padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+  .mc-npc-row { display: flex; flex-direction: column; gap: 4px; }
+  .mc-npc-label { font-size: 10px; color: #888; font-family: 'Nunito', sans-serif; }
+  .mc-npc-input {
+    background: #1a1a1a;
+    border: 1px solid #555;
+    color: white;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 3px;
+    font-family: 'Nunito', sans-serif;
+  }
+  .mc-npc-cursor { color: #5abf4a; animation: blink 1s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  .mc-npc-textarea {
+    background: #1a1a1a;
+    border: 1px solid #555;
+    color: #ccc;
+    font-size: 11px;
+    padding: 8px 10px;
+    border-radius: 3px;
+    font-family: 'Nunito', sans-serif;
+    line-height: 1.5;
+    display: block;
+  }
+  .mc-npc-save {
+    background: #5abf4a;
+    color: white;
+    font-weight: 800;
+    font-size: 12px;
+    text-align: center;
+    padding: 8px;
+    border-radius: 3px;
+    font-family: 'Nunito', sans-serif;
+    align-self: flex-end;
+    padding: 6px 20px;
+  }
+
+  /* ── COSPACES MOCKS ── */
+  .cos-home-mock {
+    background: #f5f5f5;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+    max-width: 420px;
+    margin-top: 4px;
+  }
+  .cos-home-header {
+    background: white;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+  }
+  .cos-logo { font-size: 14px; font-weight: 800; color: #333; font-family: 'Nunito', sans-serif; }
+  .cos-create-btn {
+    background: #b04af7;
+    color: white;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-family: 'Nunito', sans-serif;
+    position: relative;
+    animation: pulse-highlight 2s ease-in-out infinite;
+  }
+  .cos-home-tabs {
+    display: flex;
+    padding: 8px 16px 0;
+    gap: 4px;
+    background: white;
+    border-bottom: 2px solid #eee;
+  }
+  .cos-tab {
+    font-size: 12px;
+    color: #888;
+    padding: 6px 14px;
+    border-radius: 4px 4px 0 0;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+  }
+  .cos-tab--active { color: #b04af7; border-bottom: 2px solid #b04af7; }
+  .cos-env-mock {
+    background: #f5f0ff;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    padding: 14px;
+    max-width: 380px;
+    margin-top: 4px;
+  }
+  .cos-env-header {
+    font-weight: 800;
+    font-size: 13px;
+    color: #333;
+    margin-bottom: 12px;
+    font-family: 'Nunito', sans-serif;
+  }
+  .cos-env-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .cos-env-card {
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 10px 6px;
+    text-align: center;
+    cursor: pointer;
+  }
+  .cos-env-card--selected { border-color: #b04af7; background: #f5f0ff; }
+  .cos-env-icon { font-size: 22px; display: block; margin-bottom: 4px; }
+  .cos-env-name { font-size: 10px; font-weight: 700; color: #444; font-family: 'Nunito', sans-serif; }
+  .cos-editor-mock {
+    display: grid;
+    grid-template-columns: 80px 1fr 140px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #f5f5f5;
+    min-height: 180px;
+    margin-top: 4px;
+  }
+  .cos-ed-sidebar {
+    background: #ede0ff;
+    border-right: 1px solid #ddd;
+    padding: 8px 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .cos-ed-tool {
+    font-size: 11px;
+    font-weight: 700;
+    color: #555;
+    padding: 6px 8px;
+    border-radius: 4px;
+    font-family: 'Nunito', sans-serif;
+    cursor: pointer;
+  }
+  .cos-ed-tool--active { background: #b04af7; color: white; }
+  .cos-ed-scene {
+    position: relative;
+    background: #e8e0ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .cos-ed-scene-label {
+    position: absolute;
+    top: 8px; left: 10px;
+    font-size: 10px;
+    color: #888;
+    font-family: 'Nunito', sans-serif;
+  }
+  .cos-ed-char { font-size: 36px; }
+  .cos-ed-handles {
+    display: flex;
+    gap: 6px;
+  }
+  .cos-ed-handle {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-family: 'Nunito', sans-serif;
+  }
+  .cos-ed-handle--move   { background: rgba(176,74,247,0.2); color: #b04af7; }
+  .cos-ed-handle--rotate { background: rgba(74,155,247,0.2); color: #4a9bf7; }
+  .cos-ed-handle--scale  { background: rgba(90,191,74,0.2); color: #5abf4a; }
+  .cos-ed-props {
+    background: white;
+    border-left: 1px solid #ddd;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .cos-ed-props-header {
+    font-size: 10px;
+    font-weight: 800;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+    font-family: 'Nunito', sans-serif;
+  }
+  .cos-ed-props-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    color: #888;
+    font-family: 'Nunito', sans-serif;
+  }
+  .cos-ed-props-row--highlight { background: #f5f0ff; margin: -2px -4px; padding: 4px; border-radius: 3px; }
+  .cos-ed-val { color: #333; font-weight: 700; }
+  .cos-ed-val--btn {
+    background: #b04af7;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 9px;
+  }
+  .coblocks-mock {
+    background: #1a1a2e;
+    border: 2px solid #333;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 4px;
+  }
+  .cob-header {
+    background: #b04af7;
+    padding: 8px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .cob-title { color: white; font-weight: 800; font-size: 12px; font-family: 'Nunito', sans-serif; }
+  .cob-close { color: rgba(255,255,255,0.7); font-size: 12px; }
+  .cob-body { display: flex; }
+  .cob-categories {
+    width: 70px;
+    background: #12122a;
+    border-right: 1px solid #333;
+    padding: 8px 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .cob-cat {
+    color: white;
+    font-size: 8px;
+    font-weight: 800;
+    padding: 5px 4px;
+    border-radius: 3px;
+    text-align: center;
+    font-family: 'Nunito', sans-serif;
+  }
+  .cob-workspace {
+    flex: 1;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .cob-block {
+    border-radius: 6px;
+    padding: 8px 12px;
+    display: inline-block;
+    position: relative;
+  }
+  .cob-block--event {
+    background: #b04af7;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px 12px 12px;
+  }
+  .cob-block--action {
+    background: #4a9bf7;
+    margin-left: 12px;
+  }
+  .cob-block-text { color: white; font-size: 11px; font-family: 'Nunito', sans-serif; font-weight: 700; }
+  .cob-input {
+    background: rgba(255,255,255,0.25);
+    padding: 1px 6px;
+    border-radius: 3px;
+  }
+  .cob-hint {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    font-style: italic;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  /* ── MINECRAFT JOIN BOX ── */
+  .mc-join-box {
+    background: var(--panel2);
+    border: 2px solid var(--minecraft);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .mc-join-header {
+    background: rgba(90,191,74,0.15);
+    border-bottom: 1px solid var(--minecraft);
+    padding: 12px 20px;
+  }
+  .mc-join-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--minecraft);
+    letter-spacing: 2px;
+  }
+  .mc-join-steps {
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .mc-join-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .mc-join-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 3px;
+    background: rgba(90,191,74,0.2);
+    border: 2px solid var(--minecraft);
+    color: var(--minecraft);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .mc-join-text {
+    font-size: 14px;
+    color: var(--white);
+    line-height: 1.5;
+    padding-top: 2px;
+  }
+  .mc-join-tip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .mc-join-tip-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--yellow);
+    white-space: nowrap;
+  }
+
+  /* ── DEVICE CHOICE BANNER ── */
+  .device-choice-banner {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    background: var(--panel2);
+    border: 2px solid var(--cospaces);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .device-option {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 20px 22px;
+  }
+  .device-icon {
+    font-size: 32px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .device-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .device-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--cospaces);
+    letter-spacing: 1px;
+  }
+  .device-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .device-link {
+    display: inline-block;
+    margin-top: 6px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    letter-spacing: 1px;
+    padding: 7px 12px;
+    border-radius: 3px;
+    text-decoration: none;
+    width: fit-content;
+  }
+  .cospaces-link {
+    background: rgba(176,74,247,0.15);
+    color: var(--cospaces);
+    border: 1px solid var(--cospaces);
+  }
+  .cospaces-link:hover { opacity: 0.8; }
+  .device-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--muted);
+    background: var(--panel);
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    min-width: 36px;
+  }
+  @media (max-width: 600px) {
+    .device-choice-banner { flex-direction: column; }
+    .device-divider { padding: 10px; border-left: none; border-right: none; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .steps-row { grid-template-columns: 1fr; }
+    .tab-name { display: none; }
+    .tool-section { padding: 18px 18px; }
+    .tool-hero { padding: 20px 18px 16px; }
+    .tutorial-link-row { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── SITE NAV BAR ───────────────────────────────────────────── -->
+<nav class="site-nav" aria-label="Site navigation">
+  <div class="site-nav-inner">
+    <a href="index.html" class="site-nav-home">
+      <span class="site-nav-logo">🎮</span>
+      <span class="site-nav-title">Discovery Week 2026</span>
+    </a>
+    <div class="site-nav-breadcrumb">
+      <a href="index.html" onclick="event.preventDefault(); window.location.href='index.html'">Home</a>
+      <span class="site-nav-sep">›</span>
+      <a href="index.html#wednesday" onclick="event.preventDefault(); if(window.opener){window.close();}else{history.back();}">Wednesday</a>
+      <span class="site-nav-sep">›</span>
+      <span class="site-nav-current">Tool Taster Sessions</span>
+    </div>
+    <a href="index.html" class="site-nav-back-btn">← Back to Wednesday</a>
+  </div>
+</nav>
+
+<header class="site-header">
+  <span class="eyebrow">DISCOVERY WEEK 2026</span>
+  <h1 class="site-title">TOOL TASTER<br>SESSIONS</h1>
+  <p class="site-subtitle">Wednesday Morning &mdash; Try all 4 tools before you choose</p>
+  <hr class="header-rule">
+</header>
+
+<main class="wrap">
+
+  <div class="how-it-works">
+    <div class="steps-row">
+      <div class="step-card">
+        <span class="step-num">01</span>
+        <span class="step-icon">🎮</span>
+        <span class="step-label">PLAY</span>
+        <p class="step-desc">Try the sample games. See what this tool can really do.</p>
+      </div>
+      <div class="step-card">
+        <span class="step-num">02</span>
+        <span class="step-icon">📖</span>
+        <span class="step-label">LEARN</span>
+        <p class="step-desc">Follow the intro tutorial. Get hands-on with the key features.</p>
+      </div>
+      <div class="step-card">
+        <span class="step-num">03</span>
+        <span class="step-icon">🔨</span>
+        <span class="step-label">BUILD</span>
+        <p class="step-desc">Make your own mini game from scratch. You have 10 minutes — go!</p>
+      </div>
+    </div>
+    <div class="timer-bar">
+      <span class="timer-label">⏱ 30 MINS PER TOOL</span>
+      <div class="timer-segments">
+        <div class="timer-seg s1"><span>PLAY</span>5–8 mins</div>
+        <div class="timer-seg s2"><span>LEARN</span>10–12 mins</div>
+        <div class="timer-seg s3"><span>BUILD</span>10–12 mins</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS NAV -->
+  <nav class="tabs-nav" role="tablist" aria-label="Game creation tools">
+    <button class="tab-btn scratch active" role="tab" aria-selected="true" aria-controls="panel-scratch" onclick="switchTab('scratch')">
+      <span class="tab-icon">🐱</span>
+      <span class="tab-name">SCRATCH</span>
+    </button>
+    <button class="tab-btn makecode" role="tab" aria-selected="false" aria-controls="panel-makecode" onclick="switchTab('makecode')">
+      <span class="tab-icon">👾</span>
+      <span class="tab-name">MAKECODE</span>
+    </button>
+    <button class="tab-btn minecraft" role="tab" aria-selected="false" aria-controls="panel-minecraft" onclick="switchTab('minecraft')">
+      <span class="tab-icon">⛏️</span>
+      <span class="tab-name">MINECRAFT</span>
+    </button>
+    <button class="tab-btn cospaces" role="tab" aria-selected="false" aria-controls="panel-cospaces" onclick="switchTab('cospaces')">
+      <span class="tab-icon">🌐</span>
+      <span class="tab-name">DELIGHTEX</span>
+    </button>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════
+       SCRATCH
+  ═══════════════════════════════════════════════ -->
+  <div id="panel-scratch" class="tab-panel scratch active" role="tabpanel">
+
+    <div class="tool-hero scratch">
+      <h2 class="tool-name">🐱 Scratch</h2>
+      <p class="tool-tagline">Story-based games, creative platformers, interactive narratives &mdash; beginner-friendly, highly visual</p>
+    </div>
+
+    <!-- STEP 1: PLAY -->
+    <div class="tool-section">
+      <div class="section-header">
+        <span class="section-badge badge-play">STEP 1</span>
+        <span class="section-title">PLAY THE SAMPLE GAMES</span>
+        <span class="section-time">5–8 mins</span>
+      </div>
+      <p class="section-intro">Play each game below. Think like a designer, not just a player — notice the controls, the goal, and what makes it fun.</p>
+      <div class="game-cards">
+        <a href="https://scratch.mit.edu/projects/942934492/" target="_blank" class="game-card">
+          <span class="game-num">GAME 01</span>
+          <p class="game-title">Super Mario At Christmas</p>
+          <p class="game-why">A polished platformer with custom sprites, levels, and movement — shows just how far Scratch can go</p>
+          <span class="play-link">▶ PLAY NOW</span>
+        </a>
+        <a href="https://scratch.mit.edu/projects/1100804090" target="_blank" class="game-card">
+          <span class="game-num">GAME 02</span>
+          <p class="game-title">Prince of Persia</p>
+          <p class="game-why">Smooth animation, platforming physics, and atmosphere — a great example of storytelling through gameplay</p>
+          <span class="play-link">▶ PLAY NOW</span>
+        </a>
+        <a href="https://scratch.mit.edu/projects/382227" target="_blank" class="game-card">
+          <span class="game-num">GAME 03</span>
+          <p class="game-title">Mario Kart</p>
+          <p class="game-why">Racing, speed, and split-second controls — see how Scratch handles fast-paced arcade mechanics</p>
+          <span class="play-link">▶ PLAY NOW</span>
+        </a>
+        <a href="https://scratch.mit.edu/projects/1054696543/" target="_blank" class="game-card">
+          <span class="game-num">GAME 04</span>
+          <p class="game-title">Scratch Cat Travels to the Moon</p>
+          <p class="game-why">A beautiful animated story — shows how Scratch can be used for storytelling, not just games</p>
+          <span class="play-link">▶ WATCH NOW</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- STEP 2: LEARN -->
+    <div class="tool-section">
+      <div class="section-header">
+        <span class="section-badge badge-learn">STEP 2</span>
+        <span class="section-title">FOLLOW THE TUTORIAL</span>
+        <span class="section-time">10–12 mins</span>
+      </div>
+
+      <div class="nav-guide">
+
+        <!-- NAV STEP 1 -->
+        <div class="nav-step">
+          <div class="nav-step-label">
+            <span class="nav-num">1</span>
+            <span class="nav-text">Click the button below to open the Scratch editor</span>
+          </div>
+          <a href="https://scratch.mit.edu/projects/editor/" target="_blank" class="tutorial-cta" style="display:inline-flex;margin:12px 0 4px;">▶ OPEN SCRATCH EDITOR</a>
+        </div>
+
+        <!-- NAV STEP 2 -->
+        <div class="nav-step">
+          <div class="nav-step-label">
+            <span class="nav-num">2</span>
+            <span class="nav-text">In the top menu bar, click <strong style="color:#f7922a;">Tutorials</strong></span>
+          </div>
+          <div class="scratch-mock-bar">
+            <div class="smb-logo">
+              <svg width="26" height="20" viewBox="0 0 56 44" fill="none" aria-hidden="true">
+                <ellipse cx="28" cy="22" rx="22" ry="18" fill="#4C97FF"/>
+                <ellipse cx="21" cy="18" rx="5" ry="6" fill="white"/>
+                <ellipse cx="35" cy="18" rx="5" ry="6" fill="white"/>
+                <ellipse cx="21" cy="17" rx="2.5" ry="3" fill="#333"/>
+                <ellipse cx="35" cy="17" rx="2.5" ry="3" fill="#333"/>
+                <path d="M20 30 Q28 36 36 30" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              </svg>
+              <span class="smb-wordmark">Scratch</span>
+            </div>
+            <div class="smb-links">
+              <span class="smb-link">File</span>
+              <span class="smb-link">Edit</span>
+              <span class="smb-link smb-tutorials-highlight">
+                Tutorials
+                <span class="smb-arrow-callout">← CLICK HERE</span>
+              </span>
+              <span class="smb-link smb-dim">Untitled</span>
+            </div>
+            <div class="smb-right">
+              <div class="smb-flag">🚩</div>
+              <div class="smb-stop">⏹</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- NAV STEP 3 -->
+        <div class="nav-step">
+          <div class="nav-step-label">
+            <span class="nav-num">3</span>
+            <span class="nav-text">The tutorials panel slides open. Find <strong style="color:#f7922a;">Make a Chase Game</strong> and click it</span>
+          </div>
+          <div class="scratch-tutorial-panel">
+            <div class="stp-header">
+              <span class="stp-heading">Tutorials</span>
+              <span class="stp-search">🔍 Search</span>
+            </div>
+            <div class="stp-grid">
+              <div class="stp-card">
+                <div class="stp-thumb" style="background:#b3d4ff;"><span class="stp-emoji">🌀</span></div>
+                <span class="stp-title">Getting Started</span>
+              </div>
+              <div class="stp-card stp-card--highlight">
+                <div class="stp-callout-wrapper">
+                  <div class="stp-thumb stp-thumb--glow" style="background:#ffe680;">
+                    <span class="stp-emoji">🐱</span>
+                  </div>
+                  <div class="stp-select-arrow">← SELECT THIS ONE</div>
+                </div>
+                <span class="stp-title stp-title--active">Make a Chase Game</span>
+              </div>
+              <div class="stp-card">
+                <div class="stp-thumb" style="background:#c8f0c8;"><span class="stp-emoji">🎵</span></div>
+                <span class="stp-title">Music</span>
+              </div>
+              <div class="stp-card">
+                <div class="stp-thumb" style="background:#f0c8f0;"><span class="stp-emoji">🎭</span></div>
+                <span class="stp-title">Animate a Character</span>
+              </div>
+              <div class="stp-card">
+                <div class="stp-thumb" style="background:#c8e0f0;"><span class="stp-emoji">🏓</span></div>
+                <span class="stp-title">Make a Pong Game</span>
+              </div>
+              <div class="stp-card">
+                <div class="stp-thumb" style="background:#f0e0c8;"><span class="stp-emoji">🎨</span></div>
+                <span class="stp-title">Create a Story</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- NAV STEP 4 -->
+        <div class="nav-step">
+          <div class="nav-step-label">
+            <span class="nav-num">4</span>
+            <span class="nav-text">The tutorial opens as a step-by-step panel on the right side of the editor. Follow each step in order — it will guide you through building the whole chase game</span>
+          </div>
+          <div class="scratch-editor-mock">
+            <div class="sem-left">
+              <div class="sem-categories">
+                <div class="sem-cat" style="background:#4C97FF;">Motion</div>
+                <div class="sem-cat" style="background:#9966FF;">Looks</div>
+                <div class="sem-cat" style="background:#CF63CF;">Sound</div>
+                <div class="sem-cat" style="background:#FFAB19;">Events</div>
+                <div class="sem-cat" style="background:#FFAB19;">Control</div>
+                <div class="sem-cat" style="background:#5CB1D6;">Sensing</div>
+              </div>
+              <div class="sem-blocks-area">
+                <div class="sem-block" style="background:#FFAB19;">when 🚩 clicked</div>
+                <div class="sem-block" style="background:#4C97FF;">move <span class="sem-input">10</span> steps</div>
+                <div class="sem-block" style="background:#4C97FF;">turn ↻ <span class="sem-input">15</span> degrees</div>
+                <div class="sem-block" style="background:#5CB1D6;">if touching edge, bounce</div>
+              </div>
+            </div>
+            <div class="sem-stage">
+              <div class="sem-stage-label">Stage</div>
+              <div class="sem-stage-inner">
+                <span class="sem-sprite sem-sprite--cat">🐱</span>
+                <span class="sem-sprite sem-sprite--apple">🍎</span>
+              </div>
+              <div class="sem-stage-controls">
+                <span class="sem-flag-btn">🚩</span>
+                <span class="sem-stop-btn">⏹</span>
+              </div>
+            </div>
+            <div class="sem-tutorial-panel">
+              <div class="sem-tp-header">
+                <span class="sem-tp-title">Make a Chase Game</span>
+                <span class="sem-tp-progress">Step 2 of 6</span>
+              </div>
+              <div class="sem-tp-progress-bar"><div class="sem-tp-progress-fill" style="width:33%"></div></div>
+              <div class="sem-tp-body">
+                <p class="sem-tp-instruction">Add the <strong>move 10 steps</strong> block to make your sprite move when the flag is clicked.</p>
+                <div class="sem-tp-block-preview">
+                  <span class="sem-block-pill" style="background:#4C97FF;">move <span class="sem-input-white">10</span> steps</span>
+                </div>
+              </div>
+              <div class="sem-tp-footer">
+                <span class="sem-tp-btn">← Back</span>
+                <span class="sem-tp-btn sem-tp-btn--next">Next →</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- NAV STEP 5 -->
+        <div class="nav-step nav-step--last">
+          <div class="nav-step-label">
+            <span class="nav-num">5</span>
+            <span class="nav-text">Finished the Chase Game early? Go back to the Tutorials panel and try another one until it's time to build</span>
+          </div>
+          <div class="extra-tutorials-box">
+            <span class="extra-label">GOOD ONES TO TRY NEXT:</span>
+            <div class="extra-chips">
+              <span class="extra-chip">🏓 Make a Pong Game</span>
+              <span class="extra-chip">🎭 Animate a Character</span>
+              <span class="extra-chip">🎨 Create a Story</span>
+              <span class="extra-chip">🎵 Add Sound Effects</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- STEP 3: BUILD -->
+    <div class="tool-section">
+      <div class="section-header">
+        <span class="section-badge badge-build">STEP 3</span>
+        <span class="section-title">YOUR MINI BUILD CHALLENGE</span>
+        <span class="section-time">10–12 mins</span>
+      </div>
+      <div class="build-challenge">
+        <div class="challenge-header">
+          <span class="challenge-label">🎯 CHALLENGE</span>
+          <p class="challenge-text">Create a simple Chase or Collect game — a character moves around the screen and must collect items or avoid obstacles. Add a score counter and a win or game-over condition.</p>
+        </div>
+        <ul class="hints-list">
+          <li><span class="hint-bullet">💡</span>Use arrow key blocks in "Events" to control movement</li>
+          <li><span class="hint-bullet">💡</span>Duplicate sprites to make multiple collectibles quickly</li>
+          <li><span class="hint-bullet">💡</span>Use "when I receive" broadcast to trigger a win message</li>
+          <li><span class="hint-bullet">💡</span>"Set size to" block makes the game feel more polished instantly</li>
+        </ul>
+      </div>
+      <div class="open-tool-row">
+        <a href="https://scratch.mit.edu/projects/editor/" target="_blank" class="open-tool-btn">🐱 OPEN SCRATCH &rarr;</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       MAKECODE ARCADE
+  ═══════════════════════════════════════════════ -->
+  <div id="panel-makecode" class="tab-panel makecode" role="tabpanel">
+
+    <div class="tool-hero makecode">
+      <h2 class="tool-name">👾 MakeCode Arcade</h2>
+      <p class="tool-tagline">Retro arcade games, tile maps, sprite-based action &mdash; block coding, no experience needed</p>
+    </div>
+
+    <!-- STEP 1: PLAY -->
+    <div class="tool-section">
+      <div class="section-header">
+        <span class="section-badge badge-play">STEP 1</span>
+        <span class="section-title">PLAY THE SAMPLE GAMES</span>
+        <span class="section-time">5–8 mins</span>
+      </div>
+      <p class="section-intro">Play each game below. Think like a designer — notice the controls, what makes it fun, and how the challenge works.</p>
+      <div class="game-cards">
+        <a href="https://arcade.makecode.com/S92945-87110-90152-31022" target="_blank" class="game-card">
+          <span class="game-num">GAME 01</span>
+          <p class="game-title">Fighting Fire</p>
+          <p class="game-why">Action and urgency — see how MakeCode handles moving characters, enemies, and a time-pressured challenge</p>
+          <span class="play-link">▶ PLAY NOW</span>
+        </a>
+        <a href="https://arcade.makecode.com/S60413-98981-46376-14847" target="_blank" class="game-card">
+          <span class="game-num">GAME 02</span>
+          <p class="game-title">Mail the Game!!!</p>
+          <p class="game-why">A creative, original concept — proof that the best games come from unexpected ideas, not just standard mechanics</p>
+          <span class="play-link">▶ PLAY NOW</span>
+        </a>
+        <a href="https://arcade.makecode.com/07032-06372-20228-17971" target="_blank" class="game-card">
+          <span class="game-num">GAME 03</span>
+          <p class="game-title">Hero vs Monster</p>
+          <p class="game-why">Classic combat mechanics — health, enemies, and a clear win/lose state all built in MakeCode blocks</p>
+          <span class="play-link">▶ PLAY NOW</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- STEP 2: LEARN -->
+    <div class="tool-section">
+      <div class="section-header">
+        <span class="section-badge badge-learn">STEP 2</span>
+        <span class="section-title">FOLLOW A SKILLMAP TUTORIAL</span>
+        <span class="section-time">10–12 mins</span>
+      </div>
+
+      <div class="nav-guide">
+
+        <!-- NAV STEP 1 -->
+        <div class="nav-step">
+          <div class="nav-step-label">
+            <span class="nav-num">1</span>
+            <span class="nav-text">Click the button below to open the MakeCode Skillmap page</span>
+          </div>
+          <a href="https://arcade.makecode.com/--skillmap" target="_blank" class="tutorial-cta makecode" style="display:inline-flex;margin:12px 0 4px;">▶ OPEN MAKECODE SKILLMAP</a>
+        </div>
+
+        <!-- NAV STEP 2 -->
+        <div class="nav-step">
+          <div class="nav-step-label">
+            <span class="nav-num">2</span>
+            <span class="nav-text">Scroll down to the <strong style="color:#4a9bf7;">Beginner Skillmaps</strong> section — it looks like this</span>
+          </div>
+          <div class="mc-skillmap-mock">
+            <div class="mc-sm-header">Beginner Skillmaps</div>
+            <div class="mc-sm-grid">
+              <div class="mc-sm-card mc-sm-card--featured">
+                <div class="mc-sm-ribbon">New? Try This!</div>
+                <div class="mc-sm-thumb mc-sm-thumb--stories">
+                  <span class="mc-sm-emoji">📚</span>
+                </div>
+                <span class="mc-sm-title">Full of Stories</span>
+              </div>
+              <div class="mc-sm-card">
+                <div class="mc-sm-thumb mc-sm-thumb--bug">
+                  <span class="mc-sm-emoji">🐛</span>
+                </div>
+                <span class="mc-sm-title">AI Bug Arena</span>
+              </div>
+              <div class="mc-sm-card">
+                <div class="mc-sm-thumb mc-sm-thumb--mole">
+                  <span class="mc-sm-emoji">🪓</span>
+                </div>
+                <span class="mc-sm-title">Whack the Mole</span>
+              </div>
+              <div class="mc-sm-card">
+                <div class="mc-sm-thumb mc-sm-thumb--star">
+                  <span class="mc-sm-emoji">🎤</span>
+                </div>
+                <span class="mc-sm-title">Talent Show</span>
+              </div>
+              <div class="mc-sm-card">
+                <div class="mc-sm-thumb mc-sm-thumb--dino">
+                  <span class="mc-sm-emoji">🦕</span>
+                </div>
+                <span class="mc-sm-title">Save the Dinos</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- NAV STEP 3 -->
+        <div class="nav-step">
+          <div class="nav-step-label">
+            <span class="nav-num">3</span>
+            <span class="nav-text">Pick <strong style="color:#4a9bf7;">any one</strong> of the five skillmaps and click on it — each one is a complete guided tutorial that walks you through building a game step by step. <strong style="color:#f7e94a;">New to MakeCode?</strong> Start with Full of Stories.</span>
+          </div>
+        </div>
+
+        <!-- NAV STEP 4 -->
+        <div class="nav-step">
+          <div class="nav-step-label">
+            <span class="nav-num">4</span>
+            <span class="nav-text">Inside the skillmap, follow each activity in order. The tutorial panel on the right tells you exactly what to do — read each step carefully, then try it yourself in the editor on the left</span>
+          </div>
+          <div class="mc-tutorial-running-mock">
+            <div class="mc-tr-sidebar">
+              <div class="mc-tr-activity mc-tr-activity--done">
+                <span class="mc-tr-check">✓</span>
+                <span>Activity 1</span>
+              </div>
+              <div class="mc-tr-activity mc-tr-activity--active">
+                <span class="mc-tr-dot"></span>
+                <span>Activity 2</span>
+              </div>
+              <div class="mc-tr-activity">
+                <span class="mc-tr-lock">🔒</span>
+                <span>Activity 3</span>
+              </div>
+              <div class="mc-tr-activity">
+                <span class="mc-tr-lock">🔒</span>
+                <span>Activity 4</span>
+              </div>
+            </div>
+            <div class="mc-tr-editor">
+              <div class="mc-tr-editor-header">
+                <span class="mc-tr-tab mc-tr-tab--active">Blocks</span>
+                <span class="mc-tr-tab">JavaScript</span>
+                <span class="mc-tr-run">▶ Run</span>
+              </div>
+              <div class="mc-tr-blocks">
+                <div class="mc-tr-block" style="background:#FFAB19;">on start</div>
+                <div class="mc-tr-block mc-tr-block--indent" style="background:#4C97FF;">set mySprite position to x: <span class="mc-tr-val">80</span> y: <span class="mc-tr-val">60</span></div>
+                <div class="mc-tr-block mc-tr-block--indent" style="background:#9966FF;">say <span class="mc-tr-val">"Hello!"</span></div>
+              </div>
+            </div>
+            <div class="mc-tr-instructions">
+              <div class="mc-tr-inst-header">
+                <span class="mc-tr-inst-title">Step 3 of 5</span>
+                <div class="mc-tr-inst-bar"><div style="width:60%;height:100%;background:#4a9bf7;border-radius:2px;"></div></div>
+              </div>
+              <p class="mc-tr-inst-text">Add a <strong>say</strong> block inside <strong>on start</strong> to give your character a greeting.</p>
+              <div class="mc-tr-inst-hint">
+                <span>💡 Find it in the <strong>Sprites</strong> category</span>
+              </div>
+              <div class="mc-tr-inst-footer">
+                <span class="mc-tr-inst-btn">← Back</span>
+                <span class="mc-tr-inst-btn mc-tr-inst-btn--next">Next →</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- NAV STEP 5 -->
+        <div class="nav-step nav-step--last">
+          <div class="nav-step-label">
+            <span class="nav-num">5</span>
+            <span class="nav-text">Finished your first skillmap early? Go back to the Beginner Skillmaps page and try another one until it's time to build</span>
+          </div>
+          <div class="extra-tutorials-box">
+            <span class="extra-label">ALL FIVE ARE WORTH TRYING:</span>
+            <div class="extra-chips">
+              <span class="extra-chip">📚 Full of Stories</span>
+              <span class="extra-chip">🐛 AI Bug Arena</span>
+              <span class="extra-chip">🪓 Whack the Mole</span>
+              <span class="extra-chip">🎤 Talent Show</span>
+              <span class="extra-chip">🦕 Save the Dinos</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- STEP 3: BUILD -->
+    <div class="tool-section">
+      <div class="section-header">
+        <span class="section-badge badge-build">STEP 3</span>
+        <span class="section-title">YOUR MINI BUILD CHALLENGE</span>
+        <span class="section-time">10–12 mins</span>
+      </div>
+      <div class="build-challenge">
+        <div class="challenge-header">
+          <span class="challenge-label">🎯 CHALLENGE</span>
+          <p class="challenge-text">Open a new blank project and build your own simple game from scratch — a character that moves, something to collect or avoid, and a score. Use what you just learned in the skillmap.</p>
+        </div>
+        <ul class="hints-list">
+          <li><span class="hint-bullet">💡</span>Go to arcade.makecode.com and click <strong>New Project</strong></li>
+          <li><span class="hint-bullet">💡</span>Start with a sprite and "move mySprite with buttons" — get something moving first</li>
+          <li><span class="hint-bullet">💡</span>Add a second sprite of a different Kind and use "on overlap" to make something happen</li>
+          <li><span class="hint-bullet">💡</span>Don't worry if it's small — a working game with one mechanic beats an unfinished big idea</li>
+        </ul>
+      </div>
+      <div class="open-tool-row">
+        <a href="https://arcade.makecode.com/" target="_blank" class="open-tool-btn">👾 OPEN MAKECODE ARCADE &rarr;</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MINECRAFT EDUCATION -->
+  <div id="panel-minecraft" class="tab-panel minecraft" role="tabpanel">
+
+    <div class="tool-hero minecraft">
+      <h2 class="tool-name">⛏️ Minecraft Education</h2>
+      <p class="tool-tagline">Build your own adventure world — design levels, write quests, create challenges</p>
+    </div>
+
+    <!-- STEP 1: PLAY -->
+    <div class="tool-section">
+      <div class="section-header">
+        <span class="section-badge badge-play">STEP 1</span>
+        <span class="section-title">EXPLORE SAMPLE WORLDS</span>
+        <span class="section-time">5–8 mins</span>
+      </div>
+      <p class="section-intro">Your teacher will host an example game world in class today — you'll join it together as a group. As you explore, ask yourself: how did the designer make this feel like a game? What tells you what to do next?</p>
+      <div class="mc-join-box">
+        <div class="mc-join-header">
+          <span class="mc-join-label">HOW TO JOIN THE WORLD</span>
+        </div>
+        <div class="mc-join-steps">
+          <div class="mc-join-step">
+            <span class="mc-join-num">1</span>
+            <span class="mc-join-text">Open the <strong>Minecraft Education</strong> app on your device</span>
+          </div>
+          <div class="mc-join-step">
+            <span class="mc-join-num">2</span>
+            <span class="mc-join-text">Sign in with your <strong>school login details</strong> (same as your school email)</span>
+          </div>
+          <div class="mc-join-step">
+            <span class="mc-join-num">3</span>
+            <span class="mc-join-text">On the home screen, tap <strong>Play</strong> then look for your teacher's world in the <strong>Friends</strong> or <strong>Multiplayer</strong> tab</span>
+          </div>
+          <div class="mc-join-step">
+            <span class="mc-join-num">4</span>
+            <span class="mc-join-text">Join the world and explore — your teacher will guide you through what to look for</span>
+          </div>
+        </div>
+        <div class="mc-join-tip">
+          <span class="mc-join-tip-label">💡 TIP</span>
+          <span>Make sure you're connected to the school Wi-Fi before joining</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: LEARN (with nav guide) -->
+    <div class="tool-section">
+      <div class="section-header">
+        <span class="section-badge badge-learn">STEP 2</span>
+        <span class="section-title">GET STARTED IN THE EDITOR</span>
+        <span class="section-time">10–12 mins</span>
+      </div>
+
+      <div class="nav-guide">
+
+        <div class="nav-step">
+          <div class="nav-step-label">
+            <span class="nav-num">1</span>
+            <span class="nav-text">Open Minecraft Education on your device and click <strong style="color:#5abf4a;">Play</strong> on the main screen</span>
+          </div>
+          <div class="mc-edu-mock">
+            <div class="mc-edu-header">
+              <span class="mc-edu-logo">⛏️ Minecraft Education</span>
+            </div>
+            <div class="mc-edu-body">
+              <div class="mc-edu-btn mc-edu-btn--highlight">
+                ▶ Play
+                <span class="mc-edu-callout">← START HERE</span>
+              </div>
+              <div class="mc-edu-btn">How to Play</div>
+              <div class="mc-edu-btn">Settings</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-step">
+          <div class="nav-step-label">
+            <span class="nav-num">2</span>
+            <span class="nav-text">Click <strong style="color:#5abf4a;">Create New World</strong>, then choose <strong style="color:#5abf4a;">Flat World</strong> and make sure the game mode is set to <strong style="color:#5abf4a;">Creative</strong></span>
+          </div>
+          <div class="mc-new-world-mock">
+            <div class="mc-nw-header">Create New World</div>
+            <div class="mc-nw-options">
+              <div class="mc-nw-row">
+                <span class="mc-nw-label">World type</span>
+                <span class="mc-nw-value mc-nw-value--selected">Flat ✓</span>
+                <span class="mc-nw-value">Default</span>
+              </div>
+              <div class="mc-nw-row">
+                <span class="mc-nw-label">Game mode</span>
+                <span class="mc-nw-value mc-nw-value--selected">Creative ✓</span>
+                <span class="mc-nw-value">Survival</span>
+                <span class="mc-nw-value">Adventure</span>
+              </div>
+            </div>
+            <div class="mc-nw-create">Create</div>
+          </div>
+        </div>
+
+        <div class="nav-step">
+          <div class="nav-step-label">
+            <span class="nav-num">3</span>
+            <span class="nav-text">Once you're in the world, learn these essential controls — you'll need them to build and test</span>
+          </div>
+          <div class="controls-grid">
+            <div class="ctrl-card"><span class="ctrl-key">W A S D</span><span class="ctrl-label">Move around</span></div>
+            <div class="ctrl-card"><span class="ctrl-key">SPACE</span><span class="ctrl-label">Jump / fly up</span></div>
+            <div class="ctrl-card"><span class="ctrl-key">E</span><span class="ctrl-label">Open inventory</span></div>
+            <div class="ctrl-card"><span class="ctrl-key">RIGHT CLICK</span><span class="ctrl-label">Place a block</span></div>
+            <div class="ctrl-card"><span class="ctrl-key">LEFT CLICK</span><span class="ctrl-label">Break a block</span></div>
+            <div class="ctrl-card"><span class="ctrl-key">T</span><span class="ctrl-label">Open chat</span></div>
+            <div class="ctrl-card"><span class="ctrl-key">SHIFT</span><span class="ctrl-label">Sneak / fly down</span></div>
+            <div class="ctrl-card"><span class="ctrl-key">F5</span><span class="ctrl-label">Change camera view</span></div>
+          </div>
+        </div>
+
+        <div class="nav-step">
+          <div class="nav-step-label">
+            <span class="nav-num">4</span>
+            <span class="nav-text">Open your inventory (press <strong style="color:#5abf4a;">E</strong>) and search for <strong style="color:#5abf4a;">NPC</strong>. Place one down, then right-click it to give it a name and a message — this is how you add characters who talk to the player</span>
+          </div>
+          <div class="mc-npc-mock">
+            <div class="mc-npc-header">Edit NPC</div>
+            <div class="mc-npc-body">
+              <div class="mc-npc-row">
+                <span class="mc-npc-label">NPC Name</span>
+                <span class="mc-npc-input">Quest Giver<span class="mc-npc-cursor">|</span></span>
+              </div>
+              <div class="mc-npc-row">
+                <span class="mc-npc-label">Dialogue</span>
+                <span class="mc-npc-textarea">Welcome, adventurer! Find the golden key hidden in the cave and bring it back to me...</span>
+              </div>
+              <div class="mc-npc-save">Save</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-step">
+          <div class="nav-step-label">
+            <span class="nav-num">5</span>
+            <span class="nav-text">When you want to <strong style="color:#5abf4a;">test your world as a player</strong>, open the chat (press <strong style="color:#5abf4a;">T</strong>) and type <code style="background:rgba(90,191,74,0.15);color:#5abf4a;padding:2px 6px;border-radius:3px;">/gamemode adventure</code> — this stops you from breaking blocks so you can play it properly. Type <code style="background:rgba(90,191,74,0.15);color:#5abf4a;padding:2px 6px;border-radius:3px;">/gamemode creative</code> to switch back and keep building</span>
+          </div>
+        </div>
+
+        <div class="nav-step nav-step--last">
+          <div class="nav-step-label">
+            <span class="nav-num">6</span>
+            <span class="nav-text">Need more help? The official Minecraft Education tutorials walk you through everything from basic building to command blocks</span>
+          </div>
+          <a href="https://education.minecraft.net/en-us/resources/getting-started" target="_blank" class="tutorial-cta minecraft" style="display:inline-flex;margin:12px 0 4px;">▶ MINECRAFT EDUCATION TUTORIALS</a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- STEP 3: BUILD -->
+    <div class="tool-section">
+      <div class="section-header">
+        <span class="section-badge badge-build">STEP 3</span>
+        <span class="section-title">YOUR MINI BUILD CHALLENGE</span>
+        <span class="section-time">10–12 mins</span>
+      </div>
+      <div class="build-challenge">
+        <div class="challenge-header">
+          <span class="challenge-label">🎯 CHALLENGE</span>
+          <p class="challenge-text">Build one complete room or area of an adventure world. It needs: an NPC who tells the player their goal, one challenge or puzzle to solve, and a clear way out when they're done.</p>
+        </div>
+        <ul class="hints-list">
+          <li><span class="hint-bullet">💡</span>Keep it small — one room with one challenge is a complete game zone</li>
+          <li><span class="hint-bullet">💡</span>Use signs on walls for extra instructions — keep the text short and clear</li>
+          <li><span class="hint-bullet">💡</span>A locked door + a hidden key = a simple but satisfying puzzle</li>
+          <li><span class="hint-bullet">💡</span>Test in Adventure mode before you're done — it always feels different as a player</li>
+        </ul>
+      </div>
+      <div class="open-tool-row">
+        <a href="https://education.minecraft.net/" target="_blank" class="open-tool-btn">⛏️ OPEN MINECRAFT EDUCATION &rarr;</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DELIGHTEX (formerly CoSpaces Edu) -->
+  <div id="panel-cospaces" class="tab-panel cospaces" role="tabpanel">
+
+    <div class="tool-hero cospaces">
+      <h2 class="tool-name">🌐 Delightex</h2>
+      <p class="tool-tagline">Build 3D interactive worlds — drag, drop, and use simple code blocks to make things happen</p>
+    </div>
+
+    <!-- DEVICE BANNER -->
+    <div class="tool-section" style="padding-top:20px;padding-bottom:20px;">
+      <div class="device-choice-banner">
+        <div class="device-option">
+          <span class="device-icon">📱</span>
+          <div class="device-info">
+            <span class="device-name">On your iPad</span>
+            <span class="device-desc">Download the <strong>Delightex Edu</strong> app from the App Store before Discovery Week</span>
+            <a href="https://apps.apple.com/app/delightex-edu/id1224622426" target="_blank" class="device-link cospaces-link">↓ Download from App Store</a>
+          </div>
+        </div>
+        <div class="device-divider">OR</div>
+        <div class="device-option">
+          <span class="device-icon">🖥️</span>
+          <div class="device-info">
+            <span class="device-name">On an iMac (Computer Suite)</span>
+            <span class="device-desc">Open Safari or Chrome and go to <strong>delightex.com/edu</strong> — no download needed</span>
+            <a href="https://delightex.com/edu" target="_blank" class="device-link cospaces-link">→ Open in Browser</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 1: PLAY -->
+    <div class="tool-section">
+      <div class="section-header">
+        <span class="section-badge badge-play">STEP 1</span>
+        <span class="section-title">EXPLORE SAMPLE PROJECTS</span>
+        <span class="section-time">5–8 mins</span>
+      </div>
+      <p class="section-intro">Explore each Project below. Walk around, click or tap on things, and see what happens. Notice how 3D space and movement can create a game-like experience.</p>
+      <div class="game-cards">
+        <a href="https://edu.delightex.com/YYQ-DFN" target="_blank" class="game-card">
+          <span class="game-num">PROJECT 01</span>
+          <p class="game-title">Parkour!</p>
+          <p class="game-why">A physical challenge built entirely in Delightex — jump, run, and navigate through a 3D obstacle course</p>
+          <span class="play-link">▶ PLAY NOW</span>
+        </a>
+        <a href="https://nova.delightex.com/shared/qdqghm" target="_blank" class="game-card">
+          <span class="game-num">PROJECT 02</span>
+          <p class="game-title">Racing Circuit</p>
+          <p class="game-why">Speed, movement, and a looping track — shows how Delightex handles fast-paced 3D game design</p>
+          <span class="play-link">▶ PLAY NOW</span>
+        </a>
+        <a href="https://nova.delightex.com/shared/jcwrpc" target="_blank" class="game-card">
+          <span class="game-num">PROJECT 03</span>
+          <p class="game-title">Skate Circuit</p>
+          <p class="game-why">A smooth, stylish skating experience — great inspiration for movement-based game ideas</p>
+          <span class="play-link">▶ PLAY NOW</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- STEP 2: LEARN -->
+    <div class="tool-section">
+      <div class="section-header">
+        <span class="section-badge badge-learn">STEP 2</span>
+        <span class="section-title">GET STARTED IN THE EDITOR</span>
+        <span class="section-time">10–12 mins</span>
+      </div>
+
+      <div class="nav-guide">
+
+        <div class="nav-step">
+          <div class="nav-step-label">
+            <span class="nav-num">1</span>
+            <span class="nav-text">
+              Open Delightex — on your <strong style="color:#b04af7;">iPad</strong> open the Delightex Edu app, or on an <strong style="color:#b04af7;">iMac</strong> go to <strong style="color:#b04af7;">delightex.com/edu</strong> in your browser. Log in with your school account, then click <strong style="color:#b04af7;">+ Create</strong>
+            </span>
+          </div>
+          <div class="cos-home-mock">
+            <div class="cos-home-header">
+              <span class="cos-logo">🌐 Delightex</span>
+              <span class="cos-create-btn">+ Create ← CLICK HERE</span>
+            </div>
+            <div class="cos-home-tabs">
+              <span class="cos-tab cos-tab--active">My work</span>
+              <span class="cos-tab">Assignments</span>
+              <span class="cos-tab">Gallery</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-step">
+          <div class="nav-step-label">
+            <span class="nav-num">2</span>
+            <span class="nav-text">Choose an environment for your Project — pick something that fits your game idea. You can always change it later</span>
+          </div>
+          <div class="cos-env-mock">
+            <div class="cos-env-header">Choose your environment</div>
+            <div class="cos-env-grid">
+              <div class="cos-env-card cos-env-card--selected">
+                <span class="cos-env-icon">🏠</span>
+                <span class="cos-env-name">Indoor room</span>
+              </div>
+              <div class="cos-env-card">
+                <span class="cos-env-icon">🌳</span>
+                <span class="cos-env-name">Outdoor</span>
+              </div>
+              <div class="cos-env-card">
+                <span class="cos-env-icon">🌌</span>
+                <span class="cos-env-name">Space</span>
+              </div>
+              <div class="cos-env-card">
+                <span class="cos-env-icon">🌊</span>
+                <span class="cos-env-name">Underwater</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-step">
+          <div class="nav-step-label">
+            <span class="nav-num">3</span>
+            <span class="nav-text">You're now in the editor. Tap <strong style="color:#b04af7;">Library</strong> in the left panel, then <strong style="color:#b04af7;">drag a character</strong> into your scene. Use the handles that appear to move, rotate, and resize it</span>
+          </div>
+          <div class="cos-editor-mock">
+            <div class="cos-ed-sidebar">
+              <div class="cos-ed-tool cos-ed-tool--active">Library</div>
+              <div class="cos-ed-tool">Upload</div>
+              <div class="cos-ed-tool">Environment</div>
+            </div>
+            <div class="cos-ed-scene">
+              <div class="cos-ed-scene-label">Your 3D scene</div>
+              <span class="cos-ed-char">🧑</span>
+              <div class="cos-ed-handles">
+                <span class="cos-ed-handle cos-ed-handle--move">✥ Move</span>
+                <span class="cos-ed-handle cos-ed-handle--rotate">↻ Rotate</span>
+                <span class="cos-ed-handle cos-ed-handle--scale">⤡ Scale</span>
+              </div>
+            </div>
+            <div class="cos-ed-props">
+              <div class="cos-ed-props-header">Selected: Character</div>
+              <div class="cos-ed-props-row"><span>Name</span><span class="cos-ed-val">Hero</span></div>
+              <div class="cos-ed-props-row"><span>X pos</span><span class="cos-ed-val">0.0</span></div>
+              <div class="cos-ed-props-row cos-ed-props-row--highlight"><span>CoBlocks</span><span class="cos-ed-val cos-ed-val--btn">Edit ▶</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-step">
+          <div class="nav-step-label">
+            <span class="nav-num">4</span>
+            <span class="nav-text">Tap <strong style="color:#b04af7;">CoBlocks</strong> on your character to open the code editor. CoBlocks works like this: <strong style="color:#b04af7;">When something happens → do something.</strong> Try making your character say something when the player taps on it</span>
+          </div>
+          <div class="coblocks-mock">
+            <div class="cob-header">
+              <span class="cob-title">CoBlocks — Hero</span>
+              <span class="cob-close">✕</span>
+            </div>
+            <div class="cob-body">
+              <div class="cob-categories">
+                <div class="cob-cat" style="background:#b04af7;">Events</div>
+                <div class="cob-cat" style="background:#4a9bf7;">Actions</div>
+                <div class="cob-cat" style="background:#5abf4a;">Movement</div>
+                <div class="cob-cat" style="background:#f7922a;">Variables</div>
+              </div>
+              <div class="cob-workspace">
+                <div class="cob-block cob-block--event">
+                  <span class="cob-block-text">When this item is <strong>clicked</strong></span>
+                  <div class="cob-block cob-block--action">
+                    <span class="cob-block-text">Say <span class="cob-input">"Hello! I am the Hero."</span></span>
+                  </div>
+                </div>
+                <div class="cob-hint">← One complete instruction. Try editing the text inside!</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-step nav-step--last">
+          <div class="nav-step-label">
+            <span class="nav-num">5</span>
+            <span class="nav-text">Tap the <strong style="color:#b04af7;">▶ Play</strong> button at the top to test your Project at any time. Walk around, tap on things, and see what happens. Tap <strong style="color:#b04af7;">■ Stop</strong> to go back to editing</span>
+          </div>
+          <a href="https://www.delightex.com/edu/tutorials" target="_blank" class="tutorial-cta cospaces" style="display:inline-flex;margin:12px 0 4px;">▶ MORE DELIGHTEX TUTORIALS</a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- STEP 3: BUILD -->
+    <div class="tool-section">
+      <div class="section-header">
+        <span class="section-badge badge-build">STEP 3</span>
+        <span class="section-title">YOUR MINI BUILD CHALLENGE</span>
+        <span class="section-time">10–12 mins</span>
+      </div>
+      <div class="build-challenge">
+        <div class="challenge-header">
+          <span class="challenge-label">🎯 CHALLENGE</span>
+          <p class="challenge-text">Build a small interactive 3D scene with at least two objects that do something when you tap or click them, and a clear goal for the player — collect something, find something, or hear a story.</p>
+        </div>
+        <ul class="hints-list">
+          <li><span class="hint-bullet">💡</span>Keep it to one room — two interactive objects done well beats a huge empty world</li>
+          <li><span class="hint-bullet">💡</span>Use "When clicked → Say" to give characters dialogue — it makes the world feel alive instantly</li>
+          <li><span class="hint-bullet">💡</span>Use "When clicked → Hide" to make a collectible disappear when the player finds it</li>
+          <li><span class="hint-bullet">💡</span>Test often — tap Play after every change to see if it works the way you expect</li>
+        </ul>
+      </div>
+      <div class="open-tool-row">
+        <a href="https://delightex.com/edu" target="_blank" class="open-tool-btn">🌐 OPEN DELIGHTEX &rarr;</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- AI REMINDER -->
+  <div class="ai-reminder">
+    <span class="ai-reminder-title">🤖 AI REMINDER FOR TODAY</span>
+    <p>During the tool taster sessions, <strong>explore and create yourself</strong> — don't ask AI to build things for you. You can use AI to ask <strong>questions</strong> about how something works, but the hands-on discovery is yours. AI becomes a development assistant on <strong>Thursday</strong> once you're building your real game.</p>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <p class="footer-text">DISCOVERY WEEK 2026 &mdash; STORY MODE: BUILD YOUR OWN GAME WORLD<br>INSERT COIN TO CONTINUE &rarr;</p>
+</footer>
+
+<script>
+function switchTab(tool) {
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-selected', 'false');
+  });
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+
+  document.querySelector('.tab-btn.' + tool).classList.add('active');
+  document.querySelector('.tab-btn.' + tool).setAttribute('aria-selected', 'true');
+  document.getElementById('panel-' + tool).classList.add('active');
+}
+</script>
+
+</body>
+</html>
