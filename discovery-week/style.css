@@ -1615,3 +1615,236 @@ footer {
   .dl-tools-grid { grid-template-columns: 1fr; }
   .download-card { flex-direction: column; text-align: center; }
 }
+
+/* ═══════════════════════════════════════════
+   THINKING ROUTINE BLOCKS
+═══════════════════════════════════════════ */
+
+.thinking-routine-block {
+  border: 2px solid var(--orange);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.tr-banner {
+  background: rgba(255,107,53,0.1);
+  border-bottom: 2px solid rgba(255,107,53,0.3);
+  padding: 1.25rem 1.75rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+.tr-badge-col { flex-shrink: 0; padding-top: 0.15rem; }
+
+.tr-label {
+  font-family: var(--font-pixel);
+  font-size: 0.4rem;
+  color: var(--orange);
+  letter-spacing: 2px;
+  border: 1px solid var(--orange);
+  padding: 0.4rem 0.7rem;
+  border-radius: var(--radius);
+  white-space: nowrap;
+  display: block;
+  text-shadow: 0 0 8px rgba(255,107,53,0.5);
+}
+
+.tr-text-col { flex: 1; }
+
+.tr-name {
+  font-family: var(--font-pixel);
+  font-size: 0.65rem;
+  color: var(--text);
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 0.4rem;
+  line-height: 1.5;
+}
+
+.tr-oneliner {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  display: block;
+}
+
+.tr-body { padding: 2rem; }
+
+/* ─── Compass Points ─── */
+.compass-instance { margin-bottom: 2.5rem; }
+.compass-instance:last-child { margin-bottom: 0; }
+
+.compass-game-label {
+  font-family: var(--font-pixel);
+  font-size: 0.5rem;
+  color: var(--yellow);
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+}
+
+.compass-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+@media (max-width: 600px) { .compass-grid { grid-template-columns: 1fr; } }
+
+.compass-q {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+.compass-dir {
+  font-family: var(--font-pixel);
+  font-size: 1.2rem;
+  margin-bottom: 0.4rem;
+  display: block;
+}
+
+.compass-title { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--text); }
+.compass-q p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin: 0; }
+
+.compass-e { border-top: 3px solid var(--green); }
+.compass-e .compass-dir { color: var(--green); text-shadow: 0 0 8px rgba(57,255,20,0.6); }
+.compass-w { border-top: 3px solid var(--pink); }
+.compass-w .compass-dir { color: var(--pink); text-shadow: 0 0 8px rgba(255,45,122,0.6); }
+.compass-n { border-top: 3px solid var(--cyan); }
+.compass-n .compass-dir { color: var(--cyan); text-shadow: 0 0 8px rgba(0,229,255,0.6); }
+.compass-s { border-top: 3px solid var(--purple); }
+.compass-s .compass-dir { color: var(--purple); text-shadow: 0 0 8px rgba(155,93,229,0.6); }
+
+/* ─── I Used to Think / Now I Think ─── */
+.iutt-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+@media (max-width: 600px) { .iutt-grid { grid-template-columns: 1fr; } }
+
+.iutt-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  min-height: 140px;
+}
+.iutt-before { border-top: 3px solid var(--text-muted); }
+.iutt-after  { border-top: 3px solid var(--cyan); }
+
+.iutt-label {
+  font-family: var(--font-pixel);
+  font-size: 0.5rem;
+  letter-spacing: 1px;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+.iutt-before .iutt-label { color: var(--text-muted); }
+.iutt-after  .iutt-label { color: var(--cyan); text-shadow: 0 0 8px rgba(0,229,255,0.5); }
+.iutt-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin: 0; }
+
+/* ─── Ladder of Feedback ─── */
+.ladder {
+  display: flex;
+  flex-direction: column;
+  max-width: 720px;
+  margin: 0 auto;
+  position: relative;
+}
+.ladder::before {
+  content: '';
+  position: absolute;
+  left: 44px;
+  top: 20px;
+  bottom: 20px;
+  width: 2px;
+  background: var(--border);
+  z-index: 0;
+}
+.ladder-rung {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  position: relative;
+  z-index: 1;
+  padding-bottom: 1.25rem;
+}
+.ladder-rung:last-child { padding-bottom: 0; }
+
+.ladder-num {
+  width: 88px;
+  flex-shrink: 0;
+  text-align: center;
+  padding: 0.5rem 0.4rem;
+  border: 2px solid;
+  border-radius: var(--radius);
+  font-family: var(--font-pixel);
+  font-size: 0.38rem;
+  letter-spacing: 1px;
+  background: var(--bg);
+  line-height: 1.8;
+}
+.ladder-content {
+  flex: 1;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+}
+.ladder-title { font-weight: 800; font-size: 1rem; margin-bottom: 0.4rem; }
+.ladder-content p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin: 0; }
+
+.rung-1 .ladder-num { color: var(--cyan); border-color: var(--cyan); }
+.rung-1 .ladder-content { border-top: 3px solid var(--cyan); }
+.rung-1 .ladder-title { color: var(--cyan); }
+.rung-2 .ladder-num { color: var(--green); border-color: var(--green); }
+.rung-2 .ladder-content { border-top: 3px solid var(--green); }
+.rung-2 .ladder-title { color: var(--green); }
+.rung-3 .ladder-num { color: var(--yellow); border-color: var(--yellow); }
+.rung-3 .ladder-content { border-top: 3px solid var(--yellow); }
+.rung-3 .ladder-title { color: var(--yellow); }
+.rung-4 .ladder-num { color: var(--purple); border-color: var(--purple); }
+.rung-4 .ladder-content { border-top: 3px solid var(--purple); }
+.rung-4 .ladder-title { color: var(--purple); }
+
+/* ─── What? So What? Now What? ─── */
+.wswnw-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+@media (max-width: 800px) { .wswnw-grid { grid-template-columns: 1fr; } }
+
+.wswnw-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+}
+.wswnw-what    { border-top: 3px solid var(--cyan); }
+.wswnw-sowhat  { border-top: 3px solid var(--purple); }
+.wswnw-nowwhat { border-top: 3px solid var(--yellow); }
+
+.wswnw-q {
+  font-family: var(--font-pixel);
+  font-size: 0.65rem;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+  display: block;
+}
+.wswnw-what .wswnw-q    { color: var(--cyan); text-shadow: 0 0 8px rgba(0,229,255,0.5); }
+.wswnw-sowhat .wswnw-q  { color: var(--purple); text-shadow: 0 0 8px rgba(155,93,229,0.5); }
+.wswnw-nowwhat .wswnw-q { color: var(--yellow); text-shadow: 0 0 8px rgba(255,225,53,0.5); }
+
+.wswnw-prompts { list-style: none; }
+.wswnw-prompts li {
+  padding: 0.5rem 0 0.5rem 1.25rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  line-height: 1.5;
+}
+.wswnw-prompts li:last-child { border-bottom: none; }
+.wswnw-prompts li::before { content: '→'; position: absolute; left: 0; color: var(--text-dim); }
