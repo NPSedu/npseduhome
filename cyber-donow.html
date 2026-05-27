@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>⚠️ SYSTEM LOCKDOWN — Cyber DO NOW</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:   #00ff41;
+      --green-d: #00cc33;
+      --red:     #ff2222;
+      --amber:   #ff9900;
+      --bg:      #080c0a;
+      --card-bg: rgba(0,255,65,0.03);
+      --border:  rgba(0,255,65,0.25);
+      --mono:    'Share Tech Mono', 'Courier New', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--green);
+      font-family: var(--mono);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Scanlines overlay */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0.04) 0px,
+        rgba(0,0,0,0.04) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── Ticker ── */
+    .ticker {
+      background: rgba(255,0,0,0.08);
+      border-bottom: 1px solid var(--red);
+      padding: 7px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .ticker-inner {
+      display: inline-block;
+      animation: ticker-scroll 22s linear infinite;
+      color: var(--red);
+      font-size: 0.78rem;
+      letter-spacing: 2px;
+    }
+    @keyframes ticker-scroll {
+      from { transform: translateX(100vw); }
+      to   { transform: translateX(-100%); }
+    }
+
+    /* ── Container ── */
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 24px 20px 60px;
+    }
+
+    /* ── Header ── */
+    .header {
+      border: 2px solid var(--red);
+      background: rgba(255,20,20,0.06);
+      padding: 28px 24px 22px;
+      text-align: center;
+      margin-bottom: 28px;
+      animation: header-pulse 1.6s ease-in-out infinite;
+    }
+    @keyframes header-pulse {
+      0%,100% { border-color: var(--red); box-shadow: 0 0 12px rgba(255,30,30,0.35); }
+      50%      { border-color: #ff6600;   box-shadow: 0 0 28px rgba(255,90,0,0.55);  }
+    }
+
+    .header .warn-icon {
+      font-size: 2.6rem;
+      line-height: 1;
+      animation: blink 0.9s step-start infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+    .header h1 {
+      margin: 10px 0 6px;
+      font-size: clamp(1.5rem, 5vw, 2.4rem);
+      color: var(--red);
+      letter-spacing: 5px;
+      text-shadow: 0 0 14px rgba(255,30,30,0.7);
+    }
+    .header .subhead {
+      color: var(--amber);
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+    .header .instructions {
+      color: rgba(0,255,65,0.75);
+      font-size: 0.82rem;
+      line-height: 1.6;
+      margin-top: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* ── Progress dots ── */
+    .progress-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 26px;
+    }
+    .progress-label {
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      color: rgba(0,255,65,0.45);
+    }
+    .dot {
+      width: 13px; height: 13px;
+      border-radius: 50%;
+      border: 2px solid rgba(0,255,65,0.3);
+      transition: all 0.35s;
+    }
+    .dot.lit {
+      background: var(--green);
+      border-color: var(--green);
+      box-shadow: 0 0 8px rgba(0,255,65,0.7);
+    }
+
+    /* ── Clue cards ── */
+    .clue-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 22px 24px;
+      margin-bottom: 16px;
+      transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+    }
+    .clue-card.answered {
+      border-color: rgba(0,255,65,0.55);
+      background: rgba(0,255,65,0.06);
+      box-shadow: 0 0 14px rgba(0,255,65,0.15);
+    }
+
+    .clue-tag {
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      color: var(--amber);
+      margin-bottom: 8px;
+    }
+    .clue-q {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #e8e8e8;
+      margin-bottom: 18px;
+      line-height: 1.45;
+    }
+
+    /* Options */
+    .options { display: flex; flex-direction: column; gap: 9px; }
+
+    .opt {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 14px;
+      border: 1px solid rgba(0,255,65,0.18);
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      color: #bbb;
+      user-select: none;
+    }
+    .opt:hover {
+      background: rgba(0,255,65,0.08);
+      border-color: rgba(0,255,65,0.45);
+      color: #eee;
+    }
+    .opt input[type="radio"] {
+      appearance: none;
+      width: 17px; height: 17px;
+      border: 2px solid var(--green);
+      border-radius: 50%;
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .opt input[type="radio"]:checked {
+      background: var(--green);
+      box-shadow: 0 0 8px rgba(0,255,65,0.9);
+    }
+    .opt:has(input:checked) {
+      border-color: var(--green);
+      background: rgba(0,255,65,0.1);
+      color: var(--green);
+    }
+
+    /* ── Code section ── */
+    .code-section {
+      border: 2px solid var(--amber);
+      background: rgba(255,153,0,0.04);
+      border-radius: 8px;
+      padding: 30px 24px;
+      text-align: center;
+      margin-top: 28px;
+    }
+    .code-section h2 {
+      color: var(--amber);
+      font-size: 0.88rem;
+      letter-spacing: 4px;
+      margin-bottom: 22px;
+    }
+
+    .digits {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+    .digit {
+      width: 68px; height: 78px;
+      border: 2px solid rgba(255,153,0,0.45);
+      border-radius: 6px;
+      background: rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      font-family: var(--mono);
+      color: rgba(255,153,0,0.4);
+      transition: all 0.4s;
+    }
+    .digit.filled {
+      border-color: var(--green);
+      color: var(--green);
+      background: rgba(0,255,65,0.04);
+      box-shadow: 0 0 12px rgba(0,255,65,0.3);
+      animation: digit-pop 0.35s ease;
+    }
+    @keyframes digit-pop {
+      0%   { transform: scale(0.75); }
+      70%  { transform: scale(1.12); }
+      100% { transform: scale(1);    }
+    }
+
+    /* Unlock button */
+    .unlock-btn {
+      background: transparent;
+      border: 2px solid var(--amber);
+      color: var(--amber);
+      font-family: var(--mono);
+      font-size: 0.95rem;
+      padding: 14px 38px;
+      letter-spacing: 3px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: all 0.25s;
+    }
+    .unlock-btn:hover {
+      background: rgba(255,153,0,0.14);
+      box-shadow: 0 0 20px rgba(255,153,0,0.4);
+    }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    /* Clue count hint */
+    .code-hint {
+      margin-top: 14px;
+      font-size: 0.72rem;
+      color: rgba(0,255,65,0.35);
+      letter-spacing: 1px;
+    }
+    .code-hint span { color: var(--green); }
+
+    /* ── Overlay ── */
+    .overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.94);
+      z-index: 5000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .overlay.show { display: flex; }
+
+    .modal {
+      border: 3px solid;
+      border-radius: 10px;
+      padding: 44px 36px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      font-family: var(--mono);
+      animation: modal-in 0.45s cubic-bezier(0.22,1,0.36,1);
+    }
+    @keyframes modal-in {
+      from { transform: scale(0.65); opacity: 0; }
+      to   { transform: scale(1);    opacity: 1; }
+    }
+
+    .modal.success { border-color: var(--green); box-shadow: 0 0 60px rgba(0,255,65,0.35); }
+    .modal.failure { border-color: var(--red);   box-shadow: 0 0 60px rgba(255,30,30,0.35); animation: modal-in 0.35s ease, shake 0.45s ease 0.4s; }
+    .modal.warning { border-color: var(--amber);  box-shadow: 0 0 40px rgba(255,153,0,0.3); }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25%      { transform: translateX(-10px); }
+      75%      { transform: translateX(10px); }
+    }
+
+    .modal-icon  { font-size: 3.5rem; margin-bottom: 14px; }
+    .modal-title { font-size: 1.7rem; letter-spacing: 3px; margin-bottom: 14px; }
+    .modal.success .modal-title { color: var(--green); }
+    .modal.failure .modal-title { color: var(--red);   }
+    .modal.warning .modal-title { color: var(--amber);  }
+
+    .modal-body {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.93rem;
+      color: #ccc;
+      line-height: 1.75;
+      margin-bottom: 26px;
+    }
+    .modal-body strong { color: var(--green); }
+
+    .modal-btn {
+      background: transparent;
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      padding: 11px 28px;
+      letter-spacing: 2px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .modal.success .modal-btn { border: 2px solid var(--green); color: var(--green); }
+    .modal.success .modal-btn:hover { background: rgba(0,255,65,0.15); }
+    .modal.failure .modal-btn { border: 2px solid var(--red); color: var(--red); }
+    .modal.failure .modal-btn:hover { background: rgba(255,30,30,0.15); }
+    .modal.warning .modal-btn { border: 2px solid var(--amber); color: var(--amber); }
+    .modal.warning .modal-btn:hover { background: rgba(255,153,0,0.15); }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      .header h1  { font-size: 1.4rem; letter-spacing: 3px; }
+      .digit      { width: 56px; height: 66px; font-size: 1.9rem; }
+      .modal      { padding: 30px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Scrolling alert ticker -->
+  <div class="ticker">
+    <span class="ticker-inner">
+      ⚠ SECURITY BREACH DETECTED &ensp;·&ensp; ALL INVESTIGATION FILES LOCKED &ensp;·&ensp; IMMEDIATE ACTION REQUIRED &ensp;·&ensp;
+      ⚠ SECURITY BREACH DETECTED &ensp;·&ensp; ALL INVESTIGATION FILES LOCKED &ensp;·&ensp; IMMEDIATE ACTION REQUIRED &ensp;·&ensp;
+      ⚠ SECURITY BREACH DETECTED &ensp;·&ensp; ALL INVESTIGATION FILES LOCKED &ensp;·&ensp; IMMEDIATE ACTION REQUIRED &ensp;·&ensp;
+    </span>
+  </div>
+
+  <div class="container">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="warn-icon">⚠️</div>
+      <h1>SYSTEM LOCKDOWN</h1>
+      <p class="subhead">The school network has been hacked.</p>
+      <p class="instructions">
+        To unlock the investigation files, your team must crack the security code.<br>
+        Solve all 4 clues — each <strong style="color:var(--amber)">correct answer</strong> gives you one digit.
+      </p>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-row">
+      <span class="progress-label">CLUES SOLVED</span>
+      <div class="dot" id="dot-0"></div>
+      <div class="dot" id="dot-1"></div>
+      <div class="dot" id="dot-2"></div>
+      <div class="dot" id="dot-3"></div>
+    </div>
+
+    <!-- ── CLUE 1 ── -->
+    <div class="clue-card" id="card-0">
+      <div class="clue-tag">// CLUE 1 OF 4</div>
+      <p class="clue-q">A fake email designed to steal your passwords is called a…</p>
+      <div class="options">
+        <label class="opt">
+          <input type="radio" name="q0" value="4">
+          <span>🦠&ensp;Virus</span>
+        </label>
+        <label class="opt">
+          <input type="radio" name="q0" value="7">
+          <span>🎣&ensp;Phishing</span>
+        </label>
+        <label class="opt">
+          <input type="radio" name="q0" value="2">
+          <span>🐛&ensp;Worm</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- ── CLUE 2 ── -->
+    <div class="clue-card" id="card-1">
+      <div class="clue-tag">// CLUE 2 OF 4</div>
+      <p class="clue-q">Which password is the strongest?</p>
+      <div class="options">
+        <label class="opt">
+          <input type="radio" name="q1" value="3">
+          <span>🔓&ensp;password123</span>
+        </label>
+        <label class="opt">
+          <input type="radio" name="q1" value="5">
+          <span>🔓&ensp;Football1</span>
+        </label>
+        <label class="opt">
+          <input type="radio" name="q1" value="1">
+          <span>🔐&ensp;H!pP0$Blue2026</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- ── CLUE 3 ── -->
+    <div class="clue-card" id="card-2">
+      <div class="clue-tag">// CLUE 3 OF 4</div>
+      <p class="clue-q">Which website is the safest to visit?</p>
+      <div class="options">
+        <label class="opt">
+          <input type="radio" name="q2" value="6">
+          <span>🌐&ensp;http://freegames-login.net</span>
+        </label>
+        <label class="opt">
+          <input type="radio" name="q2" value="9">
+          <span>🔒&ensp;https://www.bbc.com</span>
+        </label>
+        <label class="opt">
+          <input type="radio" name="q2" value="2">
+          <span>🌐&ensp;http://robux-free.net</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- ── CLUE 4 ── -->
+    <div class="clue-card" id="card-3">
+      <div class="clue-tag">// CLUE 4 OF 4</div>
+      <p class="clue-q">Which file looks the most dangerous to open?</p>
+      <div class="options">
+        <label class="opt">
+          <input type="radio" name="q3" value="8">
+          <span>📄&ensp;Homework.docx</span>
+        </label>
+        <label class="opt">
+          <input type="radio" name="q3" value="4">
+          <span>⚙️&ensp;MinecraftModsFREE.exe</span>
+        </label>
+        <label class="opt">
+          <input type="radio" name="q3" value="1">
+          <span>🖼️&ensp;SchoolPhoto.jpg</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- ── Code entry ── -->
+    <div class="code-section">
+      <h2>🔒 ENTER SECURITY CODE</h2>
+
+      <div class="digits">
+        <div class="digit" id="d0">_</div>
+        <div class="digit" id="d1">_</div>
+        <div class="digit" id="d2">_</div>
+        <div class="digit" id="d3">_</div>
+      </div>
+
+      <button class="unlock-btn" onclick="checkCode()">🔓 UNLOCK SYSTEM</button>
+
+      <p class="code-hint" id="hint-text">
+        <span id="answered-count">0</span> / 4 clues answered
+      </p>
+    </div>
+
+  </div><!-- /container -->
+
+  <!-- ── Overlay modal ── -->
+  <div class="overlay" id="overlay">
+    <div class="modal" id="modal">
+      <div class="modal-icon"  id="m-icon"></div>
+      <div class="modal-title" id="m-title"></div>
+      <div class="modal-body"  id="m-body"></div>
+      <button class="modal-btn" onclick="closeModal()">
+        <span id="m-btn-text"></span>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Correct answers map: question index → correct digit
+    const CORRECT = [7, 1, 9, 4];
+
+    // User's selected values (null = not answered)
+    const answers = [null, null, null, null];
+
+    // Wire up radio buttons
+    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        const idx = parseInt(radio.name.replace('q', ''));
+        answers[idx] = parseInt(radio.value);
+
+        // Update digit display
+        const dEl = document.getElementById('d' + idx);
+        dEl.textContent = radio.value;
+        dEl.classList.add('filled');
+
+        // Light progress dot
+        document.getElementById('dot-' + idx).classList.add('lit');
+
+        // Mark card as answered
+        document.getElementById('card-' + idx).classList.add('answered');
+
+        // Update hint counter
+        const count = answers.filter(v => v !== null).length;
+        document.getElementById('answered-count').textContent = count;
+      });
+    });
+
+    // Check code on button press
+    function checkCode() {
+      const unanswered = answers.filter(v => v === null).length;
+
+      if (unanswered > 0) {
+        showModal('warning',
+          '⚠️',
+          'INCOMPLETE',
+          `You still have <strong>${unanswered} clue${unanswered > 1 ? 's' : ''} unanswered</strong>.<br>
+           Answer all 4 clues before attempting to unlock the system.`,
+          'GO BACK'
+        );
+        return;
+      }
+
+      const correct = answers.every((val, i) => val === CORRECT[i]);
+
+      if (correct) {
+        showModal('success',
+          '✅',
+          'ACCESS GRANTED',
+          `<strong>Well done, Agent!</strong><br><br>
+           You correctly identified:<br>
+           🎣 <strong>Phishing</strong> — fake emails that steal passwords<br>
+           🔐 <strong>Strong passwords</strong> use symbols, numbers &amp; capitals<br>
+           🔒 <strong>HTTPS</strong> sites are safer than HTTP<br>
+           ⚙️ <strong>Unknown .exe files</strong> can hide malware<br><br>
+           Investigation files unlocked.`,
+          '✓ CLOSE'
+        );
+      } else {
+        showModal('failure',
+          '❌',
+          'ACCESS DENIED',
+          `Incorrect code — the system remains locked.<br><br>
+           Check your answers carefully and try again.<br>
+           <em>Hint: think about what each clue is really asking.</em>`,
+          'TRY AGAIN'
+        );
+      }
+    }
+
+    // Show modal helper
+    function showModal(type, icon, title, body, btn) {
+      const modal = document.getElementById('modal');
+      modal.className = 'modal ' + type;
+      document.getElementById('m-icon').textContent = icon;
+      document.getElementById('m-title').textContent = title;
+      document.getElementById('m-body').innerHTML  = body;
+      document.getElementById('m-btn-text').textContent = btn;
+      document.getElementById('overlay').classList.add('show');
+    }
+
+    // Close modal
+    function closeModal() {
+      document.getElementById('overlay').classList.remove('show');
+    }
+
+    // Click backdrop to close
+    document.getElementById('overlay').addEventListener('click', e => {
+      if (e.target === document.getElementById('overlay')) closeModal();
+    });
+
+    // Escape key to close
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+
+</body>
+</html>
