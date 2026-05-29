@@ -1,0 +1,8 @@
+NPSedu
+Classroom apps, AI tools and schemes of work for teachers.
+Classroom Apps
+	•	Random Group Generator
+	•	AI Lesson Helper
+Schemes of Work
+	•	Year 7 AI Unit
+	•	Primary Computing

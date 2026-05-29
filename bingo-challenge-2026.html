@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Songtaew Challenge: 6Cs Bingo Edition — Regents Pattaya 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ── RESET & BASE ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:      #003255;
+      --teal:      #30CDD7;
+      --dark-teal: #1E96A5;
+      --gold:      #E1AA28;
+      --yellow:    #FFCB00;
+      --red:       #FF3750;
+      --cream:     #FAF5ED;
+      --bg:        #EAE7E2;
+    }
+
+    body {
+      font-family: 'DM Sans', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--navy);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      background: var(--navy);
+      padding: 22px 16px 0;
+      text-align: center;
+    }
+
+    .header-emoji { font-size: 38px; line-height: 1; display: block; }
+
+    .page-header h1 {
+      font-family: 'Montserrat', 'DM Sans', Arial, sans-serif;
+      font-size: clamp(18px, 5.5vw, 26px);
+      color: #fff;
+      font-weight: 800;
+      margin-top: 6px;
+      line-height: 1.2;
+    }
+
+    .header-sub  { color: var(--gold); font-size: 13px; font-weight: 600; letter-spacing: .4px; margin-top: 4px; }
+    .header-loc  { color: rgba(255,255,255,.4); font-size: 11px; margin-top: 2px; }
+
+    .gold-rule {
+      height: 2px;
+      background: var(--gold);
+      opacity: .55;
+      margin-top: 14px;
+    }
+
+    /* ── TEAM BAR ── */
+    .team-bar {
+      background: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-bottom: 1px solid #DDD;
+    }
+
+    .team-bar label { font-size: 13px; font-weight: 700; color: var(--navy); flex-shrink: 0; }
+
+    .team-bar input {
+      flex: 1;
+      font: inherit;
+      font-size: 14px;
+      border: 1.5px solid #CCC;
+      border-radius: 8px;
+      padding: 8px 12px;
+      color: var(--navy);
+      outline: none;
+      min-width: 0;
+    }
+
+    .team-bar input:focus { border-color: var(--navy); }
+
+    .btn-info {
+      flex-shrink: 0;
+      background: var(--navy);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: .3px;
+    }
+
+    /* ── LOCATIONS ── */
+    .loc-intro {
+      font-size: 13px;
+      color: #555;
+      line-height: 1.55;
+      margin-bottom: 12px;
+    }
+
+    .loc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+
+    .loc-card {
+      background: #E6F9FB;
+      border: 1px solid #B2E8EE;
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      text-decoration: none;
+      color: inherit;
+      transition: background .12s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    a.loc-card:active { background: #C8EFF3; }
+
+    .loc-emoji { font-size: 20px; flex-shrink: 0; line-height: 1.2; }
+
+    .loc-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.3;
+    }
+
+    .loc-desc {
+      font-size: 11px;
+      color: #777;
+      margin-top: 2px;
+      line-height: 1.35;
+    }
+
+    .loc-maps-tag {
+      font-size: 10px;
+      color: var(--dark-teal);
+      margin-top: 3px;
+      font-weight: 600;
+    }
+
+    /* ── BINGO BANNER ── */
+    .bingo-banner {
+      display: none;
+      margin: 10px 12px 0;
+      background: var(--navy);
+      border-radius: 12px;
+      padding: 14px 16px;
+      text-align: center;
+      animation: bannerPulse 2.4s ease-in-out infinite;
+    }
+
+    .bingo-banner.show { display: block; }
+    .bingo-banner .b-title { font-family: 'Montserrat', 'DM Sans', Arial, sans-serif; font-size: 22px; font-weight: 800; letter-spacing: 4px; color: var(--teal); }
+    .bingo-banner .b-sub  { font-size: 12px; color: rgba(255,255,255,.85); margin-top: 3px; }
+
+    @keyframes bannerPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(48,205,215,.4); }
+      50%       { box-shadow: 0 0 0 10px rgba(48,205,215,0); }
+    }
+
+    /* ── BINGO GRID ── */
+    .grid-wrap { padding: 10px 12px 6px; }
+
+    .grid-hint {
+      text-align: center;
+      font-size: 10px;
+      color: #AAA;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .bingo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .tile {
+      aspect-ratio: 1;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8px 5px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .12s, opacity .2s, box-shadow .25s;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .tile:active { transform: scale(.94); }
+
+    .tile.winning {
+      box-shadow: 0 0 0 3px var(--teal), 0 4px 22px rgba(48,205,215,.55);
+    }
+
+    .tile-num {
+      font-family: 'Montserrat', 'DM Sans', Arial, sans-serif;
+      font-size: clamp(16px, 5vw, 26px);
+      font-weight: 700;
+      color: rgba(255,255,255,.45);
+      line-height: 1;
+    }
+
+    .tile-name {
+      font-family: 'Montserrat', 'DM Sans', Arial, sans-serif;
+      font-size: clamp(9px, 2.8vw, 13px);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.25;
+      margin-top: 3px;
+    }
+
+    .tile-label {
+      font-size: clamp(6px, 1.7vw, 9px);
+      color: rgba(255,255,255,.5);
+      text-transform: uppercase;
+      letter-spacing: .2px;
+      margin-top: 2px;
+      line-height: 1.2;
+    }
+
+    .tile-stamp {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,.32);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity .25s;
+      pointer-events: none;
+    }
+
+    .tile-stamp span {
+      font-family: 'Montserrat', 'DM Sans', Arial, sans-serif;
+      font-size: clamp(8px, 2vw, 11px);
+      font-weight: 800;
+      color: var(--teal);
+      border: 2.5px solid var(--teal);
+      padding: 4px 8px;
+      border-radius: 3px;
+      letter-spacing: 1.5px;
+      transform: rotate(-22deg);
+      text-shadow: 0 0 10px rgba(48,205,215,.5);
+      white-space: nowrap;
+    }
+
+    .tile.done .tile-stamp { opacity: 1; }
+
+    /* ── ACCORDION CARDS ── */
+    .card-section {
+      margin: 8px 12px 0;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 13px 16px;
+      cursor: pointer;
+      background: var(--navy);
+      color: #fff;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .card-header-title { font-family: 'Montserrat', 'DM Sans', Arial, sans-serif; font-size: 13px; font-weight: 700; }
+    .card-chevron { font-size: 14px; transition: transform .25s; }
+    .card-header.open .card-chevron { transform: rotate(180deg); }
+
+    .card-body { display: none; padding: 14px 16px; }
+    .card-body.open { display: block; }
+
+    /* info list */
+    .info-list { list-style: none; }
+
+    .info-list li {
+      display: flex;
+      gap: 10px;
+      font-size: 13px;
+      color: #444;
+      padding: 6px 0;
+      border-bottom: 1px solid #F0F0F0;
+      line-height: 1.45;
+    }
+
+    .info-list li:last-child { border-bottom: none; }
+
+    .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 22px;
+      height: 22px;
+      background: var(--teal);
+      color: var(--navy);
+      border-radius: 50%;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* win cards */
+    .win-cards { display: flex; flex-direction: column; gap: 8px; }
+
+    .win-card {
+      background: #F5F5F0;
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .win-card .we { font-size: 22px; flex-shrink: 0; }
+    .win-card .wt { font-size: 13px; color: #444; line-height: 1.45; }
+    .win-card .wt strong { color: var(--navy); }
+
+    /* editing grid */
+    .edit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .edit-app {
+      background: #F2F2F2;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 12px;
+      color: #444;
+      line-height: 1.5;
+    }
+
+    .edit-app strong { color: var(--navy); display: block; margin-bottom: 2px; font-size: 13px; }
+
+    .tip-list { list-style: none; }
+
+    .tip-list li {
+      font-size: 13px;
+      color: #444;
+      padding: 4px 0;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      line-height: 1.4;
+    }
+
+    .tip-list li::before { content: '→'; color: var(--gold); font-weight: 700; flex-shrink: 0; }
+
+    /* checklist */
+    .checklist { list-style: none; }
+
+    .checklist li {
+      display: flex;
+      gap: 8px;
+      font-size: 13px;
+      color: #444;
+      padding: 5px 0;
+      border-bottom: 1px solid #F0F0F0;
+      line-height: 1.4;
+    }
+
+    .checklist li:last-child { border-bottom: none; }
+    .checklist .ck { color: #2E7D32; font-size: 15px; flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    .page-footer {
+      padding: 20px 16px 32px;
+      text-align: center;
+      font-size: 11px;
+      color: #AAA;
+      line-height: 1.8;
+    }
+
+    /* ── BOTTOM SHEET MODAL ── */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      z-index: 100;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .overlay.open { display: flex; }
+
+    .sheet {
+      background: #fff;
+      border-radius: 20px 20px 0 0;
+      width: 100%;
+      max-width: 560px;
+      max-height: 90vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      animation: slideUp .28s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to   { transform: translateY(0); }
+    }
+
+    .sheet-handle {
+      width: 36px;
+      height: 4px;
+      background: #DDD;
+      border-radius: 2px;
+      margin: 10px auto 0;
+    }
+
+    .sheet-head {
+      padding: 14px 18px 16px;
+      position: relative;
+    }
+
+    .sheet-close {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      width: 28px;
+      height: 28px;
+      background: rgba(255,255,255,.22);
+      border: none;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sheet-num   { font-family: 'Montserrat', 'DM Sans', Arial, sans-serif; font-size: clamp(22px, 7vw, 32px); font-weight: 700; color: rgba(180,180,210,.85); line-height: 1; }
+    .sheet-title { font-family: 'Montserrat', 'DM Sans', Arial, sans-serif; font-size: clamp(19px, 5.5vw, 26px); font-weight: 700; color: #fff; line-height: 1.2; margin-top: 3px; }
+    .sheet-6c    { font-size: 12px; color: rgba(255,255,255,.58); letter-spacing: 1px; text-transform: uppercase; margin-top: 4px; }
+
+    .sheet-body { padding: 18px 18px 28px; }
+
+    /* sheet sections */
+    .sh-section { margin-bottom: 16px; }
+
+    .sh-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: #AAA;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      margin-bottom: 5px;
+    }
+
+    .sh-challenge { font-size: 16px; color: #222; line-height: 1.55; }
+
+    .sh-box {
+      background: #F4F4F2;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+    }
+
+    .sh-box-dark { background: #E8E8E4; }
+
+    .sh-box-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      margin-bottom: 8px;
+    }
+
+    .sh-list { list-style: none; }
+
+    .sh-list li {
+      font-size: 14px;
+      color: #444;
+      padding: 3px 0;
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+      line-height: 1.45;
+    }
+
+    .sh-list .dot {
+      width: 6px;
+      height: 6px;
+      min-width: 6px;
+      border-radius: 50%;
+      background: var(--teal);
+      margin-top: 6px;
+    }
+
+    /* choice grid */
+    .choice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+
+    .choice-item {
+      background: #EEEEED;
+      border-radius: 8px;
+      padding: 10px 10px;
+      font-size: 13px;
+      color: #444;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color .15s, background .15s;
+      line-height: 1.35;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .choice-item .ci-e { font-size: 18px; display: block; margin-bottom: 4px; }
+
+    .choice-item.selected {
+      border-color: var(--teal);
+      background: #E6F9FB;
+    }
+
+    /* italic note */
+    .sh-note {
+      font-size: 13px;
+      color: #555;
+      font-style: italic;
+      line-height: 1.55;
+      border-left: 3px solid var(--gold);
+      padding-left: 10px;
+      margin-bottom: 8px;
+    }
+
+    /* complete button */
+    .done-btn {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      font: 700 16px 'DM Sans', Arial, sans-serif;
+      cursor: pointer;
+      transition: all .18s;
+      margin-top: 10px;
+    }
+
+    .done-btn.idle { background: var(--navy); color: #fff; }
+
+    .done-btn.complete {
+      background: #E6F9FB;
+      color: var(--dark-teal);
+      border: 2px solid var(--teal);
+    }
+
+    /* ── BINGO CELEBRATION ── */
+    .celebrate-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0,0,0,.72);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .celebrate-overlay.show { display: flex; }
+
+    .celebrate-card {
+      background: var(--navy);
+      border: 3px solid var(--teal);
+      border-radius: 20px;
+      padding: 36px 40px;
+      text-align: center;
+      max-width: 320px;
+      width: 90vw;
+      animation: popIn .38s cubic-bezier(.175,.885,.32,1.275);
+    }
+
+    @keyframes popIn {
+      from { transform: scale(.35); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+
+    .c-big  { font-family: 'Montserrat', 'DM Sans', Arial, sans-serif; font-size: clamp(44px, 14vw, 62px); font-weight: 800; color: var(--teal); letter-spacing: 4px; text-shadow: 0 0 28px rgba(48,205,215,.55); }
+    .c-line { font-size: 15px; color: var(--cream); margin-top: 4px; }
+    .c-sub  { font-size: 13px; color: rgba(255,255,255,.65); margin-top: 8px; line-height: 1.5; }
+
+    .celebrate-btn {
+      margin-top: 22px;
+      background: var(--teal);
+      color: var(--navy);
+      border: none;
+      border-radius: 10px;
+      padding: 13px 36px;
+      font: 700 15px 'DM Sans', Arial;
+      cursor: pointer;
+    }
+
+    /* ── UPLOAD SECTION ── */
+    .upload-section {
+      border: 2.5px solid var(--teal);
+    }
+
+    .upload-header {
+      background: var(--teal) !important;
+      color: var(--navy) !important;
+    }
+
+    .upload-header .card-header-title { color: var(--navy); }
+    .upload-header .card-chevron { color: var(--navy); }
+
+    .upload-intro {
+      font-size: 14px;
+      color: #444;
+      line-height: 1.55;
+      margin-bottom: 14px;
+    }
+
+    .upload-btn {
+      display: block;
+      text-align: center;
+      background: var(--navy);
+      color: var(--teal);
+      text-decoration: none;
+      padding: 15px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 10px;
+      transition: opacity .15s;
+    }
+
+    .upload-btn:active { opacity: .8; }
+
+    .teams-note {
+      background: #E6F9FB;
+      border-left: 4px solid var(--teal);
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 13px;
+      color: #333;
+      line-height: 1.55;
+    }
+
+    .teams-icon { font-size: 22px; flex-shrink: 0; }
+    .teams-note strong { color: var(--navy); display: block; margin-bottom: 2px; }
+
+    /* ── BRIEFING BAR ── */
+    .briefing-bar {
+      background: var(--teal);
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 16px;
+      cursor: pointer;
+      font-family: 'Montserrat', 'DM Sans', Arial, sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      animation: briefingPulse 2.8s ease-in-out infinite;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .briefing-bar:active { opacity: .85; }
+    .briefing-bar .br-arrow { font-size: 16px; }
+
+    @keyframes briefingPulse {
+      0%, 100% { box-shadow: inset 0 -3px 0 rgba(0,0,0,.15); }
+      50%       { box-shadow: inset 0 -3px 0 rgba(0,0,0,.15), 0 0 0 4px rgba(48,205,215,.3); }
+    }
+
+    /* ── SONGTAEW STRIP ── */
+    .songtaew-strip {
+      background: var(--navy);
+      color: rgba(255,255,255,.9);
+      font-size: 13px;
+      line-height: 1.5;
+      padding: 11px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 4px;
+      border-bottom: 2px solid var(--teal);
+    }
+
+    .songtaew-strip .st-icon { font-size: 22px; line-height: 1.3; }
+    .songtaew-strip strong { color: var(--teal); }
+
+    /* mobile tweak */
+    @media (max-width: 380px) {
+      .choice-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── PAGE HEADER ── -->
+<header class="page-header">
+  <span class="header-emoji">🎯</span>
+  <h1>Songtaew Challenge</h1>
+  <div class="header-sub">6Cs Bingo Edition · Regents Team Building 2026</div>
+  <div class="header-loc">Pattaya  •  2026</div>
+  <div class="gold-rule"></div>
+</header>
+
+<!-- ── TEAM BAR ── -->
+<div class="team-bar">
+  <label for="teamInput">Team:</label>
+  <input type="text" id="teamInput" placeholder="Enter your team name…" autocomplete="off" spellcheck="false">
+</div>
+
+<!-- ── BRIEFING BAR ── -->
+<div class="briefing-bar" onclick="openInfoSheet()">
+  <span>📋 Read your team briefing before you start</span>
+  <span class="br-arrow">→</span>
+</div>
+
+<!-- ── SONGTAEW STRIP ── -->
+<div class="songtaew-strip">
+  <span class="st-icon">🛺</span>
+  <div>Your team has been assigned a <strong>Songtaew</strong>. Part of the challenge is communicating with your driver and navigating Pattaya to reach the right locations — work together!</div>
+</div>
+
+<!-- ── BINGO BANNER ── -->
+<div class="bingo-banner" id="bingoBanner">
+  <div class="b-title">🎉  BINGO!  🎉</div>
+  <div class="b-sub">Once you complete a line on the bingo card, edit your video (no more than 60 seconds), upload it and then message Nicole Sargeant on Teams to get the secret location details and head straight there 🍹</div>
+</div>
+
+<!-- ── BINGO GRID ── -->
+<div class="grid-wrap">
+  <div class="grid-hint">Tap a tile to see the challenge</div>
+  <div class="bingo-grid" id="bingoGrid"></div>
+</div>
+
+<!-- ── RECOMMENDED LOCATIONS ── -->
+<div class="card-section" style="margin-top:8px">
+  <div class="card-header open" onclick="toggleCard(this)">
+    <span class="card-header-title">📍 Recommended Locations</span>
+    <span class="card-chevron">▼</span>
+  </div>
+  <div class="card-body open">
+    <p class="loc-intro">You need <strong>3 separate locations</strong> — one for each challenge in your chosen line. Tap any card to open it in Google Maps.</p>
+    <div class="loc-grid">
+      <a class="loc-card" href="https://maps.google.com/?q=Golden+Buddha+Pattaya+Thailand" target="_blank" rel="noopener">
+        <span class="loc-emoji">✨</span>
+        <div><div class="loc-name">Golden Buddha</div><div class="loc-desc">Iconic golden Buddha statue</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
+      </a>
+      <a class="loc-card" href="https://maps.google.com/?q=Jungle+Gym+Pattaya+Thailand" target="_blank" rel="noopener">
+        <span class="loc-emoji">🏋️</span>
+        <div><div class="loc-name">Jungle Gym Pattaya</div><div class="loc-desc">Outdoor adventure &amp; fitness area</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
+      </a>
+      <a class="loc-card" href="https://maps.google.com/?q=Bamboo+Beach+Naklua+Soi+16+Pattaya+Thailand" target="_blank" rel="noopener">
+        <span class="loc-emoji">🏖️</span>
+        <div><div class="loc-name">Bamboo Beach Naklua 16</div><div class="loc-desc">Beachside spot in Naklua</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
+      </a>
+      <a class="loc-card" href="https://maps.google.com/?q=Pullman+Pattaya+Hotel+G+Thailand" target="_blank" rel="noopener">
+        <span class="loc-emoji">🏨</span>
+        <div><div class="loc-name">Pullman Pattaya Hotel G</div><div class="loc-desc">Luxury hotel with beach access</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
+      </a>
+      <a class="loc-card" href="https://maps.google.com/?q=Terminal+21+Pattaya+Thailand" target="_blank" rel="noopener">
+        <span class="loc-emoji">🛍️</span>
+        <div><div class="loc-name">Terminal 21 Pattaya</div><div class="loc-desc">Multi-storey themed shopping mall</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
+      </a>
+      <a class="loc-card" href="https://maps.google.com/?q=Villa+Market+Little+Walk+Pattaya+Thailand" target="_blank" rel="noopener">
+        <span class="loc-emoji">🛒</span>
+        <div><div class="loc-name">Villa Market Little Walk</div><div class="loc-desc">International supermarket &amp; food area</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
+      </a>
+      <a class="loc-card" href="https://maps.google.com/?q=White+Temple+Pattaya+Thailand" target="_blank" rel="noopener">
+        <span class="loc-emoji">🤍</span>
+        <div><div class="loc-name">White Temple</div><div class="loc-desc">Distinctive white temple landmark</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
+      </a>
+      <a class="loc-card" href="https://maps.google.com/?q=Sanctuary+of+Truth+Pattaya+Thailand" target="_blank" rel="noopener">
+        <span class="loc-emoji">⛩️</span>
+        <div><div class="loc-name">Sanctuary of Truth</div><div class="loc-desc">Ornate wooden temple by the sea</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
+      </a>
+      <a class="loc-card" href="https://maps.google.com/?q=Mr+DIY+Siam+Country+Club+Road+Pattaya+Thailand" target="_blank" rel="noopener">
+        <span class="loc-emoji">🔧</span>
+        <div><div class="loc-name">Mr. DIY Siam Country Club Rd</div><div class="loc-desc">Popular variety &amp; hardware store</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
+      </a>
+      <a class="loc-card" href="https://maps.google.com/?q=4+King+Sauna+Fitness+Pattaya+Thailand" target="_blank" rel="noopener">
+        <span class="loc-emoji">💪</span>
+        <div><div class="loc-name">4 King Sauna &amp; Fitness</div><div class="loc-desc">Sauna and fitness complex</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
+      </a>
+      <a class="loc-card" href="https://maps.google.com/?q=Pattaya+Viewpoint+Thailand" target="_blank" rel="noopener">
+        <span class="loc-emoji">🌅</span>
+        <div><div class="loc-name">Pattaya Viewpoint</div><div class="loc-desc">Panoramic views over the bay</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
+      </a>
+      <a class="loc-card" href="https://maps.google.com/?q=Bali+Hai+Pier+Pattaya+Thailand" target="_blank" rel="noopener">
+        <span class="loc-emoji">🚢</span>
+        <div><div class="loc-name">Bali Hai Pier</div><div class="loc-desc">Waterfront pier with boats &amp; sea views</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
+      </a>
+      <a class="loc-card" href="https://maps.google.com/?q=Lan+Pho+Naklua+Market+Pattaya+Thailand" target="_blank" rel="noopener">
+        <span class="loc-emoji">🐟</span>
+        <div><div class="loc-name">Lan Pho Nakluea Market</div><div class="loc-desc">Local fresh seafood market</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
+      </a>
+      <div class="loc-card">
+        <span class="loc-emoji">📌</span>
+        <div><div class="loc-name">Your own choice</div><div class="loc-desc">A Pattaya highlight or landmark not listed — keep it north of Jomtien so you're not too far from the final destination</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── ACCORDION SECTIONS ── -->
+<div class="card-section">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-header-title">🏆 How to Win</span>
+    <span class="card-chevron">▼</span>
+  </div>
+  <div class="card-body">
+    <div class="win-cards">
+      <div class="win-card">
+        <span class="we">🥇</span>
+        <span class="wt"><strong>Fastest Team</strong> — First to finish 3 challenges in a line, upload, get approval, and arrive at the final destination. First entry to the after party + first dibs on drinks.</span>
+      </div>
+      <div class="win-card">
+        <span class="we">🔥</span>
+        <span class="wt"><strong>House Champions</strong> — The house whose teams collectively arrive at the final destination first. Every team's time counts.</span>
+      </div>
+      <div class="win-card">
+        <span class="we">🎬</span>
+        <span class="wt"><strong>Crowd Favourite</strong> — All videos shown at the final venue and staff vote live. Celebrates creativity, commitment, humour, and iconic moments.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card-section">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-header-title">📋 Your 5 Steps</span>
+    <span class="card-chevron">▼</span>
+  </div>
+  <div class="card-body">
+    <ul class="info-list">
+      <li><span class="step-num">1</span>Choose your line — pick 3 connected challenges (horizontal, vertical, or diagonal)</li>
+      <li><span class="step-num">2</span>Choose your Pattaya locations — then brief your Songtaew driver on where to go</li>
+      <li><span class="step-num">3</span>Film your evidence — photos and video clips</li>
+      <li><span class="step-num">4</span>Edit everything into ONE final video, under 60 seconds</li>
+      <li><span class="step-num">5</span>Upload your video + completed bingo card to receive the secret final location</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card-section">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-header-title">🎬 Final Video Rules</span>
+    <span class="card-chevron">▼</span>
+  </div>
+  <div class="card-body">
+    <ul class="checklist">
+      <li><span class="ck">✅</span>Under 60 seconds total</li>
+      <li><span class="ck">✅</span>Evidence of all 3 challenges included</li>
+      <li><span class="ck">✅</span>Your team name and house shown</li>
+      <li><span class="ck">✅</span>Submitted as ONE final video file</li>
+      <li><span class="ck">✅</span>Every team member on camera at least once</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card-section" style="margin-bottom:10px">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-header-title">✂️ Quick Editing Tips</span>
+    <span class="card-chevron">▼</span>
+  </div>
+  <div class="card-body">
+    <div class="edit-grid">
+      <div class="edit-app"><strong>iPhone / iPad</strong>iMovie · Edit in Photos</div>
+      <div class="edit-app"><strong>Android</strong>CapCut (free)</div>
+      <div class="edit-app"><strong>Google Photos</strong>Built-in editor</div>
+      <div class="edit-app"><strong>Any device</strong>CapCut works great</div>
+    </div>
+    <ul class="tip-list">
+      <li>Keep clips SHORT — 3–5 seconds each</li>
+      <li>Funny beats perfect every time</li>
+      <li>Plan before you film</li>
+      <li>Assign roles: filmer, editor, navigator, performers</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card-section upload-section" style="margin-bottom:10px">
+  <div class="card-header upload-header" onclick="toggleCard(this)">
+    <span class="card-header-title">📤 Submit Your Video</span>
+    <span class="card-chevron">▲</span>
+  </div>
+  <div class="card-body open">
+    <p class="upload-intro">
+      Completed your line? Edit your 3 clips into <strong>one video under 60 seconds</strong>, then follow these two steps to unlock the secret final location:
+    </p>
+    <!-- ★ UPDATE THE HREF BELOW WITH YOUR ACTUAL UPLOAD FOLDER LINK ★ -->
+    <a href="#upload-link-goes-here" target="_blank" class="upload-btn">
+      📁 &nbsp;Upload your video here
+    </a>
+    <div class="teams-note">
+      <span class="teams-icon">💬</span>
+      <div>
+        <strong>Then message Nicole Sargeant on Microsoft Teams</strong>
+        Once your video is uploaded, send Nicole a message on Teams. She will reply with the secret final location.
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="page-footer">
+  Good luck. Stay creative. Represent Regents well. 🌟<br>
+  <span style="color:#CCC">Your progress is saved automatically on this device</span>
+</footer>
+
+
+<!-- ══════════════════════════════════════════════
+     BOTTOM SHEET (tile detail + info)
+     ══════════════════════════════════════════════ -->
+<div class="overlay" id="tileOverlay" onclick="overlayClick(event)">
+  <div class="sheet" id="tileSheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head" id="sheetHead">
+      <button class="sheet-close" onclick="closeSheet()">✕</button>
+      <div class="sheet-num"   id="sheetNum"></div>
+      <div class="sheet-title" id="sheetTitle"></div>
+      <div class="sheet-6c"    id="sheet6C"></div>
+    </div>
+    <div class="sheet-body" id="sheetBody"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     BINGO CELEBRATION
+     ══════════════════════════════════════════════ -->
+<div class="celebrate-overlay" id="celebrateOverlay">
+  <div class="celebrate-card">
+    <div class="c-big">BINGO!</div>
+    <div class="c-line">🎉 Line complete! 🎉</div>
+    <div class="c-sub">Edit your clips into one video under 60 seconds, upload using the link at the bottom of the page, then message Nicole Sargeant on Teams to get the secret final location.</div>
+    <button class="celebrate-btn" onclick="closeCelebration()">Let's go! 🚀</button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     SCRIPT
+     ══════════════════════════════════════════════ -->
+<script>
+'use strict';
+
+/* ── TILE DATA ── */
+const TILES = [
+  {
+    id: 0,
+    num: '1',
+    name: 'MIT Minds',
+    label: 'CURIOUS LEARNERS',
+    color: '#1565C0',
+    challenge: 'Create a mini innovative invention pitch inspired by MIT. At your location, identify a problem occurring at that location and an invention to solve it.',
+    sections: [
+      {
+        type: 'list',
+        title: 'Example inventions:',
+        items: ['Self-driving songtaew', 'AI teacher survival assistant', 'Automatic iced coffee delivery drone', 'Heat-proof clothes']
+      },
+      {
+        type: 'list',
+        title: 'Evidence required:',
+        dark: true,
+        items: ['Pitch video – anything up to 30 seconds', 'Explain the problem, your invention and how it solves it']
+      }
+    ]
+  },
+  {
+    id: 1,
+    num: '2',
+    name: 'Juilliard Ensemble',
+    label: 'COLLABORATIVE LEARNERS',
+    color: '#8E24AA',
+    challenge: 'Perform a dramatic scene at a chosen location with a clear beginning, middle, and ending. Choose your genre:',
+    sections: [
+      {
+        type: 'choices',
+        title: 'Choose your genre:',
+        key: 'tile1-genre',
+        items: [
+          { e: '😢', t: 'Silent tragedy' },
+          { e: '💥', t: 'Action movie climax' },
+          { e: '🎵', t: 'Musical theatre moment' },
+          { e: '🏆', t: 'Slow-motion sports victory' },
+          { e: '👋', t: 'Emotional farewell scene' }
+        ]
+      },
+      {
+        type: 'list',
+        title: 'Rules:',
+        dark: true,
+        items: [
+          'Every team member must have a role',
+          'The scene must tell a story — the audience should understand what happened without explanation',
+          'Maximum commitment required 😄',
+          'Keep it short – up to 30 seconds'
+        ]
+      }
+    ]
+  },
+  {
+    id: 2,
+    num: '3',
+    name: 'Pattaya Tourism Board',
+    label: 'CREATIVE LEARNERS',
+    color: '#D84315',
+    challenge: 'Create a cinematic tourism advert for your location.',
+    sections: [
+      {
+        type: 'list',
+        title: 'Must include:',
+        items: [
+          'Dramatic camera angles',
+          'Voiceover OR captions',
+          'One overly dramatic moment',
+          'A named Pattaya landmark or location',
+          'Delivery in English AND one other language'
+        ]
+      },
+      {
+        type: 'list',
+        title: 'Bonus points:',
+        dark: true,
+        items: [
+          'Over-the-top presenter energy',
+          'Dramatic pause before the location name'
+        ]
+      }
+    ]
+  },
+  {
+    id: 3,
+    num: '4',
+    name: 'UNICEF Challenge',
+    label: 'COMPASSIONATE LEARNERS',
+    color: '#2E7D32',
+    challenge: 'Find a real person at your location — a vendor, café worker, security guard, shop owner etc — and do something that genuinely acknowledges them.',
+    sections: [
+      {
+        type: 'choices',
+        title: 'Choose one:',
+        key: 'tile3-choice',
+        items: [
+          { e: '🛍️', t: 'Buy something small from a local vendor and take a photo together' },
+          { e: '🗣️', t: 'Learn something in Thai from someone nearby, then film your whole team attempting it' },
+          { e: '👂', t: "Ask someone about their day or work, listen properly, and share what you learned in your video" }
+        ]
+      },
+      {
+        type: 'list',
+        title: 'Rules:',
+        dark: true,
+        items: [
+          'It must be a genuine, respectful interaction',
+          'Always ask permission before filming anyone',
+          'Keep it warm and low-key — no performances, no crowds, no spectacle'
+        ]
+      },
+      {
+        type: 'list',
+        title: 'Evidence required:',
+        items: [
+          'A short clip or photo of the moment',
+          '1–2 sentences in your final video explaining who you met and what you learned or shared'
+        ]
+      },
+      {
+        type: 'note',
+        text: 'In a day full of noise and energy, this is your one moment to slow down, be present, and genuinely connect with someone outside your team.'
+      }
+    ]
+  },
+  {
+    id: 4,
+    num: '★',
+    name: 'BREAKING NEWS',
+    label: 'CENTRE TILE',
+    color: '#C62828',
+    challenge: 'Create a live news report covering a completely ridiculous emergency somewhere in Pattaya.',
+    sections: [
+      {
+        type: 'list',
+        title: 'Your report must include:',
+        items: [
+          '✅  A reporter',
+          '✅  At least one witness interview',
+          '✅  Expert analysis',
+          '✅  Dramatic urgency',
+          '✅  A named Pattaya location'
+        ]
+      },
+      {
+        type: 'list',
+        title: 'Example stories:',
+        dark: true,
+        items: [
+          '"Teacher in medical emergency after som tam serving was too spicy"',
+          '"Critical Gregg\'s sausage roll shortage at Siamburi\'s"',
+          '"Suspicious activity reported at Lan Pho Market"',
+          '"Teacher stranded on desert island"'
+        ]
+      },
+      {
+        type: 'list',
+        title: 'Bonus points:',
+        items: [
+          'Overdramatic reporting',
+          'Fake expert credentials',
+          'Unnecessary on-screen panic'
+        ]
+      }
+    ]
+  },
+  {
+    id: 5,
+    num: '6',
+    name: 'Safety First',
+    label: 'CRITICAL THINKERS',
+    color: '#00695C',
+    challenge: 'Your team must conduct an official risk assessment at your chosen location and present your findings as a formal safety briefing. This can be played completely straight, hilariously over the top, or anywhere in between — it\'s up to you.',
+    sections: [
+      {
+        type: 'list',
+        title: 'Your briefing must include:',
+        items: [
+          'Hazards identified at the location',
+          'A recommended safety protocol for each hazard',
+          'A Risk Rating for the location overall: Low / Medium / High / Extreme'
+        ]
+      },
+      {
+        type: 'list',
+        title: 'Evidence required:',
+        dark: true,
+        items: [
+          '📹 Film the full briefing (no more than 30 seconds)',
+          'Every team member must have a role either on or off camera',
+          'The location must be clearly visible in the background'
+        ]
+      }
+    ]
+  },
+  {
+    id: 6,
+    num: '7',
+    name: 'IMG Elite Training',
+    label: 'COMMITTED LEARNERS',
+    color: '#F9A825',
+    challenge: 'Complete a dramatic sports and training montage inspired by IMG Academy.',
+    sections: [
+      {
+        type: 'list',
+        title: 'Must include:',
+        items: [
+          'Full team participation — no exceptions',
+          'A synchronised team movement (warm-up routine, coordinated walk, or celebration)',
+          'Intense athlete reactions',
+          'One slow-motion moment',
+          'Elite energy throughout'
+        ]
+      },
+      {
+        type: 'list',
+        title: 'Bonus points:',
+        dark: true,
+        items: [
+          'Inspiration song, sound or monologue included in the video'
+        ]
+      }
+    ]
+  },
+  {
+    id: 7,
+    num: '8',
+    name: 'The Documentary',
+    label: 'CURIOUS + CREATIVE',
+    color: '#E65100',
+    challenge: 'Create a fake documentary scene about your location. Choose your style:',
+    sections: [
+      {
+        type: 'choices',
+        title: 'Choose your style:',
+        key: 'tile7-style',
+        items: [
+          { e: '🦁', t: 'David Attenborough nature documentary' },
+          { e: '🔍', t: 'Netflix true crime' },
+          { e: '⚽', t: 'Sports documentary' },
+          { e: '👁️', t: 'Conspiracy theory exposé' },
+          { e: '🏺', t: 'Historical discovery' }
+        ]
+      },
+      {
+        type: 'list',
+        title: 'Must include:',
+        dark: true,
+        items: [
+          'Narration',
+          'At least one interview',
+          'A dramatic discovery moment'
+        ]
+      },
+      {
+        type: 'list',
+        title: 'Evidence required:',
+        items: [
+          'Up to a 30 second clip in your chosen documentary style',
+          'All team members must appear'
+        ]
+      }
+    ]
+  },
+  {
+    id: 8,
+    num: '9',
+    name: 'Living Landmark',
+    label: 'COLLABORATIVE + CREATIVE',
+    color: '#AD1457',
+    challenge: 'Your team must physically recreate the most iconic feature of your location using only your bodies. No props, no words, no explanations — just arrangement, creativity, and cooperation.',
+    sections: [
+      {
+        type: 'list',
+        title: 'Rules:',
+        items: [
+          '🚫 No props — bodies only',
+          '✅ Every team member must be part of the structure',
+          '✅ Hold the final pose for at least 5 seconds'
+        ]
+      },
+      {
+        type: 'list',
+        title: 'Evidence required:',
+        dark: true,
+        items: [
+          '📸 One video of the final pose held for at least 5 seconds — location clearly visible in the background',
+          '📹 Optional bonus: film the build process from start to finish'
+        ]
+      },
+      {
+        type: 'list',
+        title: 'Judged on:',
+        items: [
+          'Recognisability — can the audience tell what it is?',
+          'Full team involvement',
+          'Creativity of interpretation'
+        ]
+      }
+    ]
+  }
+];
+
+/* ── BINGO LINES ── */
+const LINES = [
+  [0,1,2],[3,4,5],[6,7,8],   // rows
+  [0,3,6],[1,4,7],[2,5,8],   // cols
+  [0,4,8],[2,4,6]            // diagonals
+];
+
+/* ── STATE ── */
+let completed   = new Set();
+let choices     = {};
+let bingoShown  = new Set();
+let currentIdx  = null;
+
+/* ── STORAGE ── */
+function sKey() {
+  const t = (document.getElementById('teamInput').value || '').trim();
+  return t ? `bingo26_${t}` : 'bingo26_default';
+}
+
+function saveState() {
+  const k = sKey();
+  localStorage.setItem(k + '_c', JSON.stringify([...completed]));
+  localStorage.setItem(k + '_ch', JSON.stringify(choices));
+}
+
+function loadState() {
+  const k = sKey();
+  const c  = localStorage.getItem(k + '_c');
+  const ch = localStorage.getItem(k + '_ch');
+  completed = c  ? new Set(JSON.parse(c))  : new Set();
+  choices   = ch ? JSON.parse(ch) : {};
+}
+
+/* ── RENDER GRID ── */
+function renderGrid() {
+  const grid = document.getElementById('bingoGrid');
+  grid.innerHTML = '';
+  TILES.forEach((tile, i) => {
+    const el = document.createElement('div');
+    el.className = 'tile' + (completed.has(i) ? ' done' : '');
+    el.style.background = tile.color;
+    el.dataset.i = i;
+    el.addEventListener('click', () => openTileSheet(i));
+    el.innerHTML = `
+      <div class="tile-num">${tile.num}</div>
+      <div class="tile-name">${tile.name}</div>
+      <div class="tile-label">${tile.label}</div>
+      <div class="tile-stamp"><span>COMPLETED</span></div>`;
+    grid.appendChild(el);
+  });
+  refreshWinning();
+}
+
+function refreshWinning() {
+  const tiles = document.querySelectorAll('.tile');
+  tiles.forEach(t => t.classList.remove('winning'));
+  LINES.forEach(line => {
+    if (line.every(i => completed.has(i))) {
+      line.forEach(i => tiles[i] && tiles[i].classList.add('winning'));
+    }
+  });
+}
+
+/* ── PROGRESS ── */
+function updateProgress() {
+  const hasBingo = LINES.some(l => l.every(i => completed.has(i)));
+  if (hasBingo) {
+    document.getElementById('bingoBanner').classList.add('show');
+  } else {
+    document.getElementById('bingoBanner').classList.remove('show');
+  }
+}
+
+function checkNewBingo() {
+  for (const line of LINES) {
+    if (line.every(i => completed.has(i))) {
+      const key = line.join('-');
+      if (!bingoShown.has(key)) {
+        bingoShown.add(key);
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+/* ── SHEET OPEN ── */
+function openTileSheet(idx) {
+  currentIdx = idx;
+  const tile = TILES[idx];
+
+  document.getElementById('sheetHead').style.background = tile.color;
+  document.getElementById('sheetNum').textContent   = tile.num;
+  document.getElementById('sheetTitle').textContent = tile.name;
+  document.getElementById('sheet6C').textContent    = tile.label;
+
+  let html = `
+    <div class="sh-section">
+      <div class="sh-label">The Challenge</div>
+      <div class="sh-challenge">${tile.challenge}</div>
+    </div>`;
+
+  tile.sections.forEach(sec => {
+    if (sec.type === 'list') {
+      const darkClass = sec.dark ? ' sh-box-dark' : '';
+      html += `<div class="sh-box${darkClass}">
+        <div class="sh-box-title">${sec.title}</div>
+        <ul class="sh-list">`;
+      sec.items.forEach(item => {
+        html += `<li><span class="dot"></span><span>${item}</span></li>`;
+      });
+      html += `</ul></div>`;
+
+    } else if (sec.type === 'choices') {
+      const cur = choices[sec.key];
+      html += `<div class="sh-box">
+        <div class="sh-box-title">${sec.title}</div>
+        <div class="choice-grid">`;
+      sec.items.forEach((item, ci) => {
+        const sel = cur === ci ? ' selected' : '';
+        html += `<div class="choice-item${sel}" onclick="pickChoice('${sec.key}',${ci},this)">
+          <span class="ci-e">${item.e}</span>${item.t}
+        </div>`;
+      });
+      html += `</div></div>`;
+
+    } else if (sec.type === 'note') {
+      html += `<p class="sh-note">${sec.text}</p>`;
+    }
+  });
+
+  const isDone = completed.has(idx);
+  html += `<button class="done-btn ${isDone ? 'complete' : 'idle'}" id="doneBtn" onclick="toggleDone(${idx})">
+    ${isDone ? '✓ Marked as complete' : 'Mark as complete ✓'}
+  </button>`;
+
+  // Reset scroll and show
+  const sheet = document.getElementById('tileSheet');
+  sheet.scrollTop = 0;
+  document.getElementById('sheetBody').innerHTML = html;
+  document.getElementById('tileOverlay').classList.add('open');
+}
+
+/* ── INFO SHEET ── */
+function openInfoSheet() {
+  currentIdx = null;
+  document.getElementById('sheetHead').style.background = var_navy();
+  document.getElementById('sheetNum').textContent   = '📋';
+  document.getElementById('sheetTitle').textContent = 'How It Works';
+  document.getElementById('sheet6C').textContent    = 'REGENTS TEAM BUILDING 2026';
+
+  document.getElementById('sheetBody').innerHTML = `
+    <div class="sh-box" style="background:rgba(48,205,215,.12); border:2px solid #30CDD7; margin-bottom:12px">
+      <div class="sh-box-title" style="color:#1E96A5">🛺 Your Songtaew</div>
+      <div style="font-size:14px; color:#333; line-height:1.55">Each team has been assigned a <strong>Songtaew</strong> (local taxi truck). <strong>Your driver is part of the challenge</strong> — you are responsible for communicating your destinations and navigating Pattaya to reach the right locations. Plan your route, work as a team, and get moving!</div>
+    </div>
+    <div class="sh-section">
+      <div class="sh-challenge">Complete ONE line on the bingo board to unlock the final location.</div>
+    </div>
+    <div class="sh-box">
+      <div class="sh-box-title">Line options</div>
+      <ul class="sh-list">
+        <li><span class="dot"></span><span>Horizontal — any row across</span></li>
+        <li><span class="dot"></span><span>Vertical — any column down</span></li>
+        <li><span class="dot"></span><span>Diagonal — corner to corner through the centre (★)</span></li>
+      </ul>
+    </div>
+    <div class="sh-box sh-box-dark" style="margin-top:8px">
+      <div class="sh-box-title">The 5 steps</div>
+      <ul class="sh-list">
+        <li><span class="dot"></span><span><strong>1.</strong> Choose your line</span></li>
+        <li><span class="dot"></span><span><strong>2.</strong> Choose your Pattaya filming locations</span></li>
+        <li><span class="dot"></span><span><strong>3.</strong> Film your evidence</span></li>
+        <li><span class="dot"></span><span><strong>4.</strong> Edit into ONE video, under 60 seconds</span></li>
+        <li><span class="dot"></span><span><strong>5.</strong> Upload video + bingo card to get the final location</span></li>
+      </ul>
+    </div>
+    <button class="done-btn idle" style="background:#30CDD7; color:#003255; margin-top:14px" onclick="closeSheet()">Got it, let's go! 🛺</button>`;
+
+  document.getElementById('tileSheet').scrollTop = 0;
+  document.getElementById('tileOverlay').classList.add('open');
+}
+
+function var_navy() { return '#1B2A4A'; }
+
+/* ── SHEET CLOSE ── */
+function closeSheet() {
+  document.getElementById('tileOverlay').classList.remove('open');
+  currentIdx = null;
+}
+
+function overlayClick(e) {
+  if (e.target === document.getElementById('tileOverlay')) closeSheet();
+}
+
+/* ── CHOICE SELECTION ── */
+function pickChoice(key, idx, el) {
+  choices[key] = idx;
+  saveState();
+  el.closest('.choice-grid').querySelectorAll('.choice-item').forEach((c, i) => {
+    c.classList.toggle('selected', i === idx);
+  });
+}
+
+/* ── TOGGLE COMPLETE ── */
+function toggleDone(idx) {
+  if (completed.has(idx)) {
+    completed.delete(idx);
+  } else {
+    completed.add(idx);
+  }
+  saveState();
+  renderGrid();
+  updateProgress();
+
+  // Update button in sheet
+  const btn = document.getElementById('doneBtn');
+  if (btn) {
+    const isDone = completed.has(idx);
+    btn.className = 'done-btn ' + (isDone ? 'complete' : 'idle');
+    btn.textContent = isDone ? '✓ Marked as complete' : 'Mark as complete ✓';
+  }
+
+  // Celebrate new bingo
+  if (completed.has(idx) && checkNewBingo()) {
+    closeSheet();
+    setTimeout(() => {
+      document.getElementById('celebrateOverlay').classList.add('show');
+    }, 200);
+  }
+}
+
+/* ── CELEBRATION ── */
+function closeCelebration() {
+  document.getElementById('celebrateOverlay').classList.remove('show');
+}
+
+/* ── ACCORDION ── */
+function toggleCard(header) {
+  const body    = header.nextElementSibling;
+  const isOpen  = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  header.classList.toggle('open', !isOpen);
+}
+
+/* ── TEAM NAME ── */
+const teamInput = document.getElementById('teamInput');
+
+teamInput.value = localStorage.getItem('bingo26_teamName') || '';
+
+teamInput.addEventListener('change', () => {
+  const name = teamInput.value.trim();
+  localStorage.setItem('bingo26_teamName', name);
+  completed  = new Set();
+  choices    = {};
+  loadState();
+  renderGrid();
+  updateProgress();
+});
+
+/* ── KEYBOARD ── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeSheet();
+    closeCelebration();
+  }
+});
+
+/* ── INIT ── */
+loadState();
+renderGrid();
+updateProgress();
+
+</script>
+</body>
+</html>
