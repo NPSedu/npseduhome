@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Three Triangle River</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#0a1a0a; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; font-family:'Press Start 2P',monospace; user-select:none; }
+  canvas { display:block; max-width:100%; }
+  #hint { color:#2a4a2a; font-size:7px; text-align:center; margin-top:8px; letter-spacing:1px; }
+</style>
+</head>
+<body>
+<canvas id="game" width="800" height="480"></canvas>
+<div id="hint">ARROWS / WASD TO MOVE &nbsp;|&nbsp; CROSS BRIDGES TO EXPLORE &nbsp;|&nbsp; COLLECT 3 CRYSTALS → TEMPLE</div>
+<script>
+const C = document.getElementById('game');
+const ctx = C.getContext('2d');
+const W = 800, H = 480;
+let fc = 0, gs = 'title';
+
+// ── INPUT ───────────────────────────────────────────────
+const K = {};
+document.addEventListener('keydown', e => {
+  K[e.code] = true;
+  if (['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code)) e.preventDefault();
+  if ((gs==='title'||gs==='over') && (e.code==='Space'||e.code==='Enter')) startGame();
+  if (gs==='win' && (e.code==='Space'||e.code==='Enter')) startGame();
+});
+document.addEventListener('keyup', e => K[e.code] = false);
+
+// ── MAP GEOMETRY ────────────────────────────────────────
+// Triangle river: apex at top, left arm → bottom-left, right arm → bottom-right
+const RIV = [
+  { x1:490, y1:0,   x2:20,  y2:430, w:28 }, // left arm
+  { x1:490, y1:0,   x2:790, y2:430, w:28 }, // right arm
+  { x1:20,  y1:430, x2:790, y2:430, w:26 }, // bottom
+];
+const BRDG = [
+  { x:255, y:215, r:34 }, // left bridge
+  { x:640, y:215, r:34 }, // right bridge
+  { x:405, y:430, r:36 }, // bottom bridge
+];
+const MOUNTS = [
+  { cx:390, cy:240, rx:90, ry:68 },
+  { cx:468, cy:258, rx:56, ry:46 },
+];
+
+function ptSegDist(px,py,ax,ay,bx,by) {
+  const dx=bx-ax, dy=by-ay, l2=dx*dx+dy*dy;
+  if (!l2) return Math.hypot(px-ax,py-ay);
+  const t = Math.max(0,Math.min(1,((px-ax)*dx+(py-ay)*dy)/l2));
+  return Math.hypot(px-(ax+t*dx), py-(ay+t*dy));
+}
+function inRiver(x,y)  { return RIV.some(r=>ptSegDist(x,y,r.x1,r.y1,r.x2,r.y2)<r.w/2+2); }
+function inBridge(x,y) { return BRDG.some(b=>Math.hypot(x-b.x,y-b.y)<b.r); }
+function inMount(x,y)  { return MOUNTS.some(m=>((x-m.cx)/m.rx)**2+((y-m.cy)/m.ry)**2<1); }
+function blocked(x,y)  {
+  if (x<10||x>790||y<5||y>472) return true;
+  if (inMount(x,y)) return true;
+  if (inRiver(x,y) && !inBridge(x,y)) return true;
+  return false;
+}
+
+// ── TREE POSITIONS (inside triangle around mountains) ──
+const TREES = [
+  [285,305],[308,288],[272,272],[320,330],[258,305],
+  [488,295],[514,278],[498,316],[528,300],[515,335],
+  [345,318],[472,322],[360,340],[480,340],[295,260],
+  [530,255],[310,355],[490,355],
+];
+
+// ── GAME ENTITIES ───────────────────────────────────────
+let player, gems, enemies, parts;
+
+function startGame() {
+  gs = 'play'; fc = 0;
+  player = { x:108, y:168, hp:3, mhp:3, inv:0, flash:0, face:1, spd:2.6 };
+  gems = [
+    { x:105, y:178, col:'#00ffee', name:'River Crystal',  collected:false, bob:0 },
+    { x:318, y:298, col:'#ffcc00', name:'Forest Crystal', collected:false, bob:2 },
+    { x:476, y:450, col:'#ff66ff', name:'Lake Crystal',   collected:false, bob:4 },
+  ];
+  enemies = [
+    { x:320, y:270, ox:320, oy:270, patrol:58, spd:1.0, angle:0,    col:'#7a2800', flash:0 },
+    { x:455, y:310, ox:455, oy:310, patrol:52, spd:0.85, angle:2.1, col:'#553300', flash:0 },
+  ];
+  parts = [];
+}
+
+// ── PARTICLES ───────────────────────────────────────────
+function burst(x,y,col,n=8) {
+  for (let i=0;i<n;i++) {
+    const a=(Math.PI*2*i/n)+Math.random()*0.5, s=1.5+Math.random()*3.5;
+    parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-1.5,col,sz:2+Math.random()*3,life:35+Math.random()*15,ml:50});
+  }
+}
+
+// ── DRAWING: MAP ────────────────────────────────────────
+function drawMap() {
+  // Grass base
+  ctx.fillStyle='#4a8a3a'; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='#3e7a30';
+  for (let x=0;x<W;x+=40) for (let y=0;y<H;y+=40)
+    if ((x+y)%80===0) ctx.fillRect(x,y,40,40);
+
+  // Hills bottom-left
+  ctx.fillStyle='#28a030';
+  ctx.beginPath(); ctx.arc(95,450,55,Math.PI,0,false); ctx.fill();
+  ctx.beginPath(); ctx.arc(150,455,42,Math.PI,0,false); ctx.fill();
+  ctx.fillStyle='#1e8826';
+  ctx.beginPath(); ctx.arc(100,450,44,Math.PI,0,false); ctx.fill();
+
+  // Lake bottom-centre
+  ctx.fillStyle='#88ccff';
+  ctx.beginPath(); ctx.ellipse(455,453,115,23,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#aaddff';
+  ctx.beginPath(); ctx.ellipse(455,451,98,17,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='rgba(255,255,255,0.35)';
+  ctx.beginPath(); ctx.ellipse(420,449,42,6,0.15,0,Math.PI*2); ctx.fill();
+
+  // Rivers (shadow then colour)
+  ctx.lineCap='round'; ctx.lineJoin='round';
+  ctx.strokeStyle='rgba(0,50,110,0.35)'; ctx.lineWidth=36;
+  RIV.forEach(r=>{ ctx.beginPath(); ctx.moveTo(r.x1,r.y1); ctx.lineTo(r.x2,r.y2); ctx.stroke(); });
+  ctx.strokeStyle='#1a9ae8'; ctx.lineWidth=28;
+  RIV.forEach(r=>{ ctx.beginPath(); ctx.moveTo(r.x1,r.y1); ctx.lineTo(r.x2,r.y2); ctx.stroke(); });
+  ctx.strokeStyle='rgba(120,210,255,0.4)'; ctx.lineWidth=10;
+  RIV.forEach(r=>{
+    ctx.beginPath(); ctx.moveTo(r.x1+3,r.y1+3); ctx.lineTo((r.x1+r.x2)/2+3,(r.y1+r.y2)/2+3); ctx.stroke();
+  });
+
+  // Bridges over rivers
+  const bridgeDefs = [
+    { bx:255, by:215, ang:Math.atan2(430, 20-490)-Math.PI/2 },
+    { bx:640, by:215, ang:Math.atan2(430, 790-490)-Math.PI/2 },
+    { bx:405, by:430, ang:0 },
+  ];
+  bridgeDefs.forEach(({bx,by,ang})=>{
+    ctx.save(); ctx.translate(bx,by); ctx.rotate(ang);
+    ctx.fillStyle='#8b6520'; ctx.fillRect(-38,-13,76,26);
+    ctx.strokeStyle='#5a3e10'; ctx.lineWidth=2;
+    for (let i=-28;i<=28;i+=14) { ctx.beginPath(); ctx.moveTo(i,-13); ctx.lineTo(i,13); ctx.stroke(); }
+    ctx.fillStyle='#6a4010'; ctx.fillRect(-38,-15,76,3); ctx.fillRect(-38,12,76,3);
+    ctx.restore();
+  });
+
+  // Mountains (inside triangle)
+  ctx.fillStyle='rgba(0,0,0,0.18)';
+  ctx.beginPath(); ctx.ellipse(405,285,105,28,0,0,Math.PI*2); ctx.fill();
+  // Back peak
+  ctx.fillStyle='#7a4520';
+  ctx.beginPath(); ctx.moveTo(348,325); ctx.lineTo(468,158); ctx.lineTo(535,325); ctx.fill();
+  // Front peak
+  ctx.fillStyle='#8b5030';
+  ctx.beginPath(); ctx.moveTo(295,325); ctx.lineTo(400,165); ctx.lineTo(492,325); ctx.fill();
+  // Snow caps
+  ctx.fillStyle='#eef5ff';
+  ctx.beginPath(); ctx.moveTo(385,178); ctx.lineTo(400,163); ctx.lineTo(415,178); ctx.lineTo(408,198); ctx.lineTo(392,198); ctx.fill();
+  ctx.fillStyle='#fff'; ctx.beginPath(); ctx.moveTo(393,178); ctx.lineTo(400,163); ctx.lineTo(407,178); ctx.fill();
+  ctx.fillStyle='#eef5ff';
+  ctx.beginPath(); ctx.moveTo(456,168); ctx.lineTo(468,154); ctx.lineTo(480,168); ctx.lineTo(473,185); ctx.lineTo(463,185); ctx.fill();
+  // Cracks
+  ctx.strokeStyle='rgba(0,0,0,0.13)'; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(372,244); ctx.lineTo(382,294); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(422,225); ctx.lineTo(436,272); ctx.stroke();
+
+  // Pine trees
+  TREES.forEach(([tx,ty])=>{
+    ctx.fillStyle='#3a5228'; ctx.fillRect(tx-3,ty,6,11);
+    ctx.fillStyle='#2a8828';
+    ctx.beginPath(); ctx.moveTo(tx,ty-24); ctx.lineTo(tx-13,ty+2); ctx.lineTo(tx+13,ty+2); ctx.fill();
+    ctx.fillStyle='#38aa38';
+    ctx.beginPath(); ctx.moveTo(tx,ty-30); ctx.lineTo(tx-9,ty-9); ctx.lineTo(tx+9,ty-9); ctx.fill();
+  });
+
+  // Village (top-left, outside triangle)
+  drawHouse(72,108,'#8b5e3c','#c04020');
+  drawHouse(160,98,'#7a5030','#b83818');
+  ctx.fillStyle='rgba(180,140,80,0.4)'; ctx.fillRect(97,185,28,70); // path
+
+  // Shop (left, outside)
+  drawShop(65,288);
+
+  // Temple (top-right, outside)
+  drawTemple(700,100);
+
+  // Map labels
+  ctx.fillStyle='rgba(0,0,0,0.55)';
+  ctx.font='bold 10px sans-serif'; ctx.textAlign='center';
+  ctx.fillText('Village',118,95);
+  ctx.fillText('Shop',65,354);
+  ctx.fillText('Temple',700,213);
+  ctx.fillText('Lake',455,473);
+  ctx.fillText('Mountains',420,148);
+  ctx.fillText('Hills',120,473);
+  ctx.fillStyle='rgba(80,50,5,0.8)'; ctx.font='bold 8px sans-serif';
+  ctx.fillText('Bridge',255,198);
+  ctx.fillText('Bridge',640,198);
+  ctx.fillText('Bridge',405,448);
+}
+
+function drawHouse(x,y,wall,roof) {
+  ctx.fillStyle=wall; ctx.fillRect(x,y,44,38);
+  ctx.fillStyle=roof;
+  ctx.beginPath(); ctx.moveTo(x-5,y); ctx.lineTo(x+22,y-22); ctx.lineTo(x+49,y); ctx.fill();
+  ctx.fillStyle='#f0e0a0'; ctx.fillRect(x+6,y+8,10,10); ctx.fillRect(x+28,y+8,10,10);
+  ctx.fillStyle='#c0b060'; ctx.fillRect(x+11,y+8,2,10); ctx.fillRect(x+6,y+13,10,2);
+  ctx.fillStyle='#5a2a10'; ctx.fillRect(x+16,y+20,12,18);
+  ctx.fillStyle='#8B4010'; ctx.beginPath(); ctx.arc(x+22,y+20,6,Math.PI,0,false); ctx.fill();
+}
+
+function drawShop(x,y) {
+  ctx.fillStyle='#c86800';
+  ctx.beginPath(); ctx.arc(x,y,34,Math.PI,0,false); ctx.fill();
+  ctx.fillStyle='#ff9a00';
+  ctx.beginPath(); ctx.arc(x,y,29,Math.PI,0,false); ctx.fill();
+  ctx.strokeStyle='rgba(0,0,0,0.15)'; ctx.lineWidth=1.5;
+  for (let a=-75;a<=75;a+=25) { ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+Math.cos(a*Math.PI/180)*29,y+Math.sin(a*Math.PI/180)*29); ctx.stroke(); }
+  ctx.fillStyle='#e07a00'; ctx.fillRect(x-34,y,68,22);
+  ctx.fillStyle='#5a2a00'; ctx.fillRect(x-9,y+4,18,18);
+  ctx.fillStyle='#ffe080'; ctx.fillRect(x-22,y-54,44,14);
+  ctx.fillStyle='#8b4010'; ctx.font='bold 8px sans-serif'; ctx.textAlign='center'; ctx.fillText('SHOP',x,y-43);
+}
+
+function drawTemple(x,y) {
+  const g=0.5+0.5*Math.sin(fc*0.1);
+  ctx.fillStyle=`rgba(255,${120+g*50},0,${0.25+g*0.2})`;
+  ctx.beginPath(); ctx.arc(x-38,y+58,10+g*3,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(x+38,y+58,10+g*3,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#ff7700'; ctx.fillRect(x-40,y+54,4,10); ctx.fillRect(x+36,y+54,4,10);
+  ctx.fillStyle='#7a1818'; ctx.fillRect(x-46,y+52,92,20);
+  ctx.fillStyle='#8a1e1e'; ctx.fillRect(x-38,y+34,76,20);
+  ctx.fillStyle='#9a2424'; ctx.fillRect(x-30,y+16,60,20);
+  ctx.fillStyle='#aa2a2a'; ctx.fillRect(x-22,y+0,44,18);
+  ctx.fillStyle='#bb3030'; ctx.fillRect(x-14,y-16,28,18);
+  ctx.fillStyle='#cc3838';
+  ctx.beginPath(); ctx.moveTo(x-14,y-16); ctx.lineTo(x,y-38); ctx.lineTo(x+14,y-16); ctx.fill();
+  ctx.fillStyle='#ff6060';
+  ctx.beginPath(); ctx.moveTo(x-8,y-16); ctx.lineTo(x,y-32); ctx.lineTo(x+8,y-16); ctx.fill();
+  ctx.fillStyle='#1a0000'; ctx.fillRect(x-11,y+34,22,20);
+  ctx.fillStyle='#0d0000'; ctx.beginPath(); ctx.arc(x,y+34,11,Math.PI,0,false); ctx.fill();
+  ctx.fillStyle='rgba(255,200,50,0.45)'; ctx.fillRect(x-7,y+2,14,12);
+}
+
+// ── DRAWING: CHARACTERS ─────────────────────────────────
+function drawPlayer(p) {
+  const fl = p.flash>0 && Math.floor(p.flash/3)%2===0;
+  ctx.globalAlpha = fl ? 0.3 : 1;
+  ctx.save(); ctx.translate(p.x,p.y);
+  if (p.face<0) ctx.scale(-1,1);
+  ctx.fillStyle='rgba(0,0,0,0.18)';
+  ctx.beginPath(); ctx.ellipse(0,14,10,4,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#1a4488'; ctx.fillRect(-8,4,7,14); ctx.fillRect(1,4,7,14);
+  ctx.fillStyle='#0d2255'; ctx.fillRect(-9,16,8,4); ctx.fillRect(0,16,8,4);
+  ctx.fillStyle='#2288bb'; ctx.fillRect(-10,-14,20,20);
+  ctx.fillStyle='#0f5580'; ctx.fillRect(-10,-14,20,4);
+  ctx.fillStyle='#fddaaa'; ctx.beginPath(); ctx.arc(0,-22,10,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#3a2200'; ctx.fillRect(-10,-32,20,12);
+  ctx.beginPath(); ctx.arc(0,-32,10,Math.PI,0,false); ctx.fill();
+  ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(3,-22,3.2,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#112244'; ctx.beginPath(); ctx.arc(4,-22,1.6,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#aabccc'; ctx.fillRect(10,-20,3,22);
+  ctx.fillStyle='#cc8800'; ctx.fillRect(8,-22,7,5);
+  ctx.restore(); ctx.globalAlpha=1;
+}
+
+function drawEnemy(e) {
+  const fl = e.flash>0 && Math.floor(e.flash/3)%2===0;
+  ctx.globalAlpha = fl ? 0.3 : 1;
+  ctx.save(); ctx.translate(e.x,e.y);
+  ctx.fillStyle='rgba(0,0,0,0.15)'; ctx.beginPath(); ctx.ellipse(0,15,12,4,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle=e.col;
+  ctx.beginPath(); ctx.arc(0,0,13,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(-8,-10); ctx.lineTo(-13,-24); ctx.lineTo(-2,-13); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(8,-10); ctx.lineTo(13,-24); ctx.lineTo(2,-13); ctx.fill();
+  ctx.fillStyle='#ffaa00'; ctx.beginPath(); ctx.arc(-5,-3,3,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(5,-3,3,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#000'; ctx.beginPath(); ctx.arc(-5,-3,1.5,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(5,-3,1.5,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#cc5500'; ctx.beginPath(); ctx.arc(0,4,6,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#000'; ctx.beginPath(); ctx.arc(0,4,2.5,0,Math.PI*2); ctx.fill();
+  ctx.restore(); ctx.globalAlpha=1;
+}
+
+function drawGem(g) {
+  if (g.collected) return;
+  const bob=Math.sin(fc*0.05+g.bob)*4, glow=0.5+0.5*Math.sin(fc*0.09+g.bob);
+  ctx.shadowColor=g.col; ctx.shadowBlur=10+glow*8;
+  ctx.save(); ctx.translate(g.x,g.y+bob); ctx.rotate(fc*0.03);
+  ctx.fillStyle=g.col;
+  ctx.beginPath(); ctx.moveTo(0,-11); ctx.lineTo(8,0); ctx.lineTo(0,11); ctx.lineTo(-8,0); ctx.closePath(); ctx.fill();
+  ctx.fillStyle='rgba(255,255,255,0.55)';
+  ctx.beginPath(); ctx.moveTo(0,-11); ctx.lineTo(5,-1); ctx.lineTo(-5,-1); ctx.fill();
+  ctx.restore(); ctx.shadowBlur=0;
+}
+
+// ── DRAWING: HUD ────────────────────────────────────────
+function drawHUD() {
+  ctx.fillStyle='rgba(0,0,0,0.65)'; ctx.fillRect(0,0,W,50);
+  // Hearts
+  for (let i=0;i<player.mhp;i++) {
+    ctx.font='15px sans-serif'; ctx.fillText(i<player.hp?'❤️':'🖤', 12+i*26, 30);
+  }
+  // Crystal count
+  const n = gems.filter(g=>g.collected).length;
+  ctx.fillStyle='#ffe135'; ctx.font='8px "Press Start 2P"'; ctx.textAlign='left';
+  ctx.fillText(`CRYSTALS: ${n}/3`, 100, 22);
+  // Gem icons
+  gems.forEach((g,i)=>{
+    ctx.fillStyle = g.collected ? g.col : '#222233';
+    ctx.save(); ctx.translate(100+i*22+9,37); ctx.rotate(Math.PI/4);
+    ctx.fillRect(-5,-5,10,10); ctx.restore();
+  });
+  // Goal text
+  ctx.textAlign='center';
+  if (n===3) {
+    ctx.globalAlpha=0.6+0.4*Math.sin(fc*0.08);
+    ctx.fillStyle='#ffcc00'; ctx.font='9px "Press Start 2P"'; ctx.fillText('GO TO THE TEMPLE!',W/2,38);
+    ctx.globalAlpha=1;
+  } else {
+    ctx.fillStyle='#557755'; ctx.font='7px "Press Start 2P"'; ctx.fillText('COLLECT ALL 3 CRYSTALS',W/2,38);
+  }
+  // Mini-map hint arrow to nearest uncollected gem
+  const next = gems.find(g=>!g.collected);
+  if (next) {
+    const a=Math.atan2(next.y-player.y, next.x-player.x);
+    ctx.save(); ctx.translate(W-30,25); ctx.rotate(a);
+    ctx.fillStyle='rgba(255,225,50,0.7)';
+    ctx.beginPath(); ctx.moveTo(10,0); ctx.lineTo(-6,-6); ctx.lineTo(-6,6); ctx.closePath(); ctx.fill();
+    ctx.restore();
+  }
+}
+
+// ── UPDATE ──────────────────────────────────────────────
+function update() {
+  fc++;
+  if (gs!=='play') return;
+
+  const spd=player.spd;
+  let nx=player.x, ny=player.y;
+  if (K['ArrowLeft']||K['KeyA'])  { nx-=spd; player.face=-1; }
+  if (K['ArrowRight']||K['KeyD']) { nx+=spd; player.face=1; }
+  if (K['ArrowUp']||K['KeyW'])    ny-=spd;
+  if (K['ArrowDown']||K['KeyS'])  ny+=spd;
+  // Diagonal normalise
+  const mv=((K['ArrowLeft']||K['KeyA'])||(K['ArrowRight']||K['KeyD'])) &&
+            ((K['ArrowUp']||K['KeyW'])||(K['ArrowDown']||K['KeyS']));
+  if (mv) { nx=player.x+(nx-player.x)*0.707; ny=player.y+(ny-player.y)*0.707; }
+
+  if (!blocked(nx,ny))           { player.x=nx; player.y=ny; }
+  else if (!blocked(nx,player.y)) player.x=nx;
+  else if (!blocked(player.x,ny)) player.y=ny;
+
+  if (player.inv>0) player.inv--;
+  if (player.flash>0) player.flash--;
+
+  // Gem pickup
+  gems.forEach(g=>{
+    if (!g.collected && Math.hypot(player.x-g.x,player.y-g.y)<22) {
+      g.collected=true; burst(g.x,g.y,g.col,14);
+    }
+  });
+
+  // Win: all gems + near temple entrance
+  if (gems.every(g=>g.collected) && Math.hypot(player.x-700,player.y-185)<50) gs='win';
+
+  // Enemies
+  enemies.forEach(e=>{
+    e.angle+=e.spd*0.022; e.flash=Math.max(0,e.flash-1);
+    e.x=e.ox+Math.cos(e.angle)*e.patrol;
+    e.y=e.oy+Math.sin(e.angle)*e.patrol;
+    if (player.inv<=0 && Math.hypot(player.x-e.x,player.y-e.y)<22) {
+      player.hp--; player.flash=28; player.inv=75;
+      burst(player.x,player.y,'#ff3333',8);
+      if (player.hp<=0) { player.hp=0; gs='over'; }
+    }
+  });
+
+  // Particles
+  for (let i=parts.length-1;i>=0;i--) {
+    const p=parts[i];
+    p.x+=p.vx; p.y+=p.vy; p.vy+=0.14; p.vx*=0.93; p.life--;
+    if (p.life<=0) parts.splice(i,1);
+  }
+}
+
+// ── SCREENS ─────────────────────────────────────────────
+function drawOverlay(col,title,sub,cta) {
+  ctx.fillStyle=col; ctx.fillRect(0,0,W,H);
+  ctx.shadowColor=title.glow||'#fff'; ctx.shadowBlur=18;
+  ctx.fillStyle=title.col; ctx.font='16px "Press Start 2P"'; ctx.textAlign='center';
+  ctx.fillText(title.text,W/2,H/2-48); ctx.shadowBlur=0;
+  ctx.fillStyle='#aaaacc'; ctx.font='8px "Press Start 2P"';
+  sub.forEach((s,i)=>ctx.fillText(s,W/2,H/2-18+i*22));
+  const p=0.6+0.4*Math.sin(fc*0.06);
+  ctx.globalAlpha=p; ctx.fillStyle='#fff'; ctx.font='9px "Press Start 2P"';
+  ctx.fillText(cta,W/2,H/2+60); ctx.globalAlpha=1;
+}
+
+// ── RENDER ──────────────────────────────────────────────
+function render() {
+  ctx.clearRect(0,0,W,H);
+
+  if (gs==='title') {
+    drawMap();
+    ctx.fillStyle='rgba(0,0,0,0.62)'; ctx.fillRect(0,0,W,H);
+    ctx.shadowColor='#00aaff'; ctx.shadowBlur=22;
+    ctx.fillStyle='#00ccff'; ctx.font='14px "Press Start 2P"'; ctx.textAlign='center';
+    ctx.fillText('THE THREE',W/2,H/2-68);
+    ctx.fillText('TRIANGLE RIVER',W/2,H/2-44);
+    ctx.shadowBlur=0;
+    ctx.fillStyle='#667766'; ctx.font='8px "Press Start 2P"';
+    ctx.fillText("BASED ON A STUDENT'S GAME MAP",W/2,H/2-16);
+    ctx.fillStyle='#445544'; ctx.font='7px "Press Start 2P"';
+    ['CROSS THE BRIDGES TO EXPLORE','COLLECT 3 CRYSTALS HIDDEN IN THE WORLD','BRING THEM ALL TO THE TEMPLE'].forEach((s,i)=>ctx.fillText(s,W/2,H/2+10+i*20));
+    const p=0.6+0.4*Math.sin(fc*0.06);
+    ctx.globalAlpha=p; ctx.fillStyle='#fff'; ctx.font='9px "Press Start 2P"';
+    ctx.fillText('PRESS SPACE TO START',W/2,H/2+82); ctx.globalAlpha=1;
+    return;
+  }
+
+  if (gs==='win') {
+    drawMap();
+    ctx.fillStyle='rgba(0,20,0,0.72)'; ctx.fillRect(0,0,W,H);
+    drawOverlay('rgba(0,20,0,0)',
+      {text:'YOU WIN!',col:'#00ff80',glow:'#00ff80'},
+      ['THE TEMPLE IS RESTORED!','THE REALM IS AT PEACE.'],
+      'PRESS SPACE TO PLAY AGAIN');
+    return;
+  }
+
+  if (gs==='over') {
+    drawMap();
+    ctx.fillStyle='rgba(30,0,0,0.72)'; ctx.fillRect(0,0,W,H);
+    drawOverlay('rgba(0,0,0,0)',
+      {text:'GAME OVER',col:'#ff4040',glow:'#ff4040'},
+      ['THE WOLVES WERE TOO STRONG...'],
+      'PRESS SPACE TO TRY AGAIN');
+    return;
+  }
+
+  drawMap();
+  gems.forEach(drawGem);
+
+  // Particles
+  parts.forEach(p=>{
+    ctx.globalAlpha=Math.max(0,p.life/p.ml)*0.9;
+    ctx.fillStyle=p.col; ctx.fillRect(p.x-p.sz/2,p.y-p.sz/2,p.sz,p.sz);
+  });
+  ctx.globalAlpha=1;
+
+  enemies.forEach(drawEnemy);
+  drawPlayer(player);
+
+  // Pulsing ring around temple when all gems collected
+  if (gems.every(g=>g.collected)) {
+    const t=0.4+0.4*Math.sin(fc*0.1);
+    ctx.strokeStyle=`rgba(255,200,0,${t})`; ctx.lineWidth=3;
+    ctx.setLineDash([6,4]);
+    ctx.beginPath(); ctx.arc(700,185,50,0,Math.PI*2); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  drawHUD();
+}
+
+// ── LOOP ────────────────────────────────────────────────
+(function loop(){ update(); render(); requestAnimationFrame(loop); })();
+</script>
+</body>
+</html>

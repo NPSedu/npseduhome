@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zoink vs Nexus</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: #0a0a1a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'Press Start 2P', monospace;
+    user-select: none;
+    overflow: hidden;
+  }
+  canvas { display: block; max-width: 100%; }
+  #controls {
+    color: #555588;
+    font-size: 7px;
+    text-align: center;
+    margin-top: 8px;
+    letter-spacing: 1px;
+    line-height: 1.8;
+  }
+</style>
+</head>
+<body>
+<canvas id="game" width="800" height="440"></canvas>
+<div id="controls">ARROWS: MOVE &amp; JUMP &nbsp;|&nbsp; Z / SPACE: ATTACK &nbsp;|&nbsp; X: BLOCK WITH SHIELD</div>
+<script>
+const C = document.getElementById('game');
+const ctx = C.getContext('2d');
+const W = 800, H = 440;
+const GY = 340; // ground y (feet level)
+const GRAV = 0.55;
+
+// ── INPUT ─────────────────────────────────────────────────────────────
+const K = {};
+document.addEventListener('keydown', e => {
+  K[e.code] = true;
+  if (['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code)) e.preventDefault();
+  if (gs === 'title'  && (e.code==='Space'||e.code==='Enter'||e.code==='KeyZ')) startGame();
+  if (gs === 'over'   && (e.code==='Space'||e.code==='Enter')) startGame();
+});
+document.addEventListener('keyup', e => { K[e.code] = false; });
+
+// ── GAME STATE ────────────────────────────────────────────────────────
+let gs = 'title'; // title | play | over
+let fc = 0;       // frame counter
+let winner = '';
+let shake = 0;
+let Z, N, projs, parts;
+
+function startGame() {
+  gs = 'play'; fc = 0; shake = 0;
+  projs = []; parts = [];
+
+  Z = { // Zoink – player
+    x:100, y:GY, vx:0, vy:0, w:48, h:80,
+    hp:100, mhp:100, spd:4.5,
+    face:1, ground:true,
+    att:false, attT:0, attCD:0, swing:0,
+    block:false, inv:0, flash:0,
+  };
+  N = { // Nexus – AI
+    x:640, y:GY, vx:0, vy:0, w:58, h:92,
+    hp:100, mhp:100, spd:1.8,
+    face:-1, ground:true,
+    att:false, attT:0,
+    inv:0, flash:0,
+    phase:'approach', pTimer:90, throwCD:100,
+  };
+}
+
+// ── PARTICLES ─────────────────────────────────────────────────────────
+function burst(x, y, col, n=8) {
+  for (let i=0;i<n;i++) {
+    const a = (Math.PI*2*i/n)+Math.random()*0.6;
+    const s = 2+Math.random()*4;
+    parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-1.5,
+      col, sz:3+Math.random()*3, life:40+Math.random()*15, ml:55});
+  }
+}
+
+// ── DRAW: BACKGROUND ──────────────────────────────────────────────────
+function drawBG() {
+  // Sky
+  const g = ctx.createLinearGradient(0,0,0,H);
+  g.addColorStop(0,'#060014'); g.addColorStop(1,'#160830');
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  // Stars
+  const s=[[45,22],[130,55],[220,18],[310,40],[400,12],[500,35],[600,60],[700,25],[760,50],[80,80],[260,90],[440,75],[620,88]];
+  s.forEach(([sx,sy],i)=>{
+    const p=0.4+0.5*Math.sin(fc*0.04+i*1.3);
+    ctx.globalAlpha=p*0.8; ctx.fillStyle='#fff';
+    ctx.fillRect(sx,sy,2,2);
+  });
+  ctx.globalAlpha=1;
+  // Background pillars
+  ctx.fillStyle='rgba(50,15,90,0.35)';
+  [[70,200,24],[200,140,18],[W-200,160,20],[W-70,180,22]].forEach(([px,ph,pw])=>{
+    ctx.fillRect(px-pw/2, GY+10-ph, pw, ph);
+    ctx.fillRect(px-pw/2-6, GY+10-ph, pw+12, 12);
+  });
+  // Ground platform
+  ctx.fillStyle='#180c30'; ctx.fillRect(0,GY+10,W,H-GY-10);
+  ctx.fillStyle='#4a1e7a'; ctx.fillRect(0,GY+8,W,6);
+  ctx.fillStyle='#9b5de5'; ctx.fillRect(0,GY+8,W,2);
+  // Grid on floor
+  ctx.strokeStyle='rgba(155,93,229,0.12)'; ctx.lineWidth=1;
+  for(let gx=0;gx<W;gx+=44){
+    ctx.beginPath(); ctx.moveTo(gx,GY+10); ctx.lineTo(gx,H); ctx.stroke();
+  }
+}
+
+// ── DRAW: ZOINK ───────────────────────────────────────────────────────
+// (x,y) = feet centre, facing: 1=right -1=left
+function drawZoink(x, y, face, att, block, flash, swing) {
+  ctx.save();
+  ctx.translate(x, y);
+  if (face<0) ctx.scale(-1,1);
+  ctx.globalAlpha = (flash>0 && Math.floor(flash/3)%2===0) ? 0.35 : 1;
+
+  // — LEGS —
+  ctx.fillStyle='#1044a0'; ctx.fillRect(-14,0,11,30); ctx.fillRect(3,0,11,30);
+  ctx.fillStyle='#0a2a6a'; ctx.fillRect(-14,10,11,10); ctx.fillRect(3,10,11,10); // knee armour
+  ctx.fillStyle='#051840'; ctx.fillRect(-16,28,13,7); ctx.fillRect(3,28,13,7);    // boots
+  ctx.fillStyle='#40d8d0'; ctx.fillRect(-13,8,4,14); ctx.fillRect(9,8,4,14);      // shin guard
+
+  // — BODY —
+  ctx.fillStyle='#e8e8ff'; ctx.fillRect(-16,-28,32,30);        // white jacket
+  ctx.fillStyle='#1a55cc'; ctx.fillRect(-20,-28,8,16);         // left shoulder
+  ctx.fillStyle='#1a55cc'; ctx.fillRect(12,-28,8,16);          // right shoulder
+  ctx.fillStyle='#2244bb'; ctx.fillRect(-3,-24,6,20);           // tie body
+  ctx.fillStyle='#162ea0';
+  ctx.beginPath(); ctx.moveTo(-4,-4); ctx.lineTo(0,3); ctx.lineTo(4,-4); ctx.fill(); // tie point
+
+  // — SHIELD (left arm, always shown) —
+  if (block) {
+    ctx.fillStyle='#dde8ff'; ctx.fillRect(-36,-32,18,30);
+    ctx.fillStyle='#2244cc'; ctx.fillRect(-34,-30,14,5); ctx.fillRect(-34,-16,14,5);
+    ctx.fillStyle='#40d8d0'; ctx.fillRect(-30,-24,5,18); ctx.fillRect(-34,-18,14,6);
+  } else {
+    ctx.fillStyle='#c0ccee'; ctx.fillRect(-30,-18,12,24);
+    ctx.strokeStyle='#40d8d0'; ctx.lineWidth=1.5; ctx.strokeRect(-30,-18,12,24);
+    ctx.fillStyle='#40d8d0'; ctx.fillRect(-27,-12,2,14); ctx.fillRect(-30,-8,12,3);
+  }
+
+  // — SWORD (right arm) —
+  ctx.save();
+  if (att) { ctx.translate(14,0); ctx.rotate(swing); ctx.translate(-14,0); }
+  ctx.fillStyle='#6633aa'; ctx.fillRect(14,-14,7,16);           // handle
+  ctx.fillStyle='#cc9900'; ctx.fillRect(10,-17,15,5);           // guard
+  ctx.fillStyle='#c0e8ff'; ctx.fillRect(16,-54,5,40);           // blade
+  ctx.fillStyle='#ffffff'; ctx.fillRect(17,-54,3,40);           // blade glint
+  ctx.fillStyle='#c0e8ff';
+  ctx.beginPath(); ctx.moveTo(16,-54); ctx.lineTo(18.5,-64); ctx.lineTo(21,-54); ctx.fill();
+  ctx.restore();
+
+  // — HEAD —
+  ctx.fillStyle='#1a50cc'; ctx.fillRect(-16,-66,32,40);         // head cube
+  ctx.fillStyle='#0d3088'; ctx.fillRect(-16,-66,32,4);          // top trim
+  ctx.fillStyle='#0d3088'; ctx.fillRect(-16,-66,4,40);          // left trim
+  ctx.fillStyle='#0d3088'; ctx.fillRect(12,-66,4,40);           // right trim
+  ctx.fillStyle='#44aaee'; ctx.fillRect(-10,-62,20,24);         // screen face
+  ctx.fillStyle='#001830'; ctx.fillRect(-5,-56,10,12);          // inner eye box
+  ctx.fillStyle='#40d8d0'; ctx.fillRect(-3,-54,6,8);            // glowing eye
+  ctx.fillStyle='#0d3088'; ctx.fillRect(-4,-72,8,8);            // head top piece
+
+  ctx.globalAlpha=1;
+  ctx.restore();
+}
+
+// ── DRAW: NEXUS ───────────────────────────────────────────────────────
+function drawNexus(x, y, face, att, flash, throwCD) {
+  ctx.save();
+  ctx.translate(x, y);
+  if (face>0) ctx.scale(-1,1);
+  ctx.globalAlpha = (flash>0 && Math.floor(flash/3)%2===0) ? 0.35 : 1;
+
+  // — LEGS —
+  ctx.fillStyle='#ddd'; ctx.fillRect(-14,0,12,32); ctx.fillRect(2,0,12,32);
+  ctx.fillStyle='#c01010'; ctx.fillRect(-16,28,14,10); ctx.fillRect(2,28,14,10); // boots
+
+  // — CAPE (behind body) —
+  ctx.fillStyle='#880000';
+  ctx.beginPath(); ctx.moveTo(-18,-10); ctx.lineTo(-28,42); ctx.lineTo(28,42); ctx.lineTo(18,-10); ctx.fill();
+
+  // — WINGS —
+  ctx.fillStyle='#990000';
+  ctx.beginPath(); ctx.moveTo(-18,-10); ctx.lineTo(-58,-5); ctx.lineTo(-48,26); ctx.lineTo(-18,24); ctx.fill();
+  ctx.strokeStyle='#660000'; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(-18,2); ctx.lineTo(-54,0); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(-18,14); ctx.lineTo(-50,18); ctx.stroke();
+
+  ctx.fillStyle='#990000';
+  ctx.beginPath(); ctx.moveTo(18,-10); ctx.lineTo(58,-5); ctx.lineTo(48,26); ctx.lineTo(18,24); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(18,2); ctx.lineTo(54,0); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(18,14); ctx.lineTo(50,18); ctx.stroke();
+
+  // — BODY —
+  ctx.fillStyle='#c81010'; ctx.fillRect(-20,-12,40,34);
+  // Tie
+  ctx.fillStyle='#880000'; ctx.fillRect(-4,-8,8,22);
+  ctx.beginPath(); ctx.moveTo(-5,14); ctx.lineTo(0,20); ctx.lineTo(5,14); ctx.fill();
+
+  // — HEAD —
+  ctx.fillStyle='#c81010'; ctx.fillRect(-18,-52,36,42);
+  ctx.fillStyle='#ffee00'; ctx.fillRect(-12,-46,8,7); ctx.fillRect(4,-46,8,7); // eyes
+  ctx.fillStyle='#ff4400'; ctx.fillRect(-10,-44,5,4); ctx.fillRect(5,-44,5,4); // pupils
+  ctx.fillStyle='#880000'; ctx.fillRect(-14,-52,28,5); // brow
+
+  // — WINDMILL on head (spinning) —
+  ctx.save();
+  ctx.translate(0,-62);
+  const spin = fc*0.06;
+  for(let i=0;i<4;i++){
+    ctx.save(); ctx.rotate(spin+Math.PI/2*i);
+    ctx.fillStyle = i%2===0 ? '#c81010' : '#e8e8ff';
+    ctx.beginPath();
+    ctx.moveTo(0,0); ctx.lineTo(16,-5); ctx.lineTo(18,0); ctx.lineTo(16,5); ctx.fill();
+    ctx.restore();
+  }
+  ctx.fillStyle='#333';
+  ctx.beginPath(); ctx.arc(0,0,4.5,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#aaa';
+  ctx.beginPath(); ctx.arc(0,0,2,0,Math.PI*2); ctx.fill();
+  ctx.restore();
+
+  // — TRIDENT (right arm / away from player) —
+  const rdy = throwCD < 35;
+  ctx.save();
+  if (att) { ctx.translate(28,-12); ctx.rotate(-0.45); ctx.translate(-28,12); }
+  ctx.fillStyle = rdy ? '#ffcc00' : '#7a3a10';
+  ctx.fillRect(22,-68,5,80);                                    // shaft
+  if (rdy) { // glow shaft when ready
+    ctx.strokeStyle='rgba(255,204,0,0.4)'; ctx.lineWidth=8;
+    ctx.beginPath(); ctx.moveTo(24.5,-68); ctx.lineTo(24.5,12); ctx.stroke();
+  }
+  // Prongs
+  ctx.fillStyle='#c81010';
+  ctx.fillRect(21,-94,5,28);                                    // centre prong
+  ctx.beginPath(); ctx.moveTo(21,-94); ctx.lineTo(23.5,-104); ctx.lineTo(26,-94); ctx.fill();
+  ctx.fillRect(10,-84,5,20); // left prong
+  ctx.beginPath(); ctx.moveTo(10,-84); ctx.lineTo(12.5,-94); ctx.lineTo(15,-84); ctx.fill();
+  ctx.fillRect(32,-84,5,20); // right prong
+  ctx.beginPath(); ctx.moveTo(32,-84); ctx.lineTo(34.5,-94); ctx.lineTo(37,-84); ctx.fill();
+  // Shaft accents
+  ctx.strokeStyle='#ffcc00'; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(22,-30); ctx.lineTo(27,-30); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(22,-42); ctx.lineTo(27,-42); ctx.stroke();
+  ctx.restore();
+
+  ctx.globalAlpha=1;
+  ctx.restore();
+}
+
+// ── DRAW: TRIDENT PROJECTILE ──────────────────────────────────────────
+function drawProj(p) {
+  ctx.save();
+  ctx.translate(p.x, p.y);
+  ctx.rotate(p.vx>0 ? -Math.PI/2 : Math.PI/2);
+  ctx.fillStyle='#c81010';
+  ctx.fillRect(-2,-20,4,28);
+  ctx.fillRect(-2,-20,4,28);
+  ctx.fillRect(-2,-34,4,16);
+  ctx.beginPath(); ctx.moveTo(-2,-34); ctx.lineTo(0,-42); ctx.lineTo(2,-34); ctx.fill();
+  ctx.fillRect(-9,-27,4,12);
+  ctx.beginPath(); ctx.moveTo(-9,-27); ctx.lineTo(-7,-34); ctx.lineTo(-5,-27); ctx.fill();
+  ctx.fillRect(5,-27,4,12);
+  ctx.beginPath(); ctx.moveTo(5,-27); ctx.lineTo(7,-34); ctx.lineTo(9,-27); ctx.fill();
+  // Glow trail
+  ctx.globalAlpha=0.3;
+  ctx.strokeStyle='#ffcc00'; ctx.lineWidth=6;
+  ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(0, p.vx>0 ? 24 : -24); ctx.stroke();
+  ctx.globalAlpha=1;
+  ctx.restore();
+}
+
+// ── DRAW: HUD ─────────────────────────────────────────────────────────
+function drawHUD() {
+  // Zoink HP
+  ctx.fillStyle='#40d8d0'; ctx.font='8px "Press Start 2P"';
+  ctx.textAlign='left'; ctx.fillText('ZOINK', 16, 24);
+  ctx.fillStyle='#111130'; ctx.fillRect(16,30,190,14);
+  const zr=Math.max(0,Z.hp/Z.mhp);
+  ctx.fillStyle = zr>.5?'#40d8d0':zr>.25?'#ffe135':'#ff4040';
+  ctx.fillRect(16,30,190*zr,14);
+  ctx.strokeStyle='#40d8d0'; ctx.lineWidth=1.5; ctx.strokeRect(16,30,190,14);
+  ctx.fillStyle='#fff'; ctx.font='7px "Press Start 2P"'; ctx.textAlign='center';
+  ctx.fillText(Math.ceil(Z.hp), 111, 41);
+
+  // Nexus HP
+  ctx.fillStyle='#ff4040'; ctx.font='8px "Press Start 2P"';
+  ctx.textAlign='right'; ctx.fillText('NEXUS', W-16, 24);
+  ctx.fillStyle='#111130'; ctx.fillRect(W-206,30,190,14);
+  const nr=Math.max(0,N.hp/N.mhp);
+  const nhpW=190*nr;
+  ctx.fillStyle = nr>.5?'#ff4040':nr>.25?'#ffe135':'#ff8800';
+  ctx.fillRect(W-206+(190-nhpW),30,nhpW,14);
+  ctx.strokeStyle='#ff4040'; ctx.lineWidth=1.5; ctx.strokeRect(W-206,30,190,14);
+  ctx.fillStyle='#fff'; ctx.font='7px "Press Start 2P"'; ctx.textAlign='center';
+  ctx.fillText(Math.ceil(N.hp), W-111, 41);
+
+  // VS
+  ctx.fillStyle='#ffe135'; ctx.font='11px "Press Start 2P"';
+  ctx.textAlign='center'; ctx.fillText('VS', W/2, 40);
+}
+
+// ── NEXUS AI ──────────────────────────────────────────────────────────
+function nexusAI() {
+  N.pTimer--;
+  N.throwCD--;
+
+  const dx = Z.x - N.x;
+  const dist = Math.abs(dx);
+  N.face = dx < 0 ? 1 : -1;
+
+  if (N.att) { N.attT--; if (N.attT<=0) N.att=false; }
+
+  switch (N.phase) {
+    case 'approach':
+      N.vx = Math.sign(dx) * N.spd;
+      if (dist < 110) {
+        N.phase = N.throwCD<=0 ? 'throw' : 'melee';
+        N.pTimer = N.throwCD<=0 ? 45 : 55;
+      } else if (N.throwCD<=0 && dist < 400 && Math.random()<0.01) {
+        N.phase = 'throw'; N.pTimer = 45;
+      }
+      break;
+
+    case 'melee':
+      if (dist > 85) {
+        N.vx = Math.sign(dx) * N.spd * 1.6;
+      } else {
+        N.vx *= 0.7;
+        if (!N.att) {
+          N.att=true; N.attT=22;
+          if (dist<110 && N.inv<=0 && Z.inv<=0) {
+            const dmg = Z.block && Z.face===Math.sign(N.x-Z.x) ? 4 : 16;
+            Z.hp -= dmg; Z.flash=20; Z.inv=32;
+            shake = Z.block ? 3 : 8;
+            burst(Z.x, Z.y-40, Z.block?'#40d8d0':'#ff4040', Z.block?5:10);
+          }
+        }
+      }
+      if (N.pTimer<=0) { N.phase='retreat'; N.pTimer=55+Math.random()*30; }
+      break;
+
+    case 'retreat':
+      N.vx = -Math.sign(dx) * N.spd * 1.2;
+      if (N.pTimer<=0) { N.phase='approach'; N.pTimer=70+Math.random()*40; }
+      break;
+
+    case 'throw':
+      N.vx *= 0.75;
+      if (N.pTimer===20 && N.throwCD<=0) {
+        N.att=true; N.attT=25;
+        N.throwCD = 130 + Math.random()*40;
+        const dir = Math.sign(dx);
+        const tx = N.x + dir*30;
+        projs.push({x:tx, y:N.y-70, vx:dir*7.5, vy:-0.5, life:70});
+        projs.push({x:tx, y:N.y-48, vx:dir*7.5, vy: 0.8, life:70});
+      }
+      if (N.pTimer<=0) { N.phase='approach'; N.pTimer=70; }
+      break;
+  }
+
+  // Occasional jump
+  if (N.ground && Math.random()<0.006) { N.vy=-12; N.ground=false; }
+}
+
+// ── UPDATE ────────────────────────────────────────────────────────────
+function update() {
+  fc++;
+  if (gs!=='play') return;
+
+  // — Zoink controls —
+  const left  = K['ArrowLeft']  || K['KeyA'];
+  const right = K['ArrowRight'] || K['KeyD'];
+  const up    = K['ArrowUp']    || K['KeyW'];
+
+  if (left)  { Z.vx=-Z.spd; Z.face=-1; }
+  else if (right) { Z.vx=Z.spd; Z.face=1; }
+  else Z.vx *= 0.72;
+
+  if (up && Z.ground) { Z.vy=-14; Z.ground=false; }
+
+  Z.block = !!(K['KeyX'] && !K['KeyZ'] && !K['Space']);
+
+  if ((K['KeyZ']||K['Space']) && Z.attCD<=0 && !Z.block) {
+    Z.att=true; Z.attT=18; Z.attCD=26; Z.swing=-0.9;
+    const dx2 = N.x-Z.x;
+    if (Math.abs(dx2)<115 && Math.sign(dx2)===Z.face && N.inv<=0) {
+      N.hp-=13; N.flash=20; N.inv=24;
+      shake=7;
+      N.vx = -Z.face*5.5;
+      burst(N.x, N.y-50, '#ff4040', 10);
+    }
+  }
+
+  // — Timers —
+  if (Z.att) {
+    Z.attT--;
+    Z.swing = -0.9 + (1-Z.attT/18)*1.8;
+    if (Z.attT<=0){Z.att=false; Z.swing=0;}
+  }
+  if (Z.attCD>0) Z.attCD--;
+  if (Z.inv>0) Z.inv--;
+  if (Z.flash>0) Z.flash--;
+  if (N.inv>0) N.inv--;
+  if (N.flash>0) N.flash--;
+  if (shake>0) shake--;
+
+  // — Nexus AI —
+  nexusAI();
+
+  // — Physics —
+  Z.vy+=GRAV; Z.x+=Z.vx; Z.y+=Z.vy;
+  N.vy+=GRAV; N.x+=N.vx; N.y+=N.vy;
+
+  if (Z.y>=GY){ Z.y=GY; Z.vy=0; Z.ground=true; }
+  if (N.y>=GY){ N.y=GY; N.vy=0; N.ground=true; }
+
+  Z.x = Math.max(28, Math.min(W-68, Z.x));
+  N.x = Math.max(28, Math.min(W-78, N.x));
+
+  // — Projectiles —
+  for (let i=projs.length-1;i>=0;i--) {
+    const p=projs[i];
+    p.x+=p.vx; p.y+=p.vy; p.vy+=0.1; p.life--;
+
+    // Hit Zoink
+    if (p.x>Z.x-20&&p.x<Z.x+Z.w-10&&p.y>Z.y-Z.h&&p.y<Z.y+5&&Z.inv<=0) {
+      const blocking = Z.block && Z.face===Math.sign(N.x-Z.x);
+      const dmg = blocking ? 3 : 22;
+      Z.hp-=dmg; Z.flash=22; Z.inv=40;
+      shake = blocking?2:10;
+      burst(p.x, p.y, blocking?'#40d8d0':'#ff4040', 8);
+      projs.splice(i,1); continue;
+    }
+    if (p.y>GY+20||p.x<-30||p.x>W+30||p.life<=0) projs.splice(i,1);
+  }
+
+  // — Particles —
+  for (let i=parts.length-1;i>=0;i--) {
+    const p=parts[i];
+    p.x+=p.vx; p.y+=p.vy; p.vy+=0.18; p.vx*=0.94; p.life--;
+    if (p.life<=0) parts.splice(i,1);
+  }
+
+  // — End conditions —
+  if (N.hp<=0){ N.hp=0; gs='over'; winner='zoink'; }
+  if (Z.hp<=0){ Z.hp=0; gs='over'; winner='nexus'; }
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────
+function render() {
+  ctx.clearRect(0,0,W,H);
+
+  // ── TITLE ──
+  if (gs==='title') {
+    drawBG();
+    drawZoink(200, GY, 1, false, false, 0, 0);
+    drawNexus(560, GY, -1, false, 0, 200);
+
+    ctx.shadowColor='#9b5de5'; ctx.shadowBlur=30;
+    ctx.fillStyle='#40d8d0'; ctx.font='20px "Press Start 2P"';
+    ctx.textAlign='center'; ctx.fillText('ZOINK', W/2-110, 120);
+    ctx.fillStyle='#c81010'; ctx.fillText('NEXUS', W/2+110, 120);
+    ctx.fillStyle='#ffe135'; ctx.font='26px "Press Start 2P"'; ctx.fillText('VS', W/2, 120);
+    ctx.shadowBlur=0;
+    ctx.fillStyle='#888'; ctx.font='9px "Press Start 2P"';
+    ctx.fillText('A STUDENT DISCOVERY WEEK GAME', W/2, 148);
+
+    const pulse=0.6+0.4*Math.sin(fc*0.06);
+    ctx.globalAlpha=pulse;
+    ctx.fillStyle='#fff'; ctx.font='9px "Press Start 2P"';
+    ctx.fillText('PRESS SPACE TO PLAY', W/2, H-55);
+    ctx.globalAlpha=1;
+    return;
+  }
+
+  // ── GAME OVER ──
+  if (gs==='over') {
+    drawBG();
+    if (winner==='zoink') {
+      drawZoink(280, GY, 1, true, false, 0, -0.6);
+      drawNexus(520, GY, -1, false, 15, 200);
+      ctx.shadowColor='#40d8d0'; ctx.shadowBlur=25;
+      ctx.fillStyle='#40d8d0'; ctx.font='18px "Press Start 2P"';
+      ctx.textAlign='center'; ctx.fillText('ZOINK WINS!', W/2, 130);
+      ctx.shadowBlur=0;
+      ctx.fillStyle='#ffe135'; ctx.font='8px "Press Start 2P"';
+      ctx.fillText('THE REALM IS SAVED!', W/2, 154);
+    } else {
+      drawZoink(280, GY, 1, false, false, 16, 0);
+      drawNexus(520, GY, -1, false, 0, 200);
+      ctx.shadowColor='#ff4040'; ctx.shadowBlur=25;
+      ctx.fillStyle='#ff4040'; ctx.font='18px "Press Start 2P"';
+      ctx.textAlign='center'; ctx.fillText('NEXUS WINS!', W/2, 130);
+      ctx.shadowBlur=0;
+      ctx.fillStyle='#ffe135'; ctx.font='8px "Press Start 2P"';
+      ctx.fillText('DARKNESS FALLS...', W/2, 154);
+    }
+    const pulse=0.6+0.4*Math.sin(fc*0.06);
+    ctx.globalAlpha=pulse;
+    ctx.fillStyle='#fff'; ctx.font='9px "Press Start 2P"';
+    ctx.textAlign='center'; ctx.fillText('PRESS SPACE TO PLAY AGAIN', W/2, H-55);
+    ctx.globalAlpha=1;
+    return;
+  }
+
+  // ── PLAYING ──
+  if (shake>0) { ctx.save(); ctx.translate((Math.random()-.5)*shake*2,(Math.random()-.5)*shake*1.5); }
+  drawBG();
+
+  // Particles
+  parts.forEach(p=>{
+    ctx.globalAlpha=Math.max(0,p.life/p.ml)*0.9;
+    ctx.fillStyle=p.col;
+    ctx.fillRect(p.x-p.sz/2, p.y-p.sz/2, p.sz, p.sz);
+  });
+  ctx.globalAlpha=1;
+
+  // Projectiles
+  projs.forEach(p=>drawProj(p));
+
+  // Characters (draw further-back one first)
+  if (Z.x < N.x) {
+    drawNexus(N.x, N.y, N.face, N.att, N.flash, N.throwCD);
+    drawZoink(Z.x, Z.y, Z.face, Z.att, Z.block, Z.flash, Z.swing);
+  } else {
+    drawZoink(Z.x, Z.y, Z.face, Z.att, Z.block, Z.flash, Z.swing);
+    drawNexus(N.x, N.y, N.face, N.att, N.flash, N.throwCD);
+  }
+
+  if (shake>0) ctx.restore();
+  drawHUD();
+}
+
+// ── LOOP ──────────────────────────────────────────────────────────────
+(function loop(){ update(); render(); requestAnimationFrame(loop); })();
+</script>
+</body>
+</html>
