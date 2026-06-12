@@ -716,6 +716,54 @@
     .songtaew-strip .st-icon { font-size: 22px; line-height: 1.3; }
     .songtaew-strip strong { color: var(--teal); }
 
+    /* ── LANGUAGE SWITCHER ── */
+    .lang-bar {
+      background: #fff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-bottom: 1px solid #DDD;
+      flex-wrap: wrap;
+    }
+
+    .lang-bar-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      flex-shrink: 0;
+    }
+
+    .lang-pills {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .lang-pill {
+      background: #F0F0EE;
+      border: 1.5px solid transparent;
+      border-radius: 20px;
+      padding: 4px 11px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #555;
+      cursor: pointer;
+      transition: all .15s;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .lang-pill:active { opacity: .75; }
+
+    .lang-pill.active {
+      background: var(--navy);
+      color: #fff;
+      border-color: var(--navy);
+    }
+
     /* mobile tweak */
     @media (max-width: 380px) {
       .choice-grid { grid-template-columns: 1fr; }
@@ -739,200 +787,93 @@
   <input type="text" id="teamInput" placeholder="Enter your team name…" autocomplete="off" spellcheck="false">
 </div>
 
+<!-- ── LANGUAGE SWITCHER ── -->
+<div class="lang-bar">
+  <span class="lang-bar-label">🌐</span>
+  <div class="lang-pills">
+    <button class="lang-pill active" onclick="applyLang('en')">English</button>
+    <button class="lang-pill" onclick="applyLang('th')">ไทย</button>
+    <button class="lang-pill" onclick="applyLang('zh')">中文</button>
+    <button class="lang-pill" onclick="applyLang('ru')">РУС</button>
+    <button class="lang-pill" onclick="applyLang('ko')">한국어</button>
+  </div>
+</div>
+
 <!-- ── BRIEFING BAR ── -->
 <div class="briefing-bar" onclick="openInfoSheet()">
-  <span>📋 Read your team briefing before you start</span>
+  <span id="briefingBarText">📋 Read your team briefing before you start</span>
   <span class="br-arrow">→</span>
 </div>
 
 <!-- ── SONGTAEW STRIP ── -->
 <div class="songtaew-strip">
   <span class="st-icon">🛺</span>
-  <div>Your team has been assigned a <strong>Songtaew</strong>. Part of the challenge is communicating with your driver and navigating Pattaya to reach the right locations — work together!</div>
+  <div id="songtaewTextEl">Your team has been assigned a <strong>Songtaew</strong>. Part of the challenge is communicating with your driver and navigating Pattaya to reach the right locations — work together!</div>
 </div>
 
 <!-- ── BINGO BANNER ── -->
 <div class="bingo-banner" id="bingoBanner">
   <div class="b-title">🎉  BINGO!  🎉</div>
-  <div class="b-sub">Once you complete a line on the bingo card, edit your video (no more than 60 seconds), upload it and then message Nicole Sargeant on Teams to get the secret location details and head straight there 🍹</div>
+  <div class="b-sub" id="bingoBannerSubEl">Once you complete a line on the bingo card, edit your video (no more than 60 seconds), upload it and then message Nicole Sargeant on Teams to get the secret location details and head straight there 🍹</div>
 </div>
 
 <!-- ── BINGO GRID ── -->
 <div class="grid-wrap">
-  <div class="grid-hint">Tap a tile to see the challenge</div>
+  <div class="grid-hint" id="gridHintEl">Tap a tile to see the challenge</div>
   <div class="bingo-grid" id="bingoGrid"></div>
 </div>
 
 <!-- ── RECOMMENDED LOCATIONS ── -->
 <div class="card-section" style="margin-top:8px">
   <div class="card-header open" onclick="toggleCard(this)">
-    <span class="card-header-title">📍 Recommended Locations</span>
+    <span class="card-header-title" id="secLocationsTitle">📍 Recommended Locations</span>
     <span class="card-chevron">▼</span>
   </div>
-  <div class="card-body open">
-    <p class="loc-intro">You need <strong>3 separate locations</strong> — one for each challenge in your chosen line. Tap any card to open it in Google Maps.</p>
-    <div class="loc-grid">
-      <a class="loc-card" href="https://maps.google.com/?q=Golden+Buddha+Pattaya+Thailand" target="_blank" rel="noopener">
-        <span class="loc-emoji">✨</span>
-        <div><div class="loc-name">Golden Buddha</div><div class="loc-desc">Iconic golden Buddha statue</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
-      </a>
-      <a class="loc-card" href="https://maps.google.com/?q=Jungle+Gym+Pattaya+Thailand" target="_blank" rel="noopener">
-        <span class="loc-emoji">🏋️</span>
-        <div><div class="loc-name">Jungle Gym Pattaya</div><div class="loc-desc">Outdoor adventure &amp; fitness area</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
-      </a>
-      <a class="loc-card" href="https://maps.google.com/?q=Bamboo+Beach+Naklua+Soi+16+Pattaya+Thailand" target="_blank" rel="noopener">
-        <span class="loc-emoji">🏖️</span>
-        <div><div class="loc-name">Bamboo Beach Naklua 16</div><div class="loc-desc">Beachside spot in Naklua</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
-      </a>
-      <a class="loc-card" href="https://maps.google.com/?q=Pullman+Pattaya+Hotel+G+Thailand" target="_blank" rel="noopener">
-        <span class="loc-emoji">🏨</span>
-        <div><div class="loc-name">Pullman Pattaya Hotel G</div><div class="loc-desc">Luxury hotel with beach access</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
-      </a>
-      <a class="loc-card" href="https://maps.google.com/?q=Terminal+21+Pattaya+Thailand" target="_blank" rel="noopener">
-        <span class="loc-emoji">🛍️</span>
-        <div><div class="loc-name">Terminal 21 Pattaya</div><div class="loc-desc">Multi-storey themed shopping mall</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
-      </a>
-      <a class="loc-card" href="https://maps.google.com/?q=Villa+Market+Little+Walk+Pattaya+Thailand" target="_blank" rel="noopener">
-        <span class="loc-emoji">🛒</span>
-        <div><div class="loc-name">Villa Market Little Walk</div><div class="loc-desc">International supermarket &amp; food area</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
-      </a>
-      <a class="loc-card" href="https://maps.google.com/?q=White+Temple+Pattaya+Thailand" target="_blank" rel="noopener">
-        <span class="loc-emoji">🤍</span>
-        <div><div class="loc-name">White Temple</div><div class="loc-desc">Distinctive white temple landmark</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
-      </a>
-      <a class="loc-card" href="https://maps.google.com/?q=Sanctuary+of+Truth+Pattaya+Thailand" target="_blank" rel="noopener">
-        <span class="loc-emoji">⛩️</span>
-        <div><div class="loc-name">Sanctuary of Truth</div><div class="loc-desc">Ornate wooden temple by the sea</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
-      </a>
-      <a class="loc-card" href="https://maps.google.com/?q=Mr+DIY+Siam+Country+Club+Road+Pattaya+Thailand" target="_blank" rel="noopener">
-        <span class="loc-emoji">🔧</span>
-        <div><div class="loc-name">Mr. DIY Siam Country Club Rd</div><div class="loc-desc">Popular variety &amp; hardware store</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
-      </a>
-      <a class="loc-card" href="https://maps.google.com/?q=4+King+Sauna+Fitness+Pattaya+Thailand" target="_blank" rel="noopener">
-        <span class="loc-emoji">💪</span>
-        <div><div class="loc-name">4 King Sauna &amp; Fitness</div><div class="loc-desc">Sauna and fitness complex</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
-      </a>
-      <a class="loc-card" href="https://maps.google.com/?q=Pattaya+Viewpoint+Thailand" target="_blank" rel="noopener">
-        <span class="loc-emoji">🌅</span>
-        <div><div class="loc-name">Pattaya Viewpoint</div><div class="loc-desc">Panoramic views over the bay</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
-      </a>
-      <a class="loc-card" href="https://maps.google.com/?q=Bali+Hai+Pier+Pattaya+Thailand" target="_blank" rel="noopener">
-        <span class="loc-emoji">🚢</span>
-        <div><div class="loc-name">Bali Hai Pier</div><div class="loc-desc">Waterfront pier with boats &amp; sea views</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
-      </a>
-      <a class="loc-card" href="https://maps.google.com/?q=Lan+Pho+Naklua+Market+Pattaya+Thailand" target="_blank" rel="noopener">
-        <span class="loc-emoji">🐟</span>
-        <div><div class="loc-name">Lan Pho Nakluea Market</div><div class="loc-desc">Local fresh seafood market</div><div class="loc-maps-tag">📍 Open in Maps</div></div>
-      </a>
-      <div class="loc-card">
-        <span class="loc-emoji">📌</span>
-        <div><div class="loc-name">Your own choice</div><div class="loc-desc">A Pattaya highlight or landmark not listed — keep it north of Jomtien so you're not too far from the final destination</div></div>
-      </div>
-    </div>
-  </div>
+  <div class="card-body open" id="locationsBody"></div>
 </div>
 
 <!-- ── ACCORDION SECTIONS ── -->
 <div class="card-section">
   <div class="card-header" onclick="toggleCard(this)">
-    <span class="card-header-title">🏆 How to Win</span>
+    <span class="card-header-title" id="secWinTitle">🏆 How to Win</span>
     <span class="card-chevron">▼</span>
   </div>
-  <div class="card-body">
-    <div class="win-cards">
-      <div class="win-card">
-        <span class="we">🥇</span>
-        <span class="wt"><strong>Fastest Team</strong> — First to finish 3 challenges in a line, upload, get approval, and arrive at the final destination. First entry to the after party + first dibs on drinks.</span>
-      </div>
-      <div class="win-card">
-        <span class="we">🔥</span>
-        <span class="wt"><strong>House Champions</strong> — The house whose teams collectively arrive at the final destination first. Every team's time counts.</span>
-      </div>
-      <div class="win-card">
-        <span class="we">🎬</span>
-        <span class="wt"><strong>Crowd Favourite</strong> — All videos shown at the final venue and staff vote live. Celebrates creativity, commitment, humour, and iconic moments.</span>
-      </div>
-    </div>
-  </div>
+  <div class="card-body" id="winBody"></div>
 </div>
 
 <div class="card-section">
   <div class="card-header" onclick="toggleCard(this)">
-    <span class="card-header-title">📋 Your 5 Steps</span>
+    <span class="card-header-title" id="secStepsTitle">📋 Your 5 Steps</span>
     <span class="card-chevron">▼</span>
   </div>
-  <div class="card-body">
-    <ul class="info-list">
-      <li><span class="step-num">1</span>Choose your line — pick 3 connected challenges (horizontal, vertical, or diagonal)</li>
-      <li><span class="step-num">2</span>Choose your Pattaya locations — then brief your Songtaew driver on where to go</li>
-      <li><span class="step-num">3</span>Film your evidence — photos and video clips</li>
-      <li><span class="step-num">4</span>Edit everything into ONE final video, under 60 seconds</li>
-      <li><span class="step-num">5</span>Upload your video + completed bingo card to receive the secret final location</li>
-    </ul>
-  </div>
+  <div class="card-body" id="stepsBody"></div>
 </div>
 
 <div class="card-section">
   <div class="card-header" onclick="toggleCard(this)">
-    <span class="card-header-title">🎬 Final Video Rules</span>
+    <span class="card-header-title" id="secVideoTitle">🎬 Final Video Rules</span>
     <span class="card-chevron">▼</span>
   </div>
-  <div class="card-body">
-    <ul class="checklist">
-      <li><span class="ck">✅</span>Under 60 seconds total</li>
-      <li><span class="ck">✅</span>Evidence of all 3 challenges included</li>
-      <li><span class="ck">✅</span>Your team name and house shown</li>
-      <li><span class="ck">✅</span>Submitted as ONE final video file</li>
-      <li><span class="ck">✅</span>Every team member on camera at least once</li>
-    </ul>
-  </div>
+  <div class="card-body" id="videoBody"></div>
 </div>
 
 <div class="card-section" style="margin-bottom:10px">
   <div class="card-header" onclick="toggleCard(this)">
-    <span class="card-header-title">✂️ Quick Editing Tips</span>
+    <span class="card-header-title" id="secEditTitle">✂️ Quick Editing Tips</span>
     <span class="card-chevron">▼</span>
   </div>
-  <div class="card-body">
-    <div class="edit-grid">
-      <div class="edit-app"><strong>iPhone / iPad</strong>iMovie · Edit in Photos</div>
-      <div class="edit-app"><strong>Android</strong>CapCut (free)</div>
-      <div class="edit-app"><strong>Google Photos</strong>Built-in editor</div>
-      <div class="edit-app"><strong>Any device</strong>CapCut works great</div>
-    </div>
-    <ul class="tip-list">
-      <li>Keep clips SHORT — 3–5 seconds each</li>
-      <li>Funny beats perfect every time</li>
-      <li>Plan before you film</li>
-      <li>Assign roles: filmer, editor, navigator, performers</li>
-    </ul>
-  </div>
+  <div class="card-body" id="editBody"></div>
 </div>
 
 <div class="card-section upload-section" style="margin-bottom:10px">
   <div class="card-header upload-header" onclick="toggleCard(this)">
-    <span class="card-header-title">📤 Submit Your Video</span>
+    <span class="card-header-title" id="secSubmitTitle">📤 Submit Your Video</span>
     <span class="card-chevron">▲</span>
   </div>
-  <div class="card-body open">
-    <p class="upload-intro">
-      Completed your line? Edit your 3 clips into <strong>one video under 60 seconds</strong>, then follow these two steps to unlock the secret final location:
-    </p>
-    <!-- ★ UPDATE THE HREF BELOW WITH YOUR ACTUAL UPLOAD FOLDER LINK ★ -->
-    <a href="#upload-link-goes-here" target="_blank" class="upload-btn">
-      📁 &nbsp;Upload your video here
-    </a>
-    <div class="teams-note">
-      <span class="teams-icon">💬</span>
-      <div>
-        <strong>Then message Nicole Sargeant on Microsoft Teams</strong>
-        Once your video is uploaded, send Nicole a message on Teams. She will reply with the secret final location.
-      </div>
-    </div>
-  </div>
+  <div class="card-body open" id="submitBody"></div>
 </div>
 
-<footer class="page-footer">
+<footer class="page-footer" id="pageFooter">
   Good luck. Stay creative. Represent Regents well. 🌟<br>
   <span style="color:#CCC">Your progress is saved automatically on this device</span>
 </footer>
@@ -960,9 +901,9 @@
 <div class="celebrate-overlay" id="celebrateOverlay">
   <div class="celebrate-card">
     <div class="c-big">BINGO!</div>
-    <div class="c-line">🎉 Line complete! 🎉</div>
-    <div class="c-sub">Edit your clips into one video under 60 seconds, upload using the link at the bottom of the page, then message Nicole Sargeant on Teams to get the secret final location.</div>
-    <button class="celebrate-btn" onclick="closeCelebration()">Let's go! 🚀</button>
+    <div class="c-line" id="celebLineEl">🎉 Line complete! 🎉</div>
+    <div class="c-sub" id="celebSubEl">Edit your clips into one video under 60 seconds, upload using the link at the bottom of the page, then message Nicole Sargeant on Teams to get the secret final location.</div>
+    <button class="celebrate-btn" id="celebBtnEl" onclick="closeCelebration()">Let's go! 🚀</button>
   </div>
 </div>
 
@@ -972,6 +913,454 @@
      ══════════════════════════════════════════════ -->
 <script>
 'use strict';
+
+/* ── LANGUAGE ── */
+let currentLang = localStorage.getItem('bingo26_lang') || 'en';
+
+const UI = {
+  en: {
+    briefingBar: '📋 Read your team briefing before you start',
+    songtaew: 'Your team has been assigned a <strong>Songtaew</strong>. Part of the challenge is communicating with your driver and navigating Pattaya to reach the right locations — work together!',
+    bannerSub: 'Once you complete a line on the bingo card, edit your video (no more than 60 seconds), upload it and then message Nicole Sargeant on Teams to get the secret location details and head straight there 🍹',
+    gridHint: 'Tap a tile to see the challenge',
+    secLocations: '📍 Recommended Locations',
+    secWin: '🏆 How to Win',
+    secSteps: '📋 Your 5 Steps',
+    secVideo: '🎬 Final Video Rules',
+    secEdit: '✂️ Quick Editing Tips',
+    secSubmit: '📤 Submit Your Video',
+    locIntro: 'You need <strong>3 separate locations</strong> — one for each challenge in your chosen line. Tap any card to open it in Google Maps.',
+    locMapsTag: '📍 Open in Maps',
+    locOwnName: 'Your own choice',
+    locOwnDesc: 'A Pattaya highlight or landmark not listed — keep it north of Jomtien so you\'re not too far from the final destination',
+    winBody: `<div class="win-cards">
+      <div class="win-card"><span class="we">🥇</span><span class="wt"><strong>Fastest Team</strong> — First to finish 3 challenges in a line, upload, get approval, and arrive at the final destination. First entry to the after party + first dibs on drinks.</span></div>
+      <div class="win-card"><span class="we">🔥</span><span class="wt"><strong>House Champions</strong> — The house whose teams collectively arrive at the final destination first. Every team's time counts.</span></div>
+      <div class="win-card"><span class="we">🎬</span><span class="wt"><strong>Crowd Favourite</strong> — All videos shown at the final venue and staff vote live. Celebrates creativity, commitment, humour, and iconic moments.</span></div>
+    </div>`,
+    stepsBody: `<ul class="info-list">
+      <li><span class="step-num">1</span>Choose your line — pick 3 connected challenges (horizontal, vertical, or diagonal)</li>
+      <li><span class="step-num">2</span>Choose your Pattaya locations — then brief your Songtaew driver on where to go</li>
+      <li><span class="step-num">3</span>Film your evidence — photos and video clips</li>
+      <li><span class="step-num">4</span>Edit everything into ONE final video, under 60 seconds</li>
+      <li><span class="step-num">5</span>Upload your video + completed bingo card to receive the secret final location</li>
+    </ul>`,
+    videoBody: `<ul class="checklist">
+      <li><span class="ck">✅</span>Under 60 seconds total</li>
+      <li><span class="ck">✅</span>Evidence of all 3 challenges included</li>
+      <li><span class="ck">✅</span>Your team name and house shown</li>
+      <li><span class="ck">✅</span>Submitted as ONE final video file</li>
+      <li><span class="ck">✅</span>Every team member on camera at least once</li>
+    </ul>`,
+    editBody: `<div class="edit-grid">
+      <div class="edit-app"><strong>iPhone / iPad</strong>iMovie · Edit in Photos</div>
+      <div class="edit-app"><strong>Android</strong>CapCut (free)</div>
+      <div class="edit-app"><strong>Google Photos</strong>Built-in editor</div>
+      <div class="edit-app"><strong>Any device</strong>CapCut works great</div>
+    </div>
+    <ul class="tip-list">
+      <li>Keep clips SHORT — 3–5 seconds each</li>
+      <li>Funny beats perfect every time</li>
+      <li>Plan before you film</li>
+      <li>Assign roles: filmer, editor, navigator, performers</li>
+    </ul>`,
+    submitBody: `<p class="upload-intro">Completed your line? Edit your 3 clips into <strong>one video under 60 seconds</strong>, then follow these two steps to unlock the secret final location:</p>
+    <a href="#upload-link-goes-here" target="_blank" class="upload-btn">📁 &nbsp;Upload your video here</a>
+    <div class="teams-note"><span class="teams-icon">💬</span><div><strong>Then message Nicole Sargeant on Microsoft Teams</strong>Once your video is uploaded, send Nicole a message on Teams. She will reply with the secret final location.</div></div>`,
+    footer: 'Good luck. Stay creative. Represent Regents well. 🌟<br><span style="color:#CCC">Your progress is saved automatically on this device</span>',
+    shLabelChallenge: 'The Challenge',
+    markComplete: 'Mark as complete ✓',
+    markedComplete: '✓ Marked as complete',
+    celebLine: '🎉 Line complete! 🎉',
+    celebSub: 'Edit your clips into one video under 60 seconds, upload using the link at the bottom of the page, then message Nicole Sargeant on Teams to get the secret final location.',
+    celebBtn: "Let's go! 🚀",
+    infoTitle: 'How It Works',
+    infoSubtitle: 'REGENTS TEAM BUILDING 2026',
+    infoSongtaewTitle: '🛺 Your Songtaew',
+    infoSongtaewText: 'Each team has been assigned a <strong>Songtaew</strong> (local taxi truck). <strong>Your driver is part of the challenge</strong> — you are responsible for communicating your destinations and navigating Pattaya to reach the right locations. Plan your route, work as a team, and get moving!',
+    infoChallenge: 'Complete ONE line on the bingo board to unlock the final location.',
+    infoLineTitle: 'Line options',
+    infoLine1: 'Horizontal — any row across',
+    infoLine2: 'Vertical — any column down',
+    infoLine3: 'Diagonal — corner to corner through the centre (★)',
+    info5StepsTitle: 'The 5 steps',
+    infoStep1: '<strong>1.</strong> Choose your line',
+    infoStep2: '<strong>2.</strong> Choose your Pattaya filming locations',
+    infoStep3: '<strong>3.</strong> Film your evidence',
+    infoStep4: '<strong>4.</strong> Edit into ONE video, under 60 seconds',
+    infoStep5: '<strong>5.</strong> Upload video + bingo card to get the final location',
+    infoGotIt: "Got it, let's go! 🛺",
+    locs: [
+      { emoji:'✨', name:'Golden Buddha', desc:'Iconic golden Buddha statue', href:'https://maps.google.com/?q=Golden+Buddha+Pattaya+Thailand' },
+      { emoji:'🏋️', name:'Jungle Gym Pattaya', desc:'Outdoor adventure & fitness area', href:'https://maps.google.com/?q=Jungle+Gym+Pattaya+Thailand' },
+      { emoji:'🏖️', name:'Bamboo Beach Naklua 16', desc:'Beachside spot in Naklua', href:'https://maps.google.com/?q=Bamboo+Beach+Naklua+Soi+16+Pattaya+Thailand' },
+      { emoji:'🏨', name:'Pullman Pattaya Hotel G', desc:'Luxury hotel with beach access', href:'https://maps.google.com/?q=Pullman+Pattaya+Hotel+G+Thailand' },
+      { emoji:'🛍️', name:'Terminal 21 Pattaya', desc:'Multi-storey themed shopping mall', href:'https://maps.google.com/?q=Terminal+21+Pattaya+Thailand' },
+      { emoji:'🛒', name:'Villa Market Little Walk', desc:'International supermarket & food area', href:'https://maps.google.com/?q=Villa+Market+Little+Walk+Pattaya+Thailand' },
+      { emoji:'🤍', name:'White Temple', desc:'Distinctive white temple landmark', href:'https://maps.google.com/?q=White+Temple+Pattaya+Thailand' },
+      { emoji:'⛩️', name:'Sanctuary of Truth', desc:'Ornate wooden temple by the sea', href:'https://maps.google.com/?q=Sanctuary+of+Truth+Pattaya+Thailand' },
+      { emoji:'🔧', name:'Mr. DIY Siam Country Club Rd', desc:'Popular variety & hardware store', href:'https://maps.google.com/?q=Mr+DIY+Siam+Country+Club+Road+Pattaya+Thailand' },
+      { emoji:'💪', name:'4 King Sauna & Fitness', desc:'Sauna and fitness complex', href:'https://maps.google.com/?q=4+King+Sauna+Fitness+Pattaya+Thailand' },
+      { emoji:'🌅', name:'Pattaya Viewpoint', desc:'Panoramic views over the bay', href:'https://maps.google.com/?q=Pattaya+Viewpoint+Thailand' },
+      { emoji:'🚢', name:'Bali Hai Pier', desc:'Waterfront pier with boats & sea views', href:'https://maps.google.com/?q=Bali+Hai+Pier+Pattaya+Thailand' },
+      { emoji:'🐟', name:'Lan Pho Nakluea Market', desc:'Local fresh seafood market', href:'https://maps.google.com/?q=Lan+Pho+Naklua+Market+Pattaya+Thailand' }
+    ]
+  },
+  th: {
+    briefingBar: '📋 อ่านบรีฟของทีมก่อนเริ่ม',
+    songtaew: 'ทีมของคุณได้รับมอบหมาย <strong>ซองแทว</strong> ส่วนหนึ่งของความท้าทายคือการสื่อสารกับคนขับและนำทางในพัทยาเพื่อไปยังสถานที่ที่ถูกต้อง — ร่วมมือกัน!',
+    bannerSub: 'เมื่อคุณทำครบหนึ่งแถวในบิงโกการ์ด แก้ไขวิดีโอของคุณ (ไม่เกิน 60 วินาที) อัปโหลดแล้วส่งข้อความหา Nicole Sargeant ใน Teams เพื่อรับรายละเอียดสถานที่ลับ 🍹',
+    gridHint: 'แตะไทล์เพื่อดูความท้าทาย',
+    secLocations: '📍 สถานที่แนะนำ',
+    secWin: '🏆 วิธีชนะ',
+    secSteps: '📋 5 ขั้นตอนของคุณ',
+    secVideo: '🎬 กฎวิดีโอสุดท้าย',
+    secEdit: '✂️ เคล็ดลับการตัดต่อ',
+    secSubmit: '📤 ส่งวิดีโอของคุณ',
+    locIntro: 'คุณต้องการ <strong>3 สถานที่แยกกัน</strong> — หนึ่งแห่งสำหรับแต่ละความท้าทายในแถวที่เลือก แตะการ์ดใดก็ได้เพื่อเปิดใน Google Maps',
+    locMapsTag: '📍 เปิดใน Maps',
+    locOwnName: 'สถานที่ของคุณเอง',
+    locOwnDesc: 'สถานที่ท่องเที่ยวหรือแลนด์มาร์กในพัทยาที่ไม่ได้ระบุไว้ — ควรอยู่ทางเหนือของจอมเทียน',
+    winBody: `<div class="win-cards">
+      <div class="win-card"><span class="we">🥇</span><span class="wt"><strong>ทีมที่เร็วที่สุด</strong> — ทีมแรกที่ทำ 3 ความท้าทายในแถว อัปโหลด ได้รับการอนุมัติ และมาถึงปลายทางสุดท้าย เข้าร่วมปาร์ตี้ก่อนและได้เลือกเครื่องดื่มก่อน</span></div>
+      <div class="win-card"><span class="we">🔥</span><span class="wt"><strong>แชมป์เฮาส์</strong> — เฮาส์ที่ทีมทั้งหมดมาถึงปลายทางสุดท้ายได้เร็วที่สุดรวมกัน เวลาของทุกทีมนับ</span></div>
+      <div class="win-card"><span class="we">🎬</span><span class="wt"><strong>คนโปรดของผู้ชม</strong> — วิดีโอทั้งหมดจะฉายที่สถานที่สุดท้ายและเจ้าหน้าที่โหวตสด เฉลิมฉลองความคิดสร้างสรรค์ ความมุ่งมั่น อารมณ์ขัน และช่วงเวลาที่น่าจดจำ</span></div>
+    </div>`,
+    stepsBody: `<ul class="info-list">
+      <li><span class="step-num">1</span>เลือกแถวของคุณ — เลือก 3 ความท้าทายที่เชื่อมต่อกัน (แนวนอน แนวตั้ง หรือแนวทแยง)</li>
+      <li><span class="step-num">2</span>เลือกสถานที่ในพัทยา — แล้วบรีฟคนขับซองแทวว่าจะไปที่ไหน</li>
+      <li><span class="step-num">3</span>ถ่ายหลักฐาน — ภาพถ่ายและคลิปวิดีโอ</li>
+      <li><span class="step-num">4</span>ตัดต่อทุกอย่างเป็นวิดีโอสุดท้าย 1 ไฟล์ ไม่เกิน 60 วินาที</li>
+      <li><span class="step-num">5</span>อัปโหลดวิดีโอ + บิงโกการ์ดที่เสร็จสมบูรณ์เพื่อรับสถานที่ลับ</li>
+    </ul>`,
+    videoBody: `<ul class="checklist">
+      <li><span class="ck">✅</span>รวมไม่เกิน 60 วินาที</li>
+      <li><span class="ck">✅</span>มีหลักฐานครบทั้ง 3 ความท้าทาย</li>
+      <li><span class="ck">✅</span>แสดงชื่อทีมและเฮาส์ของคุณ</li>
+      <li><span class="ck">✅</span>ส่งเป็นไฟล์วิดีโอสุดท้าย 1 ไฟล์</li>
+      <li><span class="ck">✅</span>สมาชิกทีมทุกคนปรากฏในกล้องอย่างน้อยหนึ่งครั้ง</li>
+    </ul>`,
+    editBody: `<div class="edit-grid">
+      <div class="edit-app"><strong>iPhone / iPad</strong>iMovie · แก้ไขในรูปภาพ</div>
+      <div class="edit-app"><strong>Android</strong>CapCut (ฟรี)</div>
+      <div class="edit-app"><strong>Google Photos</strong>ตัวแก้ไขในตัว</div>
+      <div class="edit-app"><strong>ทุกอุปกรณ์</strong>CapCut ใช้งานได้ดี</div>
+    </div>
+    <ul class="tip-list">
+      <li>ทำคลิปให้สั้น — 3–5 วินาทีต่อคลิป</li>
+      <li>ตลกดีกว่าสมบูรณ์แบบเสมอ</li>
+      <li>วางแผนก่อนถ่าย</li>
+      <li>แบ่งหน้าที่: ช่างภาพ นักตัดต่อ นำทาง นักแสดง</li>
+    </ul>`,
+    submitBody: `<p class="upload-intro">ทำแถวเสร็จแล้ว? ตัดต่อ 3 คลิปเป็น<strong>วิดีโอเดียวไม่เกิน 60 วินาที</strong> แล้วทำตาม 2 ขั้นตอนนี้เพื่อปลดล็อกสถานที่สุดท้าย:</p>
+    <a href="#upload-link-goes-here" target="_blank" class="upload-btn">📁 &nbsp;อัปโหลดวิดีโอของคุณที่นี่</a>
+    <div class="teams-note"><span class="teams-icon">💬</span><div><strong>จากนั้นส่งข้อความหา Nicole Sargeant ใน Microsoft Teams</strong>เมื่ออัปโหลดวิดีโอแล้ว ส่งข้อความหา Nicole ใน Teams เธอจะตอบกลับด้วยสถานที่สุดท้าย</div></div>`,
+    footer: 'ขอให้โชคดี ใช้ความคิดสร้างสรรค์ และเป็นตัวแทนที่ดีของ Regents 🌟<br><span style="color:#CCC">ความคืบหน้าของคุณถูกบันทึกอัตโนมัติบนอุปกรณ์นี้</span>',
+    shLabelChallenge: 'ความท้าทาย',
+    markComplete: 'ทำเสร็จแล้ว ✓',
+    markedComplete: '✓ ทำเสร็จแล้ว',
+    celebLine: '🎉 แถวสมบูรณ์! 🎉',
+    celebSub: 'ตัดต่อคลิปเป็นวิดีโอเดียวไม่เกิน 60 วินาที อัปโหลดโดยใช้ลิงก์ที่ด้านล่างของหน้า แล้วส่งข้อความหา Nicole Sargeant ใน Teams เพื่อรับสถานที่สุดท้าย',
+    celebBtn: 'ไปเลย! 🚀',
+    infoTitle: 'วิธีการทำงาน',
+    infoSubtitle: 'REGENTS TEAM BUILDING 2026',
+    infoSongtaewTitle: '🛺 ซองแทวของคุณ',
+    infoSongtaewText: 'แต่ละทีมได้รับมอบหมาย <strong>ซองแทว</strong> (รถแท็กซี่ท้องถิ่น) <strong>คนขับของคุณเป็นส่วนหนึ่งของความท้าทาย</strong> — คุณต้องสื่อสารจุดหมายและนำทางในพัทยาเพื่อไปยังสถานที่ที่ถูกต้อง วางแผนเส้นทาง ทำงานเป็นทีม และออกเดินทาง!',
+    infoChallenge: 'ทำ ONE แถวบนบิงโกบอร์ดให้สมบูรณ์เพื่อปลดล็อกสถานที่สุดท้าย',
+    infoLineTitle: 'ตัวเลือกแถว',
+    infoLine1: 'แนวนอน — แถวใดก็ได้',
+    infoLine2: 'แนวตั้ง — คอลัมน์ใดก็ได้',
+    infoLine3: 'แนวทแยง — มุมถึงมุมผ่านกลาง (★)',
+    info5StepsTitle: '5 ขั้นตอน',
+    infoStep1: '<strong>1.</strong> เลือกแถวของคุณ',
+    infoStep2: '<strong>2.</strong> เลือกสถานที่ถ่ายทำในพัทยา',
+    infoStep3: '<strong>3.</strong> ถ่ายหลักฐาน',
+    infoStep4: '<strong>4.</strong> ตัดต่อเป็นวิดีโอเดียว ไม่เกิน 60 วินาที',
+    infoStep5: '<strong>5.</strong> อัปโหลดวิดีโอ + บิงโกการ์ดเพื่อรับสถานที่สุดท้าย',
+    infoGotIt: 'เข้าใจแล้ว ไปเลย! 🛺',
+    locs: [
+      { emoji:'✨', name:'พระพุทธรูปทอง', desc:'รูปพระพุทธรูปทองอันเป็นสัญลักษณ์', href:'https://maps.google.com/?q=Golden+Buddha+Pattaya+Thailand' },
+      { emoji:'🏋️', name:'Jungle Gym พัทยา', desc:'สนามผจญภัยและออกกำลังกายกลางแจ้ง', href:'https://maps.google.com/?q=Jungle+Gym+Pattaya+Thailand' },
+      { emoji:'🏖️', name:'Bamboo Beach นาเกลือ 16', desc:'สถานที่ริมหาดในนาเกลือ', href:'https://maps.google.com/?q=Bamboo+Beach+Naklua+Soi+16+Pattaya+Thailand' },
+      { emoji:'🏨', name:'Pullman Pattaya Hotel G', desc:'โรงแรมหรูพร้อมเข้าถึงชายหาด', href:'https://maps.google.com/?q=Pullman+Pattaya+Hotel+G+Thailand' },
+      { emoji:'🛍️', name:'Terminal 21 พัทยา', desc:'ศูนย์การค้าหลายชั้นแบบธีม', href:'https://maps.google.com/?q=Terminal+21+Pattaya+Thailand' },
+      { emoji:'🛒', name:'Villa Market Little Walk', desc:'ซูเปอร์มาร์เก็ตนานาชาติและพื้นที่อาหาร', href:'https://maps.google.com/?q=Villa+Market+Little+Walk+Pattaya+Thailand' },
+      { emoji:'🤍', name:'วัดขาว', desc:'แลนด์มาร์กวัดขาวที่โดดเด่น', href:'https://maps.google.com/?q=White+Temple+Pattaya+Thailand' },
+      { emoji:'⛩️', name:'ปราสาทสัจธรรม', desc:'วิหารไม้แกะสลักริมทะเล', href:'https://maps.google.com/?q=Sanctuary+of+Truth+Pattaya+Thailand' },
+      { emoji:'🔧', name:'Mr. DIY สยามคันทรีคลับ', desc:'ร้านขายของหลากหลายยอดนิยม', href:'https://maps.google.com/?q=Mr+DIY+Siam+Country+Club+Road+Pattaya+Thailand' },
+      { emoji:'💪', name:'4 King Sauna & Fitness', desc:'คอมเพล็กซ์ซาวน่าและฟิตเนส', href:'https://maps.google.com/?q=4+King+Sauna+Fitness+Pattaya+Thailand' },
+      { emoji:'🌅', name:'จุดชมวิวพัทยา', desc:'วิวพาโนรามาเหนืออ่าว', href:'https://maps.google.com/?q=Pattaya+Viewpoint+Thailand' },
+      { emoji:'🚢', name:'ท่าเรือบาลีฮาย', desc:'ท่าเรือริมน้ำพร้อมเรือและวิวทะเล', href:'https://maps.google.com/?q=Bali+Hai+Pier+Pattaya+Thailand' },
+      { emoji:'🐟', name:'ตลาดหลาน โพ นาเกลือ', desc:'ตลาดอาหารทะเลสดท้องถิ่น', href:'https://maps.google.com/?q=Lan+Pho+Naklua+Market+Pattaya+Thailand' }
+    ]
+  },
+  zh: {
+    briefingBar: '📋 开始前请阅读团队简报',
+    songtaew: '你的团队已获分配一辆 <strong>双条车</strong>。挑战的一部分是与司机沟通，并在芭提雅导航到正确的地点 — 团队合作！',
+    bannerSub: '完成宾果卡上的一条线后，编辑你的视频（不超过60秒），上传，然后在Teams上给Nicole Sargeant发消息获取秘密地点信息 🍹',
+    gridHint: '点击方块查看挑战',
+    secLocations: '📍 推荐地点',
+    secWin: '🏆 如何获胜',
+    secSteps: '📋 你的5个步骤',
+    secVideo: '🎬 最终视频规则',
+    secEdit: '✂️ 快速剪辑技巧',
+    secSubmit: '📤 提交你的视频',
+    locIntro: '你需要 <strong>3个独立地点</strong> — 每个挑战一个。点击任意卡片在Google Maps中打开。',
+    locMapsTag: '📍 在地图中打开',
+    locOwnName: '你自己的选择',
+    locOwnDesc: '芭提雅未列出的亮点或地标 — 请保持在仲天以北，以免离最终目的地太远',
+    winBody: `<div class="win-cards">
+      <div class="win-card"><span class="we">🥇</span><span class="wt"><strong>最快团队</strong> — 第一个完成一条线上的3个挑战、上传、获得批准并到达最终目的地的团队。优先进入派对+优先选饮料。</span></div>
+      <div class="win-card"><span class="we">🔥</span><span class="wt"><strong>院系冠军</strong> — 所有团队集体最先到达最终目的地的院系。每个团队的时间都算数。</span></div>
+      <div class="win-card"><span class="we">🎬</span><span class="wt"><strong>观众最爱</strong> — 所有视频在最终场地展示，工作人员现场投票。表彰创意、投入、幽默和标志性时刻。</span></div>
+    </div>`,
+    stepsBody: `<ul class="info-list">
+      <li><span class="step-num">1</span>选择你的线 — 选3个相连的挑战（横向、纵向或对角线）</li>
+      <li><span class="step-num">2</span>选择芭提雅地点 — 然后告知双条车司机去哪里</li>
+      <li><span class="step-num">3</span>拍摄证据 — 照片和视频片段</li>
+      <li><span class="step-num">4</span>将所有内容剪辑成一个最终视频，不超过60秒</li>
+      <li><span class="step-num">5</span>上传视频+完成的宾果卡以获取秘密最终地点</li>
+    </ul>`,
+    videoBody: `<ul class="checklist">
+      <li><span class="ck">✅</span>总时长不超过60秒</li>
+      <li><span class="ck">✅</span>包含所有3个挑战的证据</li>
+      <li><span class="ck">✅</span>显示你的团队名称和院系</li>
+      <li><span class="ck">✅</span>作为一个最终视频文件提交</li>
+      <li><span class="ck">✅</span>每位团队成员至少出镜一次</li>
+    </ul>`,
+    editBody: `<div class="edit-grid">
+      <div class="edit-app"><strong>iPhone / iPad</strong>iMovie · 在照片中编辑</div>
+      <div class="edit-app"><strong>Android</strong>CapCut（免费）</div>
+      <div class="edit-app"><strong>Google Photos</strong>内置编辑器</div>
+      <div class="edit-app"><strong>任意设备</strong>CapCut效果很好</div>
+    </div>
+    <ul class="tip-list">
+      <li>保持片段简短 — 每段3–5秒</li>
+      <li>有趣永远胜过完美</li>
+      <li>拍摄前先计划</li>
+      <li>分配角色：摄影师、剪辑师、导航员、表演者</li>
+    </ul>`,
+    submitBody: `<p class="upload-intro">完成了你的线？将3个片段剪辑成<strong>一个不超过60秒的视频</strong>，然后按照这两个步骤解锁秘密最终地点：</p>
+    <a href="#upload-link-goes-here" target="_blank" class="upload-btn">📁 &nbsp;在这里上传你的视频</a>
+    <div class="teams-note"><span class="teams-icon">💬</span><div><strong>然后在Microsoft Teams上给Nicole Sargeant发消息</strong>视频上传后，在Teams上给Nicole发消息。她会回复秘密最终地点。</div></div>`,
+    footer: '祝你好运。保持创意。为Regents争光。🌟<br><span style="color:#CCC">你的进度会自动保存在此设备上</span>',
+    shLabelChallenge: '挑战内容',
+    markComplete: '标记为完成 ✓',
+    markedComplete: '✓ 已标记完成',
+    celebLine: '🎉 完成一条线！🎉',
+    celebSub: '将片段剪辑成一个不超过60秒的视频，使用页面底部的链接上传，然后在Teams上给Nicole Sargeant发消息获取秘密最终地点。',
+    celebBtn: '出发！🚀',
+    infoTitle: '如何参与',
+    infoSubtitle: 'REGENTS TEAM BUILDING 2026',
+    infoSongtaewTitle: '🛺 你的双条车',
+    infoSongtaewText: '每个团队已分配一辆<strong>双条车</strong>（当地出租车）。<strong>你的司机是挑战的一部分</strong> — 你负责沟通目的地并在芭提雅导航到正确地点。规划路线，团队合作，出发！',
+    infoChallenge: '完成宾果板上的一条线以解锁最终地点。',
+    infoLineTitle: '线的选项',
+    infoLine1: '横向 — 任意一行',
+    infoLine2: '纵向 — 任意一列',
+    infoLine3: '对角线 — 角到角穿过中心（★）',
+    info5StepsTitle: '5个步骤',
+    infoStep1: '<strong>1.</strong> 选择你的线',
+    infoStep2: '<strong>2.</strong> 选择芭提雅拍摄地点',
+    infoStep3: '<strong>3.</strong> 拍摄证据',
+    infoStep4: '<strong>4.</strong> 剪辑成一个视频，不超过60秒',
+    infoStep5: '<strong>5.</strong> 上传视频+宾果卡以获取最终地点',
+    infoGotIt: '明白了，出发！🛺',
+    locs: [
+      { emoji:'✨', name:'金佛', desc:'标志性金佛像', href:'https://maps.google.com/?q=Golden+Buddha+Pattaya+Thailand' },
+      { emoji:'🏋️', name:'Jungle Gym 芭提雅', desc:'户外探险与健身区', href:'https://maps.google.com/?q=Jungle+Gym+Pattaya+Thailand' },
+      { emoji:'🏖️', name:'Bamboo Beach 纳克卢亚16', desc:'纳克卢亚海边景点', href:'https://maps.google.com/?q=Bamboo+Beach+Naklua+Soi+16+Pattaya+Thailand' },
+      { emoji:'🏨', name:'芭提雅铂尔曼G酒店', desc:'可到达海滩的豪华酒店', href:'https://maps.google.com/?q=Pullman+Pattaya+Hotel+G+Thailand' },
+      { emoji:'🛍️', name:'Terminal 21 芭提雅', desc:'多层主题购物中心', href:'https://maps.google.com/?q=Terminal+21+Pattaya+Thailand' },
+      { emoji:'🛒', name:'Villa Market 小巷', desc:'国际超市与美食区', href:'https://maps.google.com/?q=Villa+Market+Little+Walk+Pattaya+Thailand' },
+      { emoji:'🤍', name:'白庙', desc:'独特的白色寺庙地标', href:'https://maps.google.com/?q=White+Temple+Pattaya+Thailand' },
+      { emoji:'⛩️', name:'真理圣殿', desc:'海边华丽木制寺庙', href:'https://maps.google.com/?q=Sanctuary+of+Truth+Pattaya+Thailand' },
+      { emoji:'🔧', name:'Mr. DIY 暹罗乡村俱乐部路', desc:'热门百货与五金店', href:'https://maps.google.com/?q=Mr+DIY+Siam+Country+Club+Road+Pattaya+Thailand' },
+      { emoji:'💪', name:'4 King 桑拿健身', desc:'桑拿与健身综合体', href:'https://maps.google.com/?q=4+King+Sauna+Fitness+Pattaya+Thailand' },
+      { emoji:'🌅', name:'芭提雅观景台', desc:'俯瞰海湾的全景视野', href:'https://maps.google.com/?q=Pattaya+Viewpoint+Thailand' },
+      { emoji:'🚢', name:'巴厘海码头', desc:'有船只和海景的滨水码头', href:'https://maps.google.com/?q=Bali+Hai+Pier+Pattaya+Thailand' },
+      { emoji:'🐟', name:'Lan Pho 纳克卢亚市场', desc:'当地新鲜海鲜市场', href:'https://maps.google.com/?q=Lan+Pho+Naklua+Market+Pattaya+Thailand' }
+    ]
+  },
+  ru: {
+    briefingBar: '📋 Прочитайте инструктаж команды перед началом',
+    songtaew: 'Вашей команде назначен <strong>Сонгтэу</strong>. Часть задания — общаться с водителем и ориентироваться в Паттайе, чтобы добраться до нужных мест — работайте вместе!',
+    bannerSub: 'Когда вы завершите линию на бинго-карте, смонтируйте видео (не более 60 секунд), загрузите его и напишите Nicole Sargeant в Teams, чтобы получить координаты секретного места 🍹',
+    gridHint: 'Нажмите на плитку, чтобы увидеть задание',
+    secLocations: '📍 Рекомендуемые места',
+    secWin: '🏆 Как победить',
+    secSteps: '📋 Ваши 5 шагов',
+    secVideo: '🎬 Правила финального видео',
+    secEdit: '✂️ Быстрые советы по монтажу',
+    secSubmit: '📤 Отправить видео',
+    locIntro: 'Вам нужно <strong>3 отдельных места</strong> — по одному для каждого задания в выбранной линии. Нажмите на карточку, чтобы открыть в Google Maps.',
+    locMapsTag: '📍 Открыть в Картах',
+    locOwnName: 'Ваш собственный выбор',
+    locOwnDesc: 'Достопримечательность Паттайи, не указанная в списке — держитесь севернее Джомтьена',
+    winBody: `<div class="win-cards">
+      <div class="win-card"><span class="we">🥇</span><span class="wt"><strong>Самая быстрая команда</strong> — Первая, кто завершит 3 задания в линии, загрузит видео, получит одобрение и прибудет к финальному месту. Первый вход на вечеринку + первый выбор напитков.</span></div>
+      <div class="win-card"><span class="we">🔥</span><span class="wt"><strong>Чемпионы хауса</strong> — Хаус, чьи команды в совокупности прибыли первыми. Время каждой команды учитывается.</span></div>
+      <div class="win-card"><span class="we">🎬</span><span class="wt"><strong>Любимцы зала</strong> — Все видео показываются на финальной площадке, персонал голосует вживую. Оценивается креативность, самоотдача, юмор и запоминающиеся моменты.</span></div>
+    </div>`,
+    stepsBody: `<ul class="info-list">
+      <li><span class="step-num">1</span>Выберите линию — 3 связанных задания (горизонталь, вертикаль или диагональ)</li>
+      <li><span class="step-num">2</span>Выберите места в Паттайе — проинструктируйте водителя сонгтэу</li>
+      <li><span class="step-num">3</span>Снимайте доказательства — фото и видеоклипы</li>
+      <li><span class="step-num">4</span>Смонтируйте всё в ОДНО финальное видео не более 60 секунд</li>
+      <li><span class="step-num">5</span>Загрузите видео + заполненную бинго-карту, чтобы получить секретное место</li>
+    </ul>`,
+    videoBody: `<ul class="checklist">
+      <li><span class="ck">✅</span>Не более 60 секунд общей длительности</li>
+      <li><span class="ck">✅</span>Доказательства всех 3 заданий включены</li>
+      <li><span class="ck">✅</span>Показаны название команды и хаус</li>
+      <li><span class="ck">✅</span>Подано как ОДИН финальный видеофайл</li>
+      <li><span class="ck">✅</span>Каждый член команды в кадре хотя бы раз</li>
+    </ul>`,
+    editBody: `<div class="edit-grid">
+      <div class="edit-app"><strong>iPhone / iPad</strong>iMovie · Редактор в Фото</div>
+      <div class="edit-app"><strong>Android</strong>CapCut (бесплатно)</div>
+      <div class="edit-app"><strong>Google Фото</strong>Встроенный редактор</div>
+      <div class="edit-app"><strong>Любое устройство</strong>CapCut отлично подходит</div>
+    </div>
+    <ul class="tip-list">
+      <li>Держите клипы КОРОТКИМИ — 3–5 секунд каждый</li>
+      <li>Смешное всегда лучше идеального</li>
+      <li>Планируйте перед съёмкой</li>
+      <li>Распределите роли: оператор, монтажёр, навигатор, актёры</li>
+    </ul>`,
+    submitBody: `<p class="upload-intro">Завершили линию? Смонтируйте 3 клипа в <strong>одно видео не более 60 секунд</strong>, затем выполните эти два шага, чтобы получить секретное финальное место:</p>
+    <a href="#upload-link-goes-here" target="_blank" class="upload-btn">📁 &nbsp;Загрузить видео здесь</a>
+    <div class="teams-note"><span class="teams-icon">💬</span><div><strong>Затем напишите Nicole Sargeant в Microsoft Teams</strong>После загрузки видео отправьте Nicole сообщение в Teams. Она ответит с секретным финальным местом.</div></div>`,
+    footer: 'Удачи. Будьте креативны. Представляйте Regents достойно. 🌟<br><span style="color:#CCC">Ваш прогресс автоматически сохраняется на этом устройстве</span>',
+    shLabelChallenge: 'Задание',
+    markComplete: 'Отметить как выполненное ✓',
+    markedComplete: '✓ Отмечено как выполненное',
+    celebLine: '🎉 Линия завершена! 🎉',
+    celebSub: 'Смонтируйте клипы в одно видео не более 60 секунд, загрузите по ссылке внизу страницы, затем напишите Nicole Sargeant в Teams, чтобы получить секретное финальное место.',
+    celebBtn: 'Вперёд! 🚀',
+    infoTitle: 'Как это работает',
+    infoSubtitle: 'REGENTS TEAM BUILDING 2026',
+    infoSongtaewTitle: '🛺 Ваш Сонгтэу',
+    infoSongtaewText: 'Каждой команде назначен <strong>Сонгтэу</strong> (местное такси). <strong>Ваш водитель — часть задания</strong> — вы отвечаете за сообщение мест назначения и навигацию по Паттайе. Планируйте маршрут, работайте как команда, вперёд!',
+    infoChallenge: 'Завершите ОДНУ линию на бинго-доске, чтобы открыть финальное место.',
+    infoLineTitle: 'Варианты линий',
+    infoLine1: 'Горизонталь — любой ряд',
+    infoLine2: 'Вертикаль — любой столбец',
+    infoLine3: 'Диагональ — угол в угол через центр (★)',
+    info5StepsTitle: '5 шагов',
+    infoStep1: '<strong>1.</strong> Выберите линию',
+    infoStep2: '<strong>2.</strong> Выберите места съёмки в Паттайе',
+    infoStep3: '<strong>3.</strong> Снимайте доказательства',
+    infoStep4: '<strong>4.</strong> Смонтируйте в ОДНО видео, не более 60 секунд',
+    infoStep5: '<strong>5.</strong> Загрузите видео + бинго-карту, чтобы получить финальное место',
+    infoGotIt: 'Понял, поехали! 🛺',
+    locs: [
+      { emoji:'✨', name:'Золотой Будда', desc:'Культовая золотая статуя Будды', href:'https://maps.google.com/?q=Golden+Buddha+Pattaya+Thailand' },
+      { emoji:'🏋️', name:'Jungle Gym Паттайя', desc:'Площадка для приключений и фитнеса', href:'https://maps.google.com/?q=Jungle+Gym+Pattaya+Thailand' },
+      { emoji:'🏖️', name:'Bamboo Beach Наклуа 16', desc:'Пляжное местечко в Наклуа', href:'https://maps.google.com/?q=Bamboo+Beach+Naklua+Soi+16+Pattaya+Thailand' },
+      { emoji:'🏨', name:'Pullman Pattaya Hotel G', desc:'Роскошный отель с выходом на пляж', href:'https://maps.google.com/?q=Pullman+Pattaya+Hotel+G+Thailand' },
+      { emoji:'🛍️', name:'Terminal 21 Паттайя', desc:'Многоуровневый тематический торговый центр', href:'https://maps.google.com/?q=Terminal+21+Pattaya+Thailand' },
+      { emoji:'🛒', name:'Villa Market Little Walk', desc:'Международный супермаркет', href:'https://maps.google.com/?q=Villa+Market+Little+Walk+Pattaya+Thailand' },
+      { emoji:'🤍', name:'Белый Храм', desc:'Узнаваемая белая храмовая достопримечательность', href:'https://maps.google.com/?q=White+Temple+Pattaya+Thailand' },
+      { emoji:'⛩️', name:'Храм Истины', desc:'Резной деревянный храм у моря', href:'https://maps.google.com/?q=Sanctuary+of+Truth+Pattaya+Thailand' },
+      { emoji:'🔧', name:'Mr. DIY Siam Country Club Rd', desc:'Популярный хозяйственный магазин', href:'https://maps.google.com/?q=Mr+DIY+Siam+Country+Club+Road+Pattaya+Thailand' },
+      { emoji:'💪', name:'4 King Сауна и Фитнес', desc:'Комплекс сауны и фитнеса', href:'https://maps.google.com/?q=4+King+Sauna+Fitness+Pattaya+Thailand' },
+      { emoji:'🌅', name:'Смотровая площадка Паттайи', desc:'Панорамный вид на залив', href:'https://maps.google.com/?q=Pattaya+Viewpoint+Thailand' },
+      { emoji:'🚢', name:'Пирс Бали Хай', desc:'Набережный причал с видом на море', href:'https://maps.google.com/?q=Bali+Hai+Pier+Pattaya+Thailand' },
+      { emoji:'🐟', name:'Рынок Лан Пхо Наклуа', desc:'Местный рынок свежих морепродуктов', href:'https://maps.google.com/?q=Lan+Pho+Naklua+Market+Pattaya+Thailand' }
+    ]
+  },
+  ko: {
+    briefingBar: '📋 시작 전 팀 브리핑을 읽어주세요',
+    songtaew: '팀에게 <strong>썽태우</strong>가 배정되었습니다. 도전의 일부는 기사와 소통하고 파타야에서 올바른 장소로 이동하는 것입니다 — 함께 협력하세요!',
+    bannerSub: '빙고 카드에서 한 줄을 완성하면 영상을 편집하고(60초 이하), 업로드한 후 Teams에서 Nicole Sargeant에게 메시지를 보내 비밀 장소 정보를 받으세요 🍹',
+    gridHint: '타일을 탭하여 도전 내용 확인',
+    secLocations: '📍 추천 장소',
+    secWin: '🏆 승리 방법',
+    secSteps: '📋 5단계',
+    secVideo: '🎬 최종 영상 규칙',
+    secEdit: '✂️ 빠른 편집 팁',
+    secSubmit: '📤 영상 제출',
+    locIntro: '<strong>3개의 별도 장소</strong>가 필요합니다 — 선택한 줄의 각 도전마다 하나씩. 카드를 탭하면 Google Maps에서 열립니다.',
+    locMapsTag: '📍 지도에서 열기',
+    locOwnName: '직접 선택',
+    locOwnDesc: '목록에 없는 파타야 명소 — 최종 목적지에서 너무 멀지 않도록 좀타이 북쪽에 위치한 곳으로',
+    winBody: `<div class="win-cards">
+      <div class="win-card"><span class="we">🥇</span><span class="wt"><strong>가장 빠른 팀</strong> — 한 줄의 도전 3개를 완료하고, 업로드하고, 승인받고, 최종 목적지에 가장 먼저 도착한 팀. 파티 우선 입장 + 음료 먼저 선택.</span></div>
+      <div class="win-card"><span class="we">🔥</span><span class="wt"><strong>하우스 챔피언</strong> — 모든 팀이 합산하여 최종 목적지에 가장 먼저 도착한 하우스. 모든 팀의 시간이 카운트됩니다.</span></div>
+      <div class="win-card"><span class="we">🎬</span><span class="wt"><strong>관중 최애</strong> — 모든 영상이 최종 장소에서 상영되고 직원들이 현장 투표. 창의성, 헌신, 유머, 기억에 남는 순간을 기립니다.</span></div>
+    </div>`,
+    stepsBody: `<ul class="info-list">
+      <li><span class="step-num">1</span>줄 선택 — 연결된 도전 3개 선택 (가로, 세로 또는 대각선)</li>
+      <li><span class="step-num">2</span>파타야 장소 선택 — 썽태우 기사에게 목적지 안내</li>
+      <li><span class="step-num">3</span>증거 촬영 — 사진과 영상 클립</li>
+      <li><span class="step-num">4</span>모든 것을 하나의 최종 영상으로 편집, 60초 이내</li>
+      <li><span class="step-num">5</span>영상 + 완성된 빙고 카드 업로드하여 비밀 최종 장소 수령</li>
+    </ul>`,
+    videoBody: `<ul class="checklist">
+      <li><span class="ck">✅</span>총 60초 이내</li>
+      <li><span class="ck">✅</span>3가지 도전 증거 모두 포함</li>
+      <li><span class="ck">✅</span>팀 이름과 하우스 표시</li>
+      <li><span class="ck">✅</span>하나의 최종 영상 파일로 제출</li>
+      <li><span class="ck">✅</span>모든 팀원이 최소 한 번 카메라에 등장</li>
+    </ul>`,
+    editBody: `<div class="edit-grid">
+      <div class="edit-app"><strong>iPhone / iPad</strong>iMovie · 사진 편집</div>
+      <div class="edit-app"><strong>Android</strong>CapCut (무료)</div>
+      <div class="edit-app"><strong>Google 포토</strong>기본 편집기</div>
+      <div class="edit-app"><strong>모든 기기</strong>CapCut 추천</div>
+    </div>
+    <ul class="tip-list">
+      <li>클립을 짧게 — 각 3–5초</li>
+      <li>재미있는 게 완벽한 것보다 항상 낫습니다</li>
+      <li>촬영 전에 계획하기</li>
+      <li>역할 분담: 촬영, 편집, 내비게이터, 연기자</li>
+    </ul>`,
+    submitBody: `<p class="upload-intro">줄을 완성했나요? 3개 클립을 <strong>60초 이내의 영상 하나</strong>로 편집한 후 다음 두 단계를 따라 비밀 최종 장소를 잠금 해제하세요:</p>
+    <a href="#upload-link-goes-here" target="_blank" class="upload-btn">📁 &nbsp;여기서 영상 업로드</a>
+    <div class="teams-note"><span class="teams-icon">💬</span><div><strong>그런 다음 Microsoft Teams에서 Nicole Sargeant에게 메시지 보내기</strong>영상 업로드 후 Teams에서 Nicole에게 메시지를 보내세요. 비밀 최종 장소를 답장으로 알려드립니다.</div></div>`,
+    footer: '행운을 빕니다. 창의적으로. Regents를 잘 대표하세요. 🌟<br><span style="color:#CCC">진행 상황은 이 기기에 자동으로 저장됩니다</span>',
+    shLabelChallenge: '도전 내용',
+    markComplete: '완료로 표시 ✓',
+    markedComplete: '✓ 완료로 표시됨',
+    celebLine: '🎉 줄 완성! 🎉',
+    celebSub: '클립을 60초 이내의 영상 하나로 편집하고 페이지 하단의 링크로 업로드한 후 Teams에서 Nicole Sargeant에게 메시지를 보내 비밀 최종 장소를 받으세요.',
+    celebBtn: '출발! 🚀',
+    infoTitle: '진행 방법',
+    infoSubtitle: 'REGENTS TEAM BUILDING 2026',
+    infoSongtaewTitle: '🛺 나의 썽태우',
+    infoSongtaewText: '각 팀에게 <strong>썽태우</strong>(현지 택시 트럭)가 배정되었습니다. <strong>기사님도 도전의 일부입니다</strong> — 목적지를 소통하고 올바른 장소로 파타야를 누비는 것은 여러분의 책임입니다. 경로를 계획하고, 팀으로 협력하고, 출발하세요!',
+    infoChallenge: '빙고 보드에서 ONE 줄을 완성하면 최종 장소가 잠금 해제됩니다.',
+    infoLineTitle: '줄 옵션',
+    infoLine1: '가로 — 어느 행이든',
+    infoLine2: '세로 — 어느 열이든',
+    infoLine3: '대각선 — 중앙(★)을 통과하는 코너 대 코너',
+    info5StepsTitle: '5단계',
+    infoStep1: '<strong>1.</strong> 줄 선택',
+    infoStep2: '<strong>2.</strong> 파타야 촬영 장소 선택',
+    infoStep3: '<strong>3.</strong> 증거 촬영',
+    infoStep4: '<strong>4.</strong> 하나의 영상으로 편집, 60초 이내',
+    infoStep5: '<strong>5.</strong> 영상 + 빙고 카드 업로드하여 최종 장소 수령',
+    infoGotIt: '알겠습니다, 출발! 🛺',
+    locs: [
+      { emoji:'✨', name:'황금 불상', desc:'상징적인 황금 불상', href:'https://maps.google.com/?q=Golden+Buddha+Pattaya+Thailand' },
+      { emoji:'🏋️', name:'Jungle Gym 파타야', desc:'야외 어드벤처 & 피트니스 구역', href:'https://maps.google.com/?q=Jungle+Gym+Pattaya+Thailand' },
+      { emoji:'🏖️', name:'Bamboo Beach 나클루아 16', desc:'나클루아 해변가', href:'https://maps.google.com/?q=Bamboo+Beach+Naklua+Soi+16+Pattaya+Thailand' },
+      { emoji:'🏨', name:'Pullman Pattaya Hotel G', desc:'해변 접근 가능한 럭셔리 호텔', href:'https://maps.google.com/?q=Pullman+Pattaya+Hotel+G+Thailand' },
+      { emoji:'🛍️', name:'Terminal 21 파타야', desc:'다층 테마 쇼핑몰', href:'https://maps.google.com/?q=Terminal+21+Pattaya+Thailand' },
+      { emoji:'🛒', name:'Villa Market Little Walk', desc:'국제 슈퍼마켓 & 푸드 구역', href:'https://maps.google.com/?q=Villa+Market+Little+Walk+Pattaya+Thailand' },
+      { emoji:'🤍', name:'화이트 템플', desc:'독특한 흰색 사원 랜드마크', href:'https://maps.google.com/?q=White+Temple+Pattaya+Thailand' },
+      { emoji:'⛩️', name:'진리의 성소', desc:'바다 옆 정교한 목조 사원', href:'https://maps.google.com/?q=Sanctuary+of+Truth+Pattaya+Thailand' },
+      { emoji:'🔧', name:'Mr. DIY 시암 컨트리 클럽 도로', desc:'인기 잡화 & 철물점', href:'https://maps.google.com/?q=Mr+DIY+Siam+Country+Club+Road+Pattaya+Thailand' },
+      { emoji:'💪', name:'4 King 사우나 & 피트니스', desc:'사우나 및 피트니스 단지', href:'https://maps.google.com/?q=4+King+Sauna+Fitness+Pattaya+Thailand' },
+      { emoji:'🌅', name:'파타야 전망대', desc:'만을 내려다보는 파노라마 전망', href:'https://maps.google.com/?q=Pattaya+Viewpoint+Thailand' },
+      { emoji:'🚢', name:'발리하이 부두', desc:'배와 바다 전망이 있는 수변 부두', href:'https://maps.google.com/?q=Bali+Hai+Pier+Pattaya+Thailand' },
+      { emoji:'🐟', name:'란 포 나클루아 시장', desc:'현지 신선 해산물 시장', href:'https://maps.google.com/?q=Lan+Pho+Naklua+Market+Pattaya+Thailand' }
+    ]
+  }
+};
+
+function u(lang) { return UI[lang] || UI.en; }
 
 /* ── TILE DATA ── */
 const TILES = [
@@ -1279,6 +1668,112 @@ const TILES = [
   }
 ];
 
+/* ── TILE TRANSLATIONS ── */
+const TILE_DATA = {
+  th: [
+    { name:'MIT Minds', label:'ผู้เรียนที่ใฝ่รู้', challenge:'สร้างพิตช์สิ่งประดิษฐ์ขนาดเล็กที่ได้รับแรงบันดาลใจจาก MIT ที่สถานที่ของคุณ ระบุปัญหาที่เกิดขึ้นและสิ่งประดิษฐ์ที่จะแก้ปัญหา', sections:[{type:'list',title:'ตัวอย่างสิ่งประดิษฐ์:',items:['ซองแทวขับเคลื่อนอัตโนมัติ','ผู้ช่วยครู AI','โดรนส่งกาแฟเย็นอัตโนมัติ','เสื้อผ้ากันร้อน']},{type:'list',title:'หลักฐานที่ต้องการ:',dark:true,items:['วิดีโอพิตช์ — ไม่เกิน 30 วินาที','อธิบายปัญหา สิ่งประดิษฐ์ และวิธีแก้ปัญหา']}] },
+    { name:'Juilliard Ensemble', label:'ผู้เรียนแบบร่วมมือ', challenge:'แสดงฉากดราม่าที่สถานที่ที่เลือกโดยมีจุดเริ่มต้น กลาง และจุดสิ้นสุดที่ชัดเจน', sections:[{type:'choices',title:'เลือกแนว:',key:'tile1-genre',items:[{e:'😢',t:'โศกนาฏกรรมเงียบ'},{e:'💥',t:'จุดสุดยอดหนังแอ็คชั่น'},{e:'🎵',t:'ช่วงเวลาละครเพลง'},{e:'🏆',t:'ชัยชนะกีฬาสโลว์โมชั่น'},{e:'👋',t:'ฉากอำลาที่น่าประทับใจ'}]},{type:'list',title:'กฎ:',dark:true,items:['ทุกคนในทีมต้องมีบทบาท','ฉากต้องเล่าเรื่อง — ผู้ชมต้องเข้าใจโดยไม่ต้องอธิบาย','ต้องแสดงออกอย่างเต็มที่ 😄','สั้น — ไม่เกิน 30 วินาที']}] },
+    { name:'คณะกรรมการท่องเที่ยวพัทยา', label:'ผู้เรียนเชิงสร้างสรรค์', challenge:'สร้างโฆษณาการท่องเที่ยวแบบ cinematic สำหรับสถานที่ของคุณ', sections:[{type:'list',title:'ต้องมี:',items:['มุมกล้องดราม่า','เสียงบรรยาย หรือ คำบรรยาย','ช่วงเวลาที่ดราม่าเกินจริง','สถานที่สำคัญหรือแลนด์มาร์กในพัทยา','นำเสนอเป็นภาษาอังกฤษและอีกหนึ่งภาษา']},{type:'list',title:'คะแนนโบนัส:',dark:true,items:['พลังงานผู้นำเสนอที่เกินจริง','หยุดดราม่าก่อนชื่อสถานที่']}] },
+    { name:'ความท้าทาย UNICEF', label:'ผู้เรียนที่มีความเมตตา', challenge:'ค้นหาบุคคลจริงที่สถานที่ของคุณ — ผู้ขาย พนักงานร้านกาแฟ ยาม เจ้าของร้าน ฯลฯ — และทำบางอย่างที่แสดงถึงการยอมรับพวกเขาอย่างแท้จริง', sections:[{type:'choices',title:'เลือกหนึ่ง:',key:'tile3-choice',items:[{e:'🛍️',t:'ซื้อของชิ้นเล็กจากพ่อค้าท้องถิ่นและถ่ายรูปด้วยกัน'},{e:'🗣️',t:'เรียนภาษาไทยจากคนใกล้เคียงแล้วถ่ายทำทั้งทีมลองพูด'},{e:'👂',t:'ถามใครสักคนเกี่ยวกับวันหรืองานของพวกเขา ฟังอย่างตั้งใจ แล้วแบ่งปันในวิดีโอ'}]},{type:'list',title:'กฎ:',dark:true,items:['ต้องเป็นการสื่อสารที่จริงใจและให้เกียรติ','ขอรับอนุญาตก่อนถ่ายทำใคร','อบอุ่นและเป็นธรรมชาติ — ไม่มีการแสดง ไม่มีฝูงชน']},{type:'list',title:'หลักฐานที่ต้องการ:',items:['คลิปหรือรูปภาพของช่วงเวลานั้น','1-2 ประโยคในวิดีโอสุดท้ายอธิบายว่าคุณพบใครและได้เรียนรู้อะไร']},{type:'note',text:'ในวันที่เต็มไปด้วยเสียงและพลังงาน นี่คือช่วงเวลาที่คุณชะลอตัว อยู่กับปัจจุบัน และเชื่อมต่อกับคนนอกทีมอย่างแท้จริง'}] },
+    { name:'ข่าวด่วน', label:'ไทล์กลาง', challenge:'สร้างรายงานข่าวสดที่ครอบคลุมเหตุการณ์ฉุกเฉินที่ตลกขบขันในพัทยา', sections:[{type:'list',title:'รายงานของคุณต้องมี:',items:['✅ นักข่าว','✅ สัมภาษณ์พยานอย่างน้อยหนึ่งคน','✅ การวิเคราะห์จากผู้เชี่ยวชาญ','✅ ความเร่งด่วนดราม่า','✅ สถานที่ในพัทยาที่มีชื่อ']},{type:'list',title:'ตัวอย่างเรื่อง:',dark:true,items:['"ครูเกิดอาการฉุกเฉินเพราะส้มตำรสเผ็ดเกินไป"','"วิกฤตขาดแคลนซาวเซจโรล Gregg\'s ที่ Siamburi\'s"','"รายงานกิจกรรมน่าสงสัยที่ตลาดหลาน โพ"','"ครูติดอยู่บนเกาะร้าง"']},{type:'list',title:'คะแนนโบนัส:',items:['รายงานเกินจริง','ข้อมูลประจำตัวผู้เชี่ยวชาญปลอม','ความตื่นตระหนกบนจอที่ไม่จำเป็น']}] },
+    { name:'ความปลอดภัยก่อน', label:'นักคิดเชิงวิพากษ์', challenge:'ทีมต้องทำการประเมินความเสี่ยงอย่างเป็นทางการที่สถานที่ที่เลือก และนำเสนอผลเป็นบรีฟิ้งด้านความปลอดภัย', sections:[{type:'list',title:'บรีฟิ้งของคุณต้องมี:',items:['อันตรายที่ระบุในสถานที่','โปรโตคอลความปลอดภัยที่แนะนำสำหรับแต่ละอันตราย','การจัดระดับความเสี่ยงโดยรวม: ต่ำ / กลาง / สูง / สุดขีด']},{type:'list',title:'หลักฐานที่ต้องการ:',dark:true,items:['📹 ถ่ายบรีฟิ้งทั้งหมด (ไม่เกิน 30 วินาที)','ทุกคนในทีมต้องมีบทบาทหน้ากล้องหรือหลังกล้อง','สถานที่ต้องมองเห็นชัดเจนในฉากหลัง']}] },
+    { name:'การฝึก IMG Elite', label:'ผู้เรียนที่มุ่งมั่น', challenge:'ทำมอนตาจการกีฬาและการฝึกซ้อมดราม่าที่ได้รับแรงบันดาลใจจาก IMG Academy', sections:[{type:'list',title:'ต้องมี:',items:['ทุกคนในทีมต้องมีส่วนร่วม — ไม่มีข้อยกเว้น','การเคลื่อนไหวทีมที่ประสานกัน','ปฏิกิริยานักกีฬาที่เข้มข้น','ช่วงเวลาสโลว์โมชั่นหนึ่งครั้ง','พลังงาน Elite ตลอด']},{type:'list',title:'คะแนนโบนัส:',dark:true,items:['เพลง เสียง หรือคำพูดสร้างแรงบันดาลใจในวิดีโอ']}] },
+    { name:'สารคดี', label:'ผู้เรียนที่ใฝ่รู้ + สร้างสรรค์', challenge:'สร้างฉากสารคดีปลอมเกี่ยวกับสถานที่ของคุณ', sections:[{type:'choices',title:'เลือกสไตล์:',key:'tile7-style',items:[{e:'🦁',t:'สารคดีธรรมชาติสไตล์ David Attenborough'},{e:'🔍',t:'Netflix true crime'},{e:'⚽',t:'สารคดีกีฬา'},{e:'👁️',t:'การเปิดโปงทฤษฎีสมคบคิด'},{e:'🏺',t:'การค้นพบทางประวัติศาสตร์'}]},{type:'list',title:'ต้องมี:',dark:true,items:['คำบรรยาย','สัมภาษณ์อย่างน้อยหนึ่งครั้ง','ช่วงเวลาค้นพบที่น่าตื่นเต้น']},{type:'list',title:'หลักฐานที่ต้องการ:',items:['คลิปไม่เกิน 30 วินาทีในสไตล์สารคดีที่เลือก','สมาชิกทุกคนต้องปรากฏตัว']}] },
+    { name:'แลนด์มาร์กมีชีวิต', label:'ผู้เรียนร่วมมือ + สร้างสรรค์', challenge:'ทีมต้องจำลองสถาปัตยกรรมที่โดดเด่นที่สุดของสถานที่ด้วยร่างกายเท่านั้น ไม่มีอุปกรณ์ประกอบฉาก ไม่มีคำพูด ไม่มีคำอธิบาย — เพียงแค่การจัดวาง ความคิดสร้างสรรค์ และความร่วมมือ', sections:[{type:'list',title:'กฎ:',items:['🚫 ไม่มีอุปกรณ์ประกอบฉาก — ใช้ร่างกายเท่านั้น','✅ สมาชิกทุกคนต้องเป็นส่วนหนึ่งของโครงสร้าง','✅ ถือท่าสุดท้ายอย่างน้อย 5 วินาที']},{type:'list',title:'หลักฐานที่ต้องการ:',dark:true,items:['📸 วิดีโอท่าสุดท้ายที่ถือไว้อย่างน้อย 5 วินาที — สถานที่มองเห็นชัดในฉากหลัง','📹 โบนัส: ถ่ายกระบวนการสร้างตั้งแต่ต้นจนจบ']},{type:'list',title:'เกณฑ์การตัดสิน:',items:['ความจำได้ง่าย — ผู้ชมบอกได้ว่าคืออะไร?','การมีส่วนร่วมของทีมทั้งหมด','ความคิดสร้างสรรค์ในการตีความ']}] }
+  ],
+  zh: [
+    { name:'MIT Minds', label:'好奇的学习者', challenge:'在所选地点创建一个受MIT启发的微型创新发明演讲。识别该地点存在的问题以及解决它的发明。', sections:[{type:'list',title:'发明示例:',items:['自动驾驶双条车','AI教师助手','自动送冰咖啡无人机','防热服装']},{type:'list',title:'所需证据:',dark:true,items:['发明演讲视频 — 不超过30秒','解释问题、发明及其解决方式']}] },
+    { name:'Juilliard Ensemble', label:'协作学习者', challenge:'在选定地点表演一出有明确开头、中间和结尾的戏剧场景。', sections:[{type:'choices',title:'选择你的类型:',key:'tile1-genre',items:[{e:'😢',t:'无声悲剧'},{e:'💥',t:'动作片高潮'},{e:'🎵',t:'音乐剧时刻'},{e:'🏆',t:'慢动作体育胜利'},{e:'👋',t:'感人告别场景'}]},{type:'list',title:'规则:',dark:true,items:['每位团队成员必须有角色','场景必须讲述故事——观众无需解释即可理解','需要全力投入 😄','简短 — 不超过30秒']}] },
+    { name:'芭提雅旅游局', label:'创意学习者', challenge:'为你的地点创建电影风格旅游广告。', sections:[{type:'list',title:'必须包含:',items:['戏剧性摄影角度','画外音或字幕','一个过于戏剧性的时刻','芭提雅知名地标或地点','用英语和另一种语言呈现']},{type:'list',title:'加分项:',dark:true,items:['过分热情的主持人能量','在地点名称前戏剧性停顿']}] },
+    { name:'联合国儿童基金会挑战', label:'有爱心的学习者', challenge:'在你的地点找一个真实的人——小贩、咖啡厅员工、保安、店主等——做一件真正认可他们的事情。', sections:[{type:'choices',title:'选择一项:',key:'tile3-choice',items:[{e:'🛍️',t:'从当地小贩购买小东西并一起合影'},{e:'🗣️',t:'向附近的人学习泰语，然后拍摄整个团队尝试的视频'},{e:'👂',t:'询问某人的一天或工作，认真倾听，并在视频中分享你学到的东西'}]},{type:'list',title:'规则:',dark:true,items:['必须是真诚、尊重的互动','拍摄任何人之前必须征得许可','保持温暖自然——不表演，不围观']},{type:'list',title:'所需证据:',items:['那个时刻的短片或照片','在最终视频中用1-2句话解释你遇见了谁以及学到了什么']},{type:'note',text:'在充满喧嚣和活力的一天里，这是你放慢脚步、真正与团队外的人建立联系的唯一时刻。'}] },
+    { name:'突发新闻', label:'中心方块', challenge:'创建一个现场新闻报道，报道芭提雅某个完全荒谬的紧急事件。', sections:[{type:'list',title:'你的报道必须包含:',items:['✅ 记者','✅ 至少一名目击者采访','✅ 专家分析','✅ 戏剧性紧迫感','✅ 芭提雅命名地点']},{type:'list',title:'示例故事:',dark:true,items:['"教师因冬阴功太辣而发生医疗紧急情况"','"Siamburi\'s的Gregg\'s香肠卷严重短缺"','"岚浦市场发现可疑活动"','"教师被困孤岛"']},{type:'list',title:'加分项:',items:['过度戏剧化的报道','假专家资质','不必要的屏幕恐慌']}] },
+    { name:'安全第一', label:'批判性思考者', challenge:'你的团队必须在选定地点进行官方风险评估，并以正式安全简报的形式呈现调查结果。', sections:[{type:'list',title:'简报必须包含:',items:['在该地点识别的危险','每个危险的推荐安全协议','该地点的总体风险评级：低/中/高/极端']},{type:'list',title:'所需证据:',dark:true,items:['📹 录制完整简报（不超过30秒）','每位团队成员必须有台前或幕后的角色','地点必须在背景中清晰可见']}] },
+    { name:'IMG精英训练', label:'投入的学习者', challenge:'完成受IMG学院启发的戏剧性体育和训练蒙太奇。', sections:[{type:'list',title:'必须包含:',items:['全体团队参与——无例外','团队同步动作（热身、协调步伐或庆祝）','激烈的运动员反应','一个慢动作时刻','全程保持精英能量']},{type:'list',title:'加分项:',dark:true,items:['视频中包含励志歌曲、声音或独白']}] },
+    { name:'纪录片', label:'好奇+创意学习者', challenge:'创建关于你所在地点的假纪录片场景。', sections:[{type:'choices',title:'选择你的风格:',key:'tile7-style',items:[{e:'🦁',t:'大卫·爱登堡自然纪录片'},{e:'🔍',t:'Netflix真实犯罪'},{e:'⚽',t:'体育纪录片'},{e:'👁️',t:'阴谋论曝光'},{e:'🏺',t:'历史发现'}]},{type:'list',title:'必须包含:',dark:true,items:['旁白','至少一次采访','一个戏剧性发现时刻']},{type:'list',title:'所需证据:',items:['以所选风格拍摄最长30秒的片段','所有团队成员必须出现']}] },
+    { name:'活地标', label:'协作+创意学习者', challenge:'你的团队必须仅用身体重现你所在地点最具标志性的特征。不用道具，不用言语，不用解释——只靠排列、创意和合作。', sections:[{type:'list',title:'规则:',items:['🚫 不用道具——只用身体','✅ 每位团队成员必须是结构的一部分','✅ 最终姿势至少保持5秒']},{type:'list',title:'所需证据:',dark:true,items:['📸 最终姿势保持至少5秒的视频——地点在背景中清晰可见','📹 可选加分项：从头到尾录制构建过程']},{type:'list',title:'评判标准:',items:['可识别性——观众能猜出是什么吗？','全体团队参与','诠释的创意性']}] }
+  ],
+  ru: [
+    { name:'MIT Minds', label:'ЛЮБОЗНАТЕЛЬНЫЕ УЧЕНИКИ', challenge:'Создайте мини-презентацию инновационного изобретения, вдохновлённого MIT. Определите проблему, которая возникает в вашем месте, и изобретение для её решения.', sections:[{type:'list',title:'Примеры изобретений:',items:['Сонгтэу на автопилоте','ИИ-ассистент учителя','Дрон для доставки холодного кофе','Жаропрочная одежда']},{type:'list',title:'Необходимые доказательства:',dark:true,items:['Видеопрезентация — до 30 секунд','Объясните проблему, изобретение и способ её решения']}] },
+    { name:'Juilliard Ensemble', label:'СОВМЕСТНЫЕ УЧЕНИКИ', challenge:'Исполните драматическую сцену в выбранном месте с чётким началом, серединой и концом.', sections:[{type:'choices',title:'Выберите жанр:',key:'tile1-genre',items:[{e:'😢',t:'Немая трагедия'},{e:'💥',t:'Кульминация боевика'},{e:'🎵',t:'Момент мюзикла'},{e:'🏆',t:'Победа в замедленной съёмке'},{e:'👋',t:'Эмоциональная сцена прощания'}]},{type:'list',title:'Правила:',dark:true,items:['Каждый член команды должен иметь роль','Сцена должна рассказывать историю — без объяснений','Максимальная отдача! 😄','Коротко — до 30 секунд']}] },
+    { name:'Паттайский туристический совет', label:'ТВОРЧЕСКИЕ УЧЕНИКИ', challenge:'Создайте кинематографическую туристическую рекламу для вашего места.', sections:[{type:'list',title:'Должно включать:',items:['Драматические ракурсы камеры','Закадровый голос ИЛИ субтитры','Один чрезмерно драматичный момент','Известный паттайский ориентир или место','Представление на английском И ещё одном языке']},{type:'list',title:'Бонусные очки:',dark:true,items:['Чрезмерная энергия ведущего','Драматическая пауза перед названием места']}] },
+    { name:'Задание ЮНИСЕФ', label:'СОЧУВСТВУЮЩИЕ УЧЕНИКИ', challenge:'Найдите настоящего человека в вашем месте — продавца, работника кафе, охранника, владельца магазина и т.д. — и сделайте что-то, что искренне признаёт их.', sections:[{type:'choices',title:'Выберите одно:',key:'tile3-choice',items:[{e:'🛍️',t:'Купите что-то небольшое у местного торговца и сфотографируйтесь вместе'},{e:'🗣️',t:'Научитесь чему-нибудь по-тайски у кого-то рядом, затем снимите всю команду'},{e:'👂',t:'Спросите кого-нибудь о его дне или работе, внимательно выслушайте и поделитесь в видео'}]},{type:'list',title:'Правила:',dark:true,items:['Искреннее, уважительное взаимодействие','Всегда спрашивайте разрешения перед съёмкой','Тепло и непринуждённо — никаких выступлений, толп']},{type:'list',title:'Необходимые доказательства:',items:['Короткий клип или фото момента','1-2 предложения в финальном видео о том, кого вы встретили']},{type:'note',text:'В день, полный шума и энергии, это ваш единственный момент замедлиться и искренне общаться с кем-то за пределами команды.'}] },
+    { name:'СРОЧНЫЕ НОВОСТИ', label:'ЦЕНТРАЛЬНАЯ ПЛИТКА', challenge:'Создайте репортаж с места событий о совершенно нелепой чрезвычайной ситуации где-то в Паттайе.', sections:[{type:'list',title:'Репортаж должен включать:',items:['✅ Репортёр','✅ Хотя бы одно интервью свидетеля','✅ Экспертный анализ','✅ Драматическая срочность','✅ Названное место в Паттайе']},{type:'list',title:'Примеры историй:',dark:true,items:['"Учитель в экстренной ситуации из-за слишком острого сом тама"','"Критическая нехватка сосисочных рулетов Gregg\'s в Siamburi\'s"','"Подозрительная активность на рынке Лан Пхо"','"Учитель застрял на необитаемом острове"']},{type:'list',title:'Бонусные очки:',items:['Чрезмерно драматичная манера репортёра','Поддельные экспертные регалии','Ненужная паника на экране']}] },
+    { name:'Безопасность прежде всего', label:'КРИТИЧЕСКИ МЫСЛЯЩИЕ', challenge:'Ваша команда должна провести официальную оценку рисков в выбранном месте и представить выводы в виде официального инструктажа по безопасности.', sections:[{type:'list',title:'Инструктаж должен включать:',items:['Опасности, выявленные в месте','Рекомендуемый протокол безопасности для каждой опасности','Общий рейтинг риска: Низкий / Средний / Высокий / Экстремальный']},{type:'list',title:'Необходимые доказательства:',dark:true,items:['📹 Снимите полный инструктаж (не более 30 секунд)','Каждый член команды должен иметь роль','Место должно быть чётко видно на фоне']}] },
+    { name:'Элитная тренировка IMG', label:'ЦЕЛЕУСТРЕМЛЁННЫЕ УЧЕНИКИ', challenge:'Завершите драматический спортивный монтаж, вдохновлённый IMG Academy.', sections:[{type:'list',title:'Должно включать:',items:['Полное участие команды — без исключений','Синхронизированное командное движение','Интенсивные реакции спортсменов','Один момент замедленной съёмки','Элитная энергия на протяжении всего']},{type:'list',title:'Бонусные очки:',dark:true,items:['Вдохновляющая песня, звук или монолог в видео']}] },
+    { name:'Документальный фильм', label:'ЛЮБОЗНАТЕЛЬНЫЕ + ТВОРЧЕСКИЕ', challenge:'Создайте сцену поддельного документального фильма о вашем месте.', sections:[{type:'choices',title:'Выберите стиль:',key:'tile7-style',items:[{e:'🦁',t:'Документальный фильм о природе Дэвида Аттенборо'},{e:'🔍',t:'Netflix true crime'},{e:'⚽',t:'Спортивный документальный'},{e:'👁️',t:'Разоблачение теории заговора'},{e:'🏺',t:'Историческое открытие'}]},{type:'list',title:'Должно включать:',dark:true,items:['Закадровый голос','Хотя бы одно интервью','Драматический момент открытия']},{type:'list',title:'Необходимые доказательства:',items:['Клип до 30 секунд в выбранном стиле','Все члены команды должны появиться']}] },
+    { name:'Живой ориентир', label:'СОВМЕСТНЫЕ + ТВОРЧЕСКИЕ', challenge:'Ваша команда должна физически воссоздать самую iconic особенность вашего места, используя только свои тела. Без реквизита, без слов, без объяснений — только расстановка, творчество и сотрудничество.', sections:[{type:'list',title:'Правила:',items:['🚫 Без реквизита — только тела','✅ Каждый член команды должен быть частью структуры','✅ Удержите финальную позу не менее 5 секунд']},{type:'list',title:'Необходимые доказательства:',dark:true,items:['📸 Видео финальной позы, удерживаемой не менее 5 секунд — место чётко видно','📹 Дополнительно: снимите процесс построения']},{type:'list',title:'Критерии оценки:',items:['Узнаваемость — может ли аудитория понять, что это?','Полное участие команды','Творческость интерпретации']}] }
+  ],
+  ko: [
+    { name:'MIT Minds', label:'호기심 많은 학습자', challenge:'MIT에서 영감을 받은 소형 혁신 발명 피치를 만드세요. 장소에서 발생하는 문제와 그것을 해결할 발명품을 찾아보세요.', sections:[{type:'list',title:'발명품 예시:',items:['자율주행 썽태우','AI 교사 보조 도우미','자동 아이스커피 배달 드론','열 차단 의류']},{type:'list',title:'필요한 증거:',dark:true,items:['발명 피치 비디오 — 최대 30초','문제, 발명품, 해결 방법 설명']}] },
+    { name:'Juilliard Ensemble', label:'협력 학습자', challenge:'선택한 장소에서 명확한 시작, 중간, 끝이 있는 극적인 장면을 연기하세요.', sections:[{type:'choices',title:'장르 선택:',key:'tile1-genre',items:[{e:'😢',t:'무성 비극'},{e:'💥',t:'액션 영화 클라이맥스'},{e:'🎵',t:'뮤지컬 극장 장면'},{e:'🏆',t:'슬로우 모션 스포츠 승리'},{e:'👋',t:'감동적인 작별 장면'}]},{type:'list',title:'규칙:',dark:true,items:['모든 팀원이 역할을 맡아야 함','장면은 이야기를 전달해야 함 — 설명 없이도 이해 가능','최대한 몰입! 😄','짧게 — 최대 30초']}] },
+    { name:'파타야 관광청', label:'창의적 학습자', challenge:'해당 장소를 위한 영화적 관광 광고를 만드세요.', sections:[{type:'list',title:'반드시 포함:',items:['극적인 카메라 앵글','내레이션 또는 자막','한 번의 과도하게 극적인 순간','파타야의 유명 랜드마크 또는 명소','영어와 다른 한 언어로 발표']},{type:'list',title:'보너스 점수:',dark:true,items:['과도하게 열정적인 발표자 에너지','장소명 전 극적인 멈춤']}] },
+    { name:'유니세프 챌린지', label:'공감하는 학습자', challenge:'장소에서 실제 사람 — 노점상, 카페 직원, 경비원, 가게 주인 등 — 을 찾아서 그들을 진정으로 인정하는 행동을 하세요.', sections:[{type:'choices',title:'하나 선택:',key:'tile3-choice',items:[{e:'🛍️',t:'현지 상인에게 작은 것을 구매하고 함께 사진 찍기'},{e:'🗣️',t:'주변 사람에게 태국어를 배운 후 팀 전체가 시도하는 영상 촬영'},{e:'👂',t:'누군가에게 하루나 일에 대해 물어보고, 경청하고, 배운 것을 영상에서 공유'}]},{type:'list',title:'규칙:',dark:true,items:['진정성 있고 존중하는 상호작용','촬영 전 항상 허락을 구할 것','따뜻하고 자연스럽게 — 공연 없이, 군중 없이']},{type:'list',title:'필요한 증거:',items:['그 순간의 짧은 클립 또는 사진','최종 영상에서 만난 사람과 배운 것을 1-2문장으로 설명']},{type:'note',text:'소음과 에너지로 가득한 하루 중, 이것은 속도를 늦추고 팀 외부 누군가와 진정으로 연결될 수 있는 단 하나의 순간입니다.'}] },
+    { name:'속보', label:'중앙 타일', challenge:'파타야 어딘가에서 완전히 터무니없는 긴급 상황을 다루는 생방송 뉴스 보도를 만드세요.', sections:[{type:'list',title:'보도에 반드시 포함:',items:['✅ 기자','✅ 최소 한 명의 목격자 인터뷰','✅ 전문가 분석','✅ 극적인 긴박감','✅ 파타야 명소 이름']},{type:'list',title:'예시 이야기:',dark:true,items:['"너무 매운 솜탐으로 응급 상황에 처한 교사"','"Siamburi\'s의 Gregg\'s 소시지 롤 심각 부족"','"란 포 시장에서 수상한 활동 신고"','"무인도에 갇힌 교사"']},{type:'list',title:'보너스 점수:',items:['과도하게 극적인 보도','가짜 전문가 자격증','불필요한 화면 공황']}] },
+    { name:'안전 제일', label:'비판적 사고자', challenge:'팀은 선택한 장소에서 공식 위험 평가를 실시하고 공식 안전 브리핑 형태로 결과를 발표해야 합니다.', sections:[{type:'list',title:'브리핑에 반드시 포함:',items:['장소에서 확인된 위험 요소','각 위험 요소에 대한 권장 안전 프로토콜','장소 전체 위험 등급: 낮음 / 중간 / 높음 / 극도']},{type:'list',title:'필요한 증거:',dark:true,items:['📹 전체 브리핑 촬영 (최대 30초)','모든 팀원이 카메라 앞이나 뒤에서 역할을 맡아야 함','장소가 배경에서 명확하게 보여야 함']}] },
+    { name:'IMG 엘리트 훈련', label:'헌신적 학습자', challenge:'IMG 아카데미에서 영감을 받은 극적인 스포츠 및 훈련 몽타주를 완성하세요.', sections:[{type:'list',title:'반드시 포함:',items:['전체 팀 참여 — 예외 없음','팀 동기화 동작 (워밍업, 조율된 걸음 또는 축하 동작)','강렬한 선수 반응','슬로우 모션 순간 한 번','전반에 걸친 엘리트 에너지']},{type:'list',title:'보너스 점수:',dark:true,items:['영상에 포함된 감동적인 노래, 소리 또는 독백']}] },
+    { name:'다큐멘터리', label:'호기심+창의 학습자', challenge:'장소에 대한 가짜 다큐멘터리 장면을 만드세요.', sections:[{type:'choices',title:'스타일 선택:',key:'tile7-style',items:[{e:'🦁',t:'데이비드 애튼버러 자연 다큐멘터리'},{e:'🔍',t:'넷플릭스 실제 범죄'},{e:'⚽',t:'스포츠 다큐멘터리'},{e:'👁️',t:'음모론 폭로'},{e:'🏺',t:'역사적 발견'}]},{type:'list',title:'반드시 포함:',dark:true,items:['내레이션','최소 한 번의 인터뷰','극적인 발견 순간']},{type:'list',title:'필요한 증거:',items:['선택한 스타일로 최대 30초 클립','모든 팀원이 출연해야 함']}] },
+    { name:'살아있는 랜드마크', label:'협력+창의 학습자', challenge:'팀은 오로지 몸으로만 장소의 가장 상징적인 특징을 재현해야 합니다. 소품 없이, 말 없이, 설명 없이 — 배치, 창의성, 협력만으로.', sections:[{type:'list',title:'규칙:',items:['🚫 소품 없음 — 몸만 사용','✅ 모든 팀원이 구조의 일부가 되어야 함','✅ 최종 포즈를 최소 5초 유지']},{type:'list',title:'필요한 증거:',dark:true,items:['📸 최소 5초 유지된 최종 포즈 영상 — 배경에 장소가 명확하게 보임','📹 선택적 보너스: 처음부터 끝까지 구축 과정 촬영']},{type:'list',title:'평가 기준:',items:['알아볼 수 있는가 — 관객이 무엇인지 말할 수 있나요?','전체 팀 참여','해석의 창의성']}] }
+  ]
+};
+
+function getTiles() {
+  const data = TILE_DATA[currentLang];
+  if (!data) return TILES;
+  return TILES.map((base, i) => Object.assign({}, base, data[i]));
+}
+
+/* ── APPLY LANGUAGE ── */
+function applyLang(code) {
+  currentLang = code;
+  localStorage.setItem('bingo26_lang', code);
+
+  // Update pill styles
+  document.querySelectorAll('.lang-pill').forEach(p => {
+    p.classList.toggle('active', p.textContent.trim() === { en:'English', th:'ไทย', zh:'中文', ru:'РУС', ko:'한국어' }[code]);
+  });
+
+  const ui = u(code);
+
+  // Static text elements
+  document.getElementById('briefingBarText').textContent = ui.briefingBar;
+  document.getElementById('songtaewTextEl').innerHTML = ui.songtaew;
+  document.getElementById('bingoBannerSubEl').textContent = ui.bannerSub;
+  document.getElementById('gridHintEl').textContent = ui.gridHint;
+  document.getElementById('secLocationsTitle').textContent = ui.secLocations;
+  document.getElementById('secWinTitle').textContent = ui.secWin;
+  document.getElementById('secStepsTitle').textContent = ui.secSteps;
+  document.getElementById('secVideoTitle').textContent = ui.secVideo;
+  document.getElementById('secEditTitle').textContent = ui.secEdit;
+  document.getElementById('secSubmitTitle').textContent = ui.secSubmit;
+  document.getElementById('pageFooter').innerHTML = ui.footer;
+  document.getElementById('celebLineEl').textContent = ui.celebLine;
+  document.getElementById('celebSubEl').textContent = ui.celebSub;
+  document.getElementById('celebBtnEl').textContent = ui.celebBtn;
+
+  // Accordion bodies
+  document.getElementById('winBody').innerHTML = ui.winBody;
+  document.getElementById('stepsBody').innerHTML = ui.stepsBody;
+  document.getElementById('videoBody').innerHTML = ui.videoBody;
+  document.getElementById('editBody').innerHTML = ui.editBody;
+  document.getElementById('submitBody').innerHTML = ui.submitBody;
+
+  // Locations
+  const locMapsTag = ui.locMapsTag;
+  const locsHtml = `<p class="loc-intro">${ui.locIntro}</p><div class="loc-grid">` +
+    ui.locs.map(l => `<a class="loc-card" href="${l.href}" target="_blank" rel="noopener">
+      <span class="loc-emoji">${l.emoji}</span>
+      <div><div class="loc-name">${l.name}</div><div class="loc-desc">${l.desc}</div><div class="loc-maps-tag">${locMapsTag}</div></div>
+    </a>`).join('') +
+    `<div class="loc-card"><span class="loc-emoji">📌</span><div><div class="loc-name">${ui.locOwnName}</div><div class="loc-desc">${ui.locOwnDesc}</div></div></div>
+    </div>`;
+  document.getElementById('locationsBody').innerHTML = locsHtml;
+
+  // Re-render grid and update open sheet if any
+  renderGrid();
+  updateProgress();
+  if (currentIdx !== null) openTileSheet(currentIdx);
+}
+
 /* ── BINGO LINES ── */
 const LINES = [
   [0,1,2],[3,4,5],[6,7,8],   // rows
@@ -1316,7 +1811,8 @@ function loadState() {
 function renderGrid() {
   const grid = document.getElementById('bingoGrid');
   grid.innerHTML = '';
-  TILES.forEach((tile, i) => {
+  const stamp = { en:'COMPLETED', th:'เสร็จแล้ว', zh:'已完成', ru:'ГОТОВО', ko:'완료' }[currentLang] || 'COMPLETED';
+  getTiles().forEach((tile, i) => {
     const el = document.createElement('div');
     el.className = 'tile' + (completed.has(i) ? ' done' : '');
     el.style.background = tile.color;
@@ -1326,7 +1822,7 @@ function renderGrid() {
       <div class="tile-num">${tile.num}</div>
       <div class="tile-name">${tile.name}</div>
       <div class="tile-label">${tile.label}</div>
-      <div class="tile-stamp"><span>COMPLETED</span></div>`;
+      <div class="tile-stamp"><span>${stamp}</span></div>`;
     grid.appendChild(el);
   });
   refreshWinning();
@@ -1368,7 +1864,8 @@ function checkNewBingo() {
 /* ── SHEET OPEN ── */
 function openTileSheet(idx) {
   currentIdx = idx;
-  const tile = TILES[idx];
+  const tile = getTiles()[idx];
+  const ui = u(currentLang);
 
   document.getElementById('sheetHead').style.background = tile.color;
   document.getElementById('sheetNum').textContent   = tile.num;
@@ -1377,7 +1874,7 @@ function openTileSheet(idx) {
 
   let html = `
     <div class="sh-section">
-      <div class="sh-label">The Challenge</div>
+      <div class="sh-label">${ui.shLabelChallenge}</div>
       <div class="sh-challenge">${tile.challenge}</div>
     </div>`;
 
@@ -1411,8 +1908,9 @@ function openTileSheet(idx) {
   });
 
   const isDone = completed.has(idx);
+  const ui2 = u(currentLang);
   html += `<button class="done-btn ${isDone ? 'complete' : 'idle'}" id="doneBtn" onclick="toggleDone(${idx})">
-    ${isDone ? '✓ Marked as complete' : 'Mark as complete ✓'}
+    ${isDone ? ui2.markedComplete : ui2.markComplete}
   </button>`;
 
   // Reset scroll and show
@@ -1425,38 +1923,39 @@ function openTileSheet(idx) {
 /* ── INFO SHEET ── */
 function openInfoSheet() {
   currentIdx = null;
+  const ui = u(currentLang);
   document.getElementById('sheetHead').style.background = var_navy();
   document.getElementById('sheetNum').textContent   = '📋';
-  document.getElementById('sheetTitle').textContent = 'How It Works';
-  document.getElementById('sheet6C').textContent    = 'REGENTS TEAM BUILDING 2026';
+  document.getElementById('sheetTitle').textContent = ui.infoTitle;
+  document.getElementById('sheet6C').textContent    = ui.infoSubtitle;
 
   document.getElementById('sheetBody').innerHTML = `
     <div class="sh-box" style="background:rgba(48,205,215,.12); border:2px solid #30CDD7; margin-bottom:12px">
-      <div class="sh-box-title" style="color:#1E96A5">🛺 Your Songtaew</div>
-      <div style="font-size:14px; color:#333; line-height:1.55">Each team has been assigned a <strong>Songtaew</strong> (local taxi truck). <strong>Your driver is part of the challenge</strong> — you are responsible for communicating your destinations and navigating Pattaya to reach the right locations. Plan your route, work as a team, and get moving!</div>
+      <div class="sh-box-title" style="color:#1E96A5">${ui.infoSongtaewTitle}</div>
+      <div style="font-size:14px; color:#333; line-height:1.55">${ui.infoSongtaewText}</div>
     </div>
     <div class="sh-section">
-      <div class="sh-challenge">Complete ONE line on the bingo board to unlock the final location.</div>
+      <div class="sh-challenge">${ui.infoChallenge}</div>
     </div>
     <div class="sh-box">
-      <div class="sh-box-title">Line options</div>
+      <div class="sh-box-title">${ui.infoLineTitle}</div>
       <ul class="sh-list">
-        <li><span class="dot"></span><span>Horizontal — any row across</span></li>
-        <li><span class="dot"></span><span>Vertical — any column down</span></li>
-        <li><span class="dot"></span><span>Diagonal — corner to corner through the centre (★)</span></li>
+        <li><span class="dot"></span><span>${ui.infoLine1}</span></li>
+        <li><span class="dot"></span><span>${ui.infoLine2}</span></li>
+        <li><span class="dot"></span><span>${ui.infoLine3}</span></li>
       </ul>
     </div>
     <div class="sh-box sh-box-dark" style="margin-top:8px">
-      <div class="sh-box-title">The 5 steps</div>
+      <div class="sh-box-title">${ui.info5StepsTitle}</div>
       <ul class="sh-list">
-        <li><span class="dot"></span><span><strong>1.</strong> Choose your line</span></li>
-        <li><span class="dot"></span><span><strong>2.</strong> Choose your Pattaya filming locations</span></li>
-        <li><span class="dot"></span><span><strong>3.</strong> Film your evidence</span></li>
-        <li><span class="dot"></span><span><strong>4.</strong> Edit into ONE video, under 60 seconds</span></li>
-        <li><span class="dot"></span><span><strong>5.</strong> Upload video + bingo card to get the final location</span></li>
+        <li><span class="dot"></span><span>${ui.infoStep1}</span></li>
+        <li><span class="dot"></span><span>${ui.infoStep2}</span></li>
+        <li><span class="dot"></span><span>${ui.infoStep3}</span></li>
+        <li><span class="dot"></span><span>${ui.infoStep4}</span></li>
+        <li><span class="dot"></span><span>${ui.infoStep5}</span></li>
       </ul>
     </div>
-    <button class="done-btn idle" style="background:#30CDD7; color:#003255; margin-top:14px" onclick="closeSheet()">Got it, let's go! 🛺</button>`;
+    <button class="done-btn idle" style="background:#30CDD7; color:#003255; margin-top:14px" onclick="closeSheet()">${ui.infoGotIt}</button>`;
 
   document.getElementById('tileSheet').scrollTop = 0;
   document.getElementById('tileOverlay').classList.add('open');
@@ -1498,8 +1997,9 @@ function toggleDone(idx) {
   const btn = document.getElementById('doneBtn');
   if (btn) {
     const isDone = completed.has(idx);
+    const btnUi = u(currentLang);
     btn.className = 'done-btn ' + (isDone ? 'complete' : 'idle');
-    btn.textContent = isDone ? '✓ Marked as complete' : 'Mark as complete ✓';
+    btn.textContent = isDone ? btnUi.markedComplete : btnUi.markComplete;
   }
 
   // Celebrate new bingo
@@ -1537,6 +2037,7 @@ teamInput.addEventListener('change', () => {
   loadState();
   renderGrid();
   updateProgress();
+  if (currentIdx !== null) openTileSheet(currentIdx);
 });
 
 /* ── KEYBOARD ── */
@@ -1549,8 +2050,7 @@ document.addEventListener('keydown', e => {
 
 /* ── INIT ── */
 loadState();
-renderGrid();
-updateProgress();
+applyLang(currentLang);
 
 </script>
 </body>
