@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Pop Quiz — Classroom Game</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#14151d;
+    --bg-panel:#1c1e2a;
+    --bg-panel-2:#242739;
+    --line:#333850;
+    --py-blue:#4B8BBE;
+    --py-blue-bright:#6fb3e8;
+    --py-yellow:#FFD43B;
+    --good:#4ADE80;
+    --bad:#F87171;
+    --text:#EDEEF5;
+    --text-dim:#9497ad;
+    --font-display:'JetBrains Mono', monospace;
+    --font-body:'Inter', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%;}
+  body{
+    background:
+      radial-gradient(circle at 15% 8%, rgba(75,139,190,0.10), transparent 45%),
+      radial-gradient(circle at 90% 85%, rgba(255,212,59,0.06), transparent 40%),
+      var(--bg-deep);
+    color:var(--text);
+    font-family:var(--font-body);
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--py-yellow); color:#14151d;}
+
+  /* ---------- Scanline / terminal texture ---------- */
+  .crt-line{
+    position:fixed; inset:0; pointer-events:none; z-index:999;
+    background:repeating-linear-gradient(180deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 3px);
+    mix-blend-mode:overlay;
+  }
+
+  /* ---------- Shared ---------- */
+  .mono{font-family:var(--font-display);}
+  .prompt-tag{
+    font-family:var(--font-display); font-size:0.8rem; color:var(--good);
+    letter-spacing:0.02em;
+  }
+  .prompt-tag::before{content:'>>> ';}
+
+  button{font-family:var(--font-body); cursor:pointer; border:none; outline:none;}
+  button:focus-visible, input:focus-visible{outline:3px solid var(--py-yellow); outline-offset:2px;}
+
+  /* ================= SETUP SCREEN ================= */
+  #setup-screen{
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    padding:48px 24px;
+  }
+  .setup-card{
+    width:100%; max-width:640px;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:44px 44px 36px;
+    box-shadow:0 30px 80px rgba(0,0,0,0.45);
+  }
+  .setup-eyebrow{
+    display:flex; align-items:center; gap:10px; margin-bottom:14px;
+  }
+  .dot-row span{display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px;}
+  .dot-row .r{background:#f87171;} .dot-row .y{background:#FFD43B;} .dot-row .g{background:#4ADE80;}
+  .setup-card h1{
+    font-family:var(--font-display); font-weight:800; font-size:2.1rem;
+    letter-spacing:-0.01em; margin-bottom:6px;
+    background:linear-gradient(90deg, var(--py-blue-bright), var(--py-yellow));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .setup-card p.sub{color:var(--text-dim); font-size:0.98rem; margin-bottom:30px; line-height:1.5;}
+  .name-list{display:flex; flex-direction:column; gap:10px; margin-bottom:16px;}
+  .name-row{display:flex; gap:8px;}
+  .name-row input{
+    flex:1; background:var(--bg-panel-2); border:1px solid var(--line);
+    color:var(--text); padding:12px 14px; border-radius:10px; font-size:1rem;
+    font-family:var(--font-body);
+  }
+  .name-row input::placeholder{color:#5c5f75;}
+  .icon-btn{
+    width:44px; height:44px; border-radius:10px; background:var(--bg-panel-2);
+    border:1px solid var(--line); color:var(--text-dim); font-size:1.2rem;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    transition:background 0.15s, color 0.15s;
+  }
+  .icon-btn:hover{background:#33364a; color:var(--bad);}
+  .add-row-btn{
+    background:transparent; border:1px dashed var(--line); color:var(--text-dim);
+    padding:11px; border-radius:10px; font-size:0.92rem; margin-bottom:28px;
+    transition:border-color 0.15s, color 0.15s;
+  }
+  .add-row-btn:hover{border-color:var(--py-blue-bright); color:var(--py-blue-bright);}
+  .start-btn{
+    width:100%; padding:16px; border-radius:12px; font-size:1.05rem; font-weight:700;
+    background:linear-gradient(90deg, var(--py-blue), #3f7aab);
+    color:#fff; font-family:var(--font-display); letter-spacing:0.02em;
+    transition:transform 0.15s, box-shadow 0.15s;
+    box-shadow:0 10px 30px rgba(75,139,190,0.25);
+  }
+  .start-btn:hover{transform:translateY(-2px); box-shadow:0 14px 36px rgba(75,139,190,0.35);}
+  .start-btn:disabled{opacity:0.4; cursor:not-allowed; transform:none; box-shadow:none;}
+  .setup-hint{text-align:center; color:#5c5f75; font-size:0.82rem; margin-top:14px;}
+
+  /* ================= GAME SCREEN ================= */
+  #game-screen{display:none; min-height:100vh;}
+  .layout{display:flex; min-height:100vh;}
+
+  /* --- Sidebar / scoreboard --- */
+  #sidebar{
+    width:300px; flex-shrink:0; background:var(--bg-panel);
+    border-right:1px solid var(--line); padding:28px 20px;
+    display:flex; flex-direction:column; gap:18px;
+  }
+  .side-title{font-family:var(--font-display); font-size:0.78rem; color:var(--text-dim); letter-spacing:0.12em; text-transform:uppercase; padding:0 4px;}
+  .leaderboard{display:flex; flex-direction:column; gap:8px;}
+  .score-card{
+    background:var(--bg-panel-2); border:1px solid var(--line); border-radius:12px;
+    padding:14px 16px; display:flex; align-items:center; justify-content:space-between;
+    transition:border-color 0.25s, background 0.25s, transform 0.25s;
+  }
+  .score-card.active{
+    border-color:var(--py-yellow); background:rgba(255,212,59,0.08);
+    transform:scale(1.03);
+    box-shadow:0 0 0 1px rgba(255,212,59,0.3), 0 8px 20px rgba(255,212,59,0.12);
+  }
+  .score-name{font-weight:600; font-size:0.96rem;}
+  .score-rank{color:var(--text-dim); font-size:0.75rem; margin-right:8px; font-family:var(--font-display);}
+  .score-val{font-family:var(--font-display); font-weight:700; font-size:1.15rem; color:var(--py-yellow);}
+  .score-left{display:flex; align-items:center;}
+
+  .sidebar-footer{margin-top:auto; display:flex; flex-direction:column; gap:10px;}
+  .ghost-btn{
+    background:transparent; border:1px solid var(--line); color:var(--text-dim);
+    padding:11px; border-radius:10px; font-size:0.85rem; font-family:var(--font-display);
+    transition:border-color 0.15s, color 0.15s;
+  }
+  .ghost-btn:hover{border-color:var(--bad); color:var(--bad);}
+
+  /* --- Main area --- */
+  #main-area{flex:1; padding:36px 48px 48px; display:flex; flex-direction:column; min-width:0;}
+  .top-bar{display:flex; align-items:center; justify-content:space-between; margin-bottom:34px; flex-wrap:wrap; gap:14px;}
+  .top-bar h2{font-family:var(--font-display); font-size:1.4rem; letter-spacing:-0.01em;}
+  .progress-dots{display:flex; gap:6px; flex-wrap:wrap; max-width:420px;}
+  .p-dot{width:9px; height:9px; border-radius:50%; background:var(--line);}
+  .p-dot.done{background:var(--py-blue-bright);}
+  .p-dot.current{background:var(--py-yellow); transform:scale(1.3);}
+
+  .stage{
+    flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:28px; text-align:center;
+  }
+
+  /* --- Picker (signature element) --- */
+  .picker-zone{
+    width:100%; max-width:600px; background:var(--bg-panel); border:1px solid var(--line);
+    border-radius:20px; padding:40px; display:flex; flex-direction:column; align-items:center; gap:22px;
+  }
+  .repl-line{font-family:var(--font-display); color:var(--text-dim); font-size:0.95rem; align-self:flex-start;}
+  .repl-line .fn{color:var(--py-blue-bright);}
+  .picked-name{
+    font-family:var(--font-display); font-weight:800; font-size:3rem; letter-spacing:-0.02em;
+    color:var(--py-yellow); min-height:4.2rem; display:flex; align-items:center; justify-content:center;
+  }
+  .picked-name.shuffling{color:var(--text-dim); font-size:2.2rem;}
+  .cursor-blink{display:inline-block; width:3px; height:2.6rem; background:var(--good); margin-left:8px; animation:blink 1s step-end infinite; vertical-align:middle;}
+  @keyframes blink{50%{opacity:0;}}
+  .pick-btn{
+    padding:16px 40px; border-radius:12px; font-size:1.05rem; font-weight:700;
+    background:linear-gradient(90deg, var(--py-yellow), #ffc93b); color:#14151d;
+    font-family:var(--font-display); box-shadow:0 10px 30px rgba(255,212,59,0.25);
+    transition:transform 0.15s, box-shadow 0.15s;
+  }
+  .pick-btn:hover{transform:translateY(-2px); box-shadow:0 14px 36px rgba(255,212,59,0.35);}
+  .pick-btn:disabled{opacity:0.35; cursor:not-allowed; transform:none;}
+
+  /* --- Question card --- */
+  .q-card{
+    width:100%; max-width:760px; background:var(--bg-panel); border:1px solid var(--line);
+    border-radius:20px; padding:38px 42px; text-align:left; display:none;
+  }
+  .q-meta{font-family:var(--font-display); font-size:0.78rem; color:var(--py-blue-bright); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:10px;}
+  .q-text{font-size:1.5rem; font-weight:700; line-height:1.4; margin-bottom:26px;}
+  .options{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:26px;}
+  .opt{
+    background:var(--bg-panel-2); border:1px solid var(--line); border-radius:10px;
+    padding:14px 16px; font-size:1rem; text-align:left; transition:all 0.2s;
+  }
+  .opt.reveal-correct{border-color:var(--good); background:rgba(74,222,128,0.1); color:var(--good); font-weight:600;}
+  .opt.reveal-wrong-muted{opacity:0.4;}
+  .explain{
+    display:none; background:rgba(75,139,190,0.08); border-left:3px solid var(--py-blue-bright);
+    padding:14px 18px; border-radius:0 10px 10px 0; font-size:0.95rem; color:var(--text-dim); margin-bottom:24px; line-height:1.5;
+  }
+  .q-actions{display:flex; gap:12px; flex-wrap:wrap;}
+  .action-btn{
+    padding:13px 22px; border-radius:10px; font-weight:700; font-size:0.92rem;
+    font-family:var(--font-display);
+  }
+  .btn-reveal{background:var(--py-blue); color:#fff;}
+  .btn-correct{background:var(--good); color:#0d2318; display:none;}
+  .btn-incorrect{background:var(--bg-panel-2); border:1px solid var(--bad); color:var(--bad); display:none;}
+  .btn-next{background:var(--py-yellow); color:#14151d; display:none; margin-left:auto;}
+  .action-btn:hover{filter:brightness(1.1);}
+
+  /* ================= END SCREEN ================= */
+  #end-screen{display:none; min-height:100vh; align-items:center; justify-content:center; padding:40px 24px;}
+  .end-card{
+    max-width:640px; width:100%; background:var(--bg-panel); border:1px solid var(--line);
+    border-radius:20px; padding:48px; text-align:center;
+  }
+  .end-card h1{font-family:var(--font-display); font-size:2rem; margin-bottom:6px; color:var(--py-yellow);}
+  .end-card p.sub{color:var(--text-dim); margin-bottom:32px;}
+  .podium{display:flex; flex-direction:column; gap:10px; margin-bottom:32px;}
+  .podium-row{
+    display:flex; align-items:center; justify-content:space-between; padding:16px 20px;
+    border-radius:12px; background:var(--bg-panel-2); border:1px solid var(--line);
+  }
+  .podium-row.first{border-color:var(--py-yellow); background:rgba(255,212,59,0.08);}
+  .podium-medal{font-family:var(--font-display); font-weight:800; color:var(--text-dim); width:32px;}
+  .podium-row.first .podium-medal{color:var(--py-yellow);}
+  .podium-name{flex:1; text-align:left; font-weight:600; margin-left:8px;}
+  .podium-score{font-family:var(--font-display); font-weight:700; color:var(--py-yellow);}
+
+  @media (max-width:900px){
+    .layout{flex-direction:column;}
+    #sidebar{width:100%; border-right:none; border-bottom:1px solid var(--line);}
+    #main-area{padding:28px 20px 40px;}
+    .options{grid-template-columns:1fr;}
+    .picked-name{font-size:2.1rem;}
+    .q-text{font-size:1.25rem;}
+  }
+</style>
+</head>
+<body>
+<div class="crt-line"></div>
+
+<!-- ============ SETUP SCREEN ============ -->
+<div id="setup-screen">
+  <div class="setup-card">
+    <div class="setup-eyebrow">
+      <div class="dot-row"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+      <span class="prompt-tag mono">init_quiz.py</span>
+    </div>
+    <h1>Python Pop Quiz</h1>
+    <p class="sub">Add your students below. Each round, the picker randomly calls on someone to answer — the scoreboard tracks it all on the big screen.</p>
+    <div class="name-list" id="nameList">
+      <div class="name-row">
+        <input type="text" placeholder="Student name" maxlength="20">
+        <button class="icon-btn" onclick="removeRow(this)" aria-label="Remove student">✕</button>
+      </div>
+    </div>
+    <button class="add-row-btn" onclick="addRow()">+ Add another student</button>
+    <button class="start-btn" id="startBtn" onclick="startGame()">Start Quiz →</button>
+    <p class="setup-hint">Works best with 3–8 students · 15 questions covering operators, data types & core concepts</p>
+  </div>
+</div>
+
+<!-- ============ GAME SCREEN ============ -->
+<div id="game-screen">
+  <div class="layout">
+    <aside id="sidebar">
+      <div class="side-title">Scoreboard</div>
+      <div class="leaderboard" id="leaderboard"></div>
+      <div class="sidebar-footer">
+        <button class="ghost-btn" onclick="endGameEarly()">End quiz &amp; show results</button>
+      </div>
+    </aside>
+
+    <main id="main-area">
+      <div class="top-bar">
+        <h2 id="qCounter">Question 1 of 15</h2>
+        <div class="progress-dots" id="progressDots"></div>
+      </div>
+
+      <div class="stage">
+        <div class="picker-zone" id="pickerZone">
+          <div class="repl-line"><span class="fn">student</span> = pick_random(class_list)</div>
+          <div class="picked-name" id="pickedName">press pick<span class="cursor-blink"></span></div>
+          <button class="pick-btn" id="pickBtn" onclick="pickStudent()">🎲 Pick a Student</button>
+        </div>
+
+        <div class="q-card" id="qCard">
+          <div class="q-meta" id="qMeta">Topic</div>
+          <div class="q-text" id="qText">Question text</div>
+          <div class="options" id="qOptions"></div>
+          <div class="explain" id="qExplain"></div>
+          <div class="q-actions">
+            <button class="action-btn btn-reveal" id="btnReveal" onclick="revealAnswer()">Show Answer</button>
+            <button class="action-btn btn-correct" id="btnCorrect" onclick="scorePoint(true)">✓ Correct (+1)</button>
+            <button class="action-btn btn-incorrect" id="btnIncorrect" onclick="scorePoint(false)">✕ Incorrect</button>
+            <button class="action-btn btn-next" id="btnNext" onclick="nextQuestion()">Next Question →</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ============ END SCREEN ============ -->
+<div id="end-screen">
+  <div class="end-card">
+    <h1>🏆 Quiz Complete</h1>
+    <p class="sub">Final scoreboard</p>
+    <div class="podium" id="podium"></div>
+    <button class="start-btn" onclick="location.reload()">Play Again</button>
+  </div>
+</div>
+
+<script>
+/* ---------------- Question bank ---------------- */
+const QUESTIONS = [
+  {topic:"Arithmetic Operators", q:"What does the // operator do in Python?", opts:["Standard division","Floor division (rounds down)","Calculates the remainder","Comments out code"], correct:1, explain:"// is floor division — e.g. 7 // 2 gives 3, dropping the decimal part."},
+  {topic:"Arithmetic Operators", q:"What is the result of 10 % 3 in Python?", opts:["3","1","3.33","0"], correct:1, explain:"% gives the remainder of division. 10 divided by 3 is 3 remainder 1."},
+  {topic:"Arithmetic Operators", q:"What does 'ha' * 3 evaluate to?", opts:["'ha3'","'hahaha'","Error","9"], correct:1, explain:"* repeats text when used with a string, so 'ha' * 3 gives 'hahaha'."},
+  {topic:"Arithmetic Operators", q:"What does 2 ** 3 evaluate to?", opts:["6","5","8","9"], correct:2, explain:"** is the power/exponent operator — 2 to the power of 3 is 8."},
+  {topic:"Relational Operators", q:"Which operator checks if two values are equal?", opts:["=","==","!=","<="], correct:1, explain:"A single = assigns a value, but == asks 'are these equal?' and returns True/False."},
+  {topic:"Relational Operators", q:"What does != mean in Python?", opts:["Equal to","Not equal to","Less than","Approximately equal"], correct:1, explain:"!= is the 'not equal to' operator — it's True when two values are different."},
+  {topic:"Boolean Operators", q:"Which boolean operator returns True only if BOTH conditions are True?", opts:["OR","NOT","AND","=="], correct:2, explain:"AND requires both sides to be True. OR only needs one side to be True."},
+  {topic:"Boolean Operators", q:"Which operator flips True to False and False to True?", opts:["AND","OR","NOT","!="], correct:2, explain:"NOT reverses a boolean value — NOT True becomes False."},
+  {topic:"Assignment Operators", q:"What does the shorthand a += 5 actually do?", opts:["a = 5","a = a + 5","a = a - 5","a == 5"], correct:1, explain:"+= is shorthand: a += 5 means 'add 5 to a and store the result back in a'."},
+  {topic:"Assignment Operators", q:"What does a -= 2 do if a = 10?", opts:["a becomes 12","a becomes 8","a becomes -2","a becomes 5"], correct:1, explain:"-= subtracts and reassigns: a -= 2 means a = a - 2, so 10 - 2 = 8."},
+  {topic:"Bitwise Operators", q:"What does the & operator do in Python?", opts:["Bitwise AND on binary values","String concatenation","Floor division","Boolean OR"], correct:0, explain:"& performs a bitwise AND, comparing binary digits of two numbers."},
+  {topic:"Data Types", q:"You want to store someone's age. Which data type function fits best?", opts:["str()","bool()","int()","float()"], correct:2, explain:"Age is a whole number, so int() is the right type."},
+  {topic:"Data Types", q:"What does bool() represent in Python?", opts:["A whole number","Text/characters","True or False","A decimal number"], correct:2, explain:"bool() is the Boolean type — it only ever holds True or False."},
+  {topic:"Data Types", q:"str() is used to convert a value into what?", opts:["A whole number","Text (a string)","True/False","A decimal"], correct:1, explain:"str() converts a value into text, e.g. str(5) becomes '5'."},
+  {topic:"Data Structures", q:"A variable created inside a function, usable only within it, is called a:", opts:["Global variable","Local variable","Constant","2D array"], correct:1, explain:"Local variables exist only inside the function/block where they're created."},
+  {topic:"Data Structures", q:"Which structure best stores a grid, like a noughts-and-crosses board?", opts:["1D array","2D array","Constant","Global variable"], correct:1, explain:"A 2D array stores data in rows and columns, like a grid."},
+  {topic:"Data Structures", q:"A value fixed at the start that never changes (e.g. PI = 3.14159) is a:", opts:["Local variable","Constant","Global variable","1D array"], correct:1, explain:"Constants are set once and never changed while the program runs."},
+  {topic:"Programming Concepts", q:"Breaking a big program into smaller, reusable chunks is called:", opts:["Debugging","Iteration","Modular programming","Selection"], correct:2, explain:"Modular programming splits code into self-contained, reusable modules."},
+  {topic:"Programming Concepts", q:"A for loop or while loop, which repeats code, is an example of:", opts:["Selection","Iteration","Error-trapping","Debugging"], correct:1, explain:"Iteration means repeating a set of instructions — exactly what loops do."},
+  {topic:"Programming Concepts", q:"Using try/except to handle a problem gracefully is called:", opts:["Debugging","Error-trapping","Iteration","Selection"], correct:1, explain:"Error-trapping anticipates and catches errors so the program doesn't crash."}
+];
+
+/* ---------------- State ---------------- */
+let students = [];
+let qOrder = [];
+let qIndex = 0;
+let pickPool = [];
+let currentPick = null;
+let answered = false;
+
+/* ---------------- Setup screen ---------------- */
+function addRow(){
+  const list = document.getElementById('nameList');
+  if(list.children.length >= 12) return;
+  const row = document.createElement('div');
+  row.className = 'name-row';
+  row.innerHTML = `<input type="text" placeholder="Student name" maxlength="20">
+    <button class="icon-btn" onclick="removeRow(this)" aria-label="Remove student">✕</button>`;
+  list.appendChild(row);
+  row.querySelector('input').focus();
+}
+function removeRow(btn){
+  const list = document.getElementById('nameList');
+  if(list.children.length > 1) btn.parentElement.remove();
+}
+
+function startGame(){
+  const inputs = [...document.querySelectorAll('#nameList input')];
+  students = inputs.map(i => i.value.trim()).filter(Boolean).map(name => ({name, score:0}));
+  if(students.length === 0) return;
+
+  qOrder = [...Array(QUESTIONS.length).keys()];
+  shuffle(qOrder);
+  qOrder = qOrder.slice(0, Math.min(15, qOrder.length));
+  qIndex = 0;
+  refillPickPool();
+
+  document.getElementById('setup-screen').style.display = 'none';
+  document.getElementById('game-screen').style.display = 'block';
+  renderLeaderboard();
+  renderProgress();
+  loadQuestion();
+}
+
+function shuffle(arr){
+  for(let i = arr.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+/* ---------------- Leaderboard ---------------- */
+function renderLeaderboard(){
+  const board = document.getElementById('leaderboard');
+  const sorted = [...students].sort((a,b) => b.score - a.score);
+  board.innerHTML = sorted.map((s, i) => `
+    <div class="score-card ${currentPick === s.name ? 'active' : ''}">
+      <div class="score-left">
+        <span class="score-rank">${String(i+1).padStart(2,'0')}</span>
+        <span class="score-name">${escapeHtml(s.name)}</span>
+      </div>
+      <span class="score-val">${s.score}</span>
+    </div>
+  `).join('');
+}
+
+function renderProgress(){
+  document.getElementById('qCounter').textContent = `Question ${qIndex + 1} of ${qOrder.length}`;
+  const dots = document.getElementById('progressDots');
+  dots.innerHTML = qOrder.map((_, i) => {
+    let cls = 'p-dot';
+    if(i < qIndex) cls += ' done';
+    if(i === qIndex) cls += ' current';
+    return `<span class="${cls}"></span>`;
+  }).join('');
+}
+
+/* ---------------- Picker ---------------- */
+function refillPickPool(){
+  pickPool = shuffle(students.map(s => s.name));
+}
+
+function pickStudent(){
+  if(pickPool.length === 0) refillPickPool();
+  const nameEl = document.getElementById('pickedName');
+  const btn = document.getElementById('pickBtn');
+  btn.disabled = true;
+  nameEl.classList.add('shuffling');
+
+  let ticks = 0;
+  const maxTicks = 14;
+  const interval = setInterval(() => {
+    const rnd = students[Math.floor(Math.random() * students.length)].name;
+    nameEl.textContent = rnd;
+    ticks++;
+    if(ticks >= maxTicks){
+      clearInterval(interval);
+      const idx = Math.floor(Math.random() * pickPool.length);
+      currentPick = pickPool.splice(idx, 1)[0];
+      nameEl.textContent = currentPick;
+      nameEl.classList.remove('shuffling');
+      btn.disabled = false;
+      renderLeaderboard();
+      document.getElementById('qCard').style.display = 'block';
+    }
+  }, 70);
+}
+
+/* ---------------- Questions ---------------- */
+function loadQuestion(){
+  answered = false;
+  currentPick = null;
+  document.getElementById('qCard').style.display = 'none';
+  document.getElementById('pickedName').textContent = 'press pick';
+  document.getElementById('pickedName').classList.remove('shuffling');
+
+  const q = QUESTIONS[qOrder[qIndex]];
+  document.getElementById('qMeta').textContent = q.topic;
+  document.getElementById('qText').textContent = q.q;
+  document.getElementById('qOptions').innerHTML = q.opts.map(o => `<div class="opt">${escapeHtml(o)}</div>`).join('');
+  document.getElementById('qExplain').style.display = 'none';
+  document.getElementById('qExplain').textContent = q.explain;
+
+  document.getElementById('btnReveal').style.display = 'inline-block';
+  document.getElementById('btnCorrect').style.display = 'none';
+  document.getElementById('btnIncorrect').style.display = 'none';
+  document.getElementById('btnNext').style.display = 'none';
+
+  renderProgress();
+  renderLeaderboard();
+}
+
+function revealAnswer(){
+  const q = QUESTIONS[qOrder[qIndex]];
+  const optEls = [...document.querySelectorAll('#qOptions .opt')];
+  optEls.forEach((el, i) => {
+    if(i === q.correct) el.classList.add('reveal-correct');
+    else el.classList.add('reveal-wrong-muted');
+  });
+  document.getElementById('qExplain').style.display = 'block';
+  document.getElementById('btnReveal').style.display = 'none';
+  document.getElementById('btnCorrect').style.display = 'inline-block';
+  document.getElementById('btnIncorrect').style.display = 'inline-block';
+}
+
+function scorePoint(correct){
+  if(answered) return;
+  answered = true;
+  if(correct && currentPick){
+    const s = students.find(s => s.name === currentPick);
+    if(s) s.score += 1;
+  }
+  document.getElementById('btnCorrect').style.display = 'none';
+  document.getElementById('btnIncorrect').style.display = 'none';
+  document.getElementById('btnNext').style.display = 'inline-block';
+  renderLeaderboard();
+}
+
+function nextQuestion(){
+  qIndex++;
+  if(qIndex >= qOrder.length){
+    showEndScreen();
+    return;
+  }
+  loadQuestion();
+}
+
+function endGameEarly(){
+  showEndScreen();
+}
+
+function showEndScreen(){
+  document.getElementById('game-screen').style.display = 'none';
+  document.getElementById('end-screen').style.display = 'flex';
+  const sorted = [...students].sort((a,b) => b.score - a.score);
+  const medals = ['🥇','🥈','🥉'];
+  document.getElementById('podium').innerHTML = sorted.map((s, i) => `
+    <div class="podium-row ${i === 0 ? 'first' : ''}">
+      <span class="podium-medal">${medals[i] || (i+1)}</span>
+      <span class="podium-name">${escapeHtml(s.name)}</span>
+      <span class="podium-score">${s.score} pt${s.score === 1 ? '' : 's'}</span>
+    </div>
+  `).join('');
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+</script>
+</body>
+</html>
