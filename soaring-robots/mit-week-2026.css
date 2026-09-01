@@ -235,6 +235,7 @@ section.alt { background: var(--white); }
   border: none;
 }
 .section-head h2 { font-size: clamp(1.4rem, 3vw, 1.9rem); }
+.section-head h3 { font-size: clamp(1.1rem, 2.4vw, 1.35rem); }
 .section-head p { color: var(--slate); font-size: 1rem; }
 
 /* ---------- Week cards ---------- */
