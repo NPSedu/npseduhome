@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VIS10NARY: Soaring Robots — NPSedu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:    #0d2a4d;
+      --navy-2:  #133a68;
+      --teal:    #00c2d1;
+      --crimson: #b3123a;
+      --gold:    #f6c211;
+      --orange:  #f3841e;
+      --magenta: #e2145a;
+      --purple:  #6a2c91;
+      --ink:     #16233a;
+      --muted:   #5b6b82;
+      --border:  #e3e9f0;
+      --bg:      #f6f9fb;
+      --white:   #ffffff;
+      --radius:  14px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--navy);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .nav-inner {
+      max-width: 1080px;
+      margin: auto;
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-brand {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+    }
+    .nav-brand span { color: var(--white); font-weight: 700; }
+    .nav-links { list-style: none; display: flex; gap: 4px; }
+    .nav-links a {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .nav-links a:hover { color: var(--white); background: rgba(255,255,255,0.08); }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(120deg, var(--navy) 0%, var(--navy-2) 55%, var(--teal) 150%);
+      color: var(--white);
+      padding: 64px 24px 56px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,0.35) 2px, transparent 2.5px);
+      background-size: 26px 26px;
+      opacity: 0.08;
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: 1080px;
+      margin: auto;
+      position: relative;
+      z-index: 1;
+    }
+    .visually-hidden {
+      position: absolute;
+      width: 1px; height: 1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+    }
+    .hero-media {
+      max-width: 1080px;
+      margin: 0 auto 32px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    }
+    .hero-media img { display: block; width: 100%; height: auto; }
+    .partner-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+    .partner-chip {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 6px 12px;
+      border-radius: 999px;
+    }
+    .hero-sub {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.65);
+      max-width: 560px;
+      margin-bottom: 32px;
+    }
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-primary, .btn-secondary {
+      display: inline-block;
+      padding: 12px 22px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .btn-primary { background: var(--teal); color: var(--navy); }
+    .btn-primary:hover { transform: translateY(-1px); background: #1fd4e2; }
+    .btn-secondary { background: rgba(255,255,255,0.1); color: var(--white); border: 1px solid rgba(255,255,255,0.25); }
+    .btn-secondary:hover { background: rgba(255,255,255,0.18); transform: translateY(-1px); }
+
+    /* MAIN */
+    main { max-width: 1080px; margin: auto; padding: 0 24px 90px; }
+    section { padding-top: 68px; }
+    .section-label {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--teal);
+      background: rgba(0,194,209,0.1);
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+    }
+    .section-header h2 {
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+    .section-header p { color: var(--muted); max-width: 620px; }
+    .section-header { margin-bottom: 36px; }
+
+    /* OVERVIEW STRIP */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .overview-item {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+    .overview-item .k {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .overview-item .v { font-size: 1rem; font-weight: 700; }
+
+    /* CHALLENGE INTRO */
+    .challenge-copy { max-width: 720px; color: var(--ink); }
+    .challenge-copy p { margin-bottom: 14px; color: #33415c; }
+
+    /* DESIGN CYCLE */
+    .cycle-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: stretch;
+      justify-content: center;
+    }
+    .cycle-card {
+      --c: var(--navy);
+      width: 168px;
+      min-height: 168px;
+      background: var(--c);
+      color: var(--white);
+      clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 30px 16px 22px;
+      position: relative;
+    }
+    .cycle-card .num {
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.7rem;
+      font-weight: 700;
+      opacity: 0.7;
+    }
+    .cycle-card .icon { font-size: 1.6rem; margin-bottom: 8px; }
+    .cycle-card .label { font-weight: 800; font-size: 0.92rem; line-height: 1.25; }
+    .cycle-arrow {
+      align-self: center;
+      color: var(--muted);
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+    }
+    .c1 { --c: var(--crimson); }
+    .c2 { --c: var(--navy); }
+    .c3 { --c: var(--gold); color: var(--ink); }
+    .c4 { --c: var(--orange); }
+    .c5 { --c: var(--magenta); }
+    .c6 { --c: var(--purple); }
+    .c7 { --c: var(--teal); color: var(--ink); }
+
+    .iterate-note {
+      max-width: 460px;
+      margin: 22px auto 0;
+      background: var(--white);
+      border: 1px dashed var(--muted);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      font-size: 0.88rem;
+      color: var(--muted);
+      text-align: center;
+    }
+    .iterate-note b { color: var(--ink); }
+
+    .cycle-desc-grid {
+      margin-top: 40px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .cycle-desc {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      border-top: 4px solid var(--c);
+    }
+    .cycle-desc h4 { font-size: 0.95rem; margin-bottom: 6px; }
+    .cycle-desc p { font-size: 0.85rem; color: var(--muted); }
+
+    /* CERTIFICATE */
+    .cert-section {
+      background: var(--navy);
+      border-radius: 20px;
+      padding: 44px;
+      color: var(--white);
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 32px;
+      align-items: center;
+    }
+    .cert-copy h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 14px; }
+    .cert-copy p { color: rgba(255,255,255,0.7); margin-bottom: 10px; }
+    .cert-preview {
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    }
+    .cert-preview img { display: block; width: 100%; }
+
+    @media (max-width: 760px) {
+      .cert-section { grid-template-columns: 1fr; padding: 28px; }
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.45);
+      text-align: center;
+      padding: 28px 24px;
+      font-size: 0.85rem;
+    }
+    footer a { color: rgba(255,255,255,0.65); }
+
+    @media (max-width: 600px) {
+      .hero { padding: 48px 20px 44px; }
+      .nav-inner { padding: 0 16px; }
+      main { padding: 0 16px 60px; }
+      .cycle-card { width: 130px; min-height: 140px; padding: 24px 10px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a class="nav-brand" href="../index.html">← <span>NPSedu</span></a>
+      <ul class="nav-links">
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#cycle">Design Cycle</a></li>
+        <li><a href="#certificate">Certificate</a></li>
+        <li><a href="index.html">Student Hub</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <h1 class="visually-hidden">VIS10NARY: Soaring Robots — with Professor Raphael Zufferey</h1>
+    <div class="hero-media">
+      <img src="assets/hero-banner.png" alt="VIS10NARY: Soaring Robots, with Professor Raphael Zufferey — Nord Anglia Education and MIT" />
+    </div>
+    <div class="hero-inner">
+      <div class="partner-row">
+        <span class="partner-chip">Nord Anglia Education</span>
+        <span class="partner-chip">MIT Week 2026</span>
+        <span class="partner-chip">KS3</span>
+      </div>
+      <p class="hero-sub">A KS3 engineering challenge where students design, build, and test their own soaring robot — applying real aerospace robotics principles from MIT.</p>
+      <div class="hero-btns">
+        <a class="btn-primary" href="index.html">Open the Student Hub →</a>
+        <a class="btn-secondary" href="#cycle">Explore the design cycle</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- OVERVIEW -->
+    <section id="overview">
+      <div class="section-header">
+        <span class="section-label">Overview</span>
+        <h2>The challenge, at a glance</h2>
+        <p>Part of Nord Anglia Education's MIT Week, this challenge brings a real MIT research area — biomimetic soaring flight — into the KS3 classroom.</p>
+      </div>
+      <div class="overview-grid">
+        <div class="overview-item">
+          <div class="k">Year group</div>
+          <div class="v">KS3</div>
+        </div>
+        <div class="overview-item">
+          <div class="k">Partner</div>
+          <div class="v">MIT</div>
+        </div>
+        <div class="overview-item">
+          <div class="k">Facilitator</div>
+          <div class="v">Prof. Raphael Zufferey</div>
+        </div>
+        <div class="overview-item">
+          <div class="k">Focus</div>
+          <div class="v">Aerospace robotics</div>
+        </div>
+      </div>
+
+      <div class="challenge-copy" style="margin-top:36px;">
+        <p>Soaring robots — gliders that stay aloft by riding rising air rather than burning fuel — are inspired by birds and used by researchers to study efficient, long-duration flight. In this challenge, students take on the role of aerospace engineers: they define a design problem, research how real soaring robots achieve lift and control, then design, build, and test their own glider.</p>
+        <p>The challenge is structured around a seven-stage engineering design cycle, run as a loop rather than a straight line — students are expected to revisit and improve their build as they learn what works.</p>
+      </div>
+    </section>
+
+    <!-- DESIGN CYCLE -->
+    <section id="cycle">
+      <div class="section-header">
+        <span class="section-label">Design cycle</span>
+        <h2>Define → Learn & Explore → Design & Choose → Create → Observe & Improve → Reflect → Share</h2>
+        <p>Every team moves through all seven stages — looping back into <b>Create</b> as many times as needed after <b>Observe &amp; Improve</b>.</p>
+      </div>
+
+      <div class="cycle-wrap">
+        <div class="cycle-card c1"><span class="num">1</span><span class="icon">📝</span><span class="label">Define</span></div>
+        <div class="cycle-arrow">→</div>
+        <div class="cycle-card c2"><span class="num">2</span><span class="icon">🔍</span><span class="label">Learn &amp; Explore</span></div>
+        <div class="cycle-arrow">→</div>
+        <div class="cycle-card c3"><span class="num">3</span><span class="icon">🖍️</span><span class="label">Design &amp; Choose</span></div>
+        <div class="cycle-arrow">→</div>
+        <div class="cycle-card c4"><span class="num">4</span><span class="icon">🛠️</span><span class="label">Create</span></div>
+        <div class="cycle-arrow">→</div>
+        <div class="cycle-card c5"><span class="num">5</span><span class="icon">👁️</span><span class="label">Observe &amp; Improve</span></div>
+        <div class="cycle-arrow">→</div>
+        <div class="cycle-card c6"><span class="num">6</span><span class="icon">🤔</span><span class="label">Reflect</span></div>
+        <div class="cycle-arrow">→</div>
+        <div class="cycle-card c7"><span class="num">7</span><span class="icon">📣</span><span class="label">Share</span></div>
+      </div>
+
+      <p class="iterate-note">↺ <b>Iterate:</b> after Observe &amp; Improve, teams loop back to Create as many times as their test flights demand.</p>
+
+      <div class="cycle-desc-grid">
+        <div class="cycle-desc" style="--c:var(--crimson);">
+          <h4>1 · Define</h4>
+          <p>Pin down the problem: what must a soaring robot do, and what constraints — size, weight, materials — apply?</p>
+        </div>
+        <div class="cycle-desc" style="--c:var(--navy);">
+          <h4>2 · Learn &amp; Explore</h4>
+          <p>Research how real gliders and MIT's soaring robots generate lift and stay stable in the air.</p>
+        </div>
+        <div class="cycle-desc" style="--c:var(--gold);">
+          <h4>3 · Design &amp; Choose</h4>
+          <p>Sketch several concepts, weigh up the trade-offs, and choose the design most likely to fly.</p>
+        </div>
+        <div class="cycle-desc" style="--c:var(--orange);">
+          <h4>4 · Create</h4>
+          <p>Build a working prototype of the chosen design from the available materials.</p>
+        </div>
+        <div class="cycle-desc" style="--c:var(--magenta);">
+          <h4>5 · Observe &amp; Improve</h4>
+          <p>Test flight the prototype, record what happens, and identify what to change.</p>
+        </div>
+        <div class="cycle-desc" style="--c:var(--purple);">
+          <h4>6 · Reflect</h4>
+          <p>Evaluate what worked and why, connecting results back to engineering and aerodynamics principles.</p>
+        </div>
+        <div class="cycle-desc" style="--c:var(--teal);">
+          <h4>7 · Share</h4>
+          <p>Present the finished soaring robot and the design journey behind it to the class and judges.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CERTIFICATE -->
+    <section id="certificate">
+      <div class="cert-section">
+        <div class="cert-copy">
+          <span class="section-label" style="background:rgba(255,255,255,0.12); color:var(--teal);">Recognition</span>
+          <h2>A certificate for every soaring robot engineer</h2>
+          <p>Every student who completes the challenge receives a VIS10NARY: Soaring Robots Certificate of Completion, co-signed by their teacher and issued in partnership with MIT.</p>
+          <p>It marks their progress through the full design cycle — from first defining the problem to sharing a working, tested soaring robot.</p>
+        </div>
+        <div class="cert-preview">
+          <img src="assets/certificate.png" alt="VIS10NARY: Soaring Robots certificate of completion, awarded with Professor Raphael Zufferey and MIT" />
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <img src="assets/logo-white.png" alt="VIS10NARY: Soaring Robots" style="height:28px; width:auto; opacity:0.85; margin-bottom:10px;" />
+    <p>Part of <a href="../index.html">NPSedu</a>, Nord Anglia Education's MIT Week.</p>
+  </footer>
+
+</body>
+</html>
