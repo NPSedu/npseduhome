@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MIT Week 2026 | Student Hub</title>
+<meta name="description" content="Your home base for MIT Week 2026 — the Soaring Robots Challenge. Schedule, key info, and all your resources in one place.">
+<link rel="stylesheet" href="mit-week-2026.css">
+</head>
+<body>
+
+<!--
+  ============================================================
+  HOW TO ADD YOUR ONEDRIVE LINKS
+  Fill in the RESOURCE_LINKS object just below with each
+  OneDrive URL (as a plain string between the quotes). Every
+  "Open resource" button on this page reads from here — once
+  a value is filled in, its button goes live automatically.
+  Leave a value as "" to keep that button showing "Link coming soon".
+  Delete the whole <div class="dev-notice">...</div> banner
+  near the top of <body> once every link is in and you're ready
+  to publish.
+  ============================================================
+-->
+<script>
+  const RESOURCE_LINKS = {
+    journal: "",           // Individual Innovation Journal
+    workbook: "",          // Team Design Workbook
+    poster: "",            // A1 Team Poster template
+    catalogue: "",         // Resource / Materials Catalogue
+    challengeBrief: "",    // Challenge brief (Soaring Robots Challenge intro)
+    teamBuilding: "",      // Day 1 Team Building instructions
+    masterSchedule: "",    // Master Schedule (student-facing view)
+    studentLists: "",      // Student Lists — teams, houses, groupings
+    epraise: "",           // ePraise — check your MIT Points
+  };
+</script>
+
+<div class="dev-notice">
+  <strong>Draft preview —</strong> resource buttons below will go live once Nicole adds the OneDrive links. Remove this banner before publishing.
+</div>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <span class="mark">MIT WEEK</span>
+      <span class="name">2026</span>
+    </a>
+    <nav class="mainnav">
+      <a href="index.html">Overview</a>
+      <a href="#week">The Week</a>
+      <a href="#key-info">Key Info</a>
+      <a href="#resources">Your Resources</a>
+      <a href="#inspiration">Inspiration &amp; Help</a>
+    </nav>
+  </div>
+</header>
+
+<div id="top"></div>
+<section class="hero">
+  <div class="hero-media">
+    <img src="assets/hero-banner.png" alt="VIS10NARY: Soaring Robots, with Professor Raphael Zufferey — Nord Anglia Education and MIT" />
+  </div>
+  <div class="wrap">
+    <div class="eyebrow">Soaring Robots Challenge</div>
+    <h1>Everything you need for MIT Week, in one place.</h1>
+    <p class="lede">This is your home base for the week — the schedule, the key things to know, and every resource you'll need. Keep it open alongside your Journal and Workbook.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-gold" href="#week">See the week</a>
+      <a class="btn btn-ghost" href="#resources">Jump to resources</a>
+    </div>
+  </div>
+</section>
+
+<section id="week">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">The Week</div>
+      <h2>Five days, six checkpoints, one Expo</h2>
+      <p>Every team moves through the same Design Thinking journey. Your facilitator will keep you on track — checkpoints are there to help you pace yourself, not to rush you.</p>
+    </div>
+
+    <div class="week-grid">
+      <div class="day-card">
+        <div class="day">MONDAY</div>
+        <p>Launch Assembly, the Great Supply Drop, Team Roles, and your first look at the challenge.</p>
+        <span class="chip">Checkpoint 1 · 3:20</span>
+      </div>
+      <div class="day-card">
+        <div class="day">TUESDAY</div>
+        <p>Learn &amp; Explore, research your idea, then Design &amp; Choose what you're building.</p>
+        <span class="chip">Checkpoint 2 · 1:20</span>
+        <span class="chip">Checkpoint 3 · 3:20</span>
+      </div>
+      <div class="day-card">
+        <div class="day">WEDNESDAY</div>
+        <p>Guest speaker assembly, then Create begins — this is when your STEAM Tokens come into play.</p>
+        <span class="chip">Checkpoint 4 · 3:20</span>
+      </div>
+      <div class="day-card">
+        <div class="day">THURSDAY</div>
+        <p>Observe &amp; Improve using the Ladder of Feedback, then Reflect &amp; Share on what you've learned.</p>
+        <span class="chip">Checkpoint 5 · 12:20</span>
+        <span class="chip">Checkpoint 6 · 3:20</span>
+      </div>
+      <div class="day-card fri">
+        <div class="day">FRIDAY</div>
+        <p>Finish and set up your stall, then it's Expo time — followed by the Final Celebration and the House MIT Trophy.</p>
+        <span class="chip">Expo 10:20–11:40</span>
+      </div>
+    </div>
+
+    <div class="expo-callout">
+      <div class="num">36</div>
+      <div>
+        <strong>stalls, 9 per House, Sports Hall — Friday 10:20–11:40.</strong>
+        Ask yourself the "Empty Stall Test": if your team vanished, could a visitor still learn everything from your stall alone? That's the standard to aim for.
+      </div>
+    </div>
+
+    <div class="section-head" style="margin-top:3rem;">
+      <div class="eyebrow">Pacing the Week</div>
+      <h3>Our six checkpoints</h3>
+      <p>Each checkpoint is a quick check-in with your facilitator — a chance to show where you've got to before moving on.</p>
+    </div>
+    <div class="checkpoint-list">
+      <div class="checkpoint-row cp-1">
+        <div class="checkpoint-num">1</div>
+        <div class="checkpoint-time">Mon 3:20</div>
+        <div class="checkpoint-q">What problem and possibilities are we exploring?</div>
+        <div class="checkpoint-stage">Define</div>
+        <div class="checkpoint-icon">📝</div>
+      </div>
+      <div class="checkpoint-row cp-2">
+        <div class="checkpoint-num">2</div>
+        <div class="checkpoint-time">Tue 1:20</div>
+        <div class="checkpoint-q">What have we learned from nature?</div>
+        <div class="checkpoint-stage">Learn &amp; Explore</div>
+        <div class="checkpoint-icon">🔍</div>
+      </div>
+      <div class="checkpoint-row cp-3">
+        <div class="checkpoint-num">3</div>
+        <div class="checkpoint-time">Tue 3:20</div>
+        <div class="checkpoint-q">What are we going to build?</div>
+        <div class="checkpoint-stage">Design &amp; Choose</div>
+        <div class="checkpoint-icon">🖍️</div>
+      </div>
+      <div class="checkpoint-row cp-4">
+        <div class="checkpoint-num">4</div>
+        <div class="checkpoint-time">Wed 3:20</div>
+        <div class="checkpoint-q">What have we created so far?</div>
+        <div class="checkpoint-stage">Create</div>
+        <div class="checkpoint-icon">🛠️</div>
+      </div>
+      <div class="checkpoint-row cp-5">
+        <div class="checkpoint-num">5</div>
+        <div class="checkpoint-time">Thu 12:20</div>
+        <div class="checkpoint-q">What did we test, learn and improve?</div>
+        <div class="checkpoint-stage">Observe &amp; Improve</div>
+        <div class="checkpoint-icon">👁️</div>
+      </div>
+      <div class="checkpoint-row cp-6">
+        <div class="checkpoint-num">6</div>
+        <div class="checkpoint-time">Thu 3:20</div>
+        <div class="checkpoint-q">Are we ready to tell our story?</div>
+        <div class="checkpoint-stage">Reflect</div>
+        <div class="checkpoint-icon">🤔</div>
+      </div>
+    </div>
+    <p style="margin-top:1rem; font-size:0.9rem; color:var(--slate);">Then Friday's Expo (10:20–11:40) is where you <strong>Share</strong> it all.</p>
+  </div>
+</section>
+
+<section id="key-info" class="alt">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Key Info</div>
+      <h2>The things worth knowing before you start</h2>
+      <p>All of this is covered in more depth in your Journal and Workbook — this is the quick-reference version.</p>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="icon">2</div>
+        <h3>STEAM Tokens</h3>
+        <p>Every team gets 2 tokens on Monday. Take a token to a specialist, explain what you need and why, and they'll help you out. No token, no resource. Need more? Ask your facilitator and justify it.</p>
+      </div>
+      <div class="info-card">
+        <div class="icon">★</div>
+        <h3>MIT Points</h3>
+        <p>You're collecting MIT Points all week. Show any of the 6Cs — Communication, Collaboration, Creativity, Critical Thinking, Citizenship, Character — and a teacher can award your House an MIT Point on ePraise. Most points by Friday wins the House MIT Trophy.</p>
+      </div>
+      <div class="info-card">
+        <div class="icon">9</div>
+        <h3>Team Roles</h3>
+        <p>Every team member leads something — Project Manager, Biology Lead, Engineering Lead, Design Lead, Prototype Lead, Innovation Lead, Communications Lead, Videographer, Expo Stall Manager.</p>
+      </div>
+      <div class="info-card">
+        <div class="icon">6</div>
+        <h3>Checkpoints</h3>
+        <p>Six points across the week where you check in with your facilitator. They're there to help you pace yourself — going faster or slower than another team is completely fine.</p>
+      </div>
+      <div class="info-card">
+        <div class="icon">AI</div>
+        <h3>Using AI This Week</h3>
+        <p>Different stages allow different levels of AI help — from none at Define, to more at Learn &amp; Explore. Your facilitator will talk you through what's okay at each stage.</p>
+      </div>
+      <div class="info-card">
+        <div class="icon">📋</div>
+        <h3>Three Documents</h3>
+        <p>Your Individual Innovation Journal (personal), your Team Design Workbook (shared, becomes your Expo portfolio), and your A1 Team Poster (the live visual wall of your progress).</p>
+      </div>
+    </div>
+
+    <div class="house-row">
+      <span class="house-pill"><span class="house-dot" style="background:#8ec6e8"></span> Air</span>
+      <span class="house-pill"><span class="house-dot" style="background:#6b8e4e"></span> Earth</span>
+      <span class="house-pill"><span class="house-dot" style="background:#1c7293"></span> Water</span>
+      <span class="house-pill"><span class="house-dot" style="background:#c1440e"></span> Fire</span>
+    </div>
+  </div>
+</section>
+
+<section id="resources">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Your Resources</div>
+      <h2>Digital versions of everything you're using this week</h2>
+      <p>Open, edit, and save these directly from OneDrive — no need to keep track of printed copies.</p>
+    </div>
+
+    <div class="resource-grid">
+      <div class="resource-card">
+        <span class="tag">Individual</span>
+        <h3>Innovation Journal</h3>
+        <p>Your personal record of the week — thinking, sketches, and reflections.</p>
+        <a class="btn btn-teal" data-link="journal" href="#">Open resource</a>
+      </div>
+      <div class="resource-card">
+        <span class="tag">Team</span>
+        <h3>Design Workbook</h3>
+        <p>Your shared team document — becomes your Expo portfolio by Friday.</p>
+        <a class="btn btn-teal" data-link="workbook" href="#">Open resource</a>
+      </div>
+      <div class="resource-card">
+        <span class="tag">Team</span>
+        <h3>A1 Team Poster</h3>
+        <p>The live visual wall of your team's progress through the week.</p>
+        <a class="btn btn-teal" data-link="poster" href="#">Open resource</a>
+      </div>
+      <div class="resource-card">
+        <span class="tag">Reference</span>
+        <h3>Resource Catalogue</h3>
+        <p>Everything available in the specialist zones, and what it'll cost you in tokens.</p>
+        <a class="btn btn-teal" data-link="catalogue" href="#">Open resource</a>
+      </div>
+      <div class="resource-card">
+        <span class="tag">Reference</span>
+        <h3>Challenge Brief</h3>
+        <p>The full Soaring Robots Challenge brief and judging criteria.</p>
+        <a class="btn btn-teal" data-link="challengeBrief" href="#">Open resource</a>
+      </div>
+      <div class="resource-card">
+        <span class="tag">Monday</span>
+        <h3>Team Building Instructions</h3>
+        <p>The Great MIT Supply Drop — your Day 1 mission brief.</p>
+        <a class="btn btn-teal" data-link="teamBuilding" href="#">Open resource</a>
+      </div>
+      <div class="resource-card">
+        <span class="tag">Reference</span>
+        <h3>Student Lists</h3>
+        <p>Team and House groupings for the week — check here if you're not sure which team you're in.</p>
+        <a class="btn btn-teal" data-link="studentLists" href="#">Open resource</a>
+      </div>
+      <div class="resource-card">
+        <span class="tag">MIT Points</span>
+        <h3>Check Your MIT Points</h3>
+        <p>See the MIT Points your House has been awarded so far, on ePraise.</p>
+        <a class="btn btn-teal" data-link="epraise" href="#">Open resource</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="inspiration" class="alt">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Inspiration &amp; Extra Help</div>
+      <h2>Stuck? Need an idea? Start here.</h2>
+      <p>A few places worth a look if you want inspiration for your soaring robot, or a refresher on how to work through the process.</p>
+    </div>
+
+    <div class="inspire-grid">
+      <div class="inspire-card">
+        <h3>AskNature — Innovation Inspired by Nature</h3>
+        <p>Browse how nature has already solved problems like flight, strength, and efficiency. Great for the biomimicry side of your design.</p>
+        <a href="https://asknature.org/" target="_blank" rel="noopener">asknature.org →</a>
+      </div>
+      <div class="inspire-card">
+        <h3>Cornell Lab — Animals in Flight</h3>
+        <p>How birds and insects actually fly, explained for your age group. Directly useful for a soaring robot challenge.</p>
+        <a href="https://www.birds.cornell.edu/k12/animals-in-flight/" target="_blank" rel="noopener">birds.cornell.edu →</a>
+      </div>
+      <div class="inspire-card">
+        <h3>IDEO U — The Design Thinking Process</h3>
+        <p>A clear walkthrough of the same process you're using this week, if you want a refresher alongside your Journal.</p>
+        <a href="https://www.ideou.com/blogs/inspiration/design-thinking-process" target="_blank" rel="noopener">ideou.com →</a>
+      </div>
+      <div class="inspire-card">
+        <h3>Presentation Tips for Students</h3>
+        <p>Getting ready to talk visitors through your stall on Friday? A few solid tips for presenting with confidence.</p>
+        <a href="https://www.uopeople.edu/blog/presentation-tips-for-students/" target="_blank" rel="noopener">uopeople.edu →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><strong>MIT Week 2026</strong> · Soaring Robots Challenge</div>
+    <div>Questions? Ask your facilitator, or check the Facilitator Slides they're working from.</div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('[data-link]').forEach(function (el) {
+    var key = el.getAttribute('data-link');
+    var url = RESOURCE_LINKS[key];
+    if (url) {
+      el.setAttribute('href', url);
+      el.setAttribute('target', '_blank');
+      el.setAttribute('rel', 'noopener');
+    } else {
+      el.classList.remove('btn-teal');
+      el.classList.add('btn-disabled');
+      el.textContent = 'Link coming soon';
+      el.addEventListener('click', function (e) { e.preventDefault(); });
+    }
+  });
+</script>
+
+</body>
+</html>
