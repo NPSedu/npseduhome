@@ -14,6 +14,7 @@
   --navy-2:   #133a68;
   --navy-dk:  #081a30;
   --teal:     #00c2d1;
+  --teal-tint:rgba(0,194,209,0.1);
   --crimson:  #b3123a;
   --gold:     #f6c211;
   --gold-dk:  #caa30d;
@@ -31,6 +32,16 @@
   --fire:     #c1440e;
   --radius:   14px;
   --maxw:     1080px;
+}
+
+/* Staff Hub theme: a distinct accent so it's never mistaken for the
+   student page at a glance. Deliberately not reusing any of the
+   Define/Learn & Explore/Design & Choose/Create/Observe & Improve/
+   Reflect/Share stage colours, so checkpoint colour-coding still
+   reads correctly on this page. */
+body.staff {
+  --teal:      #0e7c5a;
+  --teal-tint: rgba(14,124,90,0.1);
 }
 
 * { box-sizing: border-box; }
@@ -231,7 +242,7 @@ section.alt { background: var(--white); }
 .section-head { margin-bottom: 2.2rem; max-width: 62ch; }
 .section-head .eyebrow {
   color: var(--teal);
-  background: rgba(0,194,209,0.1);
+  background: var(--teal-tint);
   border: none;
 }
 .section-head h2 { font-size: clamp(1.4rem, 3vw, 1.9rem); }
@@ -298,79 +309,6 @@ section.alt { background: var(--white); }
 }
 .expo-callout .num { font-size: 2.1rem; font-weight: 800; color: var(--teal); }
 .expo-callout strong { color: var(--navy); }
-
-/* ---------- Checkpoints schedule ---------- */
-
-.checkpoint-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.7rem;
-  margin-top: 1.5rem;
-}
-
-.checkpoint-row {
-  --c: var(--navy);
-  --tint: rgba(13,42,77,0.07);
-  display: flex;
-  align-items: center;
-  gap: 1.1rem;
-  padding: 0.9rem 1.3rem;
-  border-radius: var(--radius);
-  background: var(--tint);
-}
-
-.checkpoint-num {
-  width: 2.3rem;
-  height: 2.3rem;
-  border-radius: 50%;
-  background: var(--c);
-  color: var(--white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 0.95rem;
-  flex-shrink: 0;
-}
-
-.checkpoint-time {
-  font-weight: 800;
-  color: var(--c);
-  width: 76px;
-  flex-shrink: 0;
-  font-size: 0.88rem;
-}
-
-.checkpoint-q {
-  flex: 1;
-  color: var(--ink);
-  font-size: 0.96rem;
-}
-
-.checkpoint-stage {
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  font-size: 0.74rem;
-  color: var(--c);
-  white-space: nowrap;
-}
-
-.checkpoint-icon { font-size: 1.25rem; flex-shrink: 0; }
-
-.cp-1 { --c: var(--crimson); --tint: rgba(179,18,58,0.07); }
-.cp-2 { --c: var(--navy);    --tint: rgba(13,42,77,0.07); }
-.cp-3 { --c: var(--gold-dk); --tint: rgba(246,194,17,0.16); }
-.cp-3 .checkpoint-num { background: var(--gold); color: var(--navy); }
-.cp-4 { --c: var(--orange);  --tint: rgba(243,132,30,0.08); }
-.cp-5 { --c: var(--magenta); --tint: rgba(226,20,90,0.07); }
-.cp-6 { --c: var(--purple);  --tint: rgba(106,44,145,0.07); }
-
-@media (max-width: 700px) {
-  .checkpoint-row { flex-wrap: wrap; }
-  .checkpoint-q { flex-basis: 100%; order: 3; }
-  .checkpoint-stage { order: 2; margin-left: auto; }
-}
 
 /* ---------- Key info cards ---------- */
 
@@ -439,7 +377,7 @@ section.alt { background: var(--white); }
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--teal);
-  background: rgba(0,194,209,0.1);
+  background: var(--teal-tint);
   padding: 0.2rem 0.55rem;
   border-radius: 999px;
 }
@@ -479,7 +417,7 @@ section.alt { background: var(--white); }
   margin-bottom: 0.2rem;
 }
 
-.rc-individual { --c: var(--teal);    --tint: rgba(0,194,209,0.12); }
+.rc-individual { --c: var(--teal);    --tint: var(--teal-tint); }
 .rc-team       { --c: var(--navy);    --tint: rgba(13,42,77,0.09); }
 .rc-reference  { --c: var(--gold-dk); --tint: rgba(246,194,17,0.18); }
 .rc-points     { --c: var(--crimson); --tint: rgba(179,18,58,0.09); }
@@ -552,6 +490,111 @@ section.alt { background: var(--white); }
   .stage-panel { padding: 1.3rem 1.4rem; }
 }
 
+/* ---------- Interactive master schedule (staff) ---------- */
+
+.day-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1.6rem 0 1.6rem;
+}
+.day-tab {
+  border: 1.5px solid var(--navy);
+  background: var(--white);
+  color: var(--navy);
+  font-weight: 700;
+  font-size: 0.88rem;
+  padding: 0.6rem 1.3rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+}
+.day-tab:hover { background: var(--bg); transform: translateY(-1px); }
+.day-tab.active { background: var(--navy); color: var(--white); }
+
+.day-panel { display: none; }
+.day-panel.active { display: block; }
+
+.schedule-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.schedule-block {
+  background: var(--white);
+  border: 1px solid var(--card-line);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.3rem;
+}
+.schedule-time {
+  display: inline-block;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 0.4rem;
+}
+.schedule-block h4 { font-size: 1rem; margin-bottom: 0.4rem; }
+.schedule-location {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--slate);
+  background: var(--bg);
+  border: 1px solid var(--card-line);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  margin: -0.1rem 0 0.6rem 0.5rem;
+}
+.schedule-block p { font-size: 0.9rem; color: #33415c; margin-bottom: 0.5rem; }
+.schedule-block p:last-child { margin-bottom: 0; }
+.schedule-students {
+  font-size: 0.84rem;
+  color: var(--slate);
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--card-line);
+}
+.schedule-students strong { color: var(--ink); }
+
+.schedule-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.2rem 0.1rem;
+  color: var(--slate);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+.schedule-divider::before, .schedule-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--card-line);
+}
+
+.schedule-checkpoint {
+  --c: var(--navy);
+  border-left: 5px solid var(--c);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.3rem;
+}
+.schedule-checkpoint .schedule-time { color: var(--c); }
+.schedule-checkpoint h4 { color: var(--c); }
+.sch-1 { --c: var(--crimson); background: rgba(179,18,58,0.06); }
+.sch-2 { --c: var(--navy);    background: rgba(13,42,77,0.06); }
+.sch-3 { --c: var(--gold-dk); background: rgba(246,194,17,0.14); }
+.sch-4 { --c: var(--orange);  background: rgba(243,132,30,0.07); }
+.sch-5 { --c: var(--magenta); background: rgba(226,20,90,0.06); }
+.sch-6 { --c: var(--purple);  background: rgba(106,44,145,0.06); }
+
+@media (max-width: 600px) {
+  .day-tab { font-size: 0.82rem; padding: 0.5rem 1rem; }
+  .schedule-block, .schedule-checkpoint { padding: 1rem; }
+  .schedule-location { display: block; margin: 0.3rem 0 0.6rem; }
+}
+
 /* ---------- Inspiration cards ---------- */
 
 .inspire-grid {
@@ -597,6 +640,13 @@ footer {
 footer .wrap { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; align-items: center; }
 footer a { color: rgba(255,255,255,0.65); }
 footer strong { color: var(--white); }
+
+.ts-link {
+  color: rgba(255,255,255,0.3);
+  text-decoration: none;
+  font-size: 0.78rem;
+}
+.ts-link:hover { color: rgba(255,255,255,0.6); }
 
 /* ---------- Dev notice (delete before publishing once links are wired) ---------- */
 
