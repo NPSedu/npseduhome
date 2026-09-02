@@ -152,6 +152,13 @@ nav.mainnav a {
 
 nav.mainnav a:hover { background: rgba(255,255,255,0.08); color: var(--white); }
 
+nav.mainnav a.nav-highlight {
+  background: var(--gold);
+  color: var(--navy-dk);
+  font-weight: 800;
+}
+nav.mainnav a.nav-highlight:hover { background: #ffd23d; color: var(--navy-dk); }
+
 /* ---------- Hero ---------- */
 
 .hero {
