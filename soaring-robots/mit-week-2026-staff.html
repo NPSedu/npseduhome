@@ -26,26 +26,31 @@
 -->
 <script>
   const STAFF_LINKS = {
-    facilitatorSlides: "",     // Facilitator Slides (day-by-day)
-    teamBuildingSlides: "",    // Team Building Facilitator Slides
-    workbookTemplate: "",      // Team Design Workbook (blank template)
-    journalTemplate: "",       // Individual Innovation Journal (blank template)
-    posterTemplate: "",        // A1 Team Poster (blank template)
-    catalogue: "",             // Resource / Materials Catalogue
-    masterSchedule: "",        // Master Schedule (full staff version)
-    staffingRooms: "",         // Staffing & Rooms (teams, timetables)
-    briefingDeck: "",          // Staff Briefing slide deck
-    topTips: "",                // Facilitator Top Tips one-pager
+    facilitatorSlides: "https://nordanglia.sharepoint.com/:p:/s/Regents-SecondaryStaff/IQAg5L0NmMeYRKClrPhlXWozAUo-JRU05Lr8DVxPerOrRHI?e=K1G3tW",     // Facilitator Slides (day-by-day)
+    teamBuildingSlides: "https://nordanglia.sharepoint.com/:p:/s/Regents-SecondaryStaff/IQBRPvB_OXzTQ7XjvJi4NLV7Afm1AZ2LUkFhVy5vhAPIbOA?e=etu32i",    // Team Building Facilitator Slides
+    challengeBriefSlides: "https://nordanglia.sharepoint.com/:p:/s/Regents-SecondaryStaff/IQBBIkkJOQJ9SpbHD5GGzGMIAd-uPgIuJwBClxV_S8JHVyM?e=e1WEcC", // Introduction to Soaring Robots challenge brief slides
+    workbookTemplate: "https://nordanglia.sharepoint.com/:w:/s/Regents-SecondaryStaff/IQCVWChAvfBkTLvmoCbVJuLtAaoXH1FXmauEi91GbgcsSWc?e=lORAXA",     // Team Design Workbook (blank template)
+    journalTemplate: "https://nordanglia.sharepoint.com/:w:/s/Regents-SecondaryStaff/IQBtTve3iiAmSY-Swf0FqcFyAT-uUzOurJ46TNoNJFKyfEY?e=CrCy7G",      // Individual Innovation Journal (blank template)
+    posterTemplate: "https://nordanglia.sharepoint.com/:b:/s/Regents-SecondaryStaff/IQBhL6AjEFr2Qbb54BCLakN6AfJMiiCstDCk7SlBBkvofLE?e=ss9Q1t",       // A1 Team Poster (blank template)
+    catalogue: "https://nordanglia.sharepoint.com/:b:/s/Regents-SecondaryStaff/IQCsMIRPQbi1QagAwFGjCc-nAQAHp4tmrq2-tbGyz-gaCus?e=aNalFY",            // Resource / Materials Catalogue
+    masterSchedule: "https://nordanglia.sharepoint.com/:x:/s/Regents-SecondaryStaff/IQCf8TvMMDHlRbXVYJww9EWoARAICMjx1VTXRZaOq2ThWZM?e=HEkfjr",       // Master Schedule (full staff version)
+    staffingRooms: "https://nordanglia.sharepoint.com/:x:/s/Regents-SecondaryStaff/IQAKENWOkFX_Tr_Tj82a1VQOAUmvr_WIOWtzKN7uvVRKkbM?e=eDQHaU",        // Staffing & Rooms (teams, timetables)
+    briefingDeck: "https://nordanglia.sharepoint.com/:p:/s/Regents-SecondaryStaff/IQA7l0aur3PTTpgwfYBZqwc_AROIkE3Xp83FAKKKrGR8KOQ?e=wfndkx",         // Staff Briefing slide deck
+    topTips: "https://nordanglia.sharepoint.com/:b:/s/Regents-SecondaryStaff/IQCfY8pzzimXQrGm-QSZ7WShAZySOpxW6fnQ73MsDo-ejuo?e=krUwrb",              // Facilitator Top Tips one-pager
     studentLists: "",          // Student Lists — teams, houses, groupings
     epraise: "",               // ePraise — award MIT Points
-    mitPointsGuide: "",        // Giving MIT Points — facilitator guide
+    challengeVideo: "https://youtu.be/UChKhw_Zw4c?si=LhjnKNYYkH61NY6l",  // This year's Soaring Robots Challenge video
+    lastYearOverview: "https://nordanglia.sharepoint.com/:v:/s/Regents-SecondaryStaff/IQB1MJuy5USjTYM6Oribw6sYAdFD_CkQiRIwmwt1I4SrZ9o?e=FzBFFx",  // Last year's challenge overview video
   };
 </script>
 
 <div class="dev-notice">
   <strong>Draft preview —</strong> resource buttons below will go live once Nicole adds the OneDrive links. Remove this banner before publishing.
 </div>
-<div class="staff-banner">Staff / facilitator use only — not linked from the student site</div>
+<div class="site-banner">
+  <span class="site-banner-title">🔒 Staff Site</span>
+  <span class="site-banner-sub">Facilitator use only — not linked from the student site</span>
+</div>
 
 <header class="topbar">
   <div class="wrap">
@@ -54,24 +59,24 @@
       <span class="name">2026 — Staff Hub</span>
     </a>
     <nav class="mainnav">
-      <a href="overview.html">Overview</a>
       <a href="#facilitator">Facilitator Resources</a>
       <a href="#schedule">Schedule &amp; Staffing</a>
       <a href="#master-schedule">The Week</a>
-      <a href="#briefing">Briefing Materials</a>
+      <a href="#house-points">House Points</a>
       <a href="#reminders">Key Reminders</a>
+      <a href="#briefing">Briefing Materials</a>
     </nav>
   </div>
 </header>
 
 <div id="top"></div>
 <section class="hero">
-  <div class="hero-media">
-    <img src="assets/hero-banner.png" alt="VIS10NARY: Soaring Robots, with Professor Raphael Zufferey — Nord Anglia Education and MIT" />
-  </div>
   <div class="wrap">
+    <div class="hero-media hero-media--small">
+      <img src="assets/hero-banner.png" alt="VIS10NARY: Soaring Robots, with Professor Raphael Zufferey — Nord Anglia Education and MIT" />
+    </div>
     <div class="eyebrow">Facilitators Only</div>
-    <h1>Everything you need to run your team's week.</h1>
+    <h1>KS3 MIT Week — Guide for Staff</h1>
     <p class="lede">Schedules, staffing, resources, and the briefing materials — all in one place. Structure and resources are sorted; the delivery in your room is yours.</p>
     <div class="hero-ctas">
       <a class="btn btn-gold" href="#facilitator">Facilitator resources</a>
@@ -101,6 +106,12 @@
         <h3>Team Building Facilitator Slides</h3>
         <p>Full facilitator detail for the Great MIT Supply Drop — roles, timings, scoring.</p>
         <a class="btn btn-teal" data-link="teamBuildingSlides" href="#">Open resource</a>
+      </div>
+      <div class="resource-card rc-individual">
+        <div class="resource-icon">📄</div>
+        <h3>Challenge Brief Introduction Slides</h3>
+        <p>The slide deck introducing this year's Soaring Robots brief and judging criteria.</p>
+        <a class="btn btn-teal" data-link="challengeBriefSlides" href="#">Open resource</a>
       </div>
 
       <h3 class="resource-cat rc-team">Templates</h3>
@@ -457,6 +468,48 @@
   </div>
 </section>
 
+<section id="house-points" class="alt">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">House Points</div>
+      <h2>Award and track House MIT Points</h2>
+      <p>Award a point any time you see one of the 6Cs, and check where every House stands — both on ePraise.</p>
+    </div>
+
+    <div class="house-row">
+      <span class="house-pill house-air"><span class="house-dot"></span> Air</span>
+      <span class="house-pill house-earth"><span class="house-dot"></span> Earth</span>
+      <span class="house-pill house-water"><span class="house-dot"></span> Water</span>
+      <span class="house-pill house-fire"><span class="house-dot"></span> Fire</span>
+    </div>
+
+    <div style="display:flex; flex-wrap:wrap; gap:0.9rem; margin-top:1.4rem;">
+      <a class="btn btn-teal" data-link="epraise" href="#">⭐ Give House Points on ePraise →</a>
+      <a class="btn btn-teal" data-link="epraise" href="#">📊 Check House Points standings →</a>
+    </div>
+  </div>
+</section>
+
+<section id="reminders">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Key Reminders</div>
+      <h2>The quick-reference version</h2>
+    </div>
+
+    <div class="callout">
+      <h3>Don't forget</h3>
+      <ul>
+        <li><strong>STEAM Tokens</strong> — 2 per team from Monday. They justify the need to you; no token, no resource.</li>
+        <li><strong>Award MIT Points via ePraise</strong> — it's your job to give them out, not just to watch for them. Award visibly, say why. Ask Sam if you need a refresher on logging it.</li>
+        <li><strong>This is still teaching</strong> — bring your usual toolkit: Challenge, Explanation, Modelling, Practice &amp; Feedback, Oracy.</li>
+        <li><strong>Pace is flexible, readiness isn't</strong> — the only fixed point is every team ready for Friday's Expo, 10:20–11:40, Sports Hall.</li>
+        <li><strong>Tidy space = MIT Points</strong> — a messy stall or base room can cost eligibility.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <section id="briefing" class="alt">
   <div class="wrap">
     <div class="section-head">
@@ -479,47 +532,35 @@
         <a class="btn btn-teal" data-link="topTips" href="#">Open resource</a>
       </div>
 
+      <h3 class="resource-cat rc-video">Videos</h3>
+      <div class="resource-card rc-video">
+        <div class="resource-icon">📺</div>
+        <h3>Challenge Video</h3>
+        <p>This year's Soaring Robots Challenge reveal — the video students see at launch.</p>
+        <a class="btn btn-teal" data-link="challengeVideo" href="#">Open resource</a>
+      </div>
+      <div class="resource-card rc-video">
+        <div class="resource-icon">🎞️</div>
+        <h3>Last Year's Challenge Overview</h3>
+        <p>See how last year's MIT Week challenge came together, start to finish.</p>
+        <a class="btn btn-teal" data-link="lastYearOverview" href="#">Open resource</a>
+      </div>
+
       <h3 class="resource-cat rc-points">MIT Points</h3>
       <div class="resource-card rc-points">
         <div class="resource-icon">⭐</div>
         <h3>ePraise</h3>
-        <p>Where you award MIT Points — log any of the 6Cs against a student's House as you see it.</p>
+        <p>Where you award MIT Points — log any of the 6Cs against a student's House as you see it. Also where to check the live House leaderboard.</p>
         <a class="btn btn-teal" data-link="epraise" href="#">Open resource</a>
       </div>
-      <div class="resource-card rc-points">
-        <div class="resource-icon">📋</div>
-        <h3>Giving MIT Points — Facilitator Guide</h3>
-        <p>What counts, how much to award, and how to log it on ePraise consistently across teams.</p>
-        <a class="btn btn-teal" data-link="mitPointsGuide" href="#">Open resource</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="reminders">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">Key Reminders</div>
-      <h2>The quick-reference version</h2>
-    </div>
-
-    <div class="callout">
-      <h3>Don't forget</h3>
-      <ul>
-        <li><strong>STEAM Tokens</strong> — 2 per team from Monday. They justify the need to you; no token, no resource.</li>
-        <li><strong>Award MIT Points via ePraise</strong> — it's your job to give them out, not just to watch for them. Award visibly, say why. See the Giving MIT Points guide above, or ask Sam if you need a refresher on logging it.</li>
-        <li><strong>This is still teaching</strong> — bring your usual toolkit: Challenge, Explanation, Modelling, Practice &amp; Feedback, Oracy.</li>
-        <li><strong>Pace is flexible, readiness isn't</strong> — the only fixed point is every team ready for Friday's Expo, 10:20–11:40, Sports Hall.</li>
-        <li><strong>Tidy space = MIT Points</strong> — a messy stall or base room can cost eligibility.</li>
-      </ul>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <div><strong>MIT Week 2026 — Staff Hub</strong> · Facilitator use only</div>
-    <div>Nicole Sargeant — resources &amp; general questions · Sam — ePraise / MIT Points</div>
+    <div><strong>MIT Week 2026 — Staff Hub</strong> · Facilitator use only · <a href="overview.html">Overview</a> · <a href="index.html">View student site →</a></div>
+    <div>Nicole Sargeant — Head of Innovation — <a href="mailto:nicole.sargeant@regents-pattaya.co.th">nicole.sargeant@regents-pattaya.co.th</a></div>
   </div>
 </footer>
 

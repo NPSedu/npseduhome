@@ -272,30 +272,6 @@
     .cycle-desc h4 { font-size: 0.95rem; margin-bottom: 6px; }
     .cycle-desc p { font-size: 0.85rem; color: var(--muted); }
 
-    /* CERTIFICATE */
-    .cert-section {
-      background: var(--navy);
-      border-radius: 20px;
-      padding: 44px;
-      color: var(--white);
-      display: grid;
-      grid-template-columns: 1.1fr 1fr;
-      gap: 32px;
-      align-items: center;
-    }
-    .cert-copy h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 14px; }
-    .cert-copy p { color: rgba(255,255,255,0.7); margin-bottom: 10px; }
-    .cert-preview {
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
-    }
-    .cert-preview img { display: block; width: 100%; }
-
-    @media (max-width: 760px) {
-      .cert-section { grid-template-columns: 1fr; padding: 28px; }
-    }
-
     /* FOOTER */
     footer {
       background: var(--navy);
@@ -323,7 +299,6 @@
       <ul class="nav-links">
         <li><a href="#overview">Overview</a></li>
         <li><a href="#cycle">Design Cycle</a></li>
-        <li><a href="#certificate">Certificate</a></li>
         <li><a href="index.html">Student Hub</a></li>
       </ul>
     </div>
@@ -437,21 +412,6 @@
         <div class="cycle-desc" style="--c:var(--teal);">
           <h4>7 · Share</h4>
           <p>Present the finished soaring robot and the design journey behind it to the class and judges.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- CERTIFICATE -->
-    <section id="certificate">
-      <div class="cert-section">
-        <div class="cert-copy">
-          <span class="section-label" style="background:rgba(255,255,255,0.12); color:var(--teal);">Recognition</span>
-          <h2>A certificate for every soaring robot engineer</h2>
-          <p>Every student who completes the challenge receives a VIS10NARY: Soaring Robots Certificate of Completion, co-signed by their teacher and issued in partnership with MIT.</p>
-          <p>It marks their progress through the full design cycle — from first defining the problem to sharing a working, tested soaring robot.</p>
-        </div>
-        <div class="cert-preview">
-          <img src="assets/certificate.png" alt="VIS10NARY: Soaring Robots certificate of completion, awarded with Professor Raphael Zufferey and MIT" />
         </div>
       </div>
     </section>

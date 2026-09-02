@@ -24,13 +24,14 @@
 -->
 <script>
   const RESOURCE_LINKS = {
-    journal: "",           // Individual Innovation Journal
-    workbook: "",          // Team Design Workbook
-    poster: "",            // A1 Team Poster template
-    catalogue: "",         // Resource / Materials Catalogue
-    challengeBrief: "",    // Challenge brief (Soaring Robots Challenge intro)
-    teamBuilding: "",      // Day 1 Team Building instructions
-    masterSchedule: "",    // Master Schedule (student-facing view)
+    journalPdf: "https://nordanglia.sharepoint.com/:b:/s/Regents-SecondaryStaff/IQAlQcw7C3yhR4ILeBlUzcSPAWPfHPSzx4nPnJvuuk783AY?e=OPrRcQ",   // Individual Innovation Journal (PDF)
+    journalWord: "https://nordanglia.sharepoint.com/:w:/s/Regents-SecondaryStaff/IQAdNmxf8KejQYnVsbJjXstwAf21PS7S0oi4FKsiHdAJHQg?e=v3ZmHj", // Individual Innovation Journal (Word)
+    workbookPdf: "https://nordanglia.sharepoint.com/:b:/s/Regents-SecondaryStaff/IQB8tFgXLwfVQZ9j-TFL4EsEAdWE8qXwespLAcTRlfua6YE?e=OUgAIC",  // Team Design Workbook (PDF)
+    workbookWord: "https://nordanglia.sharepoint.com/:w:/s/Regents-SecondaryStaff/IQCVWChAvfBkTLvmoCbVJuLtAaoXH1FXmauEi91GbgcsSWc?e=cRnNMd", // Team Design Workbook (Word)
+    poster: "https://nordanglia.sharepoint.com/:b:/s/Regents-SecondaryStaff/IQBhL6AjEFr2Qbb54BCLakN6AfJMiiCstDCk7SlBBkvofLE?e=b1mBGr",       // A1 Team Poster template
+    catalogue: "https://nordanglia.sharepoint.com/:b:/s/Regents-SecondaryStaff/IQCsMIRPQbi1QagAwFGjCc-nAQAHp4tmrq2-tbGyz-gaCus?e=hEmduq",    // Resource / Materials Catalogue
+    challengeBrief: "https://nordanglia.sharepoint.com/:p:/s/Regents-SecondaryStaff/IQBBIkkJOQJ9SpbHD5GGzGMIAd-uPgIuJwBClxV_S8JHVyM?e=e1WEcC", // Challenge brief (Soaring Robots Challenge intro slides)
+    teamBuilding: "https://nordanglia.sharepoint.com/:b:/s/Regents-SecondaryStaff/IQAlQcw7C3yhR4ILeBlUzcSPAWPfHPSzx4nPnJvuuk783AY?e=qSxE63",  // Day 1 Team Building instructions
     studentLists: "",      // Student Lists — teams, houses, groupings
     epraise: "",           // ePraise — check your MIT Points
   };
@@ -38,6 +39,9 @@
 
 <div class="dev-notice">
   <strong>Draft preview —</strong> resource buttons below will go live once Nicole adds the OneDrive links. Remove this banner before publishing.
+</div>
+<div class="site-banner">
+  <span class="site-banner-title">🎓 Student Site</span>
 </div>
 
 <header class="topbar">
@@ -47,11 +51,11 @@
       <span class="name">2026</span>
     </a>
     <nav class="mainnav">
-      <a href="overview.html">Overview</a>
       <a href="#challenge">The Challenge</a>
       <a href="#resources">Your Resources</a>
       <a href="#week">The Week</a>
       <a href="#key-info">Key Info</a>
+      <a href="#house-points">House Points</a>
       <a href="#inspiration">Inspiration &amp; Help</a>
     </nav>
   </div>
@@ -98,7 +102,10 @@
         <div class="resource-icon">📓</div>
         <h3>Innovation Journal</h3>
         <p>Your personal record of the week — thinking, sketches, and reflections.</p>
-        <a class="btn btn-teal" data-link="journal" href="#">Open resource</a>
+        <div class="btn-row">
+          <a class="btn btn-teal" data-link="journalPdf" href="#">PDF</a>
+          <a class="btn btn-teal" data-link="journalWord" href="#">Word</a>
+        </div>
       </div>
 
       <h3 class="resource-cat rc-team">Team</h3>
@@ -106,7 +113,10 @@
         <div class="resource-icon">📘</div>
         <h3>Design Workbook</h3>
         <p>Your shared team document — becomes your Expo portfolio by Friday.</p>
-        <a class="btn btn-teal" data-link="workbook" href="#">Open resource</a>
+        <div class="btn-row">
+          <a class="btn btn-teal" data-link="workbookPdf" href="#">PDF</a>
+          <a class="btn btn-teal" data-link="workbookWord" href="#">Word</a>
+        </div>
       </div>
       <div class="resource-card rc-team">
         <div class="resource-icon">🖼️</div>
@@ -255,17 +265,29 @@
         <p>Your Individual Innovation Journal (personal), your Team Design Workbook (shared, becomes your Expo portfolio), and your A1 Team Poster (the live visual wall of your progress).</p>
       </div>
     </div>
-
-    <div class="house-row">
-      <span class="house-pill"><span class="house-dot" style="background:#8ec6e8"></span> Air</span>
-      <span class="house-pill"><span class="house-dot" style="background:#6b8e4e"></span> Earth</span>
-      <span class="house-pill"><span class="house-dot" style="background:#1c7293"></span> Water</span>
-      <span class="house-pill"><span class="house-dot" style="background:#c1440e"></span> Fire</span>
-    </div>
   </div>
 </section>
 
-<section id="inspiration">
+<section id="house-points">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">House MIT Points</div>
+      <h2>Which House is winning?</h2>
+      <p>Every time a teacher spots one of the 6Cs — Communication, Collaboration, Creativity, Critical Thinking, Citizenship, Character — they can award your House an MIT Point on ePraise. Points add up across the whole week; the House with the most on Friday wins the House MIT Trophy.</p>
+    </div>
+
+    <div class="house-row">
+      <span class="house-pill house-air"><span class="house-dot"></span> Air</span>
+      <span class="house-pill house-earth"><span class="house-dot"></span> Earth</span>
+      <span class="house-pill house-water"><span class="house-dot"></span> Water</span>
+      <span class="house-pill house-fire"><span class="house-dot"></span> Fire</span>
+    </div>
+
+    <a class="btn btn-teal" data-link="epraise" href="#" style="margin-top:1.4rem; display:inline-block;">Check the live leaderboard on ePraise →</a>
+  </div>
+</section>
+
+<section id="inspiration" class="alt">
   <div class="wrap">
     <div class="section-head">
       <div class="eyebrow">Inspiration &amp; Extra Help</div>
@@ -300,7 +322,7 @@
 
 <footer>
   <div class="wrap">
-    <div><strong>MIT Week 2026</strong> · Soaring Robots Challenge</div>
+    <div><strong>MIT Week 2026</strong> · Soaring Robots Challenge · <a href="overview.html">Overview</a></div>
     <div>Questions? Ask your facilitator, or check the Facilitator Slides they're working from. <a href="mit-week-2026-staff.html" class="ts-link">TS</a></div>
   </div>
 </footer>

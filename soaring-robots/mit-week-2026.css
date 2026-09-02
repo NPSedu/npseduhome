@@ -26,10 +26,10 @@
   --card-line:#e3e9f0;
   --bg:       #f6f9fb;
   --white:    #ffffff;
-  --air:      #8ec6e8;
-  --earth:    #6b8e4e;
-  --water:    #1c7293;
-  --fire:     #c1440e;
+  --air:      #FFCC00;
+  --earth:    #16A34A;
+  --water:    #0074D9;
+  --fire:     #E4232C;
   --radius:   14px;
   --maxw:     1080px;
 }
@@ -37,11 +37,23 @@
 /* Staff Hub theme: a distinct accent so it's never mistaken for the
    student page at a glance. Deliberately not reusing any of the
    Define/Learn & Explore/Design & Choose/Create/Observe & Improve/
-   Reflect/Share stage colours, so checkpoint colour-coding still
-   reads correctly on this page. */
+   Reflect/Share stage colours, or the bright House colours, so
+   colour-coding elsewhere on the page keeps its own meaning. */
 body.staff {
-  --teal:      #0e7c5a;
-  --teal-tint: rgba(14,124,90,0.1);
+  --teal:      #4F46E5;
+  --teal-tint: rgba(79,70,229,0.1);
+}
+/* --teal is a mid-tone on this page (unlike the light cyan it
+   replaces), so anywhere it sits on a dark navy background needs a
+   swap to something with real contrast — gold for text, white for
+   buttons/banner fills. */
+body.staff .brand .mark,
+body.staff .callout h3 {
+  color: var(--gold);
+}
+body.staff .btn-teal,
+body.staff .site-banner {
+  color: var(--white);
 }
 
 * { box-sizing: border-box; }
@@ -92,9 +104,10 @@ img { max-width: 100%; display: block; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  padding-top: 0.7rem;
-  padding-bottom: 0.7rem;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
 }
 
 .brand {
@@ -122,18 +135,16 @@ img { max-width: 100%; display: block; }
 
 nav.mainnav {
   display: flex;
-  gap: 0.25rem;
-  overflow-x: auto;
-  scrollbar-width: none;
+  flex-wrap: wrap;
+  gap: 0.15rem;
 }
-nav.mainnav::-webkit-scrollbar { display: none; }
 
 nav.mainnav a {
   color: rgba(255,255,255,0.75);
   text-decoration: none;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-weight: 500;
-  padding: 0.5rem 0.75rem;
+  padding: 0.4rem 0.55rem;
   border-radius: 8px;
   white-space: nowrap;
   transition: color 0.15s, background 0.15s;
@@ -233,6 +244,8 @@ nav.mainnav a:hover { background: rgba(255,255,255,0.08); color: var(--white); }
   border: 1px dashed #b9c2d4;
   cursor: default;
 }
+
+.btn-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 
 /* ---------- Sections ---------- */
 
@@ -342,14 +355,20 @@ section.alt { background: var(--white); }
 
 .house-row { display: flex; gap: 0.7rem; flex-wrap: wrap; margin-top: 1rem; }
 .house-pill {
-  display: flex; align-items: center; gap: 0.5rem;
-  padding: 0.5rem 0.9rem;
+  --c: var(--navy);
+  display: flex; align-items: center; gap: 0.55rem;
+  padding: 0.5rem 1rem;
   border-radius: 999px;
   background: var(--white);
-  border: 1px solid var(--card-line);
-  font-size: 0.86rem; font-weight: 700; color: var(--navy);
+  border: 2px solid var(--c);
+  font-size: 0.9rem; font-weight: 800; color: var(--ink);
 }
-.house-dot { width: 0.7rem; height: 0.7rem; border-radius: 50%; }
+.house-dot { width: 0.9rem; height: 0.9rem; border-radius: 50%; background: var(--c); flex-shrink: 0; }
+
+.house-air   { --c: var(--air); }
+.house-earth { --c: var(--earth); }
+.house-water { --c: var(--water); }
+.house-fire  { --c: var(--fire); }
 
 /* ---------- Resource cards ---------- */
 
@@ -421,11 +440,13 @@ section.alt { background: var(--white); }
 .rc-team       { --c: var(--navy);    --tint: rgba(13,42,77,0.09); }
 .rc-reference  { --c: var(--gold-dk); --tint: rgba(246,194,17,0.18); }
 .rc-points     { --c: var(--crimson); --tint: rgba(179,18,58,0.09); }
+.rc-video      { --c: var(--orange);  --tint: rgba(243,132,30,0.1); }
 
 .resource-card.rc-individual,
 .resource-card.rc-team,
 .resource-card.rc-reference,
-.resource-card.rc-points {
+.resource-card.rc-points,
+.resource-card.rc-video {
   border-top: 3px solid var(--c);
 }
 
@@ -660,13 +681,35 @@ footer strong { color: var(--white); }
 }
 .dev-notice strong { color: #4a3e0a; }
 
-/* ---------- Staff page accents ---------- */
+/* ---------- Site identity banner (which hub am I on?) ---------- */
 
-.staff-banner {
+.site-banner {
   background: var(--teal);
   color: var(--navy);
   text-align: center;
-  font-size: 0.85rem;
+  padding: 0.9rem 1rem;
+}
+.site-banner .site-banner-title {
+  display: block;
+  font-size: clamp(1.15rem, 3.5vw, 1.6rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.site-banner .site-banner-sub {
+  display: block;
+  font-size: 0.78rem;
   font-weight: 600;
-  padding: 0.5rem 1rem;
+  margin-top: 0.2rem;
+  opacity: 0.85;
+}
+
+/* small footprint version of the hero banner image (staff hub) —
+   nested inside .hero .wrap rather than full-bleed above it */
+.hero-media--small {
+  max-width: 240px;
+  margin: 0 0 1.5rem;
+}
+@media (max-width: 600px) {
+  .hero-media--small { max-width: 200px; }
 }
