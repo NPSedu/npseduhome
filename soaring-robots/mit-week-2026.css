@@ -452,6 +452,106 @@ section.alt { background: var(--white); }
   font-weight: 700;
 }
 
+/* ---------- Resource categories (icon + colour coding) ---------- */
+
+.resource-cat {
+  grid-column: 1 / -1;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c);
+  margin: 1.2rem 0 -0.2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--tint);
+}
+.resource-cat:first-child { margin-top: 0; }
+
+.resource-icon {
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 10px;
+  background: var(--tint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  margin-bottom: 0.2rem;
+}
+
+.rc-individual { --c: var(--teal);    --tint: rgba(0,194,209,0.12); }
+.rc-team       { --c: var(--navy);    --tint: rgba(13,42,77,0.09); }
+.rc-reference  { --c: var(--gold-dk); --tint: rgba(246,194,17,0.18); }
+.rc-points     { --c: var(--crimson); --tint: rgba(179,18,58,0.09); }
+
+.resource-card.rc-individual,
+.resource-card.rc-team,
+.resource-card.rc-reference,
+.resource-card.rc-points {
+  border-top: 3px solid var(--c);
+}
+
+/* ---------- Stage explorer (interactive week) ---------- */
+
+.stage-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1.6rem 0 1.4rem;
+}
+
+.stage-tab {
+  --c: var(--navy);
+  border: 1.5px solid var(--c);
+  background: var(--white);
+  color: var(--c);
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+}
+.stage-tab:hover { background: var(--bg); transform: translateY(-1px); }
+.stage-tab.active { background: var(--c); color: var(--white); }
+.stage-tab.st-3.active { color: var(--navy); }
+
+.stage-panel {
+  display: none;
+  background: var(--white);
+  border: 1px solid var(--card-line);
+  border-left: 5px solid var(--c);
+  border-radius: var(--radius);
+  padding: 1.6rem 1.7rem;
+}
+.stage-panel.active { display: block; }
+.stage-panel-when {
+  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c);
+  margin-bottom: 0.6rem;
+}
+.stage-panel h3 { font-size: 1.15rem; margin-bottom: 0.5rem; }
+.stage-panel p { color: var(--slate); margin-bottom: 0; }
+.stage-panel .expo-callout { margin-top: 1.3rem; }
+
+.st-1 { --c: var(--crimson); }
+.st-2 { --c: var(--navy); }
+.st-3 { --c: var(--gold-dk); }
+.st-3.active { background: var(--gold); border-color: var(--gold); }
+.st-4 { --c: var(--orange); }
+.st-5 { --c: var(--magenta); }
+.st-6 { --c: var(--purple); }
+.st-7 { --c: var(--teal); }
+
+@media (max-width: 600px) {
+  .stage-tab { font-size: 0.8rem; padding: 0.5rem 0.9rem; }
+  .stage-panel { padding: 1.3rem 1.4rem; }
+}
+
 /* ---------- Inspiration cards ---------- */
 
 .inspire-grid {
