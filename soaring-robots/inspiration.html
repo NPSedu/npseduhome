@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MIT Week 2026 | Inspiration Hub</title>
+<meta name="description" content="Videos, websites and reading to inspire your Soaring Robots design — biomimicry, flight, movement, sensing and more.">
+<link rel="stylesheet" href="mit-week-2026.css">
+</head>
+<body class="inspire-hub">
+
+<div class="site-banner">
+  <span class="site-banner-title">🎓 Student Site</span>
+</div>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="topbar-left">
+      <a class="brand" href="index.html">
+        <span class="mark">MIT WEEK</span>
+        <span class="name">2026</span>
+      </a>
+      <div class="site-switch">
+        <a href="index.html" class="active">🎓 Student</a>
+        <a href="mit-week-2026-staff.html">🧑‍🏫 Staff</a>
+      </div>
+    </div>
+    <nav class="mainnav">
+      <a href="index.html">Student Hub</a>
+      <a href="index.html#resources">Your Resources</a>
+      <a href="index.html#week">The Week</a>
+      <a href="inspiration.html">Inspiration Hub</a>
+    </nav>
+  </div>
+</header>
+
+<div id="top"></div>
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Research &amp; Inspiration</div>
+    <h1>Inspiration Hub</h1>
+    <p class="lede">Videos, websites and reading to help you understand biomimicry, explore how nature moves, flies, senses and adapts — and turn that into your own Soaring Robots idea. Search, filter, or just start scrolling.</p>
+
+    <div class="hub-toolbar">
+      <label class="hub-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="hubSearch" placeholder="Search titles &amp; topics — e.g. 'jellyfish', 'sensors', 'flight'…" autocomplete="off">
+      </label>
+      <div class="hub-filters" id="hubFilters">
+        <button class="hub-filter-chip active" data-type="all" type="button">All</button>
+        <button class="hub-filter-chip" data-type="video" type="button">📺 Videos</button>
+        <button class="hub-filter-chip" data-type="website" type="button">🌐 Websites</button>
+        <button class="hub-filter-chip" data-type="pdf" type="button">📄 PDFs</button>
+      </div>
+    </div>
+
+    <div class="hub-quicknav">
+      <a href="#top-picks">⭐ Top Picks</a>
+      <a href="#biomimicry">🧭 Biomimicry</a>
+      <a href="#flying">🕊️ Flying &amp; Soaring</a>
+      <a href="#flight-science">💨 Understanding Flight</a>
+      <a href="#walking">🦿 Walking &amp; Climbing</a>
+      <a href="#swimming">🐠 Swimming</a>
+      <a href="#sensing">👁️ Sensing</a>
+      <a href="#soft">🫧 Soft Robots</a>
+      <a href="#swarms">🐝 Swarms</a>
+      <a href="#purpose">🌍 Robot Purpose</a>
+      <a href="#engineering">⚙️ Engineering</a>
+    </div>
+  </div>
+</section>
+
+<section id="top-picks">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Start Here</div>
+      <h2>Our Top Inspiration Picks</h2>
+      <p>Ten links to explore first — a fast, visual way into the ideas behind this year's challenge.</p>
+    </div>
+    <div class="pick-grid" id="grid-top-picks"></div>
+    <p class="hub-empty" id="empty-top-picks" hidden>No matches here — try clearing your search.</p>
+  </div>
+</section>
+
+<section class="cat-section alt cat-biomimicry" id="biomimicry">
+  <div class="wrap">
+    <div class="cat-head"><span class="cat-icon">🧭</span><h2>Understanding Biomimicry</h2></div>
+    <div class="section-head"><p>These resources help you move from "interesting animal" to "useful robot idea."</p></div>
+
+    <div class="subgroup-label">Videos</div>
+    <div class="link-grid" id="grid-biomimicry-video"></div>
+
+    <div class="subgroup-label">Websites &amp; Reading</div>
+    <div class="link-grid" id="grid-biomimicry-website"></div>
+    <p class="hub-empty" id="empty-biomimicry" hidden>No matches here — try clearing your search.</p>
+  </div>
+</section>
+
+<section class="cat-section cat-flying" id="flying">
+  <div class="wrap">
+    <div class="cat-head"><span class="cat-icon">🕊️</span><h2>Flying, Gliding &amp; Soaring</h2></div>
+    <div class="section-head"><p>Consider birds, bats and insects — but also seeds and other organisms that move through the air.</p></div>
+
+    <div class="subgroup-label">Videos</div>
+    <div class="link-grid" id="grid-flying-video"></div>
+
+    <div class="subgroup-label">Websites &amp; Deeper Exploration</div>
+    <div class="link-grid" id="grid-flying-website"></div>
+    <p class="hub-empty" id="empty-flying" hidden>No matches here — try clearing your search.</p>
+  </div>
+</section>
+
+<section class="cat-section alt cat-flightScience" id="flight-science">
+  <div class="wrap">
+    <div class="cat-head"><span class="cat-icon">💨</span><h2>Understanding Flight</h2></div>
+    <div class="section-head"><p>Useful for teams whose robot will fly, glide, parachute, control a fall, or move efficiently through the air.</p></div>
+    <div class="link-grid" id="grid-flightScience"></div>
+    <p class="hub-empty" id="empty-flightScience" hidden>No matches here — try clearing your search.</p>
+  </div>
+</section>
+
+<section class="cat-section cat-walking" id="walking">
+  <div class="wrap">
+    <div class="cat-head"><span class="cat-icon">🦿</span><h2>Walking, Crawling, Climbing &amp; Jumping</h2></div>
+    <div class="section-head"><p>These examples show that wheels are not the only way a robot can move.</p></div>
+    <div class="link-grid" id="grid-walking"></div>
+    <p class="hub-empty" id="empty-walking" hidden>No matches here — try clearing your search.</p>
+    <div class="think-box">
+      <h4>💭 Questions to explore</h4>
+      <ul>
+        <li>Why did the engineers choose legs, joints or a flexible body?</li>
+        <li>What terrain could this robot travel across?</li>
+        <li>Would wheels be better or worse?</li>
+        <li>How does the robot remain balanced?</li>
+        <li>What happens if it falls over?</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="cat-section alt cat-swimming" id="swimming">
+  <div class="wrap">
+    <div class="cat-head"><span class="cat-icon">🐠</span><h2>Swimming &amp; Underwater Robots</h2></div>
+    <div class="link-grid" id="grid-swimming"></div>
+    <p class="hub-empty" id="empty-swimming" hidden>No matches here — try clearing your search.</p>
+    <div class="think-box">
+      <h4>💭 Questions to explore</h4>
+      <ul>
+        <li>How does the robot create thrust?</li>
+        <li>Why might a soft body be useful underwater?</li>
+        <li>How could it change direction?</li>
+        <li>What would it need to sense?</li>
+        <li>Could it collect information without disturbing wildlife?</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="cat-section cat-sensing" id="sensing">
+  <div class="wrap">
+    <div class="cat-head"><span class="cat-icon">👁️</span><h2>Sensing &amp; Responding</h2></div>
+    <div class="section-head"><p>A successful robot may need to detect its surroundings before it decides what to do.</p></div>
+    <div class="link-grid" id="grid-sensing"></div>
+    <p class="hub-empty" id="empty-sensing" hidden>No matches here — try clearing your search.</p>
+    <div class="think-box">
+      <h4>💭 Questions to explore</h4>
+      <ul>
+        <li>What does the robot need to notice?</li>
+        <li>Which sensor could detect this?</li>
+        <li>What should the robot do after it detects something?</li>
+        <li>Does it need to respond automatically?</li>
+        <li>What information should it collect or display?</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="cat-section alt cat-soft" id="soft">
+  <div class="wrap">
+    <div class="cat-head"><span class="cat-icon">🫧</span><h2>Soft, Flexible &amp; Shape-Changing Robots</h2></div>
+    <div class="section-head"><p>Robots do not always need to be made from hard metal.</p></div>
+    <div class="link-grid" id="grid-soft"></div>
+    <p class="hub-empty" id="empty-soft" hidden>No matches here — try clearing your search.</p>
+  </div>
+</section>
+
+<section class="cat-section cat-swarms" id="swarms">
+  <div class="wrap">
+    <div class="cat-head"><span class="cat-icon">🐝</span><h2>Swarms &amp; Teamwork Between Robots</h2></div>
+    <div class="link-grid" id="grid-swarms"></div>
+    <p class="hub-empty" id="empty-swarms" hidden>No matches here — try clearing your search.</p>
+    <div class="think-box">
+      <h4>💭 Questions to explore</h4>
+      <ul>
+        <li>Is one large robot always better than many small robots?</li>
+        <li>Could several simple robots complete a task together?</li>
+        <li>How would the robots communicate?</li>
+        <li>What would happen if one robot stopped working?</li>
+        <li>How could they avoid colliding?</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="cat-section alt cat-purpose" id="purpose">
+  <div class="wrap">
+    <div class="cat-head"><span class="cat-icon">🌍</span><h2>Designing the Robot's Purpose</h2></div>
+    <div class="section-head"><p>These links can help you move beyond "a cool robot" and think about who or what it will help.</p></div>
+    <div class="link-grid" id="grid-purpose"></div>
+    <p class="hub-empty" id="empty-purpose" hidden>No matches here — try clearing your search.</p>
+    <div class="chip-cloud" id="problemChips">
+      <span class="chip">Search and rescue</span>
+      <span class="chip">Flood monitoring</span>
+      <span class="chip">Forest-fire detection</span>
+      <span class="chip">Ocean and coral-reef monitoring</span>
+      <span class="chip">Wildlife observation</span>
+      <span class="chip">Pollution detection</span>
+      <span class="chip">Medical-supply delivery</span>
+      <span class="chip">Farming and crop monitoring</span>
+      <span class="chip">Reaching narrow or dangerous spaces</span>
+      <span class="chip">Helping people with disabilities</span>
+      <span class="chip">Collecting waste</span>
+      <span class="chip">Inspecting buildings, pipes or bridges</span>
+    </div>
+  </div>
+</section>
+
+<section class="cat-section cat-engineering" id="engineering">
+  <div class="wrap">
+    <div class="cat-head"><span class="cat-icon">⚙️</span><h2>Engineering, Mechanisms &amp; Prototyping</h2></div>
+    <div class="section-head"><p>Especially useful once you begin turning an idea into a working prototype.</p></div>
+    <div class="link-grid" id="grid-engineering"></div>
+    <p class="hub-empty" id="empty-engineering" hidden>No matches here — try clearing your search.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><strong>MIT Week 2026</strong> · Soaring Robots Challenge · <a href="index.html">Student Hub</a> · <a href="overview.html">Overview</a></div>
+    <div>Found a great link? Tell your facilitator so we can add it here.</div>
+  </div>
+</footer>
+
+<script>
+  // Each resource: cat (section key), group (optional sub-list), title, url, desc, type, top (featured in Top Picks)
+  const RESOURCES = [
+    // ---- Top Picks (also tagged with their real category so they colour/group correctly) ----
+    { cat:'biomimicry', group:'website', top:true, type:'website', title:"Festo: Bionic Projects Inspired by Nature", url:"https://stem.festo.com/us/en/our-approach/bionics/bionic-projects-by-festo/index.html", desc:"Explore an extraordinary collection of robots inspired by birds, bats, fish, dragonflies, elephants and other living things." },
+    { cat:'biomimicry', group:'video', top:true, type:'video', title:"Festo's Amazing Animal-Inspired Robots", url:"https://www.youtube.com/watch?v=Fb2OrWSRUzQ", desc:"A highly visual overview of several different bionic robots. An excellent starting point for all year groups." },
+    { cat:'flying', group:'video', top:true, type:'video', title:"Why Is MIT Making Robot Insects?", url:"https://www.youtube.com/watch?v=H6q6pYZ9Fho", desc:"Discover why engineers are developing tiny robots inspired by insects and what these robots might be used for." },
+    { cat:'biomimicry', group:'website', top:true, type:'website', title:"AskNature: Explore Biological Ideas", url:"https://asknature.org/", desc:"Search for an animal, plant, movement or function and discover how nature solves different problems." },
+    { cat:'walking', top:true, type:'website', title:"ROBOTS: Your Guide to the World of Robotics", url:"https://robotsguide.com/", desc:"A student-friendly, visual collection of real robots, including bio-inspired, flying, underwater, rescue and helper robots." },
+    { cat:'biomimicry', group:'website', top:true, type:'website', title:"How to Build a Robot That Mimics Animals", url:"https://today.usc.edu/how-to-build-a-robot-that-mimics-the-moves-of-animals/", desc:"See how students studied animal movement and translated their observations into robot designs." },
+    { cat:'biomimicry', group:'video', top:true, type:'video', title:"Biomimicry in Action: Janine Benyus", url:"https://www.youtube.com/watch?v=k_GFq12w5WU", desc:"An introduction to the big idea behind the challenge: when solving a problem, look at how nature has already solved something similar." },
+    { cat:'biomimicry', group:'video', top:true, type:'video', title:"Festo Bionic Learning Network", url:"https://www.youtube.com/watch?v=sskBmr7KnXI", desc:"A fast-moving collection of robots based on ideas found in nature." },
+    { cat:'biomimicry', group:'website', top:true, type:'pdf', title:"Designing Biomimetic Robots", url:"https://blog.terc.edu/hubfs/DesigningBioRobots_TERC_Hands-OnFall2021.pdf", desc:"A downloadable, middle-school-friendly overview of how biology, engineering, programming and robotics can be combined." },
+    { cat:'biomimicry', group:'website', top:true, type:'website', title:"MIT Biomimetics Collection", url:"https://news.mit.edu/topic/biomimetics?type=2", desc:"A collection of MIT projects influenced by animals, plants and natural systems." },
+
+    // ---- Understanding Biomimicry ----
+    { cat:'biomimicry', group:'video', type:'video', title:"Biomimicry in Action", url:"https://www.youtube.com/watch?v=k_GFq12w5WU", desc:"What can designers and engineers learn by studying nature?" },
+    { cat:'biomimicry', group:'video', type:'video', title:"Asking Nature for Inspiration", url:"https://www.youtube.com/watch?v=oU23oH9yRJc", desc:"Introduces a practical way of looking to organisms for engineering ideas." },
+    { cat:'biomimicry', group:'video', type:'video', title:"Nature Already Solved It", url:"https://www.youtube.com/watch?v=NLN7UslDvUU", desc:"Examples of human design problems that nature has already found ways to solve." },
+    { cat:'biomimicry', group:'video', type:'video', title:"Biomimicry: Innovation Inspired by Nature", url:"https://www.youtube.com/watch?v=1_iTuTh1oYU", desc:"A broader introduction to how biological ideas become inventions." },
+    { cat:'biomimicry', group:'video', type:'video', title:"Learning from Nature", url:"https://www.youtube.com/watch?v=vy2gOq6nTJY", desc:"Explores how natural systems can influence sustainable design." },
+    { cat:'biomimicry', group:'website', type:'website', title:"AskNature", url:"https://asknature.org/", desc:'Search terms such as "fly," "sense movement," "carry loads," "survive impact," "stick to surfaces" or "save energy."' },
+    { cat:'biomimicry', group:'website', type:'pdf', title:"Designing Biomimetic Robots: Student Project Overview", url:"https://blog.terc.edu/hubfs/DesigningBioRobots_TERC_Hands-OnFall2021.pdf", desc:"Shows how students can investigate an animal's structure and function before designing a robot." },
+    { cat:'biomimicry', group:'website', type:'website', title:"How to Build a Robot That Mimics Animal Movement", url:"https://today.usc.edu/how-to-build-a-robot-that-mimics-the-moves-of-animals/", desc:"Useful for understanding the journey from biological observation to mechanical design." },
+    { cat:'biomimicry', group:'website', type:'website', title:"Robots vs Animals: Teaching and Video Resources", url:"https://robotsvsanimals.wordpress.com/teaching-materials/", desc:"A collection of examples involving dogs, snakes, insects, penguins, fish and turtles." },
+    { cat:'biomimicry', group:'website', type:'website', title:"MIT Biomimetics News and Projects", url:"https://news.mit.edu/topic/biomimetics?type=2", desc:"Best suited to students who want to conduct deeper research into existing innovations." },
+
+    // ---- Flying, Gliding and Soaring ----
+    { cat:'flying', group:'video', type:'video', title:"Puffin-Inspired Robot That Swims and Flies", url:"https://www.youtube.com/watch?v=9XJhrKpcBGI", desc:"A particularly relevant MIT project showing that one robot can move through two different environments." },
+    { cat:'flying', group:'video', type:'website', title:"Festo BionicSwift", url:"https://www.festo.com/hk/en/e/about-festo/research-and-development/bionic-learning-network/bionic-flying-objects/bionicswift-id_326830", desc:"Robotic birds whose overlapping artificial feathers improve flight efficiency." },
+    { cat:'flying', group:'video', type:'video', title:"Festo BionicBee", url:"https://www.youtube.com/watch?v=UzRf9y9EWqM", desc:"A small, lightweight robotic bee that can fly as part of a coordinated group." },
+    { cat:'flying', group:'video', type:'video', title:"First Controlled Flight of the Harvard RoboBee", url:"https://www.youtube.com/watch?v=cyjKOJhIiuU", desc:"See an extremely small flying robot inspired by bees." },
+    { cat:'flying', group:'video', type:'video', title:"RoboBee: From Flying to Swimming", url:"https://www.youtube.com/watch?v=4xuIErOk2h0", desc:"Shows how engineers adapted a flying robot so that it could also enter and move through water." },
+    { cat:'flying', group:'video', type:'video', title:"Crash-Resistant RoboBees", url:"https://www.youtube.com/watch?v=o259kRrPM5A", desc:"Investigate how flexible structures help a tiny robot survive collisions." },
+    { cat:'flying', group:'video', type:'video', title:"Festo BionicOpter: Robotic Dragonfly", url:"https://www.youtube.com/watch?v=qOv7AeB1ipc", desc:"Inspired by the dragonfly's ability to hover, glide, turn sharply and fly in different directions." },
+    { cat:'flying', group:'video', type:'video', title:"Festo Bionic Flying Fox", url:"https://www.youtube.com/watch?v=motSS3IYnio", desc:"A lightweight flying robot inspired by the structure and movement of bat wings." },
+    { cat:'flying', group:'video', type:'video', title:"Bionic Wings: Drones That Fly Like Birds", url:"https://www.youtube.com/watch?v=8x-6Ee_DRKk", desc:"Compares different ways engineers have copied bird, bat and insect flight." },
+    { cat:'flying', group:'video', type:'video', title:"SALTO: Berkeley's Leaping Robot", url:"https://www.youtube.com/watch?v=xvIk39rkkiU", desc:"A robot that jumps into the air and pushes off walls. Useful for teams exploring movement over difficult terrain." },
+    { cat:'flying', group:'video', type:'video', title:"Pop-Up Construction of a Robotic Insect", url:"https://www.youtube.com/watch?v=VxSs1kGZQqc", desc:"Shows how a flat structure can be folded into a complex lightweight robot." },
+    { cat:'flying', group:'website', type:'website', title:"Festo Bionic Flying Objects", url:"https://www.festo.com/us/en/e/about-festo/research-and-development/bionic-learning-network/bionic-flying-objects-id_68235", desc:"Explore robots inspired by swifts, butterflies, dragonflies, bees and flying foxes." },
+    { cat:'flying', group:'website', type:'website', title:"How Wings in Nature Inspire Robots", url:"https://www.festo.com/ie/en/e/blog/bionics/taking-a-close-look-at-wings-in-nature-id_44627/", desc:"Compares the flight strategies of birds, dragonflies, butterflies and bats." },
+    { cat:'flying', group:'website', type:'website', title:"Festo BionicBee Project", url:"https://www.festo.com/us/en/e/about-festo/research-and-development/bionic-learning-network/bionic-flying-objects/bionicbee-id_1659889", desc:"Explains wing movement, lightweight construction, navigation and coordinated flight." },
+    { cat:'flying', group:'website', type:'website', title:"Flying Microrobot Inspired by Bees", url:"https://asknature.org/innovation/tiny-flying-microrobot-inspired-by-bees/", desc:"Look at how sensors allow an insect-sized robot to respond to its surroundings." },
+    { cat:'flying', group:'website', type:'website', title:"Flying and Gliding Animals", url:"https://en.wikipedia.org/wiki/Flying_and_gliding_animals", desc:"A useful starting list of birds, bats, insects, flying snakes, frogs, lizards, squirrels and ballooning spiders." },
+
+    // ---- Understanding Flight ----
+    { cat:'flightScience', type:'website', title:"NASA: What Is Aerodynamics? Grades 5–8", url:"https://www.nasa.gov/learning-resources/for-kids-and-students/what-is-aerodynamics-grades-5-8/", desc:"A clear explanation of lift, weight, thrust and drag." },
+    { cat:'flightScience', type:'website', title:"NASA: Four Forces on an Airplane", url:"https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/four-forces-on-an-airplane/", desc:"Explore how the four forces affect flying objects." },
+    { cat:'flightScience', type:'website', title:"NASA Beginner's Guide to Aerodynamics", url:"https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/learn-about-aerodynamics/", desc:"A deeper collection covering wings, forces, air pressure, speed and stability." },
+    { cat:'flightScience', type:'website', title:"NASA: Fun with Gliders", url:"https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/fun-with-gliders/", desc:"Useful for teams interested in gliding, controlled descent or energy-efficient flight." },
+    { cat:'flightScience', type:'video', title:"The Four Forces of Flight", url:"https://www.youtube.com/watch?v=S9D_5FOjrkU", desc:"A simple video introduction to lift, weight, thrust and drag." },
+
+    // ---- Walking, Crawling, Climbing and Jumping ----
+    { cat:'walking', type:'website', title:"Self-Propelled Robot Inspired by Snakes", url:"https://asknature.org/innovation/self-propelled-flexible-robot-inspired-by-snakes/", desc:"Investigate how a long, flexible robot can enter narrow spaces and travel across difficult terrain." },
+    { cat:'walking', type:'website', title:"Animal-Inspired Locomotion Robot", url:"https://asknature.org/innovation/locomotive-robot-inspired-by-biological-systems/", desc:"Explores how animal body structures can improve robotic balance and movement." },
+    { cat:'walking', type:'website', title:"Festo Bionic Projects", url:"https://stem.festo.com/us/en/our-approach/bionics/bionic-projects-by-festo/index.html", desc:"Look for the BionicKangaroo, BionicWheelBot, BionicANTs and other land-based designs." },
+    { cat:'walking', type:'video', title:"Festo Animal-Inspired Robots: Part Two", url:"https://www.youtube.com/watch?v=68-oUaIMUX8", desc:"Includes walking, rolling and swimming examples inspired by different organisms." },
+    { cat:'walking', type:'video', title:"Festo's Extraordinary Robots That Mimic Biology", url:"https://www.youtube.com/watch?v=NNNfn7ac-rY", desc:"A visual compilation showing several approaches to animal-inspired movement." },
+    { cat:'walking', type:'website', title:"Robots Guide: Bio-Inspired Robots", url:"https://robotsguide.com/", desc:"Use the Bio-inspired Robots section to explore robotic dogs, snakes, insects and other unusual designs." },
+
+    // ---- Swimming and Underwater Robots ----
+    { cat:'swimming', type:'video', title:"MIT's Autonomous Soft Robotic Fish", url:"https://www.youtube.com/watch?v=BSA_zb1ajes", desc:"A flexible robot that moves its body like a real fish." },
+    { cat:'swimming', type:'website', title:"MIT SoFi: A Soft Robotic Fish", url:"https://www.csail.mit.edu/research/sofi-soft-robotic-fish", desc:"A robot designed to observe marine life quietly without frightening animals." },
+    { cat:'swimming', type:'website', title:"Soft Robot Inspired by a Jellyfish", url:"https://asknature.org/innovation/soft-robot-inspired-by-jellyfish/", desc:"Explore how changes in shape can push water and create movement." },
+    { cat:'swimming', type:'website', title:"Swimming Robot Inspired by Squid and Cephalopods", url:"https://asknature.org/innovation/swimming-soft-robot-inspired-by-cephalopods/", desc:"Shows how taking in and forcing out water can propel a robot." },
+    { cat:'swimming', type:'website', title:"Autonomous Robot Swarm Inspired by Fish", url:"https://asknature.org/innovation/autonomous-robot-swarm-inspired-by-schools-of-fish/", desc:"Investigate how several robots can sense one another and move as a coordinated group." },
+    { cat:'swimming', type:'video', title:"RoboBee: From Air to Water", url:"https://www.youtube.com/watch?v=4xuIErOk2h0", desc:"A useful example of designing one robot to work in more than one environment." },
+    { cat:'swimming', type:'website', title:"MIT: AI-Designed Underwater Gliders", url:"https://news.mit.edu/2025/ai-shapes-autonomous-underwater-gliders-0709", desc:"A deeper resource showing how engineers test different shapes before manufacturing them." },
+
+    // ---- Sensing and Responding ----
+    { cat:'sensing', type:'website', title:"BBC micro:bit Sensors", url:"https://microbit.org/get-started/features/sensors/", desc:"Accessible explanations of light, sound, temperature, movement, direction and touch sensors." },
+    { cat:'sensing', type:'website', title:"Artificial Skin Inspired by Human Skin", url:"https://asknature.org/innovation/multimodal-artificial-skin-inspired-by-human-skin/", desc:"Explore how a robot might detect touch, pressure and changes in its surroundings." },
+    { cat:'sensing', type:'website', title:"Optical Sensor Inspired by Human Eyes", url:"https://asknature.org/innovation/event-driven-optical-sensor-inspired-by-human-eyes/", desc:"Shows how a sensor can pay particular attention to movement and changes in light." },
+    { cat:'sensing', type:'website', title:"Flying Microrobot Inspired by Bees", url:"https://asknature.org/innovation/tiny-flying-microrobot-inspired-by-bees/", desc:"Investigate how tiny sensors help a robot respond during flight." },
+    { cat:'sensing', type:'website', title:"Autonomous Fish-Inspired Robot Swarm", url:"https://asknature.org/innovation/autonomous-robot-swarm-inspired-by-schools-of-fish/", desc:"Each robot uses lights and cameras to understand where nearby robots are located." },
+
+    // ---- Soft, Flexible and Shape-Changing Robots ----
+    { cat:'soft', type:'website', title:"Soft Robots for All", url:"https://wyss.harvard.edu/news/soft-robots-for-all/", desc:"See soft robots that roll, move in waves, sort objects and operate without conventional electronic controls." },
+    { cat:'soft', type:'website', title:"Harvard's Entirely Soft Octobot", url:"https://wyss.harvard.edu/news/the-first-autonomous-entirely-soft-robot/", desc:"An influential example of a robot built without rigid internal components." },
+    { cat:'soft', type:'website', title:"Jellyfish-Inspired Soft Robot", url:"https://asknature.org/innovation/soft-robot-inspired-by-jellyfish/", desc:"Uses flexible materials and air pressure to change shape and move." },
+    { cat:'soft', type:'website', title:"Cephalopod-Inspired Swimming Robot", url:"https://asknature.org/innovation/swimming-soft-robot-inspired-by-cephalopods/", desc:"Uses flexible materials to store and release energy." },
+    { cat:'soft', type:'website', title:"Self-Repairing Robots Inspired by Plants", url:"https://asknature.org/innovation/self-repairing-robots-inspired-by-plants/", desc:"Consider whether future robots could grow, adapt or repair damage." },
+    { cat:'soft', type:'website', title:"Shape-Changing Structures Inspired by Plants", url:"https://wyss.harvard.edu/news/novel-4d-printing-method/", desc:"Explore materials that change shape in response to their environment." },
+    { cat:'soft', type:'website', title:"Cucumber Tendrils as Natural Springs", url:"https://wyss.harvard.edu/news/uncoiling-the-cucumbers-enigma/", desc:"A reminder that inspiration can come from plants as well as animals." },
+
+    // ---- Swarms and Teamwork Between Robots ----
+    { cat:'swarms', type:'website', title:"Festo BionicBee Swarm", url:"https://www.festo.com/us/en/e/about-festo/research-and-development/bionic-learning-network/bionic-flying-objects/bionicbee-id_1659889", desc:"Robotic bees use a positioning system to fly together without colliding." },
+    { cat:'swarms', type:'website', title:"Robot Swarm Inspired by Schools of Fish", url:"https://asknature.org/innovation/autonomous-robot-swarm-inspired-by-schools-of-fish/", desc:"Individual robots use simple information from nearby robots to coordinate the whole group." },
+    { cat:'swarms', type:'video', title:"Flight of the RoboBees", url:"https://www.youtube.com/watch?v=9JWGiyr9FcE", desc:"Explore the potential of small flying robots working together." },
+
+    // ---- Designing the Robot's Purpose ----
+    { cat:'purpose', type:'website', title:"United Nations Sustainable Development Goals", url:"https://sdgs.un.org/goals", desc:"Explore global problems involving health, water, cities, climate, oceans and ecosystems." },
+    { cat:'purpose', type:'website', title:"UN Sustainable Development Goals: Student Resources", url:"https://www.un.org/sustainabledevelopment/student-resources/", desc:"More accessible resources for understanding the problems behind the goals." },
+    { cat:'purpose', type:'website', title:"Zipline Delivery Drones", url:"https://www.flyzipline.com/", desc:"Explore how autonomous aircraft can deliver medical supplies and other essential items." },
+    { cat:'purpose', type:'website', title:"Robots Guide", url:"https://robotsguide.com/", desc:"Browse robots used for healthcare, rescue, exploration, delivery, education and environmental monitoring." },
+    { cat:'purpose', type:'website', title:"MIT Soft Robotic Fish", url:"https://www.csail.mit.edu/research/sofi-soft-robotic-fish", desc:"An example of designing a robot to observe wildlife without disturbing it." },
+    { cat:'purpose', type:'website', title:"Biologically Inspired Soft Robots for Environmental Sustainability", url:"https://aiforgood.itu.int/biologically-inspired-soft-robots-for-environmental-sustainability/", desc:"Consider how robots and their materials could reduce environmental harm." },
+
+    // ---- Engineering, Mechanisms and Prototyping ----
+    { cat:'engineering', type:'website', title:"VEX: Get Started with Engineering", url:"https://kb.vex.com/hc/en-us/articles/8780653442964-Get-Started-Engineering", desc:"Videos showing how student teams approach design, coding, testing and improvement." },
+    { cat:'engineering', type:'website', title:"VEX Mechanical Foundations", url:"https://www.cmu.edu/roboticsacademy/roboticscurriculum/VEX%20Curriculum/mech_v5.html", desc:"Explore structure, mechanisms, movement and power transmission." },
+    { cat:'engineering', type:'website', title:"VEX IQ Build Instructions", url:"https://www.vexrobotics.com/iq/downloads/build-instructions", desc:"Examine existing builds to understand how parts can be connected. Borrow mechanisms, don't copy an entire finished robot." },
+    { cat:'engineering', type:'website', title:"VEX GO Build Instructions", url:"https://www.vexrobotics.com/go/downloads/build-instructions", desc:"Clear visual instructions that can help you understand gears, linkages, movement and structural stability." },
+    { cat:'engineering', type:'website', title:"BBC micro:bit Project Collection", url:"https://microbit.org/projects/make-it-code-it/", desc:"Search for projects involving alarms, sensors, data logging, communication and movement." },
+    { cat:'engineering', type:'website', title:"BBC micro:bit Sensors", url:"https://microbit.org/get-started/features/sensors/", desc:"Useful when deciding what inputs the prototype might need." },
+  ];
+
+  const CAT_META = {
+    biomimicry:    { emoji:'🧭' },
+    flying:        { emoji:'🕊️' },
+    flightScience: { emoji:'💨' },
+    walking:       { emoji:'🦿' },
+    swimming:      { emoji:'🐠' },
+    sensing:       { emoji:'👁️' },
+    soft:          { emoji:'🫧' },
+    swarms:        { emoji:'🐝' },
+    purpose:       { emoji:'🌍' },
+    engineering:   { emoji:'⚙️' },
+  };
+
+  const TYPE_LABEL = { video:'📺 Video', website:'🌐 Website', pdf:'📄 PDF' };
+
+  function youtubeId(url) {
+    const m = url.match(/[?&]v=([^&]+)/);
+    return m ? m[1] : null;
+  }
+
+  function faviconUrl(url) {
+    try {
+      const host = new URL(url).hostname;
+      return `https://www.google.com/s2/favicons?sz=64&domain=${host}`;
+    } catch (e) { return ''; }
+  }
+
+  function cardHTML(r) {
+    const catClass = `cat-${r.cat}`;
+    const emoji = (CAT_META[r.cat] || {}).emoji || '🔗';
+    const yid = r.type === 'video' ? youtubeId(r.url) : null;
+    let thumb;
+    if (yid) {
+      thumb = `<img class="thumb-photo" src="https://img.youtube.com/vi/${yid}/mqdefault.jpg" alt="" loading="lazy">
+        <span class="play-badge"><span>▶</span></span>`;
+    } else {
+      thumb = `<span class="thumb-emoji">${emoji}</span>
+        <span class="favicon-chip"><img src="${faviconUrl(r.url)}" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></span>`;
+    }
+    const topBadge = r.top ? `<span class="top-badge">⭐ Top Pick</span>` : '';
+    const searchText = (r.title + ' ' + r.desc + ' ' + r.cat).toLowerCase();
+    return `<a class="link-card ${catClass}" href="${r.url}" target="_blank" rel="noopener" data-type="${r.type}" data-search="${searchText.replace(/"/g,'&quot;')}">
+      <div class="card-thumb">${thumb}<span class="type-badge">${TYPE_LABEL[r.type]}</span>${topBadge}</div>
+      <div class="card-body">
+        <h3>${r.title}</h3>
+        <p>${r.desc}</p>
+        <span class="card-visit">Open link →</span>
+      </div>
+    </a>`;
+  }
+
+  function renderInto(id, items) {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = items.map(cardHTML).join('');
+  }
+
+  renderInto('grid-top-picks', RESOURCES.filter(r => r.top));
+  renderInto('grid-biomimicry-video', RESOURCES.filter(r => r.cat === 'biomimicry' && r.group === 'video'));
+  renderInto('grid-biomimicry-website', RESOURCES.filter(r => r.cat === 'biomimicry' && r.group === 'website'));
+  renderInto('grid-flying-video', RESOURCES.filter(r => r.cat === 'flying' && r.group === 'video'));
+  renderInto('grid-flying-website', RESOURCES.filter(r => r.cat === 'flying' && r.group === 'website'));
+  renderInto('grid-flightScience', RESOURCES.filter(r => r.cat === 'flightScience'));
+  renderInto('grid-walking', RESOURCES.filter(r => r.cat === 'walking'));
+  renderInto('grid-swimming', RESOURCES.filter(r => r.cat === 'swimming'));
+  renderInto('grid-sensing', RESOURCES.filter(r => r.cat === 'sensing'));
+  renderInto('grid-soft', RESOURCES.filter(r => r.cat === 'soft'));
+  renderInto('grid-swarms', RESOURCES.filter(r => r.cat === 'swarms'));
+  renderInto('grid-purpose', RESOURCES.filter(r => r.cat === 'purpose'));
+  renderInto('grid-engineering', RESOURCES.filter(r => r.cat === 'engineering'));
+
+  // ---- search + type filter ----
+  const searchInput = document.getElementById('hubSearch');
+  const filterChips = document.querySelectorAll('.hub-filter-chip');
+  let activeType = 'all';
+
+  function applyFilters() {
+    const q = searchInput.value.trim().toLowerCase();
+    const cards = document.querySelectorAll('.link-card');
+    cards.forEach(card => {
+      const matchesType = activeType === 'all' || card.dataset.type === activeType;
+      const matchesQuery = !q || card.dataset.search.includes(q);
+      card.hidden = !(matchesType && matchesQuery);
+    });
+
+    // toggle empty-state messages + subgroup labels per grid container
+    document.querySelectorAll('[id^="grid-"]').forEach(grid => {
+      const visible = grid.querySelectorAll('.link-card:not([hidden])').length;
+      const prevLabel = grid.previousElementSibling;
+      if (prevLabel && prevLabel.classList.contains('subgroup-label')) {
+        prevLabel.style.display = visible ? '' : 'none';
+      }
+      grid.style.display = visible ? '' : 'none';
+    });
+
+    document.querySelectorAll('.cat-section, #top-picks').forEach(section => {
+      const visibleCount = section.querySelectorAll('.link-card:not([hidden])').length;
+      const emptyMsg = section.querySelector('.hub-empty');
+      if (emptyMsg) emptyMsg.hidden = visibleCount !== 0 ? true : false;
+    });
+  }
+
+  searchInput.addEventListener('input', applyFilters);
+  filterChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      filterChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      activeType = chip.dataset.type;
+      applyFilters();
+    });
+  });
+</script>
+
+</body>
+</html>
