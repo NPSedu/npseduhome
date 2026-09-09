@@ -194,6 +194,51 @@ nav.mainnav a.nav-highlight:hover { background: #ffd23d; color: var(--navy-dk); 
 
 /* ---------- Hero ---------- */
 
+/* Wraps .hero + .challenge-spotlight so they share one continuous
+   gradient instead of each restarting its own — otherwise a visible
+   seam appears where the two independently-computed gradients meet. */
+.hero-band {
+  background: linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 55%, var(--teal) 150%);
+  position: relative;
+  overflow: hidden;
+}
+.hero-band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.35) 2px, transparent 2.5px);
+  background-size: 26px 26px;
+  opacity: 0.08;
+  pointer-events: none;
+}
+.hero-band .hero,
+.hero-band .challenge-spotlight {
+  background: none;
+}
+.hero-band .hero::before,
+.hero-band .challenge-spotlight::before {
+  content: none;
+}
+/* Tighter spacing than the site-wide section default (4.2rem top+bottom) —
+   hero and challenge read as one continuous band here, so the standard
+   full padding on both sides of their shared boundary reads as a big
+   empty gap. Trimmed further at top since hero no longer has a lede
+   paragraph, so its own padding was left oversized for the content. */
+.hero-band .hero {
+  padding-top: 2rem;
+  padding-bottom: 1.6rem;
+}
+.hero-band .hero .wrap {
+  padding-top: 1.2rem;
+  padding-bottom: 1.6rem;
+}
+.hero-band .hero-media {
+  margin-top: 1rem;
+}
+.hero-band .challenge-spotlight {
+  padding-top: 1.6rem;
+}
+
 .hero {
   background: linear-gradient(120deg, var(--navy) 0%, var(--navy-2) 55%, var(--teal) 150%);
   color: var(--white);
@@ -301,6 +346,74 @@ section.alt { background: var(--white); }
 .section-head h2 { font-size: clamp(1.4rem, 3vw, 1.9rem); }
 .section-head h3 { font-size: clamp(1.1rem, 2.4vw, 1.35rem); }
 .section-head p { color: var(--slate); font-size: 1rem; }
+
+/* ---------- Challenge spotlight (student hub) ---------- */
+
+.challenge-spotlight {
+  background: linear-gradient(120deg, var(--navy) 0%, var(--navy-2) 55%, var(--teal) 150%);
+  color: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+.challenge-spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.35) 2px, transparent 2.5px);
+  background-size: 26px 26px;
+  opacity: 0.08;
+  pointer-events: none;
+}
+.challenge-spotlight .wrap { position: relative; }
+
+.challenge-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 2.6rem;
+  align-items: center;
+}
+@media (max-width: 800px) {
+  .challenge-grid { grid-template-columns: 1fr; }
+}
+
+.challenge-spotlight h2 {
+  color: var(--white);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+}
+.challenge-lede {
+  font-size: clamp(1.1rem, 2.4vw, 1.4rem);
+  font-weight: 800;
+  color: var(--gold);
+  margin-bottom: 0.8rem;
+  line-height: 1.35;
+}
+.challenge-copy p:not(.challenge-lede) {
+  color: rgba(255,255,255,0.78);
+  font-size: 1.02rem;
+}
+
+.video-embed {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+  background: rgba(0,0,0,0.3);
+}
+.video-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.video-caption {
+  margin-top: 0.9rem;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.6);
+  text-align: center;
+}
 
 /* ---------- Week cards ---------- */
 
@@ -410,6 +523,59 @@ section.alt { background: var(--white); }
 .house-water { --c: var(--water); }
 .house-fire  { --c: var(--fire); }
 
+/* ---------- House points chart ---------- */
+
+.house-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin-top: 1.6rem;
+  max-width: 560px;
+}
+.house-chart-row {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+.house-chart-label {
+  width: 5.4rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 800;
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+.house-chart-track {
+  flex: 1;
+  height: 1.5rem;
+  background: var(--white);
+  border: 1px solid var(--card-line);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.house-chart-fill {
+  height: 100%;
+  background: var(--c, var(--navy));
+  border-radius: 999px;
+  transition: width 0.6s ease;
+  min-width: 1.5rem;
+}
+.house-chart-value {
+  width: 3.2rem;
+  text-align: right;
+  font-weight: 800;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.house-chart-updated {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: var(--slate);
+}
+
 /* ---------- Resource cards ---------- */
 
 .resource-grid {
@@ -448,6 +614,36 @@ section.alt { background: var(--white); }
   color: var(--gold-dk);
   font-weight: 700;
 }
+
+/* ---------- Translated-resource language chips ---------- */
+
+.lang-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px dashed var(--card-line);
+}
+.lang-row .lang-label {
+  font-size: 0.72rem;
+  color: var(--slate);
+  font-weight: 700;
+  margin-right: 0.15rem;
+}
+.lang-chip {
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.22rem 0.6rem;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--card-line);
+  color: var(--navy);
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+.lang-chip:hover { background: var(--teal-tint); border-color: var(--teal); }
 
 /* ---------- Resource categories (icon + colour coding) ---------- */
 
@@ -552,6 +748,33 @@ section.alt { background: var(--white); }
 }
 
 /* ---------- Interactive master schedule (staff) ---------- */
+
+.schedule-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  width: 100%;
+  margin-top: 1.4rem;
+  padding: 0.9rem 1.3rem;
+  background: var(--white);
+  border: 1.5px solid var(--navy);
+  border-radius: var(--radius);
+  color: var(--navy);
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.schedule-toggle:hover { background: var(--bg); }
+.schedule-toggle-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+.schedule-toggle.is-open .schedule-toggle-icon { transform: rotate(180deg); }
+.schedule-detail { margin-top: 0.2rem; }
 
 .day-tabs {
   display: flex;
@@ -689,6 +912,8 @@ section.alt { background: var(--white); }
 .callout li { margin-bottom: 0.5rem; color: rgba(255,255,255,0.75); font-size: 0.92rem; }
 .callout li:last-child { margin-bottom: 0; }
 .callout strong { color: var(--white); }
+.callout a { color: var(--teal); font-weight: 700; text-decoration: underline; }
+body.staff .callout a { color: var(--gold); }
 
 /* ---------- Footer ---------- */
 
@@ -821,12 +1046,12 @@ footer strong { color: var(--white); }
   padding: 1.1rem 0;
 }
 .hub-quicknav a {
-  --c: var(--navy);
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  border: 1.5px solid var(--c);
-  color: var(--c);
+  border: 1.5px solid rgba(255,255,255,0.4);
+  color: var(--white);
+  background: rgba(255,255,255,0.08);
   text-decoration: none;
   font-weight: 700;
   font-size: 0.82rem;
@@ -834,7 +1059,7 @@ footer strong { color: var(--white); }
   border-radius: 999px;
   transition: background 0.15s, color 0.15s, transform 0.1s;
 }
-.hub-quicknav a:hover { background: var(--c); color: var(--white); transform: translateY(-1px); }
+.hub-quicknav a:hover { background: var(--white); color: var(--navy-dk); transform: translateY(-1px); }
 
 /* ---- category section head ---- */
 .cat-section { padding: 3.2rem 0; }
@@ -913,6 +1138,8 @@ footer strong { color: var(--white); }
   overflow: hidden;
 }
 .card-thumb img.thumb-photo {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;

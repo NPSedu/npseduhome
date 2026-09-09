@@ -17,30 +17,39 @@
   "Open resource" button on this page reads from here — once
   a value is filled in, its button goes live automatically.
   Leave a value as "" to keep that button showing "Link coming soon".
-  Delete the whole <div class="dev-notice">...</div> banner
-  near the top of <body> once every link is in and you're ready
-  to publish.
   ============================================================
 -->
 <script>
   const RESOURCE_LINKS = {
     journalPdf: "https://nordanglia.sharepoint.com/:b:/s/Regents-SecondaryStaff/IQAa7yySLHNnR7vPSTjfWM47AcXFQ0T4KEuo90bAaWQROLM?e=EoYU0S",   // Individual Innovation Journal (PDF)
     journalWord: "https://nordanglia.sharepoint.com/:w:/s/Regents-SecondaryStaff/IQBtTve3iiAmSY-Swf0FqcFyAT-uUzOurJ46TNoNJFKyfEY?e=bczn46", // Individual Innovation Journal (Word)
+    journalZh: "https://nordanglia.sharepoint.com/:w:/s/Regents-SecondaryStaff/IQBsgG9eWB2qSq9CrsT_iEBFAWytH3atyaTnNrMJueRdSiw?e=TMF3Nz",    // Individual Innovation Journal (Chinese)
+    journalRu: "https://nordanglia.sharepoint.com/:w:/s/Regents-SecondaryStaff/IQB1Qbidt40OTooAzoLz8bUnATqs7HVL8i5ur6EzlX7EHe4?e=SwnYEC",    // Individual Innovation Journal (Russian)
+    journalTh: "https://nordanglia.sharepoint.com/:w:/s/Regents-SecondaryStaff/IQCo4L_FkdQvTp7Mx8jP7M_AAVDVB8V-369CHS6IP58bABQ?e=aQJwAx",    // Individual Innovation Journal (Thai)
     workbookPdf: "https://nordanglia.sharepoint.com/:b:/s/Regents-SecondaryStaff/IQB8tFgXLwfVQZ9j-TFL4EsEAdWE8qXwespLAcTRlfua6YE?e=OUgAIC",  // Team Design Workbook (PDF)
     workbookWord: "https://nordanglia.sharepoint.com/:w:/s/Regents-SecondaryStaff/IQCVWChAvfBkTLvmoCbVJuLtAaoXH1FXmauEi91GbgcsSWc?e=cRnNMd", // Team Design Workbook (Word)
+    workbookZh: "https://nordanglia.sharepoint.com/:w:/s/Regents-SecondaryStaff/IQAVl35q3US2SJSc5BDNt-QTAXBTFqVPfxW6sArgh-oA1i8?e=KvhmFE",   // Team Workbook (Chinese)
+    workbookRu: "https://nordanglia.sharepoint.com/:w:/s/Regents-SecondaryStaff/IQD2yYBvBVWdT6C0q6ayoOAcAaZj1EDwc8r2L57zw-DCxso?e=oaNa1T",   // Team Workbook (Russian)
+    workbookTh: "https://nordanglia.sharepoint.com/:w:/s/Regents-SecondaryStaff/IQDDLpQVeJbhQJhBVsPdDOMyATKsm72hHXyGmDl84yW1Fmc?e=5xuzas",   // Team Workbook (Thai)
     poster: "https://nordanglia.sharepoint.com/:b:/s/Regents-SecondaryStaff/IQBhL6AjEFr2Qbb54BCLakN6AfJMiiCstDCk7SlBBkvofLE?e=b1mBGr",       // A1 Team Poster template
     catalogue: "https://nordanglia.sharepoint.com/:b:/s/Regents-SecondaryStaff/IQCsMIRPQbi1QagAwFGjCc-nAQAHp4tmrq2-tbGyz-gaCus?e=hEmduq",    // Resource / Materials Catalogue
     challengeBrief: "https://nordanglia.sharepoint.com/:p:/s/Regents-SecondaryStaff/IQBBIkkJOQJ9SpbHD5GGzGMIAd-uPgIuJwBClxV_S8JHVyM?e=zYeOKK", // Challenge brief (Soaring Robots Challenge intro slides)
-    teamBuilding: "https://nordanglia.sharepoint.com/:b:/s/Regents-SecondaryStaff/IQAlQcw7C3yhR4ILeBlUzcSPAWPfHPSzx4nPnJvuuk783AY?e=qSxE63",  // Day 1 Team Building instructions
+    challengeBriefZh: "https://nordanglia.sharepoint.com/:p:/s/Regents-SecondaryStaff/IQAIZJv7V0RZSaY_-05oa06QAdlGgup8UMlA-YQERyUo52k?e=yMr6O1", // Challenge brief (Chinese)
+    challengeBriefRu: "https://nordanglia.sharepoint.com/:p:/s/Regents-SecondaryStaff/IQBCEpHKgyrzSoy694Hi9VEPAcaQj8CG4DY0X_w4ubVsyFs?e=2aCyYZ", // Challenge brief (Russian)
+    challengeBriefTh: "https://nordanglia.sharepoint.com/:p:/s/Regents-SecondaryStaff/IQBR3nLVmLMQQauG_XZkrMtIAROIMvSE-m2pZqkYvwVuR-o?e=Qg7IfU", // Challenge brief (Thai)
+    teamBuilding: "https://nordanglia.sharepoint.com/:b:/s/Regents-SecondaryStaff/IQA6dtiScyKaSaqDzZ3wswp7AWMyZP6wBXiyUu2sDEjFEis?e=AtDAmu",  // Day 1 Team Building instructions
+    teamBuildingZh: "https://nordanglia.sharepoint.com/:w:/s/Regents-SecondaryStaff/IQB1vojMyhBWQ7dqZpeoy_1oAQ9VEO24SfSDTlq1KJvGkRY?e=p98Kkx", // Team Building instructions (Chinese)
+    teamBuildingRu: "https://nordanglia.sharepoint.com/:w:/s/Regents-SecondaryStaff/IQBjmxM-dL8vTLS95X2U3PbCASv3Zq239ha0DJEzqAWLtEI?e=f9OQDd", // Team Building instructions (Russian)
+    teamBuildingTh: "https://nordanglia.sharepoint.com/:w:/s/Regents-SecondaryStaff/IQBp0Z84HTsMSqMJsbmBhNq0AZnaVBMTgQ2if5M_pKrByTg?e=npj0dj", // Team Building instructions (Thai)
+    facilitatorSlidesPdf: "https://nordanglia.sharepoint.com/:b:/s/Regents-SecondaryStaff/IQD6d22kVuRzS7xE_CKm0DqmAfLG4qK-ZLxHnbYcUT2ttAI?e=TmzjQH", // Facilitator Slides (PDF) — shared with students in case they need them
+    drawToScale: "https://nordanglia.sharepoint.com/:v:/s/Regents-SecondaryStaff/IQBRSNZlqBt9RYZKz8Q0jZqBAaHM5sBE4hAE3_AvQZftLRY?e=oKkYJH", // How to Draw to Scale (video tutorial)
+    scalingWorksheet: "https://nordanglia.sharepoint.com/:b:/s/Regents-SecondaryStaff/IQB0ZoFLPZ-KR4QiX3GmR8OQAcIze3AaKfT5TdaxU9EQATo?e=BlTgJH", // Scaling Up Exercise (printable practice worksheet)
     themeSong: "https://nordanglia.sharepoint.com/:u:/s/Regents-SecondaryStaff/IQDCKCPbKnodQ4LjacPNlUzDAcBX4ezfktINT07sr_JoULI?e=ydkbnX",     // MIT Week theme song (mp3)
     studentLists: "",      // Student Lists — teams, houses, groupings
-    epraise: "",           // ePraise — check your MIT Points
+    epraise: "https://app.epraise.co.uk/",           // ePraise — check your MIT Points
   };
 </script>
 
-<div class="dev-notice">
-  <strong>Draft preview —</strong> resource buttons below will go live once Nicole adds the OneDrive links. Remove this banner before publishing.
-</div>
 <div class="site-banner">
   <span class="site-banner-title">🎓 Student Site</span>
 </div>
@@ -59,10 +68,10 @@
     </div>
     <nav class="mainnav">
       <a href="#challenge">The Challenge</a>
+      <a href="#house-points">House Points</a>
       <a href="#resources">Your Resources</a>
       <a href="#week">The Week</a>
       <a href="#key-info">Key Info</a>
-      <a href="#house-points">House Points</a>
       <a href="#inspiration">Inspiration &amp; Help</a>
       <a class="nav-highlight" href="inspiration.html">🧭 Inspiration Hub</a>
     </nav>
@@ -70,6 +79,7 @@
 </header>
 
 <div id="top"></div>
+<div class="hero-band">
 <section class="hero">
   <div class="hero-media">
     <img src="assets/hero-banner.png" alt="VIS10NARY: Soaring Robots, with Professor Raphael Zufferey — Nord Anglia Education and MIT" />
@@ -77,23 +87,46 @@
   <div class="wrap">
     <div class="eyebrow">Soaring Robots Challenge</div>
     <h1>Everything you need for MIT Week, in one place.</h1>
-    <p class="lede">This is your home base for the week — the schedule, the key things to know, and every resource you'll need. Keep it open alongside your Journal and Workbook.</p>
     <div class="hero-ctas">
-      <a class="btn btn-gold" href="#challenge">See the challenge</a>
+      <a class="btn btn-gold" href="#house-points">Check Latest House Points</a>
       <a class="btn btn-ghost" href="#resources">Jump to resources</a>
     </div>
   </div>
 </section>
 
-<section id="challenge">
+<section id="challenge" class="challenge-spotlight">
   <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">The Challenge</div>
-      <h2>The Soaring Robots Challenge</h2>
-      <p>Design a robot inspired by animal biology to perform a specific function.</p>
-      <p>Study an animal's unique abilities and then think about how your robot design could mimic its anatomy.</p>
+    <div class="challenge-grid">
+      <div class="challenge-copy">
+        <div class="eyebrow">The Challenge</div>
+        <h2>The Soaring Robots Challenge</h2>
+        <p class="challenge-lede">Design a robot inspired by animal biology to perform a specific function.</p>
+        <p>Study an animal's unique abilities and then think about how your robot design could mimic its anatomy.</p>
+      </div>
+      <div class="challenge-video">
+        <div class="video-embed">
+          <iframe src="https://www.youtube.com/embed/UChKhw_Zw4c" title="Soaring Robots Challenge — launch video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <p class="video-caption">📺 Need a reminder? Rewatch the launch video.</p>
+      </div>
     </div>
   </div>
+</section>
+</div>
+
+<section id="house-points">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">House MIT Points</div>
+      <h2>Which House is winning?</h2>
+      <p>Every time a teacher spots one of the 6Cs — Communication, Collaboration, Creativity, Critical Thinking, Citizenship, Character — they can award your House an MIT Point on ePraise. Points add up across the whole week; the House with the most on Friday wins the House MIT Trophy.</p>
+    </div>
+
+    <div id="house-points-chart"></div>
+  </div>
+  <script src="assets/data/house-points-data.js"></script>
+  <script src="house-points-chart.js"></script>
+  <script>renderHousePointsChart('house-points-chart');</script>
 </section>
 
 <section id="resources" class="alt">
@@ -114,6 +147,12 @@
           <a class="btn btn-teal" data-link="journalPdf" href="#">PDF</a>
           <a class="btn btn-teal" data-link="journalWord" href="#">Word</a>
         </div>
+        <div class="lang-row">
+          <span class="lang-label">Also in:</span>
+          <a class="lang-chip" data-link="journalZh" href="#">中文</a>
+          <a class="lang-chip" data-link="journalRu" href="#">Русский</a>
+          <a class="lang-chip" data-link="journalTh" href="#">ไทย</a>
+        </div>
       </div>
 
       <h3 class="resource-cat rc-team">Team</h3>
@@ -124,6 +163,12 @@
         <div class="btn-row">
           <a class="btn btn-teal" data-link="workbookPdf" href="#">PDF</a>
           <a class="btn btn-teal" data-link="workbookWord" href="#">Word</a>
+        </div>
+        <div class="lang-row">
+          <span class="lang-label">Also in:</span>
+          <a class="lang-chip" data-link="workbookZh" href="#">中文</a>
+          <a class="lang-chip" data-link="workbookRu" href="#">Русский</a>
+          <a class="lang-chip" data-link="workbookTh" href="#">ไทย</a>
         </div>
       </div>
       <div class="resource-card rc-team">
@@ -137,6 +182,12 @@
         <h3>Team Building Instructions</h3>
         <p>The Great MIT Supply Drop — your Day 1 mission brief.</p>
         <a class="btn btn-teal" data-link="teamBuilding" href="#">Open resource</a>
+        <div class="lang-row">
+          <span class="lang-label">Also in:</span>
+          <a class="lang-chip" data-link="teamBuildingZh" href="#">中文</a>
+          <a class="lang-chip" data-link="teamBuildingRu" href="#">Русский</a>
+          <a class="lang-chip" data-link="teamBuildingTh" href="#">ไทย</a>
+        </div>
       </div>
       <div class="resource-card rc-team">
         <div class="resource-icon">🎵</div>
@@ -157,6 +208,27 @@
         <h3>Challenge Brief</h3>
         <p>The full Soaring Robots Challenge brief and judging criteria.</p>
         <a class="btn btn-teal" data-link="challengeBrief" href="#">Open resource</a>
+        <div class="lang-row">
+          <span class="lang-label">Also in:</span>
+          <a class="lang-chip" data-link="challengeBriefZh" href="#">中文</a>
+          <a class="lang-chip" data-link="challengeBriefRu" href="#">Русский</a>
+          <a class="lang-chip" data-link="challengeBriefTh" href="#">ไทย</a>
+        </div>
+      </div>
+      <div class="resource-card rc-reference">
+        <div class="resource-icon">🎤</div>
+        <h3>Facilitator Slides</h3>
+        <p>The day-by-day script your facilitator is working from — handy if you want to check something for yourself.</p>
+        <a class="btn btn-teal" data-link="facilitatorSlidesPdf" href="#">Open resource</a>
+      </div>
+      <div class="resource-card rc-reference">
+        <div class="resource-icon">📐</div>
+        <h3>How to Draw to Scale</h3>
+        <p>A quick video tutorial — handy while you're sketching and designing your prototype.</p>
+        <div class="btn-row">
+          <a class="btn btn-teal" data-link="drawToScale" href="#">Watch video</a>
+          <a class="btn btn-teal" data-link="scalingWorksheet" href="#">Worksheet</a>
+        </div>
       </div>
       <div class="resource-card rc-reference">
         <div class="resource-icon">👥</div>
@@ -207,7 +279,7 @@
     <div class="stage-panel st-3" data-panel="3">
       <span class="stage-panel-when">Tuesday · 3:20 · Checkpoint 3</span>
       <h3>What are we going to build?</h3>
-      <p>Decide what you're building, and how it will mimic your chosen animal's anatomy.</p>
+      <p>Decide what you're building, and how it will mimic your chosen animal's anatomy. Sketching your design? <a data-link="drawToScale" href="#">Watch this quick video on how to draw to scale →</a> or practice with the <a data-link="scalingWorksheet" href="#">printable Scaling Up Exercise →</a></p>
     </div>
     <div class="stage-panel st-4" data-panel="4">
       <span class="stage-panel-when">Wednesday · 3:20 · Checkpoint 4</span>
@@ -282,63 +354,21 @@
   </div>
 </section>
 
-<section id="house-points">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">House MIT Points</div>
-      <h2>Which House is winning?</h2>
-      <p>Every time a teacher spots one of the 6Cs — Communication, Collaboration, Creativity, Critical Thinking, Citizenship, Character — they can award your House an MIT Point on ePraise. Points add up across the whole week; the House with the most on Friday wins the House MIT Trophy.</p>
-    </div>
-
-    <div class="house-row">
-      <span class="house-pill house-air"><span class="house-dot"></span> Air</span>
-      <span class="house-pill house-earth"><span class="house-dot"></span> Earth</span>
-      <span class="house-pill house-water"><span class="house-dot"></span> Water</span>
-      <span class="house-pill house-fire"><span class="house-dot"></span> Fire</span>
-    </div>
-
-    <a class="btn btn-teal" data-link="epraise" href="#" style="margin-top:1.4rem; display:inline-block;">Check the live leaderboard on ePraise →</a>
-  </div>
-</section>
-
-<section id="inspiration" class="alt">
+<section id="inspiration">
   <div class="wrap">
     <div class="section-head">
       <div class="eyebrow">Inspiration &amp; Extra Help</div>
       <h2>Stuck? Need an idea? Start here.</h2>
-      <p>A few places worth a look if you want inspiration for your soaring robot, or a refresher on how to work through the process.</p>
+      <p>Dozens of videos, websites and reading — biomimicry, flight, movement, sensing, soft robots and more — organised by topic, with search and filters.</p>
     </div>
 
-    <div class="expo-callout" style="margin-bottom:1.4rem;">
+    <div class="expo-callout">
       <div class="num">🧭</div>
       <div>
-        <strong>Want more? Visit the Inspiration Hub.</strong>
-        Dozens of videos, websites and reading — biomimicry, flight, movement, sensing, soft robots and more — organised by topic, with search and filters.
+        <strong>Visit the Inspiration Hub.</strong>
+        Everything you need to research your robot idea, all in one searchable place.
       </div>
       <a class="btn btn-teal" href="inspiration.html" style="margin-left:auto;">Browse the Inspiration Hub →</a>
-    </div>
-
-    <div class="inspire-grid">
-      <div class="inspire-card">
-        <h3>AskNature — Innovation Inspired by Nature</h3>
-        <p>Browse how nature has already solved problems like flight, strength, and efficiency. Great for the biomimicry side of your design.</p>
-        <a href="https://asknature.org/" target="_blank" rel="noopener">asknature.org →</a>
-      </div>
-      <div class="inspire-card">
-        <h3>Cornell Lab — Animals in Flight</h3>
-        <p>How birds and insects actually fly, explained for your age group. Directly useful for a soaring robot challenge.</p>
-        <a href="https://www.birds.cornell.edu/k12/animals-in-flight/" target="_blank" rel="noopener">birds.cornell.edu →</a>
-      </div>
-      <div class="inspire-card">
-        <h3>IDEO U — The Design Thinking Process</h3>
-        <p>A clear walkthrough of the same process you're using this week, if you want a refresher alongside your Journal.</p>
-        <a href="https://www.ideou.com/blogs/inspiration/design-thinking-process" target="_blank" rel="noopener">ideou.com →</a>
-      </div>
-      <div class="inspire-card">
-        <h3>Presentation Tips for Students</h3>
-        <p>Getting ready to talk visitors through your stall on Friday? A few solid tips for presenting with confidence.</p>
-        <a href="https://www.uopeople.edu/blog/presentation-tips-for-students/" target="_blank" rel="noopener">uopeople.edu →</a>
-      </div>
     </div>
   </div>
 </section>

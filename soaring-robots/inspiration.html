@@ -285,6 +285,7 @@
     { cat:'flying', group:'website', type:'website', title:"Festo BionicBee Project", url:"https://www.festo.com/us/en/e/about-festo/research-and-development/bionic-learning-network/bionic-flying-objects/bionicbee-id_1659889", desc:"Explains wing movement, lightweight construction, navigation and coordinated flight." },
     { cat:'flying', group:'website', type:'website', title:"Flying Microrobot Inspired by Bees", url:"https://asknature.org/innovation/tiny-flying-microrobot-inspired-by-bees/", desc:"Look at how sensors allow an insect-sized robot to respond to its surroundings." },
     { cat:'flying', group:'website', type:'website', title:"Flying and Gliding Animals", url:"https://en.wikipedia.org/wiki/Flying_and_gliding_animals", desc:"A useful starting list of birds, bats, insects, flying snakes, frogs, lizards, squirrels and ballooning spiders." },
+    { cat:'flying', group:'website', type:'website', title:"Cornell Lab: Animals in Flight", url:"https://www.birds.cornell.edu/k12/animals-in-flight/", desc:"How birds and insects actually fly, explained for your age group. Directly useful for a soaring robot challenge." },
 
     // ---- Understanding Flight ----
     { cat:'flightScience', type:'website', title:"NASA: What Is Aerodynamics? Grades 5–8", url:"https://www.nasa.gov/learning-resources/for-kids-and-students/what-is-aerodynamics-grades-5-8/", desc:"A clear explanation of lift, weight, thrust and drag." },
@@ -346,6 +347,8 @@
     { cat:'engineering', type:'website', title:"VEX GO Build Instructions", url:"https://www.vexrobotics.com/go/downloads/build-instructions", desc:"Clear visual instructions that can help you understand gears, linkages, movement and structural stability." },
     { cat:'engineering', type:'website', title:"BBC micro:bit Project Collection", url:"https://microbit.org/projects/make-it-code-it/", desc:"Search for projects involving alarms, sensors, data logging, communication and movement." },
     { cat:'engineering', type:'website', title:"BBC micro:bit Sensors", url:"https://microbit.org/get-started/features/sensors/", desc:"Useful when deciding what inputs the prototype might need." },
+    { cat:'engineering', type:'video', title:"How to Draw to Scale", url:"https://nordanglia.sharepoint.com/:v:/s/Regents-SecondaryStaff/IQBRSNZlqBt9RYZKz8Q0jZqBAaHM5sBE4hAE3_AvQZftLRY?e=oKkYJH", desc:"A quick tutorial for sketching your design to scale — handy while you're working on your prototype." },
+    { cat:'engineering', type:'pdf', title:"Scaling Up Exercise", url:"https://nordanglia.sharepoint.com/:b:/s/Regents-SecondaryStaff/IQB0ZoFLPZ-KR4QiX3GmR8OQAcIze3AaKfT5TdaxU9EQATo?e=BlTgJH", desc:"A printable worksheet to practise drawing to scale, alongside the video." },
   ];
 
   const CAT_META = {
@@ -363,6 +366,52 @@
 
   const TYPE_LABEL = { video:'📺 Video', website:'🌐 Website', pdf:'📄 PDF' };
 
+  // Real preview photos, fetched once from each page's social-preview (og:image)
+  // metadata (or, for the PDF, rendered from its own cover page) and hardcoded
+  // here — no live scraping at runtime. Links not listed fall back to an icon tile.
+  const OG_IMAGES = {
+    "https://aiforgood.itu.int/biologically-inspired-soft-robots-for-environmental-sustainability/": "https://s41721.pcdn.co/wp-content/uploads/2023/02/featured-image.jpg",
+    "https://asknature.org/": "https://ask-nature.sfo3.digitaloceanspaces.com/wp-content/uploads/2024/09/27081443/AN_Home_Thumb_Fall24.png",
+    "https://asknature.org/innovation/autonomous-robot-swarm-inspired-by-schools-of-fish/": "https://ask-nature.sfo3.digitaloceanspaces.com/wp-content/uploads/2021/02/31133554/lance-anderson-G2SDLsJp3rg-unsplash-2160x1440.jpg",
+    "https://asknature.org/innovation/event-driven-optical-sensor-inspired-by-human-eyes/": "https://ask-nature.sfo3.digitaloceanspaces.com/wp-content/uploads/2021/01/31135017/innovations-retinas-soroush-karimi-ZcczBXrkXgA-unsplash-2160x1214.jpg",
+    "https://asknature.org/innovation/locomotive-robot-inspired-by-biological-systems/": "https://ask-nature.sfo3.digitaloceanspaces.com/wp-content/uploads/2020/11/31135255/keyur-nandaniya-7ZBWyxFWLQU-unsplash-2160x1440.jpg",
+    "https://asknature.org/innovation/multimodal-artificial-skin-inspired-by-human-skin/": "https://ask-nature.sfo3.digitaloceanspaces.com/wp-content/uploads/2021/05/31121224/innovations-human-skin-nsey-benajah-crop-2160x1301.jpg",
+    "https://asknature.org/innovation/self-propelled-flexible-robot-inspired-by-snakes/": "https://ask-nature.sfo3.digitaloceanspaces.com/wp-content/uploads/2020/11/31140044/marius-masalar-LN_gdbQtzvk-unsplash-2160x1440.jpg",
+    "https://asknature.org/innovation/self-repairing-robots-inspired-by-plants/": "https://ask-nature.sfo3.digitaloceanspaces.com/wp-content/uploads/2021/01/31135516/sergey-shmidt-koy6FlCCy5s-unsplash-2160x1441.jpg",
+    "https://asknature.org/innovation/soft-robot-inspired-by-jellyfish/": "https://ask-nature.sfo3.digitaloceanspaces.com/wp-content/uploads/2021/01/31135600/marat-gilyadzinov-wpTWYBll4_w-unsplash-2160x1440.jpg",
+    "https://asknature.org/innovation/swimming-soft-robot-inspired-by-cephalopods/": "https://ask-nature.sfo3.digitaloceanspaces.com/wp-content/uploads/2021/01/31135116/innovations-cuttlefish-peter-boshra-2160x1215.jpg",
+    "https://asknature.org/innovation/tiny-flying-microrobot-inspired-by-bees/": "https://ask-nature.sfo3.digitaloceanspaces.com/wp-content/uploads/2021/05/31122312/endri-killo-8d6HMc1QvW4-unsplash-2160x1620.jpg",
+    "https://blog.terc.edu/hubfs/DesigningBioRobots_TERC_Hands-OnFall2021.pdf": "assets/thumbs/designing-biomimetic-robots-pdf.jpg",
+    "https://en.wikipedia.org/wiki/Flying_and_gliding_animals": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Greylag_Geese_%28Anser_anser%29_in_flight%2C_Cley%2C_Norfolk_1700.jpg/1280px-Greylag_Geese_%28Anser_anser%29_in_flight%2C_Cley%2C_Norfolk_1700.jpg",
+    "https://kb.vex.com/hc/en-us/articles/8780653442964-Get-Started-Engineering": "https://kb.vex.com/hc/theming_assets/01HZPAVQWF13AR5SN8W36HJVMD",
+    "https://microbit.org/get-started/features/sensors/": "https://cdn.sanity.io/images/ajwvhvgo/production/db693d4af1e3e8d8ff5eb1d3202f0bb0eb43a0de-800x400.png?q=95",
+    "https://microbit.org/projects/make-it-code-it/": "https://cdn.sanity.io/images/ajwvhvgo/production/0644349faba2bbd20abcaa4dca12444a672de2d3-878x439.png?q=95",
+    "https://news.mit.edu/2025/ai-shapes-autonomous-underwater-gliders-0709": "https://news.mit.edu/sites/default/files/images/202506/mit-auv-Gliders.png",
+    "https://news.mit.edu/topic/biomimetics?type=2": "https://news.mit.edu/sites/default/files/styles/term_page__news_article/public/images/201409/MIT-Underwater-Adhesives-01.jpg",
+    "https://robotsguide.com/": "https://assets.robotsguide.com/images/7p2whiua/production/b6362bd5d5d8aaff093de0bef036391735670944-1200x630.png?w=1200&h=630",
+    "https://robotsvsanimals.wordpress.com/teaching-materials/": "https://i0.wp.com/robotsvsanimals.wordpress.com/wp-content/uploads/2014/09/robot-and-animals-for-web.jpg?fit=1200%2C380&ssl=1",
+    "https://sdgs.un.org/goals": "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E_SDG_logo_UN_emblem_square_trans_WEB.png",
+    "https://stem.festo.com/us/en/our-approach/bionics/bionic-projects-by-festo/index.html": "https://stem.festo.com/nl/editorial/img/approach_media/bionic_projects_festo/smart_bird_w820.jpg",
+    "https://today.usc.edu/how-to-build-a-robot-that-mimics-the-moves-of-animals/": "https://today.usc.edu/wp-content/uploads/2018/06/Biologically-inspired-robotics-class-web.jpg",
+    "https://www.birds.cornell.edu/k12/animals-in-flight/": "https://www.birds.cornell.edu/k12/wp-content/uploads/2018/09/animalsinflight.jpg",
+    "https://www.cmu.edu/roboticsacademy/roboticscurriculum/VEX%20Curriculum/mech_v5.html": "https://www.cmu.edu/roboticsacademy/roboticscurriculum/VEX%20Curriculum/mf_banner_vex.png",
+    "https://www.festo.com/hk/en/e/about-festo/research-and-development/bionic-learning-network/bionic-flying-objects/bionicswift-id_326830": "https://www.festo.com/media/cms/central/media/editorial/img/cc/bionics-bionicswift-00062-festo_w1320.webp",
+    "https://www.festo.com/ie/en/e/blog/bionics/taking-a-close-look-at-wings-in-nature-id_44627/": "https://www.festo.com/media/cms/central/media/editorial/img/cc/bionics-flying-projects-air-40X25-festo_fix1024x469.webp",
+    "https://www.festo.com/us/en/e/about-festo/research-and-development/bionic-learning-network/bionic-flying-objects-id_68235": "https://www.festo.com/media/cms/central/media/mam_upload/bionics-emotionbutterflies-00065_w1320.webp",
+    "https://www.festo.com/us/en/e/about-festo/research-and-development/bionic-learning-network/bionic-flying-objects/bionicbee-id_1659889": "https://www.festo.com/media/cms/central/media/editorial/img/cc/bionics-bionicbee-1008310-festo_fix1024x469.webp",
+    "https://www.flyzipline.com/": "https://www.zipline.com/og-default-v2.jpg",
+    "https://www.nasa.gov/learning-resources/for-kids-and-students/what-is-aerodynamics-grades-5-8/": "https://www.nasa.gov/wp-content/uploads/2025/04/4-forces-of-flight-e1744739724986.png",
+    "https://www.un.org/sustainabledevelopment/student-resources/": "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E_SDG_logo_UN_emblem_square_trans_WEB.png",
+    "https://www.vexrobotics.com/go/downloads/build-instructions": "https://content.vexrobotics.com/images/robot-build-images/vex-go/drawbridge-v2.png",
+    "https://www.vexrobotics.com/iq/downloads/build-instructions": "https://content.vexrobotics.com/images/robot-build-images/vex-iq/clawbot-gen2.png",
+    "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/four-forces-on-an-airplane/": "https://www1.grc.nasa.gov/wp-content/uploads/forces-600x356.jpg",
+    "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/learn-about-aerodynamics/": "https://www1.grc.nasa.gov/wp-content/uploads/NASA_Boeing-1024x768-1.jpg",
+    "https://wyss.harvard.edu/news/novel-4d-printing-method/": "https://wyss-prod.imgix.net/app/uploads/2016/08/05164958/4d-printing-500x395.png?auto=format%2Ccompress&crop=faces%2Centropy&fit=crop&q=50&w=800",
+    "https://wyss.harvard.edu/news/soft-robots-for-all/": "https://wyss-prod.imgix.net/app/uploads/2019/06/26160902/Soft-Oscillator.jpg?auto=format%2Ccompress&crop=faces%2Centropy&fit=crop&q=50&w=800",
+    "https://wyss.harvard.edu/news/the-first-autonomous-entirely-soft-robot/": "https://wyss-prod.imgix.net/app/uploads/2016/08/29131619/2016_RT_MW_Octobot_006-e1472754146545.jpg?auto=format%2Ccompress&crop=faces%2Centropy&fit=crop&q=50&w=800",
+    "https://wyss.harvard.edu/news/uncoiling-the-cucumbers-enigma/": "https://wyss-prod.imgix.net/app/uploads/2016/08/05180600/cucumber2-300x171-e1476724298379.jpg?auto=format%2Ccompress&crop=faces%2Centropy&fit=crop&q=50&w=800",
+  };
+
   function youtubeId(url) {
     const m = url.match(/[?&]v=([^&]+)/);
     return m ? m[1] : null;
@@ -379,10 +428,15 @@
     const catClass = `cat-${r.cat}`;
     const emoji = (CAT_META[r.cat] || {}).emoji || '🔗';
     const yid = r.type === 'video' ? youtubeId(r.url) : null;
+    const ogImage = OG_IMAGES[r.url];
     let thumb;
     if (yid) {
       thumb = `<img class="thumb-photo" src="https://img.youtube.com/vi/${yid}/mqdefault.jpg" alt="" loading="lazy">
         <span class="play-badge"><span>▶</span></span>`;
+    } else if (ogImage) {
+      thumb = `<img class="thumb-photo" src="${ogImage}" alt="" loading="lazy" onerror="this.remove()">
+        <span class="thumb-emoji">${emoji}</span>
+        <span class="favicon-chip"><img src="${faviconUrl(r.url)}" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></span>`;
     } else {
       thumb = `<span class="thumb-emoji">${emoji}</span>
         <span class="favicon-chip"><img src="${faviconUrl(r.url)}" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></span>`;
