@@ -3,11 +3,11 @@
 // from that day's export, and update the date. Both the student and staff
 // pages read this same file, so one edit updates both.
 const HOUSE_POINTS_DATA = {
-  updated: "2026-09-09",
+  updated: "2026-09-14",
   points: {
-    Air: 1,
-    Earth: 1,
-    Water: 1,
-    Fire: 1
+    Air: 33,
+    Earth: 15,
+    Water: 47,
+    Fire: 22
   }
 };
