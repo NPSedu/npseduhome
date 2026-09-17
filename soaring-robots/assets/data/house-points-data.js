@@ -3,11 +3,11 @@
 // from that export, and update the date/time (24-hour, Pattaya local time).
 // Both the student and staff pages read this same file, so one edit updates both.
 const HOUSE_POINTS_DATA = {
-  updated: "17 Sep 2026, 08:07",
+  updated: "17 Sep 2026, 12:19",
   points: {
-    Air: 296,
-    Earth: 355,
-    Water: 284,
-    Fire: 271
+    Air: 375,
+    Earth: 399,
+    Water: 364,
+    Fire: 328
   }
 };
