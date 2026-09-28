@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Normalisation to 3NF (Lesson 4) — Unit A3 — IB Computer Science — NPSedu</title>
+<style>
+:root{
+  --navy:#102a43;
+  --blue:#2368a2;
+  --cyan:#2cb1bc;
+  --cyan-soft:#dff6f7;
+  --cream:#f6f3ed;
+  --paper:#ffffff;
+  --ink:#172b4d;
+  --muted:#627d98;
+  --line:#d9e2ec;
+  --good:#16866d;
+  --good-bg:#e5f7f1;
+  --bad:#c43d4f;
+  --bad-bg:#fff0f2;
+  --gold:#e3a624;
+  --gold-bg:#fff7dc;
+  --shadow:0 12px 34px rgba(16,42,67,.12);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:linear-gradient(180deg,#edf6f8 0,#f7f5ef 31rem);color:var(--ink);font:16px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:4px solid rgba(44,177,188,.32);outline-offset:3px}
+.wrap{width:min(1120px,calc(100% - 32px));margin:auto}
+
+/* BREADCRUMB */
+.breadcrumb-shell{background:var(--navy);color:#fff}
+.breadcrumb{display:flex;align-items:center;gap:8px;min-height:48px;overflow:auto;white-space:nowrap;font-size:.9rem}
+.breadcrumb span,.breadcrumb a{color:#fff;text-decoration:none;padding:8px 3px}
+.breadcrumb a{opacity:.82}
+.breadcrumb a:hover{opacity:1;text-decoration:underline}
+.breadcrumb .sep{opacity:.45;padding:0 2px}
+
+/* HERO */
+header{padding:38px 0 28px}
+.eyebrow{color:var(--blue);font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:.76rem}
+.hero{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end}
+.hero h1{font-size:clamp(2.3rem,5.5vw,4.4rem);line-height:.98;letter-spacing:-.05em;margin:.35rem 0 .85rem;color:var(--navy)}
+.hero p{max-width:730px;color:var(--muted);font-size:1.08rem}
+.badge{background:var(--navy);color:white;border-radius:22px;padding:18px 20px;min-width:174px}
+.badge strong{display:block;font-size:2rem}
+.badge span{opacity:.77}
+
+/* PROGRESS */
+.progress-shell{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-block:1px solid var(--line)}
+.progress-row{display:flex;align-items:center;gap:16px;padding:11px 0}
+.progress-bar{height:9px;flex:1;background:#e5edf3;border-radius:99px;overflow:hidden}
+.progress-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--blue));transition:.35s}
+.score{font-weight:800;white-space:nowrap}
+.mini{font-size:.87rem;color:var(--muted)}
+
+/* NAV */
+.lesson-nav{display:flex;gap:8px;overflow:auto;padding:18px 0 10px}
+.lesson-nav a{flex:none;text-decoration:none;color:var(--muted);font-weight:750;font-size:.87rem;background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 14px}
+.lesson-nav a:hover,.lesson-nav a:focus{color:var(--blue);border-color:var(--blue)}
+
+/* GENERAL */
+main{padding-bottom:60px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:clamp(20px,4vw,34px);box-shadow:var(--shadow);margin:22px 0}
+.card h2{margin:.1rem 0 .55rem;color:var(--navy);line-height:1.15;font-size:clamp(1.5rem,3vw,2.05rem)}
+.card h3{color:var(--navy);margin:0 0 4px}
+.intro{color:var(--muted);max-width:800px;margin-top:0}
+.kicker{display:inline-grid;place-items:center;width:37px;height:37px;margin-right:10px;border-radius:11px;color:#fff;background:linear-gradient(135deg,var(--cyan),var(--blue));font-size:1rem;vertical-align:4px}
+
+.resource-map{background:var(--cream);border-left:4px solid var(--gold);border-radius:0 12px 12px 0;padding:11px 14px;margin:14px 0 20px;font-size:.9rem}
+.resource-map strong{color:var(--navy)}
+
+/* VIDEO */
+.video-wrap{border-radius:16px;overflow:hidden;background:#000;box-shadow:var(--shadow)}
+.video-wrap video{display:block;width:100%;max-height:640px;background:#000}
+.jumpbar{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.jump-btn{border:1px solid var(--line);background:#fff;color:var(--blue);font-weight:750;font-size:.85rem;border-radius:999px;padding:8px 13px}
+.jump-btn:hover{border-color:var(--blue);background:#eef6fb}
+
+/* PAUSE POINT */
+.pause-badge{display:inline-flex;align-items:center;gap:7px;background:var(--navy);color:#fff;border-radius:999px;padding:7px 14px;font-weight:800;font-size:.85rem;margin-bottom:10px}
+.pause-watch{color:var(--muted);font-size:.92rem;margin:0 0 18px}
+.pause-watch strong{color:var(--ink)}
+
+/* QUESTION / ANSWER */
+.qa{border-top:1px solid var(--line);padding:20px 0}
+.qa:first-of-type{border-top:0;padding-top:6px}
+.q-prompt{font-weight:750;margin:0 0 10px;color:var(--ink)}
+.q-input{width:100%;min-height:66px;resize:vertical;border:2px solid var(--line);border-radius:12px;padding:11px 13px;color:var(--ink);background:#fff}
+.q-input:focus{border-color:var(--cyan)}
+.qa-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.primary,.secondary,.hint-btn,.danger-button{min-height:42px;border-radius:11px;padding:9px 16px;font-weight:800}
+.primary{color:#fff;background:var(--blue);border:2px solid var(--blue)}
+.primary:hover{background:#174f7f}
+.secondary{color:var(--blue);background:#fff;border:2px solid #b8cfdf}
+.secondary:hover{border-color:var(--blue)}
+.hint-btn{border:1px solid #d6c078;background:var(--gold-bg);color:#705914}
+.danger-button{color:var(--bad);background:#fff;border:2px solid #e7bbc2}
+
+.hint-output{margin-top:10px;padding:10px 12px;border-radius:10px;background:var(--gold-bg);color:#64551e;display:none;font-size:.92rem}
+.hint-output.show{display:block}
+
+.model-output{margin-top:10px;padding:10px 12px;border-radius:10px;background:#eef6fb;border:1px solid #c3dce8;color:#1c3f57;display:none;font-size:.92rem}
+.model-output.show{display:block}
+.model-output strong{color:var(--navy)}
+
+.feedback{display:none;margin-top:10px;padding:11px 13px;border-radius:10px;font-weight:650;font-size:.94rem}
+.feedback.show{display:block}
+.feedback.good{background:var(--good-bg);color:#106650;border:1px solid #9edac8}
+.feedback.bad{background:var(--bad-bg);color:#9a2b3d;border:1px solid #edbdc5}
+.feedback.info{background:#eff7fb;color:#315a72;border:1px solid #c3dce8}
+
+/* FINAL CHECK */
+.blank-sentence{font-size:1.08rem;line-height:2.1;margin:16px 0}
+.blank-sentence input{width:150px;border:2px solid var(--line);border-radius:8px;padding:6px 9px;text-align:center;background:#fff;color:var(--ink);margin:0 2px}
+.blank-sentence input.correct{border-color:var(--good);background:var(--good-bg)}
+.blank-sentence input.wrong{border-color:var(--bad);background:var(--bad-bg)}
+
+/* GLOSSARY */
+.glossary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.term{background:var(--cream);border-radius:12px;padding:13px}
+.term strong{color:var(--blue)}
+
+footer{text-align:center;padding:0 0 42px;color:var(--muted)}
+
+@media(max-width:850px){
+  .hero{grid-template-columns:1fr}
+  .badge{width:max-content}
+  .glossary{grid-template-columns:1fr}
+}
+@media(max-width:580px){
+  .wrap{width:min(100% - 20px,1120px)}
+  .card{border-radius:16px}
+  .hero h1{font-size:2.3rem}
+  .progress-row{gap:8px}
+  .progress-row .mini{display:none}
+  .blank-sentence input{width:120px}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="breadcrumb-shell">
+  <div class="wrap breadcrumb" aria-label="Breadcrumb">
+    <a href="../../index.html">NPSedu</a>
+    <span class="sep" aria-hidden="true">›</span>
+    <a href="../index.html">IB Computer Science</a>
+    <span class="sep" aria-hidden="true">›</span>
+    <a href="index.html">Unit A3 — Databases</a>
+    <span class="sep" aria-hidden="true">›</span>
+    <span aria-current="page">Lesson 4 · Normalisation to 3NF</span>
+  </div>
+</div>
+
+<header class="wrap">
+  <div class="eyebrow">IB Computer Science · A3 Databases</div>
+  <div class="hero">
+    <div>
+      <h1>Normalisation<br>to 3NF</h1>
+      <p>Watch the video walkthrough, pausing to answer questions together, then apply 1NF, 2NF and 3NF to fix an unnormalised table.</p>
+    </div>
+    <div class="badge">
+      <strong>Lesson 4</strong>
+      <span>A3.2.6</span>
+    </div>
+  </div>
+</header>
+
+<div class="progress-shell">
+  <div class="wrap progress-row">
+    <span class="mini">Lesson progress</span>
+    <div class="progress-bar" aria-label="Lesson progress"><i id="progressBar"></i></div>
+    <span class="score"><span id="completedCount">0</span>/6</span>
+  </div>
+</div>
+
+<div class="wrap">
+  <nav class="lesson-nav" aria-label="Lesson activities">
+    <a href="#video">Video</a>
+    <a href="#pause1">Pause 1</a>
+    <a href="#pause2">Pause 2</a>
+    <a href="#pause3">Pause 3</a>
+    <a href="#pause4">Pause 4</a>
+    <a href="#pause5">Pause 5</a>
+    <a href="#final">Final check</a>
+    <a href="#reference">Quick reference</a>
+  </nav>
+</div>
+
+<main class="wrap">
+
+<!-- VIDEO -->
+<section class="card" id="video">
+  <h2><span class="kicker">▶</span>Database design to 3NF</h2>
+  <div class="resource-map">
+    <strong>Instructions:</strong> Watch together. At each pause, write your own answer first, then compare answers as a group. Be ready to explain <em>why</em> you would change a table, not just name the normal form.
+  </div>
+
+  <div class="video-wrap">
+    <video id="lessonVideo" controls preload="metadata">
+      <source src="database-design-to-3nf.mp4" type="video/mp4">
+      Your browser does not support embedded video. You can open the video file directly instead.
+    </video>
+  </div>
+
+  <p class="intro" style="margin-top:14px">Use the buttons below to jump straight back to a pause point if you need to rewatch a section.</p>
+  <div class="jumpbar">
+    <button class="jump-btn" onclick="jumpTo(110)">⏸ 1:50 — Employee table</button>
+    <button class="jump-btn" onclick="jumpTo(235)">⏸ 3:55 — Definition of normalisation</button>
+    <button class="jump-btn" onclick="jumpTo(335)">⏸ 5:35 — Student/subject &amp; 1NF</button>
+    <button class="jump-btn" onclick="jumpTo(455)">⏸ 7:35 — End of 2NF</button>
+    <button class="jump-btn" onclick="jumpTo(545)">⏸ 9:05 — End of 3NF</button>
+  </div>
+</section>
+
+<!-- PAUSE 1 -->
+<section class="card" id="pause1">
+  <h2><span class="kicker">1</span>Pause point — around 1:50</h2>
+  <p class="pause-watch">Stop when you see: <strong>the employee table with repeated employee details.</strong></p>
+  <div id="stage-pause1"></div>
+</section>
+
+<!-- PAUSE 2 -->
+<section class="card" id="pause2">
+  <h2><span class="kicker">2</span>Pause point — around 3:55</h2>
+  <p class="pause-watch">Stop when you see: <strong>the definition of normalisation.</strong></p>
+  <div id="stage-pause2"></div>
+</section>
+
+<!-- PAUSE 3 -->
+<section class="card" id="pause3">
+  <h2><span class="kicker">3</span>Pause point — around 5:35</h2>
+  <p class="pause-watch">Stop when you see: <strong>the student and subject example, after the 1NF explanation.</strong></p>
+  <div id="stage-pause3"></div>
+</section>
+
+<!-- PAUSE 4 -->
+<section class="card" id="pause4">
+  <h2><span class="kicker">4</span>Pause point — around 7:35</h2>
+  <p class="pause-watch">Stop when you see: <strong>the end of the 2NF explanation, before 3NF begins.</strong></p>
+  <div id="stage-pause4"></div>
+</section>
+
+<!-- PAUSE 5 -->
+<section class="card" id="pause5">
+  <h2><span class="kicker">5</span>Pause point — around 9:05</h2>
+  <p class="pause-watch">Stop when you see: <strong>the end of the 3NF explanation.</strong></p>
+  <div id="stage-pause5"></div>
+</section>
+
+<!-- FINAL CHECK -->
+<section class="card" id="final">
+  <h2><span class="kicker">6</span>Final check — without the video</h2>
+  <p class="intro">Complete these three sentences from memory.</p>
+
+  <div class="blank-sentence">
+    <strong>1NF:</strong> Each cell contains
+    <input type="text" id="blank1a" placeholder="…" aria-label="1NF blank one">, and there are no
+    <input type="text" id="blank1b" placeholder="…" aria-label="1NF blank two">.
+  </div>
+  <div class="blank-sentence">
+    <strong>2NF:</strong> Every non-key attribute depends on the
+    <input type="text" id="blank2" placeholder="…" aria-label="2NF blank"> key.
+  </div>
+  <div class="blank-sentence">
+    <strong>3NF:</strong> Non-key attributes do not depend on
+    <input type="text" id="blank3" placeholder="…" aria-label="3NF blank"> non-key attributes.
+  </div>
+
+  <div class="qa-actions">
+    <button class="primary" onclick="checkFinal()">Check my answers</button>
+    <button class="secondary" onclick="resetFinal()">Reset</button>
+  </div>
+  <div class="feedback" id="feedback-final" aria-live="polite"></div>
+  <div class="model-output" id="model-final">
+    <strong>Model answer:</strong><br>
+    1NF: Each cell contains a single (atomic) value, and there are no repeating groups.<br>
+    2NF: Every non-key attribute depends on the whole (entire) primary key.<br>
+    3NF: Non-key attributes do not depend on other (transitive) non-key attributes.
+  </div>
+</section>
+
+<!-- QUICK REFERENCE -->
+<section class="card" id="reference">
+  <h2>Quick reference</h2>
+  <div class="glossary">
+    <div class="term"><strong>Normalisation</strong><br>Organising data into two or more related tables, linked by keys, so redundancy is minimised.</div>
+    <div class="term"><strong>Atomic</strong><br>A single, indivisible value — one value per cell, no lists.</div>
+    <div class="term"><strong>1NF</strong><br>No repeating groups; every value is atomic.</div>
+    <div class="term"><strong>2NF</strong><br>The table is in 1NF and every non-key attribute depends on the whole primary key (no partial dependency).</div>
+    <div class="term"><strong>3NF</strong><br>The table is in 2NF and no non-key attribute depends on another non-key attribute (no transitive dependency).</div>
+    <div class="term"><strong>Composite key</strong><br>A primary key made of two or more attributes combined.</div>
+    <div class="term"><strong>Partial dependency</strong><br>A non-key attribute depends on only part of a composite key.</div>
+    <div class="term"><strong>Transitive dependency</strong><br>A non-key attribute depends on another non-key attribute, not directly on the primary key.</div>
+    <div class="term"><strong>Update anomaly</strong><br>Redundant copies of data become inconsistent when only one copy is updated.</div>
+  </div>
+  <div class="qa-actions">
+    <button class="danger-button" onclick="resetAllProgress()">Reset lesson progress</button>
+  </div>
+</section>
+
+</main>
+
+<footer class="wrap">Normalisation to 3NF Lab · IB Computer Science A3</footer>
+
+<script>
+/* ---------------------------------------------------------
+   VIDEO JUMP
+--------------------------------------------------------- */
+function jumpTo(seconds){
+  const v=document.getElementById('lessonVideo');
+  v.currentTime=seconds;
+  v.scrollIntoView({behavior:'smooth',block:'center'});
+  v.play();
+}
+
+/* ---------------------------------------------------------
+   PROGRESS (in-memory only — resets on reload, by design)
+--------------------------------------------------------- */
+const complete=new Set();
+function markComplete(id){
+  complete.add(id);
+  document.getElementById('completedCount').textContent=complete.size;
+  document.getElementById('progressBar').style.width=(complete.size/6*100)+'%';
+}
+function unmarkComplete(id){
+  complete.delete(id);
+  document.getElementById('completedCount').textContent=complete.size;
+  document.getElementById('progressBar').style.width=(complete.size/6*100)+'%';
+}
+
+/* ---------------------------------------------------------
+   QUESTION DATA
+--------------------------------------------------------- */
+const questions={
+  q1:{
+    prompt:"1. Which information appears more than once?",
+    hint:"Look at the employee who appears in more than one row. Which details about that person are copied?",
+    groups:[["name"],["address"]],
+    model:"Rick's name and address are duplicated — they're repeated in both rows because he belongs to two departments."
+  },
+  q2:{
+    prompt:"2. If an employee changes address, what could go wrong?",
+    hint:"Imagine someone updates one row but forgets the other. What would the database then say?",
+    groups:[["updat","chang"],["inconsist","wrong","conflict","mismatch","two different","two addresses"]],
+    model:"If you update the address on only one of Rick's rows, the database ends up holding two different addresses for the same person — the data becomes inconsistent (an update anomaly)."
+  },
+  q3:{
+    prompt:"3. Explain normalisation in your own words.",
+    hint:"Think about how you would organise one messy table into smaller, connected tables.",
+    groups:[["table"],["redundan","duplicat","repeat"]],
+    model:"Normalisation is the process of organising data into two or more related tables, linked by keys, so the same information isn't stored more than once."
+  },
+  q4:{
+    prompt:"4. How could splitting one table into related tables help with the problem you identified?",
+    hint:"Which facts describe the employee, and which describe the department? Should both be stored together every time?",
+    groups:[["separat","split","own table","different table"],["foreign key","link","connect"]],
+    model:"Splitting the table separates facts about the employee from facts about the department, so department details are stored once and linked to employees using a foreign key, instead of being repeated for every employee."
+  },
+  q5:{
+    prompt:"5. What does atomic mean for a value in a cell?",
+    hint:"How many separate values should you find in one cell?",
+    groups:[["one value","single value","one piece","indivisible","only one"]],
+    model:"Atomic means a cell holds exactly one indivisible value — not a list and not several values combined."
+  },
+  q6:{
+    prompt:"6. Why can't a list of subjects in one cell meet 1NF?",
+    hint:"Could you easily search for, change, or link just one subject in that list?",
+    groups:[["not atomic","more than one","multiple","a list"],["search","updat","link","separat"]],
+    model:"A cell containing several subjects isn't a single value, so you can't easily search, update or link to just one of those subjects — it breaks the 1NF rule that every value must be atomic."
+  },
+  q7:{
+    prompt:"7. What would one row represent after you separate the subjects?",
+    hint:"Look at the video's student and subject table. What does each new row tell you about one student?",
+    groups:[["one student"],["one subject"]],
+    model:"Each row would represent one student studying one subject — a single student–subject pairing."
+  },
+  q8:{
+    prompt:"8. What is a composite key?",
+    hint:"Can one field uniquely identify a row, or do you need a combination of fields?",
+    groups:[["two or more","combination","together","more than one field","more than one attribute"]],
+    model:"A composite key is a primary key made up of two or more attributes combined, used when no single field can uniquely identify a row on its own."
+  },
+  q9:{
+    prompt:"9. If a table's key is StudentID + SubjectName, does StudentName depend on the whole key or only part of it? What change would you make?",
+    hint:"Would the student's name change depending on which subject they study? Which field alone tells you their name?",
+    groups:[["part","only part","studentid alone","just studentid"],["move","separate table","new table"]],
+    model:"StudentName only depends on StudentID, not on SubjectName — so it depends on only part of the composite key (a partial dependency). This is fixed by moving StudentName into its own Student table."
+  },
+  q10:{
+    prompt:"10. What is a transitive dependency?",
+    hint:"Trace the chain: does the non-key field depend directly on the primary key, or through another non-key field?",
+    groups:[["non-key","not directly","another attribute","indirect"]],
+    model:"A transitive dependency is when a non-key attribute depends on another non-key attribute, rather than depending directly on the primary key."
+  },
+  q11:{
+    prompt:"11. In StudentID, ClassID, ClassroomLocation, if ClassID determines ClassroomLocation, why should ClassroomLocation move to a Class table? How would the tables remain linked?",
+    hint:"If a class moves rooms, how many student records might need updating? Which shared field could connect each student to their class?",
+    groups:[["classid","class table"],["foreign key","link","connect","shared field"]],
+    model:"ClassroomLocation depends on ClassID, not directly on StudentID, so it's a transitive dependency. Moving it into a separate Class table (keyed by ClassID) means the classroom is stored once per class. The Student and Class tables stay linked because ClassID appears in both — as a foreign key in Student referencing the primary key in Class."
+  }
+};
+
+const stages={
+  pause1:["q1","q2"],
+  pause2:["q3","q4"],
+  pause3:["q5","q6","q7"],
+  pause4:["q8","q9"],
+  pause5:["q10","q11"]
+};
+
+const checkedQuestions=new Set();
+
+function renderStage(stageId,qIds){
+  const container=document.getElementById("stage-"+stageId);
+  container.innerHTML=qIds.map(qid=>{
+    const q=questions[qid];
+    return `
+      <div class="qa">
+        <p class="q-prompt">${q.prompt}</p>
+        <textarea class="q-input" id="input-${qid}" placeholder="Write your answer here first…"></textarea>
+        <div class="qa-actions">
+          <button class="hint-btn" onclick="toggleHint('${qid}')">Hint</button>
+          <button class="primary" onclick="checkAnswer('${qid}','${stageId}')">Check my answer</button>
+          <button class="secondary" onclick="toggleModel('${qid}')">Show model answer</button>
+        </div>
+        <div class="hint-output" id="hint-${qid}">${q.hint}</div>
+        <div class="model-output" id="model-${qid}"><strong>Model answer:</strong> ${q.model}</div>
+        <div class="feedback" id="feedback-${qid}" aria-live="polite"></div>
+      </div>
+    `;
+  }).join("");
+}
+
+function toggleHint(qid){
+  document.getElementById("hint-"+qid).classList.toggle("show");
+}
+function toggleModel(qid){
+  document.getElementById("model-"+qid).classList.toggle("show");
+}
+
+function checkAnswer(qid,stageId){
+  const q=questions[qid];
+  const text=document.getElementById("input-"+qid).value.trim().toLowerCase();
+  const feedbackEl=document.getElementById("feedback-"+qid);
+
+  if(!text){
+    feedbackEl.className="feedback show info";
+    feedbackEl.textContent="Write your own answer first, then check it.";
+    return;
+  }
+
+  const hits=q.groups.map(group=>group.some(k=>text.includes(k)));
+  const hitCount=hits.filter(Boolean).length;
+  const total=q.groups.length;
+
+  if(hitCount===total){
+    feedbackEl.className="feedback show good";
+    feedbackEl.textContent="Good — your answer covers the key idea(s). Compare it with the model answer below.";
+  }else if(hitCount>0){
+    feedbackEl.className="feedback show info";
+    feedbackEl.textContent="Partly there — you're missing something. Check the hint, then compare with the model answer.";
+  }else{
+    feedbackEl.className="feedback show bad";
+    feedbackEl.textContent="Not yet — use the hint below, then try again.";
+  }
+
+  checkedQuestions.add(qid);
+
+  const stageQids=stages[stageId];
+  if(stageQids.every(id=>checkedQuestions.has(id))){
+    markComplete(stageId);
+  }
+}
+
+/* ---------------------------------------------------------
+   FINAL CHECK
+--------------------------------------------------------- */
+const finalAnswers={
+  blank1a:["atomic","single value","one value","single","indivisible"],
+  blank1b:["repeating group","repeated group","duplicate group","repeating attribute","repeating groups"],
+  blank2:["whole","entire","complete","full","all of the"],
+  blank3:["other","another","transitive","non-key"]
+};
+
+function checkFinal(){
+  let right=0;
+  const total=Object.keys(finalAnswers).length;
+
+  Object.entries(finalAnswers).forEach(([id,accepted])=>{
+    const el=document.getElementById(id);
+    const val=el.value.trim().toLowerCase();
+    const ok=val && accepted.some(a=>val.includes(a));
+    el.classList.remove("correct","wrong");
+    if(ok){
+      el.classList.add("correct");
+      right++;
+    }else{
+      el.classList.add("wrong");
+    }
+  });
+
+  const feedbackEl=document.getElementById("feedback-final");
+  const modelEl=document.getElementById("model-final");
+
+  if(right===total){
+    feedbackEl.className="feedback show good";
+    feedbackEl.textContent="All correct. You can explain 1NF, 2NF and 3NF in your own words.";
+    modelEl.classList.add("show");
+    markComplete("final");
+  }else{
+    feedbackEl.className="feedback show bad";
+    feedbackEl.textContent=right+"/"+total+" correct. Fix the red blanks and try again, or reveal the model answer below.";
+    modelEl.classList.add("show");
+    unmarkComplete("final");
+  }
+}
+
+function resetFinal(){
+  Object.keys(finalAnswers).forEach(id=>{
+    const el=document.getElementById(id);
+    el.value="";
+    el.classList.remove("correct","wrong");
+  });
+  document.getElementById("feedback-final").className="feedback";
+  document.getElementById("model-final").classList.remove("show");
+  unmarkComplete("final");
+}
+
+/* ---------------------------------------------------------
+   RESET ALL
+--------------------------------------------------------- */
+function resetAllProgress(){
+  const ok=confirm("Reset all progress for this lesson?");
+  if(!ok)return;
+
+  checkedQuestions.clear();
+  complete.clear();
+  document.getElementById('completedCount').textContent="0";
+  document.getElementById('progressBar').style.width="0%";
+
+  Object.keys(stages).forEach(stageId=>renderStage(stageId,stages[stageId]));
+  resetFinal();
+
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---------------------------------------------------------
+   INIT
+--------------------------------------------------------- */
+Object.keys(stages).forEach(stageId=>renderStage(stageId,stages[stageId]));
+</script>
+
+</body>
+</html>

@@ -576,6 +576,35 @@ section.alt { background: var(--white); }
   color: var(--slate);
 }
 
+/* ---------- House winner banner (final result) ---------- */
+
+.house-winner-banner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: color-mix(in srgb, var(--c, var(--navy)) 12%, white);
+  border: 2px solid var(--c, var(--navy));
+  border-radius: var(--radius);
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 1.4rem;
+  max-width: 560px;
+}
+.house-winner-trophy {
+  font-size: 2.2rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.house-winner-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+.house-winner-sub {
+  font-size: 0.9rem;
+  color: var(--slate);
+  margin-top: 0.2rem;
+}
+
 /* ---------- Resource cards ---------- */
 
 .resource-grid {
