@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Nicole's 40th Pool Party</title>
+  <meta name="description" content="You're invited! A family-friendly pool party at The River Club, Bangkok. Saturday 5 December, 11am." />
+  <meta property="og:title" content="Nicole's 40th · Pool Party at The River Club" />
+  <meta property="og:description" content="Saturday 5 December · 11am · Bangkok. Kids welcome! Tap to RSVP." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shojumaru&family=Krona+One&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌴</text></svg>">
+  <style>
+    :root {
+      --sun: #ffb347;
+      --coral: #f0705e;
+      --gold: #f5c76b;
+      --tan: #d1a46a;
+      --pool: #3fd0d4;
+      --pool-deep: #12a3b4;
+      --river: #0b4f5c;
+      --navy: #2e4560;
+      --night: #1f3047;
+      --cream: #ede4d3;
+      --paper: #fbf6ec;
+      --ink: #2e4560;
+      --muted: #6b7a88;
+      --line: #d9ccb4;
+      --radius: 20px;
+      --display: 'Shojumaru', 'Outfit', serif;
+      --wide: 'Krona One', 'Outfit', sans-serif;
+      --tribal-navy: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='18' viewBox='0 0 56 18'%3E%3Cg fill='none' stroke='%232e4560' stroke-width='2.4' stroke-linecap='square'%3E%3Cpath d='M3 14l7-9 7 9M7 14l3-4 3 4'/%3E%3Cpath d='M23 4l8 10M28 4l8 10'/%3E%3C/g%3E%3Crect x='42' y='4' width='3.5' height='10' fill='%232e4560'/%3E%3Crect x='48' y='4' width='3.5' height='10' fill='%232e4560'/%3E%3C/svg%3E");
+      --tribal-cream: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='18' viewBox='0 0 56 18'%3E%3Cg fill='none' stroke='%23ede4d3' stroke-width='2.4' stroke-linecap='square'%3E%3Cpath d='M3 14l7-9 7 9M7 14l3-4 3 4'/%3E%3Cpath d='M23 4l8 10M28 4l8 10'/%3E%3C/g%3E%3Crect x='42' y='4' width='3.5' height='10' fill='%23ede4d3'/%3E%3Crect x='48' y='4' width='3.5' height='10' fill='%23ede4d3'/%3E%3C/svg%3E");
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Outfit', system-ui, sans-serif;
+      color: var(--ink);
+      background: var(--cream);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    h1, h2, h3 { font-family: var(--display); font-weight: 400; line-height: 1.1; margin: 0; letter-spacing: .01em; }
+    a { color: inherit; }
+    .wrap { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+    .ico { width: 1em; height: 1em; flex: none; }
+    .tribal { height: 18px; background: var(--tribal-navy) repeat-x center / auto 18px; }
+    .tribal.cream { background-image: var(--tribal-cream); }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      position: relative;
+      color: var(--paper);
+      text-align: center;
+      padding: 52px 0 calc(max(150px, 14.2vw) + 110px);
+      background:
+        radial-gradient(circle at 50% 108%, rgba(255,179,71,.95) 0 14%, rgba(255,179,71,0) 34%),
+        linear-gradient(180deg, #ff9a76 0%, #ff7e7e 22%, #e76f8f 40%, #8a5a9e 62%, #1d5f73 86%, var(--river) 100%);
+      overflow: hidden;
+    }
+    .hero .sun {
+      position: absolute; left: 50%; bottom: 120px; width: 260px; height: 260px;
+      transform: translateX(-50%); border-radius: 50%;
+      background: radial-gradient(circle, #ffe2a1 0%, #ffc56b 55%, rgba(255,197,107,0) 72%);
+      opacity: .75;
+    }
+    .skyline { position: absolute; left: 0; bottom: 92px; width: 100%; height: max(150px, 14.2vw); pointer-events: none; }
+    .skyline .sk-back { fill: #2a1b3d; opacity: .25; }
+    .skyline .sk-front { fill: #2a1b3d; opacity: .55; }
+    .palm-hero { position: absolute; bottom: 120px; width: 120px; height: 120px; color: #2a1b3d; opacity: .5; pointer-events: none; }
+    .palm-hero.l { left: -12px; } .palm-hero.r { right: -12px; transform: scaleX(-1); }
+    .hero-inner { position: relative; z-index: 2; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--wide); letter-spacing: .14em; text-transform: uppercase; font-size: .72rem;
+      background: rgba(46,69,96,.35); border: 2px solid rgba(251,246,236,.6);
+      padding: 8px 18px; border-radius: 999px;
+    }
+    .forty {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin: 16px auto 6px; font-family: var(--display);
+      font-size: clamp(8.5rem, 28vw, 14rem); line-height: .9;
+    }
+    .forty .four { color: var(--paper); text-shadow: 7px 7px 0 var(--navy); }
+    .ring {
+      width: .76em; height: .76em; border-radius: 50%; position: relative;
+      background: repeating-conic-gradient(var(--coral) 0 45deg, var(--paper) 45deg 90deg);
+      box-shadow: 7px 7px 0 var(--navy);
+      border: 4px solid var(--navy);
+      animation: bob 4s ease-in-out infinite;
+    }
+    .ring::after {
+      content: ""; position: absolute; inset: 28%; border-radius: 50%;
+      background: radial-gradient(circle at 50% 40%, #b46a92, #8a5a9e);
+      border: 4px solid var(--navy);
+    }
+    @keyframes bob { 0%,100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(-12px) rotate(6deg); } }
+    .hero h1 {
+      font-size: clamp(1.9rem, 6vw, 3.4rem); color: var(--paper);
+      text-shadow: 4px 4px 0 var(--navy);
+    }
+    .hero h1 em { font-style: normal; color: var(--gold); }
+    .hero .sub { font-size: clamp(1.02rem, 2.6vw, 1.2rem); margin: 14px auto 24px; max-width: 560px; }
+    .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 9px;
+      background: rgba(31,48,71,.45); border: 2px solid rgba(251,246,236,.45);
+      padding: 9px 16px; border-radius: 999px;
+      font-family: var(--wide); font-size: .72rem; letter-spacing: .06em; text-transform: uppercase;
+    }
+    .chip .ico { width: 18px; height: 18px; color: var(--gold); }
+    .cta {
+      display: inline-block; margin-top: 28px; text-decoration: none;
+      background: var(--paper); color: var(--navy);
+      font-family: var(--wide); text-transform: uppercase; letter-spacing: .1em; font-size: .9rem;
+      padding: 16px 34px; border-radius: 999px; border: 3px solid var(--navy);
+      box-shadow: 5px 5px 0 var(--navy); transition: transform .12s, box-shadow .12s;
+    }
+    .cta:hover { transform: translate(2px, 2px); box-shadow: 3px 3px 0 var(--navy); }
+    .waves { position: absolute; left: 0; right: 0; bottom: -1px; height: 140px; z-index: 1; }
+    .waves svg { position: absolute; bottom: 0; width: 200%; height: 100%; }
+    .waves .w1 { animation: drift 14s linear infinite; }
+    .waves .w2 { animation: drift 9s linear infinite reverse; opacity: .7; }
+    @keyframes drift { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .bubble {
+      position: absolute; bottom: -20px; border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.9), rgba(255,255,255,.15) 60%);
+      animation: rise linear infinite; z-index: 1; pointer-events: none;
+    }
+    @keyframes rise { to { transform: translateY(-420px); opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) {
+      .ring, .waves svg { animation: none !important; }
+      .bubble { display: none; }
+    }
+
+    /* ---------- POOL BAND ---------- */
+    .pool { background: linear-gradient(180deg, var(--pool) 0%, var(--pool-deep) 100%); position: relative; color: var(--paper); padding: 10px 0 34px; }
+    .pool::before {
+      content: ""; position: absolute; inset: 0; opacity: .25; pointer-events: none;
+      background-image:
+        radial-gradient(ellipse 60px 14px at 20% 30%, #fff 30%, transparent 70%),
+        radial-gradient(ellipse 80px 16px at 70% 60%, #fff 30%, transparent 70%),
+        radial-gradient(ellipse 50px 12px at 40% 85%, #fff 30%, transparent 70%);
+      background-size: 340px 220px;
+    }
+    .countdown { position: relative; text-align: center; }
+    .countdown p { margin: 0 0 14px; font-family: var(--wide); letter-spacing: .16em; text-transform: uppercase; font-size: .72rem; }
+    .clock { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+    .unit {
+      min-width: 86px; padding: 14px 10px 12px; border-radius: 16px;
+      background: var(--paper); color: var(--navy); border: 3px solid var(--navy); box-shadow: 4px 4px 0 var(--navy);
+    }
+    .unit b { display: block; font-family: var(--display); font-weight: 400; font-size: 2.2rem; line-height: 1; }
+    .unit span { font-family: var(--wide); font-size: .6rem; text-transform: uppercase; letter-spacing: .12em; }
+    .pool + .tribal { background-color: var(--pool-deep); }
+
+    /* ---------- SECTIONS ---------- */
+    section { padding: 60px 0; }
+    .section-head { text-align: center; margin-bottom: 30px; }
+    .kicker { display: block; color: var(--tan); font-family: var(--wide); letter-spacing: .18em; text-transform: uppercase; font-size: .72rem; }
+    .section-head h2 { font-size: clamp(1.9rem, 5vw, 2.7rem); margin-top: 8px; color: var(--navy); }
+    .section-head p { color: var(--muted); max-width: 580px; margin: 10px auto 0; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px; }
+    .card {
+      background: var(--paper); border-radius: var(--radius); padding: 22px;
+      border: 3px solid var(--navy); box-shadow: 6px 6px 0 var(--navy);
+    }
+    .badge {
+      width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center;
+      border: 2.5px solid var(--navy); color: var(--navy); margin-bottom: 14px;
+    }
+    .badge .ico { width: 28px; height: 28px; }
+    .b-sun { background: #ffe7bf; } .b-pin { background: #cdeff0; } .b-pizza { background: #fbd6cd; } .b-drink { background: #e6d9ef; }
+    .card h3 { font-size: 1.25rem; margin-bottom: 6px; color: var(--navy); }
+    .card p { margin: 0; color: var(--muted); }
+    .card a.link { color: var(--pool-deep); font-weight: 700; text-decoration: none; display: inline-block; margin-top: 8px; }
+    .card a.link:hover { text-decoration: underline; }
+
+    .note {
+      margin-top: 26px; background: var(--navy); color: var(--paper);
+      border-radius: var(--radius); padding: 24px; display: flex; gap: 18px; align-items: flex-start;
+    }
+    .note .badge { background: var(--paper); flex: none; margin: 0; }
+    .note h3 { font-size: 1.2rem; margin-bottom: 6px; color: var(--gold); }
+    .note p { margin: 0; opacity: .92; }
+    .bring { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .bring span {
+      border: 2px solid rgba(251,246,236,.5); border-radius: 999px; padding: 5px 13px;
+      font-family: var(--wide); font-size: .62rem; letter-spacing: .1em; text-transform: uppercase;
+    }
+    .cal { text-align: center; margin-top: 26px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none;
+      border: 3px solid var(--navy); color: var(--navy); background: var(--paper);
+      font-family: var(--wide); text-transform: uppercase; letter-spacing: .08em; font-size: .72rem;
+      padding: 13px 20px; border-radius: 999px; cursor: pointer;
+      box-shadow: 4px 4px 0 var(--navy); transition: transform .12s, box-shadow .12s;
+    }
+    .btn:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--navy); }
+    .btn .ico { width: 20px; height: 20px; }
+
+    /* ---------- DRINKS & MENUS ---------- */
+    .drinks { background: var(--paper); }
+    .drinks-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; align-items: stretch; }
+    @media (max-width: 820px) { .drinks-layout { grid-template-columns: 1fr; } }
+    .freeflow { background: #fff; position: relative; overflow: hidden; }
+    .freeflow .hours {
+      position: absolute; right: -10px; top: -18px; font-family: var(--display); font-size: 7.5rem; line-height: 1;
+      color: var(--cream); pointer-events: none;
+    }
+    .freeflow > * { position: relative; }
+    .freeflow h3 { font-size: clamp(1.7rem, 4.6vw, 2.2rem); }
+    .freeflow .incl { font-family: var(--wide); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; color: var(--tan); margin: 6px 0 18px; }
+    .prices { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
+    .price { border: 3px solid var(--navy); border-radius: 16px; padding: 14px 10px; text-align: center; }
+    .price b { display: block; font-family: var(--display); font-weight: 400; font-size: 2rem; line-height: 1.1; }
+    .price span { font-family: var(--wide); font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; }
+    .price.best { background: var(--gold); position: relative; }
+    .price.best::after {
+      content: "Save 100฿"; position: absolute; top: -12px; right: -6px; background: var(--coral); color: #fff;
+      font-family: var(--wide); font-size: .55rem; letter-spacing: .08em; text-transform: uppercase;
+      padding: 4px 9px; border-radius: 999px; border: 2px solid var(--navy); transform: rotate(4deg);
+    }
+    .wines { list-style: none; padding: 0; margin: 0 0 16px; }
+    .wines li { display: flex; gap: 12px; padding: 10px 0; border-top: 2px dashed var(--line); }
+    .wines .ico { width: 22px; height: 22px; color: var(--coral); margin-top: 2px; }
+    .wines b { display: block; color: var(--navy); }
+    .wines span { color: var(--muted); font-size: .92rem; }
+    .small { color: var(--muted); font-size: .9rem; margin: 0; }
+    .small a { color: var(--pool-deep); font-weight: 600; }
+    .menus { display: flex; flex-direction: column; gap: 14px; }
+    .menus .intro { margin: 0 0 4px; color: var(--muted); }
+    .menu-link {
+      display: flex; align-items: center; gap: 16px; text-decoration: none;
+      background: linear-gradient(135deg, #c98d5f, #b97c51);
+      color: var(--paper); border: 3px solid var(--navy); border-radius: var(--radius);
+      padding: 16px 18px; box-shadow: 5px 5px 0 var(--navy); transition: transform .12s, box-shadow .12s;
+    }
+    .menu-link:hover { transform: translate(2px, 2px); box-shadow: 3px 3px 0 var(--navy); }
+    .menu-link .badge { margin: 0; background: var(--paper); flex: none; width: 50px; height: 50px; }
+    .menu-link b { display: block; font-family: var(--display); font-weight: 400; font-size: 1.3rem; line-height: 1.1; }
+    .menu-link span { font-size: .9rem; opacity: .95; }
+    .menu-link .arrow { margin-left: auto; width: 22px; height: 22px; flex: none; }
+
+    /* ---------- RSVP ---------- */
+    .rsvp-layout { display: grid; grid-template-columns: 1.05fr 1fr; gap: 24px; align-items: start; }
+    @media (max-width: 820px) { .rsvp-layout { grid-template-columns: 1fr; } }
+    form .field { margin-bottom: 18px; }
+    .lbl { display: block; font-weight: 700; margin-bottom: 6px; color: var(--navy); }
+    .hint { color: var(--muted); font-weight: 400; font-size: .88rem; }
+    input[type=text], textarea {
+      width: 100%; font: inherit; color: var(--ink); padding: 13px 15px;
+      border: 2.5px solid var(--line); border-radius: 14px; background: #fff; transition: border-color .15s;
+    }
+    input[type=text]:focus, textarea:focus { outline: none; border-color: var(--navy); }
+    textarea { min-height: 84px; resize: vertical; }
+    .toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .toggle input { position: absolute; opacity: 0; pointer-events: none; }
+    .toggle label {
+      display: block; text-align: center; padding: 13px 8px; border-radius: 14px; cursor: pointer;
+      border: 2.5px solid var(--line); background: #fff; transition: all .15s;
+      font-family: var(--wide); font-size: .66rem; letter-spacing: .06em; text-transform: uppercase;
+    }
+    .toggle input:checked + label { border-color: var(--navy); background: var(--pool); color: var(--navy); box-shadow: 3px 3px 0 var(--navy); }
+    .toggle input#no:checked + label { background: #fbd6cd; }
+    .toggle input:focus-visible + label { outline: 3px solid var(--gold); outline-offset: 2px; }
+    .counts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .stepper { border: 2.5px solid var(--line); border-radius: 16px; padding: 12px; text-align: center; background: #fff; }
+    .stepper .who { font-weight: 700; color: var(--navy); }
+    .stepper .age { font-size: .82rem; color: var(--muted); }
+    .stepper .ctl { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 8px; }
+    .stepper button {
+      width: 40px; height: 40px; border-radius: 50%; border: 2.5px solid var(--navy); cursor: pointer;
+      font-size: 1.3rem; font-weight: 700; background: var(--paper); color: var(--navy); line-height: 1;
+    }
+    .stepper button:hover { background: var(--pool); }
+    .stepper output { font-family: var(--display); font-size: 1.9rem; min-width: 34px; color: var(--navy); }
+    .ff-step { margin-top: 12px; display: flex; align-items: center; gap: 14px; text-align: left; border-color: var(--gold); background: #fff8e8; }
+    .ff-step .txt { flex: 1; }
+    .ff-step .ctl { margin: 0; gap: 10px; }
+    [hidden] { display: none !important; }
+    .submit {
+      width: 100%; cursor: pointer; color: #fff; padding: 17px; border-radius: 999px;
+      font-family: var(--wide); text-transform: uppercase; letter-spacing: .1em; font-size: .85rem;
+      background: var(--coral); border: 3px solid var(--navy); box-shadow: 5px 5px 0 var(--navy);
+      transition: transform .12s, box-shadow .12s, opacity .15s;
+    }
+    .submit:hover { transform: translate(2px, 2px); box-shadow: 3px 3px 0 var(--navy); }
+    .submit:disabled { opacity: .6; cursor: wait; }
+    .hp { position: absolute; left: -9999px; }
+    .msg { margin-top: 16px; padding: 12px 15px; border-radius: 14px; font-weight: 500; display: none; }
+    .msg.ok { display: block; background: #cdeff0; color: var(--river); }
+    .msg.err { display: block; background: #fbd6cd; color: #8a2f20; }
+    .demo { font-size: .85rem; background: #fff1cc; color: #7a5a12; border-radius: 12px; padding: 10px 13px; margin-bottom: 16px; }
+
+    /* ---------- GUEST LIST ---------- */
+    .list-title { display: flex; align-items: center; gap: 10px; font-size: 1.45rem; margin-bottom: 16px; color: var(--navy); }
+    .list-title .ico { width: 30px; height: 30px; }
+    .tally { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 10px; }
+    .tally div { text-align: center; border-radius: 16px; padding: 14px 6px 10px; border: 2.5px solid var(--navy); }
+    .tally b { display: block; font-family: var(--display); font-weight: 400; font-size: 2rem; line-height: 1; }
+    .tally span { font-family: var(--wide); font-size: .58rem; text-transform: uppercase; letter-spacing: .12em; }
+    .t-adults { background: #e6d9ef; } .t-kids { background: #ffe7bf; } .t-total { background: #cdeff0; }
+    .ff-total { font-size: .88rem; color: var(--muted); margin: 0 0 12px; text-align: center; }
+    .guests { list-style: none; margin: 0; padding: 0; max-height: 440px; overflow-y: auto; }
+    .guests li { display: flex; align-items: center; gap: 12px; padding: 11px 2px; border-bottom: 2px dashed var(--line); }
+    .guests li:last-child { border-bottom: none; }
+    .avatar {
+      flex: none; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center;
+      font-family: var(--wide); color: #fff; font-size: .7rem; border: 2px solid var(--navy);
+    }
+    .guests .name { font-weight: 700; flex: 1; min-width: 0; overflow-wrap: anywhere; }
+    .guests .party { font-size: .86rem; color: var(--muted); white-space: nowrap; }
+    .guests li.me .name::after { content: " · you"; color: var(--pool-deep); font-weight: 500; }
+    .empty { text-align: center; color: var(--muted); padding: 20px 0; justify-content: center; }
+    .sub-h { font-family: var(--wide); font-weight: 400; font-size: .62rem; text-transform: uppercase; letter-spacing: .14em; color: var(--tan); margin: 18px 0 6px; }
+    .regrets { color: var(--muted); font-size: .92rem; margin: 0; }
+
+    footer { background: var(--night); color: var(--cream); text-align: center; padding: 0 0 46px; }
+    footer .tribal { margin-bottom: 36px; }
+    footer .palm-badge { width: 76px; height: 76px; border-radius: 50%; border: 2.5px solid var(--cream); display: grid; place-items: center; margin: 0 auto 16px; }
+    footer .palm-badge .ico { width: 44px; height: 44px; }
+    footer .sig { font-family: var(--display); font-size: 1.5rem; color: var(--gold); margin-bottom: 6px; padding: 0 16px; }
+    footer .by { font-family: var(--wide); font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; }
+
+    @media (max-width: 520px) {
+      .hero { padding-top: 40px; }
+      .palm-hero { width: 84px; height: 84px; }
+      .unit { min-width: 70px; } .unit b { font-size: 1.8rem; }
+      .card { padding: 18px; }
+      .note { flex-direction: column; gap: 12px; }
+      .freeflow .hours { font-size: 6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Line-icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></symbol>
+      <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M8 14h2M14 14h2M8 17h2"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 21.5s-7-6.4-7-11.5a7 7 0 0 1 14 0c0 5.1-7 11.5-7 11.5z"/><circle cx="12" cy="10" r="2.6"/></symbol>
+      <symbol id="i-pizza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M12 21.5 3 6.2c5.6-3.2 12.4-3.2 18 0z"/><path d="M4.6 9c4.6-2.4 10.2-2.4 14.8 0"/><circle cx="10" cy="11.5" r="1.2"/><circle cx="14.3" cy="12.2" r="1.2"/><circle cx="12" cy="16" r="1.1"/></symbol>
+      <symbol id="i-cocktail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M3.5 5h14l-7 8z"/><path d="M10.5 13v7.5M6.5 20.5h8"/><path d="M14 3l3.5-1.5"/><circle cx="18.5" cy="6.5" r="2.5"/></symbol>
+      <symbol id="i-wine" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M7 2.5h10c.4 5.6-1.6 9-5 9s-5.4-3.4-5-9z"/><path d="M7.3 6.5h9.4M12 11.5v9M8 21h8"/></symbol>
+      <symbol id="i-bottle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M10 2.5h4M10.5 2.5v4.2C8.5 8 8 9.5 8 11v9.5h8V11c0-1.5-.5-3-2.5-4.3V2.5"/><path d="M8 13.5h8v4H8z"/></symbol>
+      <symbol id="i-bowl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M3 11.5h18a9 9 0 0 1-18 0z"/><path d="M9 11.5 7 4l4 1.5 1 6M14 11.5l2.5-6.5 3 2-3 4.5"/></symbol>
+      <symbol id="i-palm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 22c.4-4.5 1-8.5 1.8-12"/><path d="M12.8 10C11.5 6.8 8.2 5.6 4.5 6.6c2.4.4 4.3 1.6 5.4 3.3"/><path d="M12.8 10c1.3-3.2 4.6-4.4 8.3-3.4-2.4.4-4.3 1.6-5.4 3.3"/><path d="M12.8 10C9.4 9.3 6.2 11 5 14.4c1.2-1.8 3-2.8 5-3"/><path d="M12.8 10c3.4-.7 6.6 1 7.8 4.4-1.2-1.8-3-2.8-5-3"/><path d="M12.8 10c-.4-3 .6-5.6 3-7.2"/><path d="M7.5 22h9"/></symbol>
+      <symbol id="i-ring" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M5.6 5.6l3.6 3.6M14.8 14.8l3.6 3.6M18.4 5.6l-3.6 3.6M9.2 14.8l-3.6 3.6"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    </defs>
+  </svg>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <div class="sun"></div>
+    <svg class="skyline" viewBox="0 0 1200 170" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <path class="sk-back" d="M40 170V101h32V170zM72 170V114h34V170zM106 170V52h24V170zM130 170V74h25V170zM155 170V113h40V170zM195 170V93h38V170zM233 170V109h23V170zM256 170V67h35V170zM291 170V90h24V170zM315 170V50h24V170zM339 170V113h35V170zM374 170V105h48V170zM422 170V113h29V170zM451 170V70h40V170zM491 170V92h23V170zM514 170V103h23V170zM537 170V67h31V170zM568 170V51h26V170zM594 170V81h25V170zM619 170V97h39V170zM658 170V96h25V170zM683 170V108h33V170zM716 170V112h39V170zM755 170V113h40V170zM795 170V94h41V170zM836 170V52h37V170zM873 170V80h35V170zM908 170V62h36V170zM944 170V82h33V170zM977 170V97h29V170zM1006 170V89h44V170zM1050 170V82h24V170zM1074 170V57h38V170zM1112 170V63h32V170zM1144 170V111h16V170z"/>
+      <path class="sk-front" d="M40 170V108h21V170zM61 170V130h9V170zM175 170V131h28V170zM203 170V114h33V170zM236 170V98h19V170zM255 170V92h20V170zM275 170V104h35V170zM310 170V119h28V170zM338 170V102h29V170zM367 170V103h33V170zM400 170V136h20V170zM790 170V123h20V170zM810 170V96h10V170zM930 170V137h20V170zM950 170V99h27V170zM977 170V97h3V170zM1100 170V122h32V170zM1132 170V98h28V170zM530.0 170.0L537.0 151.0L545.4 151.0L551.0 125.8L560.8 125.8L566.4 97.3L574.8 97.3L579.0 72.0L586.0 49.9L593.0 27.8L600.0 12.0L607.0 27.8L614.0 49.9L621.0 72.0L625.2 97.3L633.6 97.3L639.2 125.8L649.0 125.8L654.6 151.0L663.0 151.0L670.0 170.0zM599.0 0h2v12h-2zM500.0 170.0L502.2 159.0L504.8 159.0L506.6 144.2L509.7 144.2L511.4 127.7L514.1 127.7L515.4 113.0L517.6 100.1L519.8 87.2L522.0 78.0L524.2 87.2L526.4 100.1L528.6 113.0L529.9 127.7L532.6 127.7L534.3 144.2L537.4 144.2L539.2 159.0L541.8 159.0L544.0 170.0zM521.0 66h2v12h-2zM656.0 170.0L658.2 159.0L660.8 159.0L662.6 144.2L665.7 144.2L667.4 127.7L670.1 127.7L671.4 113.0L673.6 100.1L675.8 87.2L678.0 78.0L680.2 87.2L682.4 100.1L684.6 113.0L685.9 127.7L688.6 127.7L690.3 144.2L693.4 144.2L695.2 159.0L697.8 159.0L700.0 170.0zM677.0 66h2v12h-2zM455.0 170.0L456.5 162.1L458.3 162.1L459.5 151.5L461.6 151.5L462.8 139.6L464.6 139.6L465.5 129.1L467.0 119.8L468.5 110.6L470.0 104.0L471.5 110.6L473.0 119.8L474.5 129.1L475.4 139.6L477.2 139.6L478.4 151.5L480.5 151.5L481.7 162.1L483.5 162.1L485.0 170.0zM469.0 92h2v12h-2zM715.0 170.0L716.5 162.1L718.3 162.1L719.5 151.5L721.6 151.5L722.8 139.6L724.6 139.6L725.5 129.1L727.0 119.8L728.5 110.6L730.0 104.0L731.5 110.6L733.0 119.8L734.5 129.1L735.4 139.6L737.2 139.6L738.4 151.5L740.5 151.5L741.7 162.1L743.5 162.1L745.0 170.0zM729.0 92h2v12h-2zM90 170V132h60V170zM74 132Q90 128 94 116L146 116Q150 128 166 132zM86 116Q98 112 102 102L138 102Q142 112 154 116zM98 102Q106 98 110 90L130 90Q134 98 142 102zM114 90L120 60L126 90zM836 170V126h69V170zM817 126Q836 122 840 108L900 108Q904 122 923 126zM831 108Q845 104 849 92L891 92Q895 104 909 108zM845 92Q854 88 858 78L882 78Q886 88 895 92zM863 78L870 44L877 78zM1020 170V138h51V170zM1006 138Q1019 134 1023 124L1067 124Q1071 134 1084 138zM1016 124Q1026 120 1030 112L1060 112Q1064 120 1074 124zM1026 112Q1033 108 1037 102L1053 102Q1057 108 1064 112zM1040 102L1045 76L1050 102zM0 167H1200V170H0z"/>
+    </svg>
+    <svg class="palm-hero l" aria-hidden="true"><use href="#i-palm"/></svg>
+    <svg class="palm-hero r" aria-hidden="true"><use href="#i-palm"/></svg>
+    <div class="hero-inner wrap">
+      <span class="eyebrow">You're invited</span>
+      <div class="forty" aria-label="40">
+        <span class="four">4</span><span class="ring" aria-hidden="true"></span>
+      </div>
+      <h1>Nicole's <em>40th</em><br>Pool Party</h1>
+      <p class="sub">A family pool party by the river.</p>
+      <div class="chips">
+        <span class="chip"><svg class="ico"><use href="#i-cal"/></svg>Sat 5 Dec</span>
+        <span class="chip"><svg class="ico"><use href="#i-clock"/></svg>11:00 am</span>
+        <span class="chip"><svg class="ico"><use href="#i-pin"/></svg>The River Club</span>
+      </div>
+      <a class="cta" href="#rsvp">RSVP now</a>
+    </div>
+    <div class="waves" aria-hidden="true">
+      <svg class="w2" viewBox="0 0 2400 140" preserveAspectRatio="none"><path fill="#7fe3e5" d="M0 70 Q150 30 300 70 T600 70 T900 70 T1200 70 T1500 70 T1800 70 T2100 70 T2400 70 V140 H0Z"/></svg>
+      <svg class="w1" viewBox="0 0 2400 140" preserveAspectRatio="none"><path fill="#3fd0d4" d="M0 90 Q150 55 300 90 T600 90 T900 90 T1200 90 T1500 90 T1800 90 T2100 90 T2400 90 V140 H0Z"/></svg>
+    </div>
+  </header>
+
+  <!-- ============ COUNTDOWN ============ -->
+  <div class="pool">
+    <div class="wrap countdown">
+      <p id="countLabel">See you in</p>
+      <div class="clock" id="clock">
+        <div class="unit"><b id="cd-d">–</b><span>days</span></div>
+        <div class="unit"><b id="cd-h">–</b><span>hours</span></div>
+        <div class="unit"><b id="cd-m">–</b><span>mins</span></div>
+        <div class="unit"><b id="cd-s">–</b><span>secs</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="tribal cream"></div>
+
+  <!-- ============ DETAILS ============ -->
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <h2>The details</h2>
+      </div>
+      <div class="grid">
+        <div class="card">
+          <div class="badge b-sun"><svg class="ico"><use href="#i-sun"/></svg></div>
+          <h3>When</h3>
+          <p>Saturday 5 December 2026<br>From 11:00 am</p>
+        </div>
+        <div class="card">
+          <div class="badge b-pin"><svg class="ico"><use href="#i-pin"/></svg></div>
+          <h3>Where</h3>
+          <p>The River Club, Bangkok</p>
+          <a class="link" href="https://share.google/O27UF4zVL8vmin7K0" target="_blank" rel="noopener">Open in Maps →</a>
+        </div>
+        <div class="card">
+          <div class="badge b-pizza"><svg class="ico"><use href="#i-pizza"/></svg></div>
+          <h3>Food</h3>
+          <p>I'll get pizzas and snacks for everyone to share.</p>
+        </div>
+        <div class="card">
+          <div class="badge b-drink"><svg class="ico"><use href="#i-cocktail"/></svg></div>
+          <h3>Drinks &amp; extras</h3>
+          <p>For drinks or anything extra, please start your own bill and order from the menu.</p>
+          <a class="link" href="#drinks">See the menus ↓</a>
+        </div>
+      </div>
+
+      <div class="note">
+        <div class="badge"><svg class="ico"><use href="#i-ring"/></svg></div>
+        <div>
+          <h3>Casual &amp; kid-friendly</h3>
+          <p>No gifts, no dress code. The venue has showers and towels, but you may want to bring your own toiletries.</p>
+          <div class="bring">
+            <span>Swimwear</span><span>Sunscreen</span><span>Toiletries</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cal">
+        <a class="btn" id="calLink" target="_blank" rel="noopener"><svg class="ico"><use href="#i-cal"/></svg>Add to Google Calendar</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="tribal"></div>
+
+  <!-- ============ DRINKS & MENUS ============ -->
+  <section class="drinks" id="drinks">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Drinks &amp; menus</h2>
+      </div>
+
+      <div class="drinks-layout">
+        <div class="card freeflow">
+          <div class="hours" aria-hidden="true">3hr</div>
+          <h3>Free flow · 3 hrs</h3>
+          <p class="incl">Australian wine &amp; all whisky, gin, vodka, beer</p>
+          <div class="prices">
+            <div class="price"><b>990฿</b><span>On the day</span></div>
+            <div class="price best"><b>890฿</b><span>Pre-booked</span></div>
+          </div>
+          <ul class="wines">
+            <li><svg class="ico"><use href="#i-wine"/></svg><div><b>Orbit Reserve</b><span>Sparkling Pinot Noir &amp; Chardonnay: peach, red currant, crisp apple</span></div></li>
+            <li><svg class="ico"><use href="#i-wine"/></svg><div><b>Holy Chard!</b><span>Chardonnay: peach, pear and apple blossom</span></div></li>
+            <li><svg class="ico"><use href="#i-wine"/></svg><div><b>Holy Cab!</b><span>Cabernet Sauvignon: blackberry, cherry, poached pear</span></div></li>
+          </ul>
+          <p class="small">Pre-book in your RSVP below. <a href="img/free-flow.jpg" target="_blank" rel="noopener">See the full poster</a></p>
+        </div>
+
+        <div class="menus">
+          <p class="intro">The River Club menus</p>
+          <a class="menu-link" href="https://www.dropbox.com/scl/fi/83ow2zywej0frq368dbs0/FOOD-RESIZE.pdf?rlkey=d3mif6j2jl0tt4v9iy8gc3utw&amp;st=ktvjoj0g&amp;dl=0" target="_blank" rel="noopener">
+            <span class="badge"><svg class="ico"><use href="#i-bowl"/></svg></span>
+            <span><b>Food</b><span>The full food menu</span></span>
+            <svg class="arrow"><use href="#i-arrow"/></svg>
+          </a>
+          <a class="menu-link" href="https://www.dropbox.com/scl/fi/uz4bo6uuipqjf3tjvqm74/DRINK-RESIZE.pdf?rlkey=s7kyhgh7xcp7te95oszthkpab&amp;st=hqnoulv7&amp;dl=0" target="_blank" rel="noopener">
+            <span class="badge"><svg class="ico"><use href="#i-cocktail"/></svg></span>
+            <span><b>Beverage</b><span>The full drinks menu</span></span>
+            <svg class="arrow"><use href="#i-arrow"/></svg>
+          </a>
+          <a class="menu-link" href="https://www.dropbox.com/scl/fi/6hkqmugf5kihjaw0klt7f/WINE-SPIRIT-RESIZE.pdf?rlkey=9fzjon6mairvck4cuyclkcdf4&amp;st=pape62dx&amp;dl=0" target="_blank" rel="noopener">
+            <span class="badge"><svg class="ico"><use href="#i-bottle"/></svg></span>
+            <span><b>Wine &amp; Spirits</b><span>Wine list &amp; spirits</span></span>
+            <svg class="arrow"><use href="#i-arrow"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tribal"></div>
+
+  <!-- ============ RSVP ============ -->
+  <section id="rsvp">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>RSVP</h2>
+        <p>You can update your RSVP any time.</p>
+      </div>
+
+      <div class="rsvp-layout">
+        <div class="card">
+          <div class="demo" id="demoNote" hidden>
+            <strong>Preview mode:</strong> the shared guest list isn't connected yet, so RSVPs are only saved in this browser.
+          </div>
+          <form id="rsvpForm" novalidate>
+            <div class="field">
+              <label class="lbl" for="guestName">Your name <span class="hint">(or family name, e.g. “The Smiths”)</span></label>
+              <input type="text" id="guestName" name="guestName" maxlength="60" autocomplete="name" required />
+            </div>
+
+            <div class="field">
+              <span class="lbl">Can you make it?</span>
+              <div class="toggle" role="radiogroup">
+                <input type="radio" name="attending" id="yes" value="yes" checked />
+                <label for="yes">Attending</label>
+                <input type="radio" name="attending" id="no" value="no" />
+                <label for="no">Not attending</label>
+              </div>
+            </div>
+
+            <div class="field" id="countsField">
+              <span class="lbl">How many are coming?</span>
+              <div class="counts">
+                <div class="stepper" data-key="adults">
+                  <div class="who">Adults</div>
+                  <div class="age">including you</div>
+                  <div class="ctl">
+                    <button type="button" data-step="-1" aria-label="One fewer adult">−</button>
+                    <output id="adults" aria-live="polite">1</output>
+                    <button type="button" data-step="1" aria-label="One more adult">+</button>
+                  </div>
+                </div>
+                <div class="stepper" data-key="kids">
+                  <div class="who">Kids</div>
+                  <div class="age">under 18</div>
+                  <div class="ctl">
+                    <button type="button" data-step="-1" aria-label="One fewer kid">−</button>
+                    <output id="kids" aria-live="polite">0</output>
+                    <button type="button" data-step="1" aria-label="One more kid">+</button>
+                  </div>
+                </div>
+              </div>
+              <div class="stepper ff-step" data-key="freeFlow">
+                <div class="txt">
+                  <div class="who">Pre-book free flow?</div>
+                  <div class="age">How many adults want the 3-hr free flow at 890฿ (optional)</div>
+                </div>
+                <div class="ctl">
+                  <button type="button" data-step="-1" aria-label="One fewer free flow">−</button>
+                  <output id="freeFlow" aria-live="polite">0</output>
+                  <button type="button" data-step="1" aria-label="One more free flow">+</button>
+                </div>
+              </div>
+            </div>
+
+            <input type="text" class="hp" name="website" id="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <button type="submit" class="submit" id="submitBtn">Send my RSVP</button>
+            <div class="msg" id="formMsg" role="status"></div>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3 class="list-title"><svg class="ico"><use href="#i-ring"/></svg>Who's coming</h3>
+          <div class="tally">
+            <div class="t-adults"><b id="tAdults">0</b><span>Adults</span></div>
+            <div class="t-kids"><b id="tKids">0</b><span>Kids</span></div>
+            <div class="t-total"><b id="tTotal">0</b><span>Total</span></div>
+          </div>
+          <p class="ff-total" id="ffTotal" hidden></p>
+          <ul class="guests" id="guestList"><li class="empty">Loading the guest list…</li></ul>
+          <div id="regretsWrap" hidden>
+            <h4 class="sub-h">Can't make it</h4>
+            <p class="regrets" id="regrets"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="tribal cream"></div>
+    <div class="palm-badge"><svg class="ico"><use href="#i-palm"/></svg></div>
+    <div class="sig">See you there</div>
+    <div class="by">Nicole x</div>
+  </footer>
+
+  <script>
+    /* ------------------------------------------------------------------
+       PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE (see SETUP.md).
+       Leave empty to run in preview mode (RSVPs saved in this browser only).
+       ------------------------------------------------------------------ */
+    const RSVP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwTWTtAl7q-S07vNuHqm2DnY2oBX8j9JLunBvr64rRf_WFXKIhq6YP9G-PI4Bx0efAnZg/exec';
+
+    const PARTY_START = new Date('2026-12-05T11:00:00+07:00');
+    const STORE_KEY = 'nicole40-rsvp-name';
+    const DEMO_KEY = 'nicole40-demo-guests';
+
+    /* ---------- bubbles ---------- */
+    (function bubbles() {
+      const hero = document.querySelector('.hero');
+      for (let i = 0; i < 14; i++) {
+        const b = document.createElement('span');
+        const size = 6 + Math.random() * 16;
+        b.className = 'bubble';
+        b.style.cssText = `left:${Math.random() * 100}%;width:${size}px;height:${size}px;` +
+          `animation-duration:${6 + Math.random() * 8}s;animation-delay:${-Math.random() * 10}s;`;
+        hero.appendChild(b);
+      }
+    })();
+
+    /* ---------- countdown ---------- */
+    function tick() {
+      const diff = PARTY_START - new Date();
+      if (diff <= 0) {
+        document.getElementById('countLabel').textContent = "Today's the day";
+        document.getElementById('clock').hidden = true;
+        return;
+      }
+      const s = Math.floor(diff / 1000);
+      document.getElementById('cd-d').textContent = Math.floor(s / 86400);
+      document.getElementById('cd-h').textContent = Math.floor(s % 86400 / 3600);
+      document.getElementById('cd-m').textContent = Math.floor(s % 3600 / 60);
+      document.getElementById('cd-s').textContent = s % 60;
+    }
+    tick(); setInterval(tick, 1000);
+
+    /* ---------- calendar link ---------- */
+    document.getElementById('calLink').href = 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+      '&text=' + encodeURIComponent("Nicole's 40th Pool Party") +
+      '&dates=20261205T040000Z/20261205T080000Z' +
+      '&details=' + encodeURIComponent('Casual, family-friendly pool party. Pizza & snacks provided. Bring swimwear! RSVP: ' + location.href.split('#')[0]) +
+      '&location=' + encodeURIComponent('The River Club, Bangkok');
+
+    /* ---------- storage helpers ---------- */
+    const store = {
+      get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+      set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+    };
+
+    /* ---------- form ---------- */
+    const form = document.getElementById('rsvpForm');
+    const counts = { adults: 1, kids: 0, freeFlow: 0 };
+    const LIMITS = { adults: [1, 20], kids: [0, 20], freeFlow: [0, 20] };
+    function setCount(key, value) {
+      const [min, max] = LIMITS[key];
+      counts[key] = Math.max(min, Math.min(max, value));
+      counts.freeFlow = Math.min(counts.freeFlow, counts.adults);
+      for (const k in counts) document.getElementById(k).textContent = counts[k];
+    }
+    document.querySelectorAll('.stepper').forEach(st => {
+      const key = st.dataset.key;
+      st.querySelectorAll('button').forEach(btn => btn.addEventListener('click', () => {
+        setCount(key, counts[key] + Number(btn.dataset.step));
+      }));
+    });
+    form.querySelectorAll('input[name=attending]').forEach(r => r.addEventListener('change', () => {
+      document.getElementById('countsField').hidden = form.attending.value !== 'yes';
+    }));
+
+    function showMsg(text, type) {
+      const m = document.getElementById('formMsg');
+      m.textContent = text; m.className = 'msg ' + type;
+    }
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const name = form.guestName.value.trim().replace(/\s+/g, ' ');
+      if (!name) { showMsg('Please add your name so I know who you are!', 'err'); form.guestName.focus(); return; }
+      const attending = form.attending.value;
+      const going = attending === 'yes';
+      const payload = {
+        name,
+        attending,
+        adults: going ? counts.adults : 0,
+        kids: going ? counts.kids : 0,
+        freeFlow: going ? counts.freeFlow : 0,
+        website: form.website.value
+      };
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true; btn.textContent = 'Sending…';
+      try {
+        const guests = await api.submit(payload);
+        store.set(STORE_KEY, name);
+        render(guests);
+        showMsg(going
+          ? `Thanks, ${name}. You're on the list.`
+          : `Thanks for letting me know, ${name}.`, 'ok');
+        btn.textContent = 'Update my RSVP';
+      } catch (err) {
+        showMsg("Hmm, that didn't go through. Please check your connection and try again.", 'err');
+        btn.textContent = 'Send my RSVP';
+      } finally {
+        btn.disabled = false;
+      }
+    });
+
+    /* ---------- API (Google Sheet or local preview) ---------- */
+    const api = RSVP_ENDPOINT ? {
+      async list() {
+        const r = await fetch(RSVP_ENDPOINT + '?t=' + Date.now());
+        const d = await r.json();
+        if (!d.ok) throw new Error(d.error);
+        return d.guests;
+      },
+      async submit(p) {
+        const r = await fetch(RSVP_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(p)
+        });
+        const d = await r.json();
+        if (!d.ok) throw new Error(d.error);
+        return d.guests;
+      }
+    } : {
+      async list() {
+        try { return JSON.parse(store.get(DEMO_KEY)) || []; } catch (e) { return []; }
+      },
+      async submit(p) {
+        const guests = (await this.list()).filter(g => g.name.toLowerCase() !== p.name.toLowerCase());
+        guests.push({ name: p.name, attending: p.attending, adults: p.adults, kids: p.kids, freeFlow: p.freeFlow });
+        store.set(DEMO_KEY, JSON.stringify(guests));
+        return guests;
+      }
+    };
+    document.getElementById('demoNote').hidden = !!RSVP_ENDPOINT;
+
+    /* ---------- guest list ---------- */
+    const COLORS = ['#f0705e', '#12a3b4', '#8a5a9e', '#d1a46a', '#e76f8f', '#2e4560', '#3fb58a'];
+    function colorFor(name) {
+      let h = 0; for (const c of name) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+      return COLORS[h % COLORS.length];
+    }
+    function initials(name) {
+      const parts = name.replace(/^the\s+/i, '').split(' ').filter(Boolean);
+      return ((parts[0] || '?')[0] + (parts.length > 1 ? parts[parts.length - 1][0] : '')).toUpperCase();
+    }
+    function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
+
+    function render(guests) {
+      const me = (store.get(STORE_KEY) || '').toLowerCase();
+      const yes = guests.filter(g => g.attending === 'yes');
+      const no = guests.filter(g => g.attending === 'no');
+      const sum = key => yes.reduce((a, g) => a + Number(g[key] || 0), 0);
+      const adults = sum('adults'), kids = sum('kids'), ff = sum('freeFlow');
+      document.getElementById('tAdults').textContent = adults;
+      document.getElementById('tKids').textContent = kids;
+      document.getElementById('tTotal').textContent = adults + kids;
+      const ffEl = document.getElementById('ffTotal');
+      ffEl.hidden = !ff;
+      ffEl.textContent = plural(ff, 'adult', 'adults') + ' pre-booking free flow';
+
+      const ul = document.getElementById('guestList');
+      ul.innerHTML = '';
+      if (!yes.length) {
+        ul.innerHTML = '<li class="empty">No RSVPs yet.</li>';
+      }
+      yes.forEach(g => {
+        const li = document.createElement('li');
+        if (g.name.toLowerCase() === me) li.className = 'me';
+        const av = document.createElement('span');
+        av.className = 'avatar'; av.style.background = colorFor(g.name); av.textContent = initials(g.name);
+        const nm = document.createElement('span');
+        nm.className = 'name'; nm.textContent = g.name;
+        const pt = document.createElement('span');
+        pt.className = 'party';
+        pt.textContent = plural(Number(g.adults), 'adult', 'adults') + (Number(g.kids) ? ' · ' + plural(Number(g.kids), 'kid', 'kids') : '');
+        li.append(av, nm, pt);
+        ul.appendChild(li);
+      });
+
+      document.getElementById('regretsWrap').hidden = !no.length;
+      document.getElementById('regrets').textContent = no.map(g => g.name).join(', ');
+
+      // Pre-fill the form if this browser has RSVP'd before
+      const mine = guests.find(g => g.name.toLowerCase() === me);
+      if (mine && !form.guestName.value) {
+        form.guestName.value = mine.name;
+        form.querySelector(`#${mine.attending === 'no' ? 'no' : 'yes'}`).checked = true;
+        document.getElementById('countsField').hidden = mine.attending === 'no';
+        counts.adults = Math.max(1, Number(mine.adults) || 1);
+        counts.kids = Number(mine.kids) || 0;
+        setCount('freeFlow', Number(mine.freeFlow) || 0);
+        document.getElementById('submitBtn').textContent = 'Update my RSVP';
+      }
+    }
+
+    async function load() {
+      try { render(await api.list()); }
+      catch (e) {
+        document.getElementById('guestList').innerHTML = '<li class="empty">Couldn\'t load the guest list right now. Try refreshing.</li>';
+      }
+    }
+    load();
+    setInterval(() => { if (!document.hidden) load(); }, 60000);
+  </script>
+</body>
+</html>
