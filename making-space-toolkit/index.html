@@ -42,8 +42,24 @@ h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
 .hero h1 { font-weight: 800; font-size: clamp(38px, 7vw, 72px); line-height: .98; letter-spacing: -.01em; margin-top: 14px; text-transform: uppercase; }
 .hero h1 span { color: var(--teal); display: block; }
 .hero p.lede { color: var(--hero-muted); font-size: 19px; max-width: 34em; margin: 20px 0 0; }
-.thesis { display: flex; flex-wrap: wrap; gap: 10px 28px; margin: 32px 0 0; padding: 18px 0 40px; border-top: 1px solid rgba(255,255,255,.16); color: var(--hero-fg); font-size: 15px; }
-.thesis b { color: var(--yellow); font-family: var(--display); font-size: 17px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.hero-actions a.btn { background: var(--yellow); color: #13232E; }
+.hero-actions a.btn.alt { background: rgba(255,255,255,.12); color: var(--hero-fg); }
+.thesis { margin: 32px 0 0; padding: 22px 0 40px; border-top: 1px solid rgba(255,255,255,.16); color: var(--hero-fg); font-size: 15px; }
+.thesis blockquote { margin: 0; padding-left: 18px; border-left: 4px solid var(--yellow); }
+.thesis blockquote p { margin: 0; color: var(--yellow); font-family: var(--display); font-weight: 700; font-style: italic; font-size: clamp(20px, 3vw, 26px); line-height: 1.25; }
+.thesis .ask { margin: 12px 0 0; padding-left: 22px; color: var(--hero-muted); }
+
+/* section nav */
+.sitenav { position: sticky; top: 0; z-index: 10; background: var(--surface); border-bottom: 1px solid var(--line); }
+.sitenav .wrap { display: flex; align-items: center; gap: 12px; min-height: 54px; }
+.sitenav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; flex: 1; min-width: 0; }
+.sitenav ul::-webkit-scrollbar { display: none; }
+.sitenav li a { display: block; padding: 8px 10px; border-radius: 8px; color: var(--muted); font-weight: 600; font-size: 14px; text-decoration: none; white-space: nowrap; }
+.sitenav li a:hover { color: var(--fg); background: var(--btn2); }
+.sitenav li a[aria-current="true"] { color: var(--btn2-fg); background: var(--btn2); }
+.sitenav a.btn { padding: 9px 12px; flex: none; }
+section { scroll-margin-top: 64px; }
 .stagebar { display: grid; grid-template-columns: repeat(5, 1fr); height: 8px; }
 .stagebar i:nth-child(1) { background: var(--teal); } .stagebar i:nth-child(2) { background: var(--yellow); }
 .stagebar i:nth-child(3) { background: var(--coral); } .stagebar i:nth-child(4) { background: #0B6A8C; }
@@ -89,6 +105,9 @@ button[disabled] { opacity: .55; cursor: default; }
 
 /* presenter */
 .presenter { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 26px; }
+.presenter .who { display: flex; align-items: center; gap: 18px; margin-bottom: 14px; flex-wrap: wrap; }
+.presenter .who img { width: 128px; height: 128px; border-radius: 50%; flex: none; }
+.presenter .who .role { margin-bottom: 0; }
 .presenter h3 { font-size: 26px; font-weight: 800; }
 .presenter .role { color: var(--muted); margin: 2px 0 12px; }
 .presenter ul { margin: 0; padding-left: 18px; color: var(--fg); font-size: 15px; }
@@ -124,10 +143,30 @@ footer .wrap { border-top: 1px solid var(--line); padding-top: 20px; }
     <div class="eyebrow">AIFE Bangkok 2026 · Think Tank toolkit</div>
     <h1>Making space <span>for the human</span></h1>
     <p class="lede">A practical toolkit for using AI and technology to ease educator workload, starting with the question of what that time is for.</p>
-    <div class="thesis"><b>AI saves a teacher 5 hours every week.</b><span>Who should get those five hours?</span></div>
+    <div class="hero-actions">
+      <a class="btn" href="files/MAKING_SPACE_Slides.pdf" download>Download the slides (PDF)</a>
+      <a class="btn alt" href="#toolkit">Get the toolkit</a>
+    </div>
+    <div class="thesis">
+      <blockquote><p>“AI saves a teacher 5 hours every week.”</p></blockquote>
+      <p class="ask">Who should get those five hours?</p>
+    </div>
   </div>
   <div class="stagebar" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
 </header>
+
+<nav class="sitenav" aria-label="Page sections">
+  <div class="wrap">
+    <ul>
+      <li><a href="#framework">Framework</a></li>
+      <li><a href="#toolkit">Toolkit</a></li>
+      <li><a href="#prompt">AI prompt</a></li>
+      <li><a href="#presenter">Presenter</a></li>
+      <li><a href="#sources">Research</a></li>
+    </ul>
+    <a class="btn" href="files/MAKING_SPACE_Slides.pdf" download>Slides</a>
+  </div>
+</nav>
 
 <main>
 <section id="framework">
@@ -208,8 +247,13 @@ Challenge weak assumptions respectfully. Do not invent time savings. When we hav
     <p class="intro">Happy to talk about workload, AI strategy and digital innovation in schools.</p>
     <div class="presenter">
       <div>
-        <h3>Nicole Sargeant</h3>
-        <div class="role">Head of Innovation, Regents International School Pattaya</div>
+        <div class="who">
+          <img src="images/nicole-sargeant.webp" alt="Nicole Sargeant, Apple Distinguished Educator" width="128" height="128">
+          <div>
+            <h3>Nicole Sargeant</h3>
+            <div class="role">Head of Innovation, Regents International School Pattaya</div>
+          </div>
+        </div>
         <ul>
           <li>Computer Science educator and whole-school innovation leader</li>
           <li>Former Regional STEAM Lead, Southeast Asia, including school and MIT collaborations</li>
@@ -267,6 +311,31 @@ Challenge weak assumptions respectfully. Do not invent time savings. When we hav
   document.getElementById('copyEmail').addEventListener('click', function (ev) {
     copyText(em.textContent, ev.currentTarget, { el: em, label: 'Copy' });
   });
+
+  // highlight the nav link for the section currently on screen
+  var links = [].slice.call(document.querySelectorAll('.sitenav li a'));
+  var nav = document.querySelector('.sitenav ul');
+  var current = null, ticking = false;
+  function update() {
+    ticking = false;
+    var line = window.innerHeight * 0.35, active = null;
+    links.forEach(function (a) {
+      var s = document.querySelector(a.getAttribute('href'));
+      if (s && s.getBoundingClientRect().top <= line) active = a;
+    });
+    // the last section is too short to reach the line, so count the page bottom as it
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) active = links[links.length - 1];
+    if (active === current) return;
+    current = active;
+    links.forEach(function (a) {
+      if (a === active) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+    });
+    nav.scrollLeft = active ? active.offsetLeft - 16 : 0;
+  }
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }, { passive: true });
+  update();
 })();
 </script>
 
