@@ -5,6 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Free MAKING SPACE workload toolkit from Nicole Sargeant's AIFE Bangkok 2026 session.">
 <title>MAKING SPACE Toolkit</title>
+<link rel="icon" href="images/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://npsedu.netlify.app/making-space-toolkit/">
+<meta property="og:title" content="MAKING SPACE for the human: free workload toolkit">
+<meta property="og:description" content="AI saves a teacher 5 hours every week. Who should get those five hours? Free resources from Nicole Sargeant's AIFE Bangkok 2026 session.">
+<meta property="og:image" content="https://npsedu.netlify.app/making-space-toolkit/images/share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="MAKING SPACE for the human, AIFE Bangkok 2026 toolkit by Nicole Sargeant">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Public+Sans:wght@400;500;600&display=swap">
 <style>
@@ -80,8 +91,25 @@ section > .wrap > .intro { color: var(--muted); max-width: 40em; margin: 8px 0 2
 
 /* toolkit rows */
 .items { display: grid; gap: 12px; }
-.item { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 18px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; }
-.item .n { font-family: var(--display); font-weight: 800; font-size: 34px; color: var(--c); line-height: 1; }
+.item { display: grid; grid-template-columns: 92px minmax(0, 1fr) auto; gap: 20px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 20px 16px 16px; }
+.item .n { display: inline-block; vertical-align: 3px; margin-right: 8px; font-family: var(--display); font-weight: 800; font-size: 12px; line-height: 1; padding: 4px 6px; border-radius: 5px; background: var(--c); color: #13232E; }
+.item[style*="rethink"] .n { color: var(--btn-fg); }
+.thumb { position: relative; display: block; width: 100%; aspect-ratio: 1 / 1.414; padding: 0; background: #FFFFFF; border: 1px solid var(--line); border-top: 4px solid var(--c); border-radius: 6px; overflow: hidden; cursor: zoom-in; }
+.thumb img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.thumb .zoom { position: absolute; inset: auto 0 0 0; padding: 5px 0; font: 600 11px/1 var(--body); letter-spacing: .06em; text-transform: uppercase; color: #FFFFFF; background: rgba(0, 59, 92, .82); opacity: 0; }
+.thumb:hover .zoom, .thumb:focus-visible .zoom { opacity: 1; }
+.thumb:hover { filter: none; box-shadow: 0 4px 14px rgba(0, 59, 92, .18); }
+
+/* preview dialog */
+.preview { width: min(920px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); padding: 0; border: 0; border-radius: 14px; background: var(--surface); color: var(--fg); overflow: hidden; }
+.preview::backdrop { background: rgba(6, 26, 38, .72); }
+.preview[open] { display: flex; flex-direction: column; }
+.preview .bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.preview h3 { font-size: 18px; }
+.preview .bar .actions { justify-content: flex-start; }
+.preview .page { overflow: auto; background: var(--prompt-bg); padding: 16px; flex: 1; min-height: 0; }
+.preview .page img { display: block; max-width: 100%; height: auto; margin: 0 auto; background: #FFFFFF; box-shadow: 0 2px 12px rgba(0, 0, 0, .15); }
+.preview .note { margin: 0; padding: 8px 16px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); }
 .item h3 { font-size: 19px; font-weight: 700; }
 .item p { margin: 4px 0 0; color: var(--muted); font-size: 14.5px; line-height: 1.5; }
 .item .meta { font-size: 12px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; font-weight: 600; margin-top: 6px; }
@@ -127,8 +155,7 @@ footer .wrap { border-top: 1px solid var(--line); padding-top: 20px; }
   .presenter { grid-template-columns: 1fr; }
 }
 @media (max-width: 600px) {
-  .item { grid-template-columns: 44px minmax(0, 1fr); }
-  .item .n { font-size: 26px; }
+  .item { grid-template-columns: 76px minmax(0, 1fr); gap: 14px; }
   .actions { grid-column: 1 / -1; justify-content: flex-start; }
   .hero .wrap { padding-block: 40px 0; }
 }
@@ -190,33 +217,39 @@ footer .wrap { border-top: 1px solid var(--line); padding-top: 20px; }
     <p class="intro">Five free resources to run this conversation with your own team. The Word versions are editable, so adapt them for your school.</p>
     <div class="items">
       <article class="item" style="--c: var(--teal)">
-        <div class="n">01</div>
-        <div><h3>Meeting-in-a-Box</h3><p>A timed 20-minute plan for running a MAKING SPACE conversation in any team meeting.</p><div class="meta">2 pages · A4</div></div>
+        <button class="thumb" type="button" data-full="images/previews/resource-01.jpg"><img src="images/previews/resource-01-thumb.jpg" alt="" loading="lazy"><span class="zoom">Preview</span></button>
+        <div><h3><span class="n">01</span>Meeting-in-a-Box</h3><p>A timed 20-minute plan for running a MAKING SPACE conversation in any team meeting.</p><div class="meta">2 pages · A4</div></div>
         <div class="actions"><a class="btn" href="files/MAKING_SPACE_01_Meeting_in_a_Box.pdf" download>PDF</a><a class="btn alt" href="files/MAKING_SPACE_01_Meeting_in_a_Box.docx" download>Word</a></div>
       </article>
       <article class="item" style="--c: var(--yellow)">
-        <div class="n">02</div>
-        <div><h3>A3 Group Canvas</h3><p>The printable worksheet used in the session. One per group, with space for each stage and your next step.</p><div class="meta">1 page · print at A3</div></div>
+        <button class="thumb" type="button" data-full="images/previews/resource-02.jpg"><img src="images/previews/resource-02-thumb.jpg" alt="" loading="lazy"><span class="zoom">Preview</span></button>
+        <div><h3><span class="n">02</span>A3 Group Canvas</h3><p>The printable worksheet used in the session. One per group, with space for each stage and your next step.</p><div class="meta">1 page · print at A3</div></div>
         <div class="actions"><a class="btn" href="files/MAKING_SPACE_02_A3_Canvas.pdf" download>PDF</a></div>
       </article>
       <article class="item" style="--c: var(--coral)">
-        <div class="n">03</div>
-        <div><h3>AI Thinking Partner</h3><p>A copy-and-paste prompt that turns an AI tool into a critical workload redesign partner.</p><div class="meta">1 page · A4 · prompt below</div></div>
+        <button class="thumb" type="button" data-full="images/previews/resource-03.jpg"><img src="images/previews/resource-03-thumb.jpg" alt="" loading="lazy"><span class="zoom">Preview</span></button>
+        <div><h3><span class="n">03</span>AI Thinking Partner</h3><p>A copy-and-paste prompt that turns an AI tool into a critical workload redesign partner.</p><div class="meta">1 page · A4 · prompt below</div></div>
         <div class="actions"><a class="btn" href="files/MAKING_SPACE_03_AI_Thinking_Partner.pdf" download>PDF</a><a class="btn alt" href="files/MAKING_SPACE_03_AI_Thinking_Partner.docx" download>Word</a></div>
       </article>
       <article class="item" style="--c: var(--rethink)">
-        <div class="n">04</div>
-        <div><h3>Workload Decision Guide</h3><p>Choose between remove, redesign, automate, AI-assist or leave alone, with decision checks.</p><div class="meta">1 page · A4</div></div>
+        <button class="thumb" type="button" data-full="images/previews/resource-04.jpg"><img src="images/previews/resource-04-thumb.jpg" alt="" loading="lazy"><span class="zoom">Preview</span></button>
+        <div><h3><span class="n">04</span>Workload Decision Guide</h3><p>Choose between remove, redesign, automate, AI-assist or leave alone, with decision checks.</p><div class="meta">1 page · A4</div></div>
         <div class="actions"><a class="btn" href="files/MAKING_SPACE_04_Workload_Decision_Guide.pdf" download>PDF</a><a class="btn alt" href="files/MAKING_SPACE_04_Workload_Decision_Guide.docx" download>Word</a></div>
       </article>
       <article class="item" style="--c: var(--deep)">
-        <div class="n">05</div>
-        <div><h3>30-Day Action Plan</h3><p>Turn one good conversation into a small, testable pilot with an owner, baseline and review date.</p><div class="meta">2 pages · A4</div></div>
+        <button class="thumb" type="button" data-full="images/previews/resource-05.jpg"><img src="images/previews/resource-05-thumb.jpg" alt="" loading="lazy"><span class="zoom">Preview</span></button>
+        <div><h3><span class="n">05</span>30-Day Action Plan</h3><p>Turn one good conversation into a small, testable pilot with an owner, baseline and review date.</p><div class="meta">2 pages · A4</div></div>
         <div class="actions"><a class="btn" href="files/MAKING_SPACE_05_30_Day_Action_Plan.pdf" download>PDF</a><a class="btn alt" href="files/MAKING_SPACE_05_30_Day_Action_Plan.docx" download>Word</a></div>
       </article>
     </div>
-    
-    
+    <dialog class="preview" id="preview" aria-labelledby="previewTitle">
+      <div class="bar">
+        <h3 id="previewTitle"></h3>
+        <div class="actions"><span class="actions" id="previewActions"></span><button class="alt" type="button" id="previewClose">Close</button></div>
+      </div>
+      <div class="page"><img id="previewImg" alt=""></div>
+      <p class="note" id="previewNote"></p>
+    </dialog>
   </div>
 </section>
 
@@ -255,9 +288,10 @@ Challenge weak assumptions respectfully. Do not invent time savings. When we hav
           </div>
         </div>
         <ul>
-          <li>Computer Science educator and whole-school innovation leader</li>
-          <li>Former Regional STEAM Lead, Southeast Asia, including school and MIT collaborations</li>
-          <li>NPQSL (National Professional Qualification for Senior Leadership)</li>
+          <li>Whole-school innovation leader and Computer Science educator</li>
+          <li>Former NAE Regional STEAM Lead, supporting innovation and MIT collaborations across 12 schools in SEA</li>
+          <li>National Professional Qualification for Senior Leadership (NPQSL) programme - ongoing</li>
+          <li>Passionate about using technology to enhance education and create more capacity for what matters most</li>
         </ul>
       </div>
       <div class="contact">
@@ -311,6 +345,26 @@ Challenge weak assumptions respectfully. Do not invent time savings. When we hav
   document.getElementById('copyEmail').addEventListener('click', function (ev) {
     copyText(em.textContent, ev.currentTarget, { el: em, label: 'Copy' });
   });
+
+  // enlarge a toolkit thumbnail, with that resource's download buttons alongside
+  var dlg = document.getElementById('preview');
+  var pImg = document.getElementById('previewImg');
+  document.querySelectorAll('.thumb').forEach(function (t) {
+    var item = t.closest('.item');
+    var title = item.querySelector('h3').lastChild.textContent.trim();
+    t.setAttribute('aria-label', 'Preview ' + title);
+    t.addEventListener('click', function () {
+      var pages = (item.querySelector('.meta').textContent.match(/(\d+) pages?/) || [])[1];
+      document.getElementById('previewTitle').textContent = title;
+      document.getElementById('previewActions').innerHTML = item.querySelector('.actions').innerHTML;
+      document.getElementById('previewNote').textContent = pages > 1 ? 'Showing page 1 of ' + pages + '. Download to see it all.' : 'Preview of the full resource.';
+      pImg.src = t.dataset.full;
+      pImg.alt = 'First page of ' + title;
+      if (dlg.showModal) dlg.showModal(); else window.open(t.dataset.full, '_blank');
+    });
+  });
+  document.getElementById('previewClose').addEventListener('click', function () { dlg.close(); });
+  dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
 
   // highlight the nav link for the section currently on screen
   var links = [].slice.call(document.querySelectorAll('.sitenav li a'));
