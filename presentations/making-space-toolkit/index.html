@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Free MAKING SPACE workload toolkit from Nicole Sargeant's AIFE Bangkok 2026 session.">
+<title>MAKING SPACE Toolkit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: navy hero band carrying the five-stage colour bar, then a single reading column of toolkit rows, prompt, presenter card and sources. */
+:root {
+  --bg: #F5F9FA; --surface: #FFFFFF; --fg: #13232E; --muted: #55646E; --line: #D5E3E8;
+  --navy: #003B5C; --hero-fg: #FFFFFF; --hero-muted: #B5E4E8;
+  --teal: #2EBFC8; --yellow: #FFC714; --coral: #FF3B57; --deep: #00A0B0; --rethink: #003B5C;
+  --link: #007F8A; --btn: #003B5C; --btn-fg: #FFFFFF; --btn2: #E6F3F5; --btn2-fg: #003B5C;
+  --prompt-bg: #F0F6F8; --focus: #FFC714;
+  --display: "Archivo", "Arial Narrow", Arial, sans-serif;
+  --body: "Public Sans", Arial, Helvetica, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #061A26; --surface: #0C2635; --fg: #E6F0F3; --muted: #9DB2BC; --line: #1F4253;
+  --navy: #002B44; --rethink: #5FA3C7; --link: #5FD6DD; --btn: #2EBFC8; --btn-fg: #002B44; --btn2: #14384A; --btn2-fg: #E6F0F3;
+  --prompt-bg: #0A2230; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #061A26; --surface: #0C2635; --fg: #E6F0F3; --muted: #9DB2BC; --line: #1F4253;
+  --navy: #002B44; --rethink: #5FA3C7; --link: #5FD6DD; --btn: #2EBFC8; --btn-fg: #002B44; --btn2: #14384A; --btn2-fg: #E6F0F3;
+  --prompt-bg: #0A2230; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.6; }
+.wrap { max-width: 980px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+a { color: var(--link); }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
+.eyebrow { font-family: var(--display); font-weight: 700; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; }
+
+/* hero */
+.hero { background: var(--navy); color: var(--hero-fg); }
+.hero .wrap { padding-block: 56px 0; }
+.hero .eyebrow { color: var(--yellow); }
+.hero h1 { font-weight: 800; font-size: clamp(38px, 7vw, 72px); line-height: .98; letter-spacing: -.01em; margin-top: 14px; text-transform: uppercase; }
+.hero h1 span { color: var(--teal); display: block; }
+.hero p.lede { color: var(--hero-muted); font-size: 19px; max-width: 34em; margin: 20px 0 0; }
+.thesis { display: flex; flex-wrap: wrap; gap: 10px 28px; margin: 32px 0 0; padding: 18px 0 40px; border-top: 1px solid rgba(255,255,255,.16); color: var(--hero-fg); font-size: 15px; }
+.thesis b { color: var(--yellow); font-family: var(--display); font-size: 17px; }
+.stagebar { display: grid; grid-template-columns: repeat(5, 1fr); height: 8px; }
+.stagebar i:nth-child(1) { background: var(--teal); } .stagebar i:nth-child(2) { background: var(--yellow); }
+.stagebar i:nth-child(3) { background: var(--coral); } .stagebar i:nth-child(4) { background: #0B6A8C; }
+.stagebar i:nth-child(5) { background: var(--deep); }
+
+section { padding-block: 52px 8px; }
+section > .wrap > h2 { font-size: clamp(26px, 4vw, 34px); font-weight: 800; letter-spacing: -.01em; }
+section > .wrap > .intro { color: var(--muted); max-width: 40em; margin: 8px 0 24px; }
+
+/* framework */
+.stages { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+.stage { background: var(--surface); border: 1px solid var(--line); border-top: 6px solid var(--c); border-radius: 10px; padding: 14px 14px 16px; min-width: 0; }
+.stage .num { font-family: var(--display); font-weight: 800; color: var(--muted); font-size: 13px; }
+.stage h3 { font-size: 18px; font-weight: 800; letter-spacing: .04em; margin: 2px 0 6px; }
+.stage p { margin: 0; font-size: 14px; color: var(--muted); line-height: 1.45; }
+.principle { margin-top: 16px; font-size: 15px; }
+.principle b { font-family: var(--display); }
+
+/* toolkit rows */
+.items { display: grid; gap: 12px; }
+.item { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 18px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; }
+.item .n { font-family: var(--display); font-weight: 800; font-size: 34px; color: var(--c); line-height: 1; }
+.item h3 { font-size: 19px; font-weight: 700; }
+.item p { margin: 4px 0 0; color: var(--muted); font-size: 14.5px; line-height: 1.5; }
+.item .meta { font-size: 12px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; font-weight: 600; margin-top: 6px; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+button { font: 600 14px/1 var(--body); border: 0; border-radius: 8px; padding: 11px 14px; cursor: pointer; background: var(--btn); color: var(--btn-fg); white-space: nowrap; }
+a.btnlink { font: 600 14px/1 var(--body); border-radius: 8px; padding: 11px 14px; background: var(--btn); color: var(--btn-fg); text-decoration: none; white-space: nowrap; }
+a.btn { font: 600 14px/1 var(--body); border-radius: 8px; padding: 11px 14px; background: var(--btn); color: var(--btn-fg); text-decoration: none; white-space: nowrap; display: inline-block; }
+a.btn.alt { background: var(--btn2); color: var(--btn2-fg); }
+button.alt { background: var(--btn2); color: var(--btn2-fg); }
+button:hover { filter: brightness(1.08); }
+button[disabled] { opacity: .55; cursor: default; }
+.status { min-height: 1.4em; font-size: 13.5px; color: var(--muted); margin-top: 10px; }
+.fallback { font-size: 14px; color: var(--muted); }
+
+/* prompt */
+.prompt { background: var(--prompt-bg); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; position: relative; }
+.prompt pre { white-space: pre-wrap; word-wrap: break-word; font: 14.5px/1.6 var(--body); margin: 0; color: var(--fg); max-height: 340px; overflow: auto; }
+.prompt .bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+.prompt .bar .eyebrow { color: var(--link); }
+.safety { font-size: 14px; color: var(--muted); margin-top: 12px; }
+
+/* presenter */
+.presenter { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 26px; }
+.presenter h3 { font-size: 26px; font-weight: 800; }
+.presenter .role { color: var(--muted); margin: 2px 0 12px; }
+.presenter ul { margin: 0; padding-left: 18px; color: var(--fg); font-size: 15px; }
+.contact { display: grid; gap: 12px; align-content: start; }
+.contact .row { display: flex; align-items: center; justify-content: space-between; gap: 10px; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; flex-wrap: wrap; }
+.contact .label { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.contact .val { font-weight: 600; user-select: all; overflow-wrap: anywhere; }
+
+.sources ul { padding-left: 18px; margin: 0; }
+.sources li { margin-bottom: 6px; }
+footer { padding-block: 48px; color: var(--muted); font-size: 13px; }
+footer .wrap { border-top: 1px solid var(--line); padding-top: 20px; }
+
+@media (max-width: 820px) {
+  .stages { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stage:last-child { grid-column: 1 / -1; }
+  .presenter { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .item { grid-template-columns: 44px minmax(0, 1fr); }
+  .item .n { font-size: 26px; }
+  .actions { grid-column: 1 / -1; justify-content: flex-start; }
+  .hero .wrap { padding-block: 40px 0; }
+}
+@media (prefers-reduced-motion: no-preference) { button { transition: filter .15s; } }
+</style>
+</head>
+<body>
+
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">AIFE Bangkok 2026 · Think Tank toolkit</div>
+    <h1>Making space <span>for the human</span></h1>
+    <p class="lede">A practical toolkit for using AI and technology to ease educator workload, starting with the question of what that time is for.</p>
+    <div class="thesis"><b>AI saves a teacher 5 hours every week.</b><span>Who should get those five hours?</span></div>
+  </div>
+  <div class="stagebar" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+</header>
+
+<main>
+<section id="framework">
+  <div class="wrap">
+    <h2>The MAKING SPACE framework</h2>
+    <p class="intro">Five questions, in order, for any recurring workload problem. Technology is an option, not the objective.</p>
+    <ol class="stages">
+      <li class="stage" style="--c: var(--teal)"><div class="num">1</div><h3>SPOT</h3><p>Where is time being consumed? Where is the friction?</p></li>
+      <li class="stage" style="--c: var(--yellow)"><div class="num">2</div><h3>QUESTION</h3><p>Why does this work exist? What outcome matters?</p></li>
+      <li class="stage" style="--c: var(--coral)"><div class="num">3</div><h3>PROTECT</h3><p>What must remain meaningfully human?</p></li>
+      <li class="stage" style="--c: var(--rethink)"><div class="num">4</div><h3>RETHINK</h3><p>Remove, redesign, automate, AI-assist or leave alone?</p></li>
+      <li class="stage" style="--c: var(--deep)"><div class="num">5</div><h3>RECLAIM</h3><p>What will we intentionally make space for?</p></li>
+    </ol>
+    <p class="principle"><b>PROTECT comes before RETHINK.</b> Decide what you do not want technology to take away before deciding what it can do.</p>
+  </div>
+</section>
+
+<section id="toolkit">
+  <div class="wrap">
+    <h2>Download the toolkit</h2>
+    <p class="intro">Five free resources to run this conversation with your own team. The Word versions are editable, so adapt them for your school.</p>
+    <div class="items">
+      <article class="item" style="--c: var(--teal)">
+        <div class="n">01</div>
+        <div><h3>Meeting-in-a-Box</h3><p>A timed 20-minute plan for running a MAKING SPACE conversation in any team meeting.</p><div class="meta">2 pages · A4</div></div>
+        <div class="actions"><a class="btn" href="files/MAKING_SPACE_01_Meeting_in_a_Box.pdf" download>PDF</a><a class="btn alt" href="files/MAKING_SPACE_01_Meeting_in_a_Box.docx" download>Word</a></div>
+      </article>
+      <article class="item" style="--c: var(--yellow)">
+        <div class="n">02</div>
+        <div><h3>A3 Group Canvas</h3><p>The printable worksheet used in the session. One per group, with space for each stage and your next step.</p><div class="meta">1 page · print at A3</div></div>
+        <div class="actions"><a class="btn" href="files/MAKING_SPACE_02_A3_Canvas.pdf" download>PDF</a></div>
+      </article>
+      <article class="item" style="--c: var(--coral)">
+        <div class="n">03</div>
+        <div><h3>AI Thinking Partner</h3><p>A copy-and-paste prompt that turns an AI tool into a critical workload redesign partner.</p><div class="meta">1 page · A4 · prompt below</div></div>
+        <div class="actions"><a class="btn" href="files/MAKING_SPACE_03_AI_Thinking_Partner.pdf" download>PDF</a><a class="btn alt" href="files/MAKING_SPACE_03_AI_Thinking_Partner.docx" download>Word</a></div>
+      </article>
+      <article class="item" style="--c: var(--rethink)">
+        <div class="n">04</div>
+        <div><h3>Workload Decision Guide</h3><p>Choose between remove, redesign, automate, AI-assist or leave alone, with decision checks.</p><div class="meta">1 page · A4</div></div>
+        <div class="actions"><a class="btn" href="files/MAKING_SPACE_04_Workload_Decision_Guide.pdf" download>PDF</a><a class="btn alt" href="files/MAKING_SPACE_04_Workload_Decision_Guide.docx" download>Word</a></div>
+      </article>
+      <article class="item" style="--c: var(--deep)">
+        <div class="n">05</div>
+        <div><h3>30-Day Action Plan</h3><p>Turn one good conversation into a small, testable pilot with an owner, baseline and review date.</p><div class="meta">2 pages · A4</div></div>
+        <div class="actions"><a class="btn" href="files/MAKING_SPACE_05_30_Day_Action_Plan.pdf" download>PDF</a><a class="btn alt" href="files/MAKING_SPACE_05_30_Day_Action_Plan.docx" download>Word</a></div>
+      </article>
+    </div>
+    
+    
+  </div>
+</section>
+
+<section id="prompt">
+  <div class="wrap">
+    <h2>Try the AI Thinking Partner</h2>
+    <p class="intro">Paste this into your school-approved AI tool, then describe one workload process.</p>
+    <div class="prompt">
+      <div class="bar"><span class="eyebrow">Master prompt</span><button id="copyBtn">Copy prompt</button></div>
+      <pre id="promptText">Act as a critical, human-centred workload redesign partner for a school leader or educator. Your goal is to reduce unnecessary work and protect the time, professional judgement, relationships, creativity and wellbeing that matter in education. Do not assume AI is the solution.
+
+Guide me through MAKING SPACE, asking ONE or TWO useful questions at a time and waiting for my answers:
+1. SPOT - Identify the task, who does it, how often, where friction or duplication occurs, and what evidence we have.
+2. QUESTION - Why does this work exist? What is its intended outcome? Which requirements are essential, assumed or outdated?
+3. PROTECT - What must remain meaningfully human, including professional judgement, care, safeguarding, feedback and relationships?
+4. RETHINK - Compare REMOVE, REDESIGN, AUTOMATE, AI-ASSIST and LEAVE ALONE. Include a no-technology option. Consider feasibility, workload shifted to others, privacy, bias, quality, accessibility and maintenance.
+5. RECLAIM - Specify how reclaimed capacity will be intentionally protected for teaching, learning, collaboration, relationships or wellbeing.
+
+Challenge weak assumptions respectfully. Do not invent time savings. When we have explored the problem, produce: (a) a concise problem statement; (b) 2-3 realistic options with trade-offs; (c) a recommended small 30-day pilot, named owner and review date; (d) baseline and follow-up measures for workload, quality and reclaimed capacity; (e) risks and safeguards. Begin by asking what workload process we want to examine.</pre>
+    </div>
+    <p class="safety">Do not enter identifiable staff or pupil information, confidential records or safeguarding details. Describe the process generically and check outputs against your school's policies.</p>
+  </div>
+</section>
+
+<section id="presenter">
+  <div class="wrap">
+    <h2>About the presenter</h2>
+    <p class="intro">Happy to talk about workload, AI strategy and digital innovation in schools.</p>
+    <div class="presenter">
+      <div>
+        <h3>Nicole Sargeant</h3>
+        <div class="role">Head of Innovation, Regents International School Pattaya</div>
+        <ul>
+          <li>Computer Science educator and whole-school innovation leader</li>
+          <li>Former Regional STEAM Lead, Southeast Asia, including school and MIT collaborations</li>
+          <li>NPQSL (National Professional Qualification for Senior Leadership)</li>
+        </ul>
+      </div>
+      <div class="contact">
+        <div class="row"><div><div class="label">Email</div><div class="val" id="email">nicole.sargeant@gmail.com</div></div><button class="alt" id="copyEmail">Copy</button></div>
+        <div class="row"><div><div class="label">LinkedIn</div><div class="val">linkedin.com/in/nicole-sargeant</div></div><a class="btnlink" href="https://www.linkedin.com/in/nicole-sargeant/" target="_blank" rel="noopener">Connect</a></div>
+        <div class="row"><div><div class="label">Slides</div><div class="val">Session presentation</div></div><a class="btn alt" href="files/MAKING_SPACE_Slides.pdf" download>PDF</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="sources" class="sources">
+  <div class="wrap">
+    <h2>Research and guidance</h2>
+    <p class="intro">Public resources that informed the staff workload inquiry behind this session.</p>
+    <ul>
+      <li><a href="https://educationendowmentfoundation.org.uk/education-evidence/evidence-reviews/workload-review" target="_blank" rel="noopener">EEF: Workload Review</a></li>
+      <li><a href="https://www.gov.uk/government/publications/conversation-guide-for-workload-and-wellbeing-in-schools-and-academy-trusts/conversation-guide-for-workload-and-wellbeing-in-schools-and-academy-trusts" target="_blank" rel="noopener">DfE: Conversation Guide for Workload and Wellbeing</a></li>
+      <li><a href="https://improve-workload-and-wellbeing-for-school-staff.education.gov.uk/workload-reduction-toolkit/identify-workload-issues/staff-workload-survey/" target="_blank" rel="noopener">DfE: Staff Workload Survey</a></li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    © 2026 Nicole Sargeant. Resources shared under CC BY-NC 4.0: free to use and adapt with credit, not for commercial use. MAKING SPACE is a practical framework developed from a school workload inquiry. It is not an official EEF or DfE framework. Shared at the AI and the Future of Education Conference, Bangkok 2026.
+  </div>
+</footer>
+
+<script>
+(function () {
+  function copyText(text, btn, done) {
+    function fallback() {
+      var r = document.createRange(); r.selectNodeContents(done.el);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      btn.textContent = 'Selected: press Ctrl/Cmd+C';
+    }
+    try {
+      navigator.clipboard.writeText(text).then(function () {
+        btn.textContent = 'Copied';
+        setTimeout(function () { btn.textContent = done.label; }, 1800);
+      }, fallback);
+    } catch (e) { fallback(); }
+  }
+  var pt = document.getElementById('promptText');
+  document.getElementById('copyBtn').addEventListener('click', function (ev) {
+    copyText(pt.textContent, ev.currentTarget, { el: pt, label: 'Copy prompt' });
+  });
+  var em = document.getElementById('email');
+  document.getElementById('copyEmail').addEventListener('click', function (ev) {
+    copyText(em.textContent, ev.currentTarget, { el: em, label: 'Copy' });
+  });
+})();
+</script>
+
+</body>
+</html>
