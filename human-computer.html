@@ -186,7 +186,6 @@ select{min-height:48px;cursor:pointer}
 .wordbox .say,.wordbox .btn{background:transparent;color:var(--on-navy);border-color:var(--navy-soft)}
 footer{font-size:15px;color:var(--muted);padding-block:18px 60px;display:grid;gap:8px}
 footer .row{font-size:15px}
-#summary{min-height:160px;margin-top:8px}
 
 @media(max-width:780px){
   .grid{grid-template-columns:1fr 1fr}.hero svg{display:none}.strip{grid-template-columns:1fr 1fr}
@@ -220,7 +219,7 @@ footer .row{font-size:15px}
   </div>
   <div id="stages"></div>
   <footer>
-    <p>Your answers stay on this device. Your teacher cannot see them here. Before you leave, copy your answers into OneNote and post your poster on Teams.</p>
+    <p>Your answers are saved in this browser on this device. Use the same device and browser to come back to them. Before you leave, post your poster on Teams.</p>
     <div class="row" id="resetrow"><button type="button" class="btn" id="reset">Clear my answers on this device</button></div>
   </footer>
 </main>
@@ -285,7 +284,7 @@ function art(k){const s={cpu:'<rect x="75" y="20" width="90" height="80" rx="10"
   return '<svg viewBox="0 0 240 125" role="img" aria-label="Picture of '+parts.find(p=>p.k===k).name+'">'+s[k]+'</svg>'}
 
 /* Saved work */
-let state={answers:{},done:[],stage:0,clue:{},opened:[],zh:false,demo:false,exported:false};
+let state={answers:{},done:[],stage:0,clue:{},opened:[],zh:false,demo:false};
 try{const s=JSON.parse(localStorage.getItem('humanComputerV2'));if(s&&s.answers&&Array.isArray(s.done))state=Object.assign(state,s)}catch(e){}
 function save(){try{localStorage.setItem('humanComputerV2',JSON.stringify(state))}catch(e){}}
 const A=id=>(state.answers[id]||'');
@@ -416,7 +415,7 @@ const bodyOrder=[2,3,0,5,1,4];
 const stageHTML=[
 ()=>'<h2>Your mission</h2>'
  +line(T('Today you will be a computer detective. Your teacher is away, but this page will help you at every stage.','今天你要当一名计算机侦探。老师不在，但这个网页会在每个阶段帮助你。'))
- +todo([T('Open OneNote and Teams. At the end, your written answers go in OneNote and your poster goes on Teams.','打开 OneNote 和 Teams。最后，书面答案放进 OneNote，海报发到 Teams。'),T('Write the computer parts you remember.','写下你记得的计算机部件。'),T('Press “Check my answer”.','点击“Check my answer”。')])
+ +todo([T('Write your answers on this page. They are saved here. At the end, your poster goes on Teams.','在这个网页上写答案，答案会保存在这里。最后，把海报发到 Teams。'),T('Write the computer parts you remember.','写下你记得的计算机部件。'),T('Press “Check my answer”.','点击“Check my answer”。')])
  +'<div class="scene">'+line(T('<b>Stuck? Do these in order:</b> 1. Press the yellow clue button. 2. Tap a '+W('save','blue word')+' to see what it means. 3. Press the speaker to hear the words. 4. Still stuck? Ask the adult in the room.','卡住了？按顺序做：1. 点击黄色的提示按钮。2. 点击蓝色词语查看意思。3. 点击喇叭听读音。4. 还是不会？问教室里的老师。'))+'</div>'
  +tip(T('Getting it wrong is OK. Clues are there to help you. Use them!','答错没关系。提示就是用来帮助你的，尽管使用！'))
  +ask('recall')
@@ -482,13 +481,11 @@ const stageHTML=[
  +'<div class="ask"><h3>Poster checklist</h3>'+line(T('Tick each one when it is true. You get feedback as you go.','完成一项就勾选一项，过程中会有反馈。'))
  +'<div class="checks">'+[T('My poster has all 6 parts.','我的海报有全部 6 个部件。'),T('Every part has a picture of a body part.','每个部件都有身体部位的图片。'),T('Every part has a sentence about its real job.','每个部件都有一句话说明它真正的工作。'),T('I explained the difference between RAM and storage.','我解释了 RAM 和存储设备的不同。'),T('I replied to the Teams post with my poster picture, and I can read the words.','我已在 Teams 帖子下回复并附上海报图片，而且文字能看清。')].map((t,i)=>'<label><input type="checkbox" data-save="p'+i+'" data-poster id="p'+i+'"><span>'+both(t)+'</span></label>').join('')+'</div><div class="fb" id="fb-poster" aria-live="polite"></div></div>',
 
-()=>'<h2>Finish and hand in</h2>'
- +todo([T('Answer the 3 questions. Check each one.','回答 3 个问题，并逐一检查。'),T('Press “Copy my answers”. Paste them into OneNote.','点击“Copy my answers”，粘贴到 OneNote。'),T('Check your poster is posted as a reply on Teams.','确认海报已作为回复发到 Teams。')])
+()=>'<h2>Finish your mission</h2>'
+ +todo([T('Answer the 3 questions. Check each one.','回答 3 个问题，并逐一检查。'),T('Check your poster is posted as a reply on Teams.','确认海报已作为回复发到 Teams。')])
  +tip(T('Use the words RAM and storage in your first answer. Think about the demo.','第一题要用 RAM 和 storage 这两个词。想想那个演示。'))
  +ask('e1')+ask('e2')+ask('e3')
- +'<div class="scene">'+line(T('<b>Hand in 2 things:</b> your written answers in OneNote, and your poster as a reply to the Teams post. This page does not send your work to your teacher.','提交两样东西：书面答案放进 OneNote，海报回复到 Teams 帖子下。这个网页不会把作品发送给老师。'))
- +'<div class="row" style="margin-top:12px"><button type="button" class="btn primary" data-act="copy">Copy my answers</button><button type="button" class="btn" data-act="download">Download my answers</button></div><p id="exportstatus" role="status" style="margin-top:8px;font-weight:600"></p>'
- +'<details id="summarybox" style="margin-top:8px"><summary>Copy does not work? Open your answers here</summary><textarea id="summary" readonly aria-label="All your answers, ready to copy"></textarea></details></div>'
+ +'<div class="scene">'+line(T('<b>Hand in:</b> your poster, as a reply to the Teams post. Your written answers are saved on this page, so you do not need to copy them anywhere.','提交：把海报回复到 Teams 帖子下。你的书面答案已保存在这个网页上，不需要复制到其他地方。'))+'</div>'
  +'<div class="ask"><h3>Finished early? Choose a challenge</h3>'
  +line(T('<b>Myth buster:</b> Why is “RAM and storage do the same job” wrong?','破除迷思：为什么说“RAM 和存储设备的工作相同”是错的？'))
  +line(T('<b>Riddle:</b> Write 3 clues about a computer part. Do not say its name.','谜语：写 3 条关于某个计算机部件的线索，不要说出它的名称。'))
@@ -505,14 +502,14 @@ function status(n){const a=id=>!!A(id).trim();
    [[T('Solve all 6 clues','解开全部 6 条线索'),clues.every((c,i)=>A('q'+i)!==''&&+A('q'+i)===c.a)]],
    [[T('Try the demo','试用演示'),state.demo],[T('Answer question 1','回答第 1 题'),a('m1')],[T('Answer question 2','回答第 2 题'),a('m2')],[T('Answer question 3','回答第 3 题'),a('m3')],[T('Answer question 4','回答第 4 题'),a('m4')]],
    [[T('Plan your 6 sentences','计划 6 个句子'),parts.every(p=>a('plan_'+p.k))],[T('Tick everything on the checklist','勾选清单上的所有项目'),[0,1,2,3,4].every(i=>!!state.answers['p'+i])]],
-   [[T('Answer question 1','回答第 1 题'),a('e1')],[T('Answer question 2','回答第 2 题'),a('e2')],[T('Answer question 3','回答第 3 题'),a('e3')],[T('Copy or download your answers','复制或下载你的答案'),state.exported]],
+   [[T('Answer question 1','回答第 1 题'),a('e1')],[T('Answer question 2','回答第 2 题'),a('e2')],[T('Answer question 3','回答第 3 题'),a('e3')]],
   ][n]}
 const stageWell=[
  T('You warmed up your memory. Next, meet the 6 parts. Look at the pictures carefully.','你已经热身了。接下来认识 6 个部件，请仔细看图片。'),
  T('You know the parts and their jobs. Next, use the key words to solve the clues.','你认识了这些部件和它们的工作。接下来用关键词解开线索。'),
  T('Great detective work! Next, think hard about RAM and storage.','侦探工作做得很棒！接下来好好想想 RAM 和存储设备。'),
  T('Mystery solved! Next, make your poster. Your answers from this page will help.','谜题解开了！接下来制作海报，这个网页上的答案会帮助你。'),
- T('Well done on your poster! One more stage. Remember to copy your answers.','海报做得很好！还有最后一个阶段，记得复制答案。'),
+ T('Well done on your poster! Just one more stage to go.','海报做得很好！只剩最后一个阶段了。'),
  T('You finished the whole mission. Well done, computer detective!','你完成了全部任务。干得好，计算机侦探！'),
 ];
 function finishStage(n){const list=status(n),el=document.getElementById('finishfb'),todoList=list.filter(x=>!x[1]);
@@ -532,8 +529,7 @@ function render(){const n=Math.max(0,Math.min(5,state.stage||0));state.stage=n;p
   if(n===1){paintOpened();parts.forEach((p,i)=>paintMatch(i));syncOptions()}
   if(n===2){clues.forEach((c,i)=>paintPick(i));paintScore()}
   if(n===3)paintSim();
-  if(n===4)paintPoster();
-  if(n===5)document.getElementById('summary').value=report()}
+  if(n===4)paintPoster()}
 function go(n){state.stage=n;save();speechCancel();closeWord();render();document.querySelector('nav').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'start'})}
 
 function paintOpened(){const el=document.getElementById('opened');if(el)el.textContent='Cards opened: '+state.opened.length+' of 6'+(state.opened.length>=6?' ✓':'')}
@@ -567,18 +563,6 @@ function simToggle(){
     simMsg(sim.lost?'try':'good',sim.store?T('The computer opens your saved work from storage and puts it in RAM. Anything you did not save has gone.','计算机从存储设备打开你保存的作品，并放入 RAM。没有保存的内容都没有了。'):T('Nothing was saved, so there is nothing to open. Type again, and this time press Save first.','没有保存任何内容，所以没有东西可以打开。再输入一次，这次先按 Save。'))}
   paintSim()}
 
-/* Answers for OneNote */
-function report(){let out='THE HUMAN COMPUTER\n\n';
-  const labels={recall:'Memory warm-up',comparison:'Body comparison',m1:'What RAM holds',m2:'What storage keeps',m3:'Why the work was lost',m4:'Advice for Alex'};
-  for(const[k,v]of Object.entries(labels))out+=v+'\n'+(A(k)||'(not done yet)')+'\n\n';
-  const p=parts.find(x=>x.k===A('comparisonPart'));if(p)out=out.replace('Body comparison\n','Body comparison ('+p.short+')\n');
-  out+='COMPUTER DETECTIVE\n';clues.forEach((c,i)=>{const a=A('q'+i);out+=(i+1)+'. '+strip(c.q.en)+'\n'+(a!==''?parts[+a].short+(+a===c.a?' (correct)':' (try again)'):'(not done yet)')+'\n'});
-  out+='Score: '+clues.filter((c,i)=>A('q'+i)!==''&&+A('q'+i)===c.a).length+' of 6\n\nPOSTER SENTENCES\n';
-  parts.forEach(x=>out+=x.short+': '+(A('plan_'+x.k)||'(not done yet)')+'\n');
-  const end={e1:'RAM and storage are different because',e2:'The part I understand best',e3:'What I still want to understand',challenge:'Challenge'};
-  out+='\n';for(const[k,v]of Object.entries(end))out+=v+'\n'+(A(k)||'(not done yet)')+'\n\n';
-  return out+'Remember to post your poster picture as a reply on Teams.\n'}
-function strip(h){const d=document.createElement('div');d.innerHTML=h;return d.textContent}
 
 /* Read aloud */
 const canSpeak='speechSynthesis' in window;if(!canSpeak)document.documentElement.classList.add('no-speech');
@@ -607,10 +591,6 @@ function act(e){const b=e.target.closest('button');if(!b)return;
   if(a==='finish')finishStage(state.stage);
   if(a==='simsave'&&sim.on){if(!sim.ram){simMsg('try',T('Type something first.','请先输入一些内容。'))}else{sim.store=sim.ram;sim.lost=false;paintSim();simMsg('good',T('Saved! A copy is now in storage. Now press Power off and watch.','保存好了！存储设备里已有一份。现在按 Power off 看看。'))}}
   if(a==='simoff')simToggle();
-  if(a==='copy'){const r=report();const done=()=>{state.exported=true;save();document.getElementById('exportstatus').textContent='Copied! Now paste into OneNote. Then post your poster as a reply on Teams.'};
-    const fail=()=>{document.getElementById('summarybox').open=true;const s=document.getElementById('summary');s.focus();s.select();state.exported=true;save();document.getElementById('exportstatus').textContent='Copy the answers in the box below. Then paste them into OneNote.'};
-    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(r).then(done,fail);else fail()}
-  if(a==='download'){const u=URL.createObjectURL(new Blob([report()],{type:'text/plain;charset=utf-8'})),l=document.createElement('a');l.href=u;l.download='human-computer-answers.txt';document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);state.exported=true;save();document.getElementById('exportstatus').textContent='Downloaded. Open the file and copy your answers into OneNote.'}
 }
 document.addEventListener('click',act);
 stages.addEventListener('input',e=>{const el=e.target;
@@ -619,8 +599,7 @@ stages.addEventListener('input',e=>{const el=e.target;
   state.answers[k]=el.type==='checkbox'?el.checked:el.value;save();
   if(el.dataset.match!==undefined)paintMatch(+el.dataset.match);
   if(el.dataset.poster!==undefined)paintPoster();
-  if(k==='comparisonPart'){const s=document.getElementById('st-comparison');if(s)s.textContent=starterOf('comparison')}
-  const sum=document.getElementById('summary');if(sum)sum.value=report()});
+  if(k==='comparisonPart'){const s=document.getElementById('st-comparison');if(s)s.textContent=starterOf('comparison')}});
 stages.addEventListener('toggle',e=>{const k=e.target.dataset&&e.target.dataset.card;if(k&&e.target.open&&!state.opened.includes(k)){state.opened.push(k);save();paintOpened()}},true);
 
 const zhBtn=document.getElementById('zhtoggle');
@@ -631,9 +610,9 @@ document.getElementById('glossarybody').innerHTML=parts.map(p=>'<div data-read c
 
 const resetRow=document.getElementById('resetrow');
 function resetButton(){resetRow.innerHTML='<button type="button" class="btn" id="reset">Clear my answers on this device</button>';document.getElementById('reset').onclick=resetAsk}
-function resetAsk(){resetRow.innerHTML='<span>Have you copied your answers to OneNote and posted your poster on Teams? This cannot be undone.</span> <button type="button" class="btn" id="resetyes">Yes, clear everything</button> <button type="button" class="btn" id="resetno">No, keep my work</button>';
+function resetAsk(){resetRow.innerHTML='<span>This deletes all your answers on this page. It cannot be undone.</span> <button type="button" class="btn" id="resetyes">Yes, clear everything</button> <button type="button" class="btn" id="resetno">No, keep my work</button>';
   document.getElementById('resetno').onclick=resetButton;
-  document.getElementById('resetyes').onclick=()=>{const z=state.zh;state={answers:{},done:[],stage:0,clue:{},opened:[],zh:z,demo:false,exported:false};sim.ram='';sim.store='';sim.on=true;save();resetButton();render()}}
+  document.getElementById('resetyes').onclick=()=>{const z=state.zh;state={answers:{},done:[],stage:0,clue:{},opened:[],zh:z,demo:false};sim.ram='';sim.store='';sim.on=true;save();resetButton();render()}}
 document.getElementById('reset').onclick=resetAsk;
 
 render();paintZh();
