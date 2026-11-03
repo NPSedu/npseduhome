@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Human Computer</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Lexend:wght@400;500;600&display=swap">
+<style>
+/* Layout: a circuit-board trail of six stages, one stage on screen at a time, with big tap targets. */
+:root{
+  --bg:#f1f5fc;--surface:#ffffff;--surface2:#f7f9fe;--ink:#18294c;--muted:#4c5d7c;--line:#d5deee;--field:#b4c2da;
+  --blue:#2b50d0;--on-blue:#ffffff;--blue-soft:#e8eeff;--navy:#18294c;--on-navy:#ffffff;--navy-soft:#cfdcf7;
+  --teal:#0f7f6e;--trace:#47bca8;
+  --clue:#fff3d1;--clue-line:#e2b23f;--clue-ink:#5e4300;
+  --good:#0a6a4b;--good-soft:#e1f6ec;--try:#9a4a06;--try-soft:#fdeedd;
+  --display:"Baloo 2","PingFang SC","Noto Sans SC",system-ui,sans-serif;
+  --body:"Lexend","PingFang SC","Noto Sans SC","Microsoft YaHei",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1830;--surface:#18233f;--surface2:#1e2b4c;--ink:#edf2ff;--muted:#b2bfd8;--line:#31406a;--field:#54658f;
+  --blue:#8ba6ff;--on-blue:#0f1830;--blue-soft:#25346a;--navy:#0a1124;--on-navy:#ffffff;--navy-soft:#cfdcf7;
+  --teal:#4fcdb8;--trace:#47bca8;
+  --clue:#3b3016;--clue-line:#a98526;--clue-ink:#ffe29a;
+  --good:#6fe0b6;--good-soft:#123a30;--try:#ffbf80;--try-soft:#43290f;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1830;--surface:#18233f;--surface2:#1e2b4c;--ink:#edf2ff;--muted:#b2bfd8;--line:#31406a;--field:#54658f;
+  --blue:#8ba6ff;--on-blue:#0f1830;--blue-soft:#25346a;--navy:#0a1124;--on-navy:#ffffff;--navy-soft:#cfdcf7;
+  --teal:#4fcdb8;--trace:#47bca8;
+  --clue:#3b3016;--clue-line:#a98526;--clue-ink:#ffe29a;
+  --good:#6fe0b6;--good-soft:#123a30;--try:#ffbf80;--try-soft:#43290f;
+  color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 18px/1.65 var(--body)}
+button,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--display);line-height:1.15;text-wrap:balance;margin:0}
+h2{font-size:34px}h3{font-size:24px}
+p{margin:0}
+:focus-visible{outline:3px solid #e59123;outline-offset:2px}
+
+.wrap{max-width:1000px;margin:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{background:var(--navy);color:var(--on-navy)}
+.hero{display:flex;justify-content:space-between;align-items:center;gap:24px;padding-block:22px}
+.hero small{font-size:14px;letter-spacing:1.5px;color:var(--navy-soft)}
+h1{font-size:clamp(38px,6vw,58px);margin:4px 0 6px}
+.hero p{color:var(--navy-soft);max-width:560px}
+.hero svg{width:170px;flex-shrink:0}
+
+/* Stage trail */
+.trail{list-style:none;display:grid;grid-template-columns:repeat(6,1fr);gap:0;margin:20px 0 6px;padding:0;position:relative}
+.trail li{position:relative;min-width:0}
+.trail li+li::before{content:"";position:absolute;top:24px;right:50%;width:100%;height:5px;background:var(--line)}
+.trail li.lit+li::before{background:var(--trace)}
+.trail button{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;background:none;border:0;padding:0;cursor:pointer;font-size:14px;color:var(--muted)}
+.dot{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;background:var(--surface);border:3px solid var(--field);font-weight:600;font-size:18px;color:var(--ink)}
+.trail [aria-current] .dot{background:var(--blue);border-color:var(--blue);color:var(--on-blue)}
+.trail .lit .dot,.trail li.lit .dot{background:var(--good-soft);border-color:var(--trace);color:var(--good)}
+.trail li.lit [aria-current] .dot{background:var(--blue);border-color:var(--blue);color:var(--on-blue)}
+.trail [aria-current]{color:var(--ink);font-weight:600}
+.progress{font-size:15px;color:var(--muted);text-align:center;margin-bottom:14px}
+
+/* Help bar */
+.helpbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:14px}
+.helpbar details{flex:1 1 300px;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+details>summary{cursor:pointer;font-weight:600;color:var(--blue)}
+.glossary{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px 22px;margin-top:10px;font-size:16px}
+.glossary>div{min-width:0}
+.btn{min-height:46px;border:2px solid var(--field);border-radius:12px;padding:8px 16px;background:var(--surface);cursor:pointer;font-weight:500}
+.btn:hover{border-color:var(--blue)}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:var(--on-blue);font-weight:600}
+.btn.cluebtn{background:var(--clue);border-color:var(--clue-line);color:var(--clue-ink)}
+.btn:disabled{opacity:.6;cursor:default}
+.zhtoggle[aria-pressed=true]{background:var(--blue);border-color:var(--blue);color:var(--on-blue)}
+
+/* Stage panel */
+section{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:clamp(18px,4vw,34px);display:grid;gap:22px}
+section>*{min-width:0}
+.tag{font-size:15px;color:var(--muted);font-weight:500}
+.zh{display:none;color:var(--muted);font-size:.94em;font-weight:400;margin-top:2px}
+.zh-on .zh{display:block}
+.readline{display:flex;gap:10px;align-items:flex-start}
+.readline .rt{flex:1;min-width:0}
+.say{flex-shrink:0;width:40px;height:40px;border-radius:50%;border:1px solid var(--field);background:var(--surface);color:var(--blue);display:grid;place-items:center;cursor:pointer;padding:0}
+.say svg{width:20px;height:20px}
+.say:hover{border-color:var(--blue)}
+.no-speech .say{display:none}
+.word{display:inline;background:none;border:0;padding:0;margin:0;color:var(--blue);font-weight:600;text-decoration:underline dotted 2px;text-underline-offset:3px;cursor:pointer}
+
+.todo{background:var(--surface2);border-radius:14px;padding:16px 18px}
+.todo h3{font-size:21px;margin-bottom:6px}
+.todo ol{margin:0;padding:0;list-style:none;display:grid;gap:8px;counter-reset:n}
+.todo li{counter-increment:n;display:grid;grid-template-columns:30px 1fr;gap:8px;align-items:start}
+.todo li::before{content:counter(n);width:28px;height:28px;border-radius:8px;background:var(--blue-soft);color:var(--blue);font-weight:600;display:grid;place-items:center;font-size:15px;margin-top:3px}
+.toptip{background:var(--clue);border:1px solid var(--clue-line);color:var(--clue-ink);border-radius:14px;padding:14px 16px}
+.toptip .zh{color:inherit;opacity:.85}
+.toptip .say{color:var(--clue-ink);background:transparent;border-color:var(--clue-line)}
+.scene{background:var(--blue-soft);border-radius:14px;padding:15px 16px}
+
+/* Part cards */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{border:1px solid var(--line);border-radius:16px;padding:14px;background:var(--surface2);min-width:0}
+.card svg{width:100%;height:96px;display:block}
+.card h3{font-size:22px;margin:6px 0 2px}
+.card details{margin-top:6px}
+.card details>div{display:grid;gap:8px;margin-top:8px;font-size:16px}
+
+/* Questions */
+.ask{display:grid;gap:10px;padding-top:20px;border-top:2px solid var(--line)}
+.ask>*{min-width:0}
+.ask label,.qtext{font-weight:600}
+textarea,select{width:100%;border:2px solid var(--field);border-radius:12px;padding:12px;background:var(--surface);color:var(--ink)}
+textarea{min-height:92px;resize:vertical}
+select{min-height:48px;cursor:pointer}
+.starter{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:16px}
+.starter em{font-style:normal;color:var(--muted)}
+.chip{min-height:38px;border:1px solid var(--field);background:var(--surface2);border-radius:20px;padding:3px 13px;font-size:16px;cursor:pointer}
+.chip:hover{border-color:var(--blue)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.clues{display:grid;gap:8px}
+.clueitem{background:var(--clue);border:1px solid var(--clue-line);color:var(--clue-ink);border-radius:12px;padding:10px 14px;font-size:17px}
+.clueitem .zh{color:inherit;opacity:.85}
+.clueitem .say{color:var(--clue-ink);background:transparent;border-color:var(--clue-line)}
+.fb:empty{display:none}
+.fb{border-radius:12px;padding:12px 14px;font-size:17px;display:grid;gap:6px}
+.fb.good{background:var(--good-soft);color:var(--good)}
+.fb.try{background:var(--try-soft);color:var(--try)}
+.fb .zh{color:inherit;opacity:.85}
+.fb .say{background:transparent;color:inherit;border-color:currentColor}
+.fb ul{list-style:none;margin:0;padding:0;display:grid;gap:3px}
+.fb .next{font-weight:600}
+.fb small{font-size:14px;opacity:.9}
+.model{background:var(--surface2);border-radius:12px;padding:10px 14px}
+.model p{margin-top:6px}
+
+/* Detective */
+.choices{display:flex;flex-wrap:wrap;gap:8px}
+.choice{min-height:46px;border:2px solid var(--field);border-radius:12px;background:var(--surface);padding:6px 14px;cursor:pointer;font-weight:500}
+.choice:hover{border-color:var(--blue)}
+.choice.right{background:var(--good-soft);border-color:var(--good);color:var(--good);font-weight:600}
+.choice.wrong{background:var(--try-soft);border-color:var(--try);color:var(--try)}
+.score{font-weight:600;font-size:20px}
+
+/* RAM demo */
+.demo{display:grid;gap:12px;border:2px solid var(--line);border-radius:16px;padding:16px}
+.demo>*{min-width:0}
+.chips2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.chipbox{border:3px solid var(--trace);border-radius:12px;padding:10px 12px;min-height:100px;background:var(--surface2);min-width:0;overflow-wrap:anywhere}
+.chipbox b{display:block}
+.chipbox small{display:block;color:var(--muted);font-size:14px}
+.chipbox .val{margin-top:6px;font-size:16px;min-height:26px}
+.chipbox.off{border-color:var(--field);opacity:.75}
+.simsay{font-weight:600}
+.strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.strip>div{background:var(--surface);border-radius:12px;padding:10px;font-size:16px;min-width:0}
+.strip svg{width:100%;height:58px;display:block;margin-bottom:4px}
+
+/* Poster */
+.poster{display:grid;grid-template-columns:1fr 1fr;gap:10px;border:3px solid var(--blue);border-radius:14px;padding:14px;background:var(--blue-soft)}
+.poster>h3,.poster>.wide{grid-column:1/-1;text-align:center}
+.mini{background:var(--surface);border-radius:10px;padding:10px;text-align:center;font-size:15px;min-width:0}
+.mini svg{height:58px;width:100%}
+.planlist{display:grid;gap:10px}
+.plan{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:var(--surface2)}
+.plan .ask{border:0;padding-top:10px}
+.stepcards{display:grid;gap:10px}
+.stepcard{display:grid;gap:4px;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.stepcard b{font-family:var(--display);font-size:20px}
+.stepcard .time{color:var(--muted);font-size:15px}
+.trouble{display:grid;gap:8px}
+.trouble details{border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.trouble details>div{margin-top:8px}
+.checks{display:grid;gap:6px}
+.checks label{display:flex;gap:12px;align-items:center;min-height:44px;cursor:pointer}
+.checks input{width:26px;height:26px;flex-shrink:0;accent-color:var(--teal)}
+
+/* Stage end */
+.finish{border-top:2px solid var(--line);padding-top:20px;display:grid;gap:12px}
+.finish>*{min-width:0}
+.wordbox{position:fixed;left:0;right:0;bottom:0;background:var(--navy);color:var(--on-navy);z-index:20;padding:14px max(16px,env(safe-area-inset-right,0px)) calc(14px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.wordbox>div{max-width:1000px;margin:auto;display:flex;gap:12px;align-items:flex-start}
+.wordbox .rt{flex:1;min-width:0}
+.wordbox .zh{color:var(--navy-soft)}
+.wordbox .say,.wordbox .btn{background:transparent;color:var(--on-navy);border-color:var(--navy-soft)}
+footer{font-size:15px;color:var(--muted);padding-block:18px 60px;display:grid;gap:8px}
+footer .row{font-size:15px}
+#summary{min-height:160px;margin-top:8px}
+
+@media(max-width:780px){
+  .grid{grid-template-columns:1fr 1fr}.hero svg{display:none}.strip{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+  body{font-size:17px}h2{font-size:29px}
+  .trail button span.name{display:none}.dot{width:42px;height:42px}.trail li+li::before{top:19px}
+  .grid,.chips2{grid-template-columns:1fr}.poster{padding:10px}
+}
+@media(prefers-reduced-motion:no-preference){.dot{transition:background .25s,border-color .25s}}
+@media print{header,.trail,.helpbar,.row,.say,.progress,footer,.wordbox,.finish{display:none!important}body{background:#fff}section{border:0;padding:0}}
+</style>
+</head>
+<body>
+<header><div class="wrap hero">
+  <div>
+    <small>YEAR 7 · COMPUTER SCIENCE · 80 MINUTES</small>
+    <h1>The Human Computer</h1>
+    <p>What is inside a computer? Solve a mystery. Make a poster.</p>
+    <p class="zh" lang="zh-Hans">计算机里面有什么？解开谜题，制作一张海报。</p>
+  </div>
+  <svg viewBox="0 0 260 220" role="img" aria-label="A computer with colourful parts inside"><rect x="40" y="12" width="180" height="190" rx="18" fill="#dce8ff"/><rect x="55" y="28" width="150" height="145" rx="10" fill="#244c69"/><path d="M75 60H180V140H90V95H170" stroke="#47bca8" stroke-width="6" fill="none"/><rect x="95" y="65" width="55" height="55" rx="7" fill="#ffcd70"/><text x="122" y="98" text-anchor="middle" font-size="17" fill="#18294c">CPU</text><rect x="168" y="52" width="15" height="70" rx="3" fill="#9aa9ff"/><circle cx="130" cy="187" r="7" fill="#3158dc"/><path d="M80 207h100" stroke="#8ca6d3" stroke-width="8" stroke-linecap="round"/></svg>
+</div></header>
+
+<main class="wrap">
+  <nav aria-label="Lesson stages"><ol class="trail" id="trail"></ol></nav>
+  <div class="progress" id="progress" aria-live="polite"></div>
+  <div class="helpbar">
+    <button type="button" class="btn zhtoggle" id="zhtoggle" aria-pressed="false" lang="zh-Hans">中文帮助</button>
+    <details id="glossary"><summary>Word help / 词语帮助</summary><div class="glossary" id="glossarybody"></div></details>
+  </div>
+  <div id="stages"></div>
+  <footer>
+    <p>Your answers stay on this device. Your teacher cannot see them here. Before you leave, copy your answers into OneNote and post your poster on Teams.</p>
+    <div class="row" id="resetrow"><button type="button" class="btn" id="reset">Clear my answers on this device</button></div>
+  </footer>
+</main>
+<div class="wordbox" id="wordbox" hidden role="status"></div>
+
+<script>
+const T=(en,zh)=>({en,zh});
+const both=p=>p.en+'<span class="zh" lang="zh-Hans">'+p.zh+'</span>';
+const SAY='<button type="button" class="say" data-act="say" aria-label="Read this to me" title="Read this to me"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>';
+const line=(p,cls='')=>'<div class="readline '+cls+'" data-read><div class="rt">'+both(p)+'</div>'+SAY+'</div>';
+
+const WORDS={
+  data:T('Data = information a computer uses, like words, pictures and numbers.','数据：计算机使用的信息，例如文字、图片和数字。'),
+  instructions:T('Instructions = steps that tell the computer what to do.','指令：告诉计算机做什么的步骤。'),
+  program:T('Program = a set of instructions, like an app or a game.','程序：一组指令，例如应用程序或游戏。'),
+  connect:T('Connect = join things together.','连接：把东西接在一起。'),
+  electricity:T('Electricity = the energy that makes a computer work.','电：让计算机工作的能量。'),
+  protect:T('Protect = keep something safe.','保护：让东西保持安全。'),
+  temporary:T('For a short time = not for long. Another word for this is “temporary”.','短时间：时间不长。也可以说“暂时”。'),
+  save:T('Save = keep your work in storage, so you can use it later.','保存：把作品放进存储设备，以后还能使用。'),
+  file:T('File = one piece of saved work, like a story or a photo.','文件：一份保存的内容，例如一个故事或一张照片。'),
+  lost:T('Lost = gone. You cannot get it back.','丢失：不见了，无法找回。'),
+  autosave:T('Autosave = the computer saves your work for you.','自动保存：计算机替你保存作品。'),
+  comparison:T('Comparison = showing how two things are the same or different.','比较：说明两样东西哪里相同或不同。'),
+  SSD:T('SSD = a fast type of storage. A hard drive is another type.','固态硬盘（SSD）：一种速度快的存储设备。机械硬盘是另一种。'),
+};
+const W=(key,shown)=>'<button type="button" class="word" data-word="'+key+'">'+(shown||key)+'</button>';
+
+const parts=[
+ {k:'cpu',name:'CPU (processor)',short:'CPU',zh:'处理器（CPU）',body:'Brain',bodyZh:'大脑',
+  why:T('Your brain thinks and tells your body what to do.','大脑负责思考，并告诉身体做什么。'),
+  job:T('The CPU follows '+W('instructions')+' and works on '+W('data')+'.','CPU 执行指令并处理数据。'),
+  plain:'The CPU follows instructions and works on data.',starter:'The CPU follows…',
+  rx:/instruction|process|data|calculat|comput|think|command|run/},
+ {k:'board',name:'Motherboard',short:'Motherboard',zh:'主板',body:'Nervous system (nerves)',bodyZh:'神经系统',
+  why:T('Your nerves carry messages around your body.','神经把信息传遍全身。'),
+  job:T('The motherboard '+W('connect','connects')+' all the parts, so they can send messages to each other.','主板把所有部件连接起来，让它们可以互相传递信息。'),
+  plain:'The motherboard connects all the parts, so they can send messages to each other.',starter:'The motherboard connects…',
+  rx:/connect|join|link|communicat|talk|message|signal|together/},
+ {k:'power',name:'Power supply',short:'Power supply',zh:'电源',body:'Heart',bodyZh:'心脏',
+  why:T('Your heart sends blood to every part of your body.','心脏把血液送到身体的每个部分。'),
+  job:T('The power supply gives '+W('electricity')+' to all the parts.','电源为所有部件提供电力。'),
+  plain:'The power supply gives electricity to all the parts.',starter:'The power supply gives…',
+  rx:/electric|energy|(give|provide|send|suppl|bring)\w*\s+(\w+\s+)?power/},
+ {k:'case',name:'Case',short:'Case',zh:'机箱',body:'Skeleton',bodyZh:'骨骼',
+  why:T('Your skeleton holds your body up and protects your organs.','骨骼支撑身体，并保护内脏。'),
+  job:T('The case holds the parts and '+W('protect','keeps them safe')+'.','机箱固定所有部件并保护它们。'),
+  plain:'The case holds the parts and keeps them safe.',starter:'The case holds…',
+  rx:/hold|protect|safe|keep|cover|support/},
+ {k:'ram',name:'RAM',short:'RAM',zh:'内存（RAM）',body:'Short-term memory',bodyZh:'短期记忆',
+  why:T('Short-term memory helps you remember something for a short time.','短期记忆帮助你在短时间内记住事情。'),
+  job:T('RAM holds the '+W('data')+' the computer is using now. When the power goes off, RAM loses it.','RAM 暂时保存计算机正在使用的数据。断电后，这些数据会消失。'),
+  plain:'RAM holds the data the computer is using now. When the power goes off, RAM loses it.',starter:'RAM holds…',
+  rx:/temporar|short|now|using|in use|open|lost|lose|forget|disappear/},
+ {k:'storage',name:'Storage',short:'Storage',zh:'存储设备',body:'Long-term memory',bodyZh:'长期记忆',
+  why:T('Long-term memory helps you remember things for many years.','长期记忆帮助你把事情记很多年。'),
+  job:T('Storage keeps saved '+W('file','files')+' and '+W('program','programs')+', even when the power is off. An '+W('SSD')+' is one type of storage.','存储设备保存文件和程序，即使断电也不会消失。固态硬盘是存储设备的一种。'),
+  plain:'Storage keeps saved files and programs, even when the power is off.',starter:'Storage keeps…',
+  rx:/save|keep|file|program|long|off/},
+];
+function art(k){const s={cpu:'<rect x="75" y="20" width="90" height="80" rx="10" fill="#ffcd70"/><path d="M65 30H50M65 50H50M65 70H50M65 90H50M175 30H190M175 50H190M175 70H190M175 90H190" stroke="#6d8ab8" stroke-width="7"/><text x="120" y="68" text-anchor="middle" font-size="23" fill="#18294c">CPU</text>',board:'<rect x="45" y="10" width="150" height="100" rx="10" fill="#227d71"/><path d="M65 30H160V85H85V60H175" fill="none" stroke="#92dfbb" stroke-width="5"/><rect x="88" y="35" width="45" height="40" fill="#ffcd70"/><rect x="155" y="25" width="13" height="48" fill="#bcbbff"/>',power:'<rect x="55" y="20" width="130" height="85" rx="10" fill="#61799a"/><circle cx="102" cy="62" r="30" fill="#dbe5f5"/><path d="M106 33L88 66H106L97 93L122 54H104Z" fill="#e8a72e"/><path d="M185 50H205V90H220" fill="none" stroke="#d58a56" stroke-width="6"/>',case:'<rect x="77" y="8" width="90" height="108" rx="10" fill="#cfdbed"/><rect x="89" y="20" width="65" height="16" rx="3" fill="#60789c"/><rect x="89" y="44" width="65" height="35" rx="3" fill="#a4b9d8"/><circle cx="121" cy="97" r="7" fill="#3158dc"/>',ram:'<rect x="35" y="30" width="175" height="60" rx="6" fill="#25836b"/><path d="M45 96H200" stroke="#e8b856" stroke-width="10"/><g fill="#18294c"><rect x="48" y="42" width="30" height="35"/><rect x="89" y="42" width="30" height="35"/><rect x="130" y="42" width="30" height="35"/><rect x="171" y="42" width="25" height="35"/></g>',storage:'<rect x="55" y="15" width="130" height="92" rx="12" fill="#b5c9e5"/><rect x="68" y="26" width="104" height="60" rx="5" fill="#fff"/><text x="120" y="65" text-anchor="middle" font-size="24" fill="#3158dc">SSD</text><path d="M80 100H160" stroke="#d5a94f" stroke-width="7"/>'};
+  return '<svg viewBox="0 0 240 125" role="img" aria-label="Picture of '+parts.find(p=>p.k===k).name+'">'+s[k]+'</svg>'}
+
+/* Saved work */
+let state={answers:{},done:[],stage:0,clue:{},opened:[],zh:false,demo:false,exported:false};
+try{const s=JSON.parse(localStorage.getItem('humanComputerV2'));if(s&&s.answers&&Array.isArray(s.done))state=Object.assign(state,s)}catch(e){}
+function save(){try{localStorage.setItem('humanComputerV2',JSON.stringify(state))}catch(e){}}
+const A=id=>(state.answers[id]||'');
+const norm=t=>t.toLowerCase().replace(/[’‘]/g,"'");
+
+const titles=['Start','Explore','Detective','Mystery','Poster','Finish'];
+const times=[T('About 5 minutes','约 5 分钟'),T('About 10 minutes','约 10 分钟'),T('About 10 minutes','约 10 分钟'),T('About 10 minutes','约 10 分钟'),T('About 40 minutes','约 40 分钟'),T('About 5 minutes','约 5 分钟')];
+
+/* Clues for the Detective stage */
+const clues=[
+ {q:T('I follow '+W('instructions')+' and work on '+W('data')+'.','我执行指令并处理数据。'),a:0,
+  hints:[T('Which part is like a brain?','哪个部件像大脑？'),T('It has 3 letters. It starts with C.','它有 3 个字母，以 C 开头。')]},
+ {q:T('I keep your saved photos, even when the computer is off.','即使计算机关机，我也会保存你的照片。'),a:5,
+  hints:[T('Which part is like long-term memory?','哪个部件像长期记忆？'),T('It starts with S. An SSD is one type.','它以 S 开头。固态硬盘（SSD）是其中一种。')]},
+ {q:T('I hold the data you are using now. When the power goes off, I lose it.','我保存你正在使用的数据。断电后，这些数据就没有了。'),a:4,
+  hints:[T('Which part is like short-term memory?','哪个部件像短期记忆？'),T('It has 3 letters. It starts with R.','它有 3 个字母，以 R 开头。')]},
+ {q:T('I '+W('connect')+' all the parts, so they can send messages.','我把所有部件连接起来，让它们可以传递信息。'),a:1,
+  hints:[T('Which part is like your nerves?','哪个部件像神经？'),T('It starts with M. All the other parts plug into it.','它以 M 开头。其他部件都插在它上面。')]},
+ {q:T('I give '+W('electricity')+' to all the parts.','我为所有部件提供电力。'),a:2,
+  hints:[T('Which part is like your heart?','哪个部件像心脏？'),T('It is two words: P… S…','它由两个单词组成：P… S…')]},
+ {q:T('I hold the parts and keep them safe.','我固定所有部件，并保护它们。'),a:3,
+  hints:[T('Which part is like your skeleton?','哪个部件像骨骼？'),T('It is the box around the parts. It starts with C.','它是包住所有部件的盒子，以 C 开头。')]},
+];
+
+/* Written questions: each has things to look for (crit), clues and sometimes a model answer */
+const Q={
+ recall:{q:T('What computer parts can you remember? Write any words. Spelling does not matter.','你还记得哪些计算机部件？写下任何词语都可以，拼写错了也没关系。'),
+  starter:'I remember…',
+  clues:[T('Which part gives the computer electricity?','哪个部件为计算机提供电力？'),T('Where do your photos stay when the computer is off?','计算机关机后，你的照片保存在哪里？'),T('First letters: C _ _ · M _ _ _ _ _ _ _ _ _ _ · P _ _ _ _ S _ _ _ _ _ · C _ _ _ · R _ _ · S _ _ _ _ _ _','首字母提示：C _ _ · M _ _ _ _ _ _ _ _ _ _ · P _ _ _ _ S _ _ _ _ _ · C _ _ _ · R _ _ · S _ _ _ _ _ _')],
+  judge(t){const finds=[['CPU',/\bcpu\b|processor|处理器/],['motherboard',/mother\s*board|main\s*board|主板/],['power supply',/power\s*supply|\bpsu\b|电源/],['case',/\bcase\b|tower|机箱/],['RAM',/\bram\b|memory|内存/],['storage',/storage|hard\s*(drive|disk)|\bssd\b|存储|硬盘/]].filter(f=>f[1].test(t)).map(f=>f[0]);
+   const n=finds.length,notes=[];
+   if(/keyboard|mouse|screen|monitor|speaker|printer/.test(t))notes.push(T('Keyboards, mice and screens are real computer parts. Today we look at the parts that make the computer work.','键盘、鼠标和屏幕也是计算机的部件。今天我们学习让计算机工作的部件。'));
+   if(n===6)return{ok:true,head:T('Wow! You remembered all 6 parts.','太棒了！你记住了全部 6 个部件。'),notes};
+   if(n===0)return{ok:false,head:T('That is OK. This is only a warm-up.','没关系，这只是热身。'),next:T('Tap “Get a clue”, then add one word.','点击“Get a clue”，然后再写一个词。'),notes};
+   return{ok:n>=2,head:T('Good memory! You found '+n+' of 6: '+finds.join(', ')+'.','记得不错！你找到了 6 个中的 '+n+' 个：'+finds.join('、')+'。'),next:T('Can you add one more? Tap “Get a clue” if you want help. You can also move on.','你能再写一个吗？需要帮助可以点击“Get a clue”。也可以继续下一步。'),notes}}},
+ comparison:{q:T('Choose one part. How is its job like the body part?','选择一个部件。它的工作和身体部位有什么相似之处？'),
+  starter(){const p=parts.find(x=>x.k===A('comparisonPart'));return p?'The '+(/^[A-Z]{3}$/.test(p.short)?p.short:p.short.toLowerCase())+' is like the '+p.body.toLowerCase().replace(' (nerves)','')+' because both…':'The ___ is like the ___ because both…'},
+  bank:['because','both','the same','like'],
+  clues:[T('Read the card for your part again. What does the body part do?','再读一遍这个部件的卡片。身体部位做什么？'),T('Now say what the computer part does. Use the same idea.','再说说计算机部件做什么，用同样的思路。'),T('Example: The heart sends blood to the body. The power supply sends electricity to the parts.','例如：心脏把血液送到全身。电源把电送到各个部件。')],
+  judge(t){const p=parts.find(x=>x.k===A('comparisonPart'));
+   if(!p)return{ok:false,head:T('First, choose a part from the list above.','请先从上面的列表中选择一个部件。'),next:T('Then check your answer again.','然后再检查一次答案。')};
+   return items(t,[{label:T('You wrote about the job of this part','你写出了这个部件的工作'),test:p.rx,tip:T('Say what the part does. Look at its card in the list above.','说说这个部件做什么。看看上面的卡片。')},{label:T('You linked it to the body','你把它和身体联系起来了'),test:/because|both|similar|same|just like/,tip:T('Use “because” or “both” to show why they are the same.','用 “because” 或 “both” 说明它们为什么相似。')}],T('Great comparison! Both jobs match.','比较得很好！两者的工作是相似的。'))}},
+ m1:{q:T('1. What does RAM hold for a short time?','1. RAM 会短时间保存什么？'),starter:'RAM holds…',bank:['data','the computer is using','now'],
+  crit:[{label:T('You said what is in RAM','你写出了 RAM 里有什么'),test:/data|information|info|instruction|program|app|file|story|work|thing|stuff|word/,tip:T('Say what is in RAM. Look at the RAM box in the demo.','说说 RAM 里有什么。看看演示中的 RAM 方框。')},{label:T('You said it is only for now','你说明了它只是暂时保存'),test:/temporar|short|now|being used|using|in use|open|until|while/,tip:T('Add when. Is it for a long time, or only while the computer uses it?','加上时间。是保存很久，还是只在计算机使用时保存？')}],
+  warn:[{test:/forever|permanent|long time|long-term/,msg:T('Careful: RAM does not keep things for a long time. That is storage.','注意：RAM 不会长时间保存内容，那是存储设备的工作。')}],
+  clues:[T('Type in the demo again. Which box shows your words first?','再在演示中输入文字。你的文字先出现在哪个方框里？'),T('RAM is like short-term memory. It holds what you are using now.','RAM 像短期记忆，它保存你现在正在使用的内容。'),T('Fill the gaps: RAM holds the ____ the computer is using ____. (data / now)','填空：RAM holds the ____ the computer is using ____.（data / now）')],
+  model:'RAM holds the data and instructions the computer is using now.'},
+ m2:{q:T('2. What does storage keep?','2. 存储设备保存什么？'),starter:'Storage keeps…',bank:['saved files','programs','when the power is off'],
+  crit:[{label:T('You said what is in storage','你写出了存储设备里有什么'),test:/sav|file|photo|program|document|story|game|data|work/,tip:T('Say what storage keeps. Think about your photos and games.','说说存储设备保存什么。想想你的照片和游戏。')},{label:T('You said it stays there','你说明了内容会一直保存'),test:/\boff\b|no power|without power|long|forever|later|always|shut|stay/,tip:T('Add: what happens to these files when the power is off?','再写：断电后这些文件会怎么样？')}],
+  warn:[{test:/lost|lose|delete|disappear|gone|forget/,unless:/\bnot\b|n't|never|does ?nt/,msg:T('Careful: storage does not lose files when the power goes off. RAM does.','注意：断电时存储设备不会丢失文件，RAM 才会。')}],
+  clues:[T('In the demo, press Power off. Which box still has your words?','在演示中按 Power off。哪个方框里还有你的文字？'),T('Storage is like long-term memory. Things stay for a long time.','存储设备像长期记忆，内容可以保存很久。'),T('Fill the gaps: Storage keeps saved ____, even when the power is ____. (files / off)','填空：Storage keeps saved ____, even when the power is ____.（files / off）')],
+  model:'Storage keeps saved files and programs, even when the power is off.'},
+ m3:{q:T('3. Why did Alex lose the new work?','3. 为什么 Alex 丢失了新写的内容？'),starter:'Alex lost the new work because…',bank:['RAM','did not save','the power went off'],
+  crit:[{label:T('You used the word RAM','你用了 RAM 这个词'),test:/\bram\b/,tip:T('Say where the new work was. It was in RAM.','说说新写的内容在哪里。它在 RAM 里。')},{label:T('You said the power went off','你说了断电'),test:/power|electric|\boff\b|shut|battery|plug/,tip:T('Say what happened to the computer.','说说计算机发生了什么。')},{label:T('You said Alex did not save','你说了 Alex 没有保存'),test:/(n't|\bnot\b|never|forgot|without|\bno\b|didnt)[^.]{0,25}sav|unsaved/,tip:T('Say what Alex forgot to do before the power went off.','说说断电前 Alex 忘记做什么了。')}],
+  clues:[T('Press Power off in the demo without saving. Watch the RAM box.','在演示中不保存就按 Power off，观察 RAM 方框。'),T('You need 3 ideas: did not save + work was in RAM + power went off.','你需要写 3 点：没有保存 + 内容在 RAM 里 + 断电了。'),T('Fill the gaps: Alex did not ____, so the work was only in ____. The power went off, and RAM lost it. (save / RAM)','填空：Alex did not ____, so the work was only in ____. The power went off, and RAM lost it.（save / RAM）')],
+  model:'Alex did not save, so the new work was only in RAM. When the power went off, RAM lost it.'},
+ m4:{q:T('4. What should Alex do next time?','4. 下次 Alex 应该怎么做？'),starter:'Next time, Alex should…',bank:['save','often','every few minutes'],
+  crit:[{label:T('You said what to do','你写出了应该做什么'),test:/sav/,tip:T('Which button should Alex press?','Alex 应该按哪个按钮？')},{label:T('You said when or how often','你写出了什么时候或多久一次'),test:/often|regular|every|a lot|frequent|before|more|always|keep|minute|many|times/,tip:T('Add when. How often should Alex do it?','加上时间。Alex 应该多久做一次？')}],
+  clues:[T('Saving moves a copy to a safe place. Which part is safe when the power goes off?','保存会把一份内容放到安全的地方。断电时哪个部件是安全的？'),T('Should Alex do it once, or many times?','Alex 应该做一次，还是很多次？'),T('Fill the gaps: Next time, Alex should ____ the work ____. (save / often)','填空：Next time, Alex should ____ the work ____.（save / often）')],
+  model:'Next time, Alex should save the work often, so a copy stays in storage.'},
+ e1:{q:T('1. RAM and storage are different because…','1. RAM 和存储设备不同，因为……'),starter:'RAM and storage are different because…',bank:['RAM loses data','storage keeps files','when the power is off'],
+  crit:[{label:T('You wrote about RAM and storage','你写到了 RAM 和存储设备'),test:t=>/\bram\b/.test(t.replace('ram and storage are different because',''))&&/stor|\bssd\b|hard drive/.test(t.replace('ram and storage are different because','')),tip:T('Write one idea about RAM and one idea about storage.','写一点关于 RAM 的内容，再写一点关于存储设备的内容。')},{label:T('You said what RAM does','你写出了 RAM 的特点'),test:/lost|lose|forget|disappear|gone|temporar|short|now|using|empty|wipe|clear/,tip:T('What happens to RAM when the power goes off?','断电时 RAM 会怎么样？')},{label:T('You said what storage does','你写出了存储设备的特点'),test:/keep|save|stay|long|remain|forever|safe/,tip:T('What happens to saved files when the power goes off?','断电时保存的文件会怎么样？')}],
+  clues:[T('Think about the demo. What happened when you pressed Power off?','想想演示。按 Power off 时发生了什么？'),T('Try two sentences: one about RAM, one about storage.','试着写两句话：一句关于 RAM，一句关于存储设备。'),T('Fill the gaps: RAM ____ its data when the power is off, but storage ____ saved files. (loses / keeps)','填空：RAM ____ its data when the power is off, but storage ____ saved files.（loses / keeps）')],
+  model:'RAM holds data for a short time and loses it when the power is off, but storage keeps saved files.'},
+ e2:{q:T('2. The part I understand best is… Its job is…','2. 我最了解的部件是……它的工作是……'),starter:'The part I understand best is… Its job is…',
+  clues:[T('Which card in Stage 2 was easiest for you?','第 2 阶段中哪张卡片对你来说最容易？'),T('Write the name of the part. Then write what it does.','先写部件的名称，再写它做什么。')],
+  judge(t){const q=t.replace('the part i understand best is','').replace('its job is','');
+   const nameRx={cpu:/\bcpu\b|processor/,board:/motherboard|mother board/,power:/power supply|\bpsu\b/,case:/\bcase\b/,ram:/\bram\b/,storage:/storage|\bssd\b|hard drive/};
+   const p=parts.find(x=>nameRx[x.k].test(q));
+   if(!p)return{ok:false,head:T('I cannot see a part name yet.','我还没有看到部件名称。'),next:T('Write the name of one of the 6 parts.','写出 6 个部件中一个的名称。')};
+   return items(q,[{label:T('You named the '+p.short,'你写出了 '+p.zh),test:/./,tip:T('','')},{label:T('You explained its job','你说明了它的工作'),test:p.rx,tip:T('Say what the '+p.short+' does. '+p.plain,'说说 '+p.zh+' 做什么。')}],T('Clear explanation! You know this part well.','说得很清楚！你很了解这个部件。'))}},
+ e3:{q:T('3. One thing I still want to understand is…','3. 我还想弄明白的一件事是……'),starter:'I still want to understand…',
+  clues:[T('There is no wrong answer. Your teacher will read this to help you next lesson.','这题没有错误答案。老师会阅读你的回答，下节课帮助你。'),T('Not sure? Try: I still want to understand how the CPU…','不确定？可以写：I still want to understand how the CPU…')],
+  judge(t){return /\w+\s+\w+\s+\w+/.test(t)&&t.replace(/i still want to understand/,'').trim().length>3?{ok:true,head:T('Thank you! Good learners ask questions. Your teacher can help with this.','谢谢！善于学习的人都会提问。老师可以帮助你解决这个问题。')}:{ok:false,head:T('Finish your sentence.','请把句子写完。'),next:T('What was difficult today? Write one thing.','今天哪里比较难？写一件事。')}}},
+ challenge:{q:T('Write your challenge answer here.','在这里写下你的挑战答案。'),
+  clues:[T('Myth buster: say what RAM does, then what storage does.','破除迷思：先说 RAM 做什么，再说存储设备做什么。'),T('Riddle: start with a hard clue. Make the last clue easy.','谜语：先写难的线索，最后一条写简单的。'),T('Think deeper: name one way they are the same and one way they are different.','深入思考：说一个相同点和一个不同点。')],
+  judge(t){return /(\w+\s+){7,}/.test(t)?{ok:true,head:T('Nice thinking! Can you add an example?','想得很好！你能再加一个例子吗？')}:{ok:false,head:T('Good start.','开头不错。'),next:T('Write a little more. Try using “because”.','再多写一点。试着用 “because”。')}}},
+};
+parts.forEach(p=>{Q['plan_'+p.k]={q:T('Your sentence for '+p.short,p.zh+' 的句子'),starter:p.starter,
+  crit:[{label:T('Your sentence explains the real job','你的句子说明了真正的工作'),test:p.rx,tip:T('Say what the '+p.short+' does for the computer. Tap “Get a clue” for help.','说说 '+p.zh+' 为计算机做什么。需要帮助可以点击“Get a clue”。')}],
+  clues:[T('Body clue: '+p.body+'. '+p.why.en+' What does this part do for the computer?','身体提示：'+p.bodyZh+'。'+p.why.zh+' 这个部件为计算机做什么？'),T('Look back at this part in Stage 2.','回到第 2 阶段看看这个部件。'),T(p.plain+' Now write it in your own words.',p.job.zh+' 现在用自己的话写一写。')],
+  praise:T('Accurate! Use this sentence on your poster.','正确！把这句话放到海报上吧。')}});
+
+function items(t,crit,praise){const res=crit.map(c=>Object.assign({},c,{ok:typeof c.test==='function'?c.test(t):c.test.test(t)}));const miss=res.find(r=>!r.ok);return{ok:!miss,list:res,next:miss&&miss.tip,praise}}
+const CLUE_SETS={};Object.keys(Q).forEach(k=>CLUE_SETS[k]=Q[k].clues);clues.forEach((c,i)=>CLUE_SETS['q'+i]=c.hints);
+
+const starterOf=id=>{const s=Q[id].starter;return typeof s==='function'?s():s};
+function clueBlock(id){const shown=state.clue[id]||0,set=CLUE_SETS[id];
+  return '<button type="button" class="btn cluebtn" data-act="clue" data-id="'+id+'" '+(shown>=set.length?'disabled':'')+'>'+clueLabel(id)+'</button>'}
+function clueLabel(id){const s=state.clue[id]||0,n=CLUE_SETS[id].length;return s>=n?'No more clues':'Get a clue ('+(s+1)+' of '+n+')'}
+function clueList(id){return '<div class="clues" id="clues-'+id+'">'+CLUE_SETS[id].slice(0,state.clue[id]||0).map(c=>line(c,'clueitem')).join('')+'</div>'}
+
+function ask(id,before=''){const q=Q[id],st=q.starter?starterOf(id):'';
+  return '<div class="ask">'
+   +'<div class="readline" data-read><label class="rt" for="ans-'+id+'">'+both(q.q)+'</label>'+SAY+'</div>'+before
+   +(st?'<div class="starter"><em>Start with:</em> <span id="st-'+id+'">'+st+'</span> <button type="button" class="chip" data-act="starter" data-id="'+id+'">Use this</button></div>':'')
+   +(q.bank?'<div class="row"><em style="font-style:normal;font-size:15px;color:var(--muted)">Tap to add:</em>'+q.bank.map(w=>'<button type="button" class="chip" data-act="add" data-id="'+id+'" data-text="'+w+'">'+w+'</button>').join('')+'</div>':'')
+   +'<textarea id="ans-'+id+'" data-save="'+id+'" placeholder="Write here. Short sentences are fine."></textarea>'
+   +'<div class="row"><button type="button" class="btn primary" data-act="check" data-id="'+id+'">Check my answer</button>'+clueBlock(id)+'</div>'
+   +clueList(id)
+   +'<div class="fb" id="fb-'+id+'" aria-live="polite"></div>'
+   +(q.model?'<details class="model" id="model-'+id+'" hidden><summary>Compare with a model answer</summary><p>'+q.model+'</p><p style="font-size:15px;color:var(--muted)">Now improve your answer, in your own words.</p></details>':'')
+   +'</div>'}
+
+function runCheck(id){const q=Q[id],el=document.getElementById('fb-'+id),raw=A(id).trim(),t=norm(raw);
+  const st=q.starter?norm(starterOf(id)).replace(/…$/,'').trim():'';
+  if(!raw){return show(el,'try','<p>'+both(T('Write something first. You can tap “Use this” to start.','请先写一点内容。可以点击“Use this”开始。'))+'</p>')}
+  if(st&&t.replace(/…$/,'').trim()===st){return show(el,'try','<p>'+both(T('Good start! Now finish the sentence.','开头不错！现在把句子写完。'))+'</p>')}
+  if(id!=='recall'&&!/[a-z]{2}/.test(t)){return show(el,'try','<p>'+both(T('I can only check English. Good idea to plan in your language! Now try it in English. Use the words above to help.','我只能检查英语。用母语做计划是个好办法！现在试着用英语写，可以使用上面的词语。'))+'</p>')}
+  let r=q.judge?q.judge(t):items(t,q.crit,q.praise);
+  let h='';
+  if(r.head)h+='<p>'+both(r.head)+'</p>';
+  if(r.list)h+='<ul>'+r.list.map(i=>'<li>'+(i.ok?'✓ '+both(i.label):'<b>○ '+both(i.tip)+'</b>')+'</li>').join('')+'</ul>';
+  if(r.ok&&r.list)h+='<p class="next">'+both(r.praise||T('Great answer!','回答得很好！'))+'</p>';
+  if(!r.ok&&r.next&&!r.list)h+='<p class="next">'+both(T('Next: '+r.next.en,'下一步：'+r.next.zh))+'</p>';
+  (r.notes||[]).forEach(n=>h+='<p>'+both(n)+'</p>');
+  (q.warn||[]).forEach(w=>{if(w.test.test(t)&&!(w.unless&&w.unless.test(t)))h+='<p class="next">'+both(w.msg)+'</p>'});
+  if(!r.ok&&r.list)h+='<small>'+both(T('This checker only looks for key words. If you think your answer is right, you can keep it.','这个检查工具只查找关键词。如果你认为自己的答案是对的，可以保留。'))+'</small>';
+  show(el,r.ok?'good':'try',h);
+  const m=document.getElementById('model-'+id);if(m)m.hidden=false}
+function show(el,cls,html){el.className='fb '+cls;el.innerHTML='<div class="readline" data-read><div class="rt" style="display:grid;gap:6px">'+html+'</div>'+SAY+'</div>'}
+
+/* Stage pages */
+function todo(list){return '<div class="todo"><h3>What to do</h3><ol>'+list.map(p=>'<li><div>'+both(p)+'</div></li>').join('')+'</ol></div>'}
+const tip=p=>line(T('<b>Top tip:</b> '+p.en,'小提示：'+p.zh),'toptip');
+const bodyOrder=[2,3,0,5,1,4];
+
+const stageHTML=[
+()=>'<h2>Your mission</h2>'
+ +line(T('Today you will be a computer detective. Your teacher is away, but this page will help you at every stage.','今天你要当一名计算机侦探。老师不在，但这个网页会在每个阶段帮助你。'))
+ +todo([T('Open OneNote and Teams. At the end, your written answers go in OneNote and your poster goes on Teams.','打开 OneNote 和 Teams。最后，书面答案放进 OneNote，海报发到 Teams。'),T('Write the computer parts you remember.','写下你记得的计算机部件。'),T('Press “Check my answer”.','点击“Check my answer”。')])
+ +'<div class="scene">'+line(T('<b>Stuck? Do these in order:</b> 1. Press the yellow clue button. 2. Tap a '+W('save','blue word')+' to see what it means. 3. Press the speaker to hear the words. 4. Still stuck? Ask the adult in the room.','卡住了？按顺序做：1. 点击黄色的提示按钮。2. 点击蓝色词语查看意思。3. 点击喇叭听读音。4. 还是不会？问教室里的老师。'))+'</div>'
+ +tip(T('Getting it wrong is OK. Clues are there to help you. Use them!','答错没关系。提示就是用来帮助你的，尽管使用！'))
+ +ask('recall')
+ +'<div class="todo"><h3>By the end of today, you can…</h3><ol><li><div>'+both(T('name 6 computer parts','说出 6 个计算机部件'))+'</div></li><li><div>'+both(T('say what each part does','说出每个部件的工作'))+'</div></li><li><div>'+both(T('explain how RAM and storage are different','解释 RAM 和存储设备有什么不同'))+'</div></li></ol></div>',
+
+()=>'<h2>Meet the 6 parts</h2>'
+ +todo([T('Press “Show the job” on all 6 cards.','点击全部 6 张卡片上的“Show the job”。'),T('Do the matching game.','完成配对游戏。'),T('Choose one part and write about it.','选择一个部件，写一写它。')])
+ +tip(T('Each part is like a part of your body. This helps you remember its job.','每个部件都像身体的某个部位，这样可以帮助你记住它的工作。'))
+ +'<div class="grid">'+parts.map(p=>'<article class="card">'+art(p.k)+'<h3>'+p.name+'</h3><p class="zh" lang="zh-Hans">'+p.zh+'</p><details data-card="'+p.k+'" '+(state.opened.includes(p.k)?'open':'')+'><summary>Show the job</summary><div>'+line(p.job)+line(T('<b>Like your:</b> '+p.body+'. '+p.why.en,'像你的：'+p.bodyZh+'。'+p.why.zh))+'</div></details></article>').join('')+'</div>'
+ +'<p id="opened" class="tag" aria-live="polite"></p>'
+ +'<div class="scene">'+line(T('This is only a '+W('comparison')+'. A CPU is not really a brain. A power supply does not pump blood.','这只是一种比较。CPU 并不是真正的大脑，电源也不会输送血液。'))+'</div>'
+ +'<div class="ask"><h3>Matching game</h3>'+line(T('Which body part is each computer part like? You get feedback straight away.','每个计算机部件像身体的哪个部位？选择后马上就有反馈。'))
+ +parts.map((p,i)=>'<div style="display:grid;gap:4px"><label for="b'+i+'">'+p.name+'</label><select id="b'+i+'" data-save="b'+i+'" data-match="'+i+'"><option value="">Choose a body part…</option>'+bodyOrder.map(j=>'<option value="'+j+'" data-en="'+parts[j].body+'" data-zh="'+parts[j].bodyZh+'">'+parts[j].body+'</option>').join('')+'</select><div class="fb" id="fbm-'+i+'" aria-live="polite"></div></div>').join('')
+ +'</div>'
+ +ask('comparison','<select id="ans-comparisonPart" data-save="comparisonPart" aria-label="Choose a part"><option value="">Choose a part…</option>'+parts.map(p=>'<option value="'+p.k+'">'+p.name+'</option>').join('')+'</select>'),
+
+()=>'<h2>Computer detective</h2>'
+ +todo([T('Read a clue. The clue is written by a computer part.','读一条线索。线索是一个计算机部件“说”的话。'),T('Tap the part you think it is. You see feedback straight away.','点击你认为正确的部件，马上就能看到反馈。'),T('Wrong? Read the feedback and try again.','答错了？读一读反馈，再试一次。')])
+ +tip(T('Look for the key words in each clue, like “saved” or “electricity”.','找出每条线索中的关键词，例如 “saved” 或 “electricity”。'))
+ +clues.map((c,i)=>'<div class="ask" id="det-'+i+'">'+line(T('<b>Clue '+(i+1)+':</b> '+c.q.en,'线索 '+(i+1)+'：'+c.q.zh),'qtext')
+   +'<div class="choices" role="group" aria-label="Choose a part for clue '+(i+1)+'">'+parts.map((p,j)=>'<button type="button" class="choice" data-act="pick" data-q="'+i+'" data-part="'+j+'" aria-pressed="false">'+p.short+'</button>').join('')+'</div>'
+   +'<div class="row">'+clueBlock('q'+i)+'</div>'+clueList('q'+i)+'<div class="fb" id="fb-q'+i+'" aria-live="polite"></div></div>').join('')
+ +'<p class="score" id="score" aria-live="polite"></p>',
+
+()=>'<h2>The missing story mystery</h2>'
+ +'<div class="scene"><h3 style="margin-bottom:8px">What happened?</h3><div class="strip">'
+ +[[T('1. Alex types a story.','1. Alex 写了一个故事。'),'<rect x="20" y="8" width="80" height="42" rx="4" fill="#dce8ff" stroke="#3158dc" stroke-width="3"/><path d="M30 20h60M30 30h44M30 40h30" stroke="#3158dc" stroke-width="3"/>'],
+   [T('2. Alex does not press Save.','2. Alex 没有点击保存。'),'<rect x="42" y="10" width="36" height="38" rx="4" fill="#9aa9ff"/><rect x="50" y="10" width="20" height="12" fill="#fff"/><rect x="50" y="32" width="20" height="16" fill="#dce8ff"/><path d="M34 4 86 54" stroke="#c7361c" stroke-width="6"/>'],
+   [T('3. The power goes off!','3. 突然断电了！'),'<path d="M66 4 40 32h18l-8 24 30-32H60z" fill="#e8a72e"/>'],
+   [T('4. The computer starts again. The new words are gone.','4. 计算机重新启动。新写的文字不见了。'),'<rect x="20" y="8" width="80" height="42" rx="4" fill="#dce8ff" stroke="#3158dc" stroke-width="3"/><path d="M30 20h26" stroke="#3158dc" stroke-width="3"/><text x="60" y="44" text-anchor="middle" font-size="18" fill="#c7361c">?</text>']]
+   .map(s=>'<div><svg viewBox="0 0 120 58" aria-hidden="true">'+s[1]+'</svg>'+both(s[0])+'</div>').join('')+'</div>'
+ +'<p style="margin-top:10px;font-size:16px">'+both(T('This computer has no '+W('autosave')+'.','这台计算机没有自动保存功能。'))+'</p></div>'
+ +todo([T('Try the demo. See what happens to the words.','试试下面的演示，看看文字会怎么样。'),T('Answer the 4 questions.','回答 4 个问题。'),T('Press “Check my answer” for each one.','每题都点击“Check my answer”。')])
+ +'<div class="demo"><h3>Try it yourself</h3>'
+ +line(T('Type some words. Press <b>Power off</b> without saving. Press <b>Start again</b>. Then try again, and press <b>Save</b> first.','输入一些文字。不保存就按 Power off，再按 Start again。然后再试一次，这次先按 Save。'))
+ +'<label for="simtype">Alex’s story</label><textarea id="simtype" style="min-height:64px" placeholder="Type a sentence here…"></textarea>'
+ +'<div class="row"><button type="button" class="btn" data-act="simsave">Save</button><button type="button" class="btn" data-act="simoff" id="simoffbtn">Power off</button></div>'
+ +'<div class="chips2"><div class="chipbox" id="simrambox"><b>RAM</b><small>Short-term memory</small><div class="val" id="simram"></div></div><div class="chipbox" id="simstorebox"><b>Storage</b><small>Long-term memory</small><div class="val" id="simstore"></div></div></div>'
+ +'<div class="fb" id="simsay" aria-live="polite"></div></div>'
+ +tip(T('Use the demo to find your answers. Look at the RAM box and the Storage box.','用演示来找答案。观察 RAM 方框和 Storage 方框。'))
+ +ask('m1')+ask('m2')+ask('m3')+ask('m4'),
+
+()=>'<h2>Make your Human Computer poster</h2>'
+ +line(T('Use <b>Keynote or Canva</b>. Make <b>one slide or one page</b>. You do not need to do research. Use the cards in Stage 2.','使用 Keynote 或 Canva，做一张幻灯片或一页海报。不需要查资料，用第 2 阶段的卡片就可以。'))
+ +'<div class="scene">'+line(T('<b>Your poster needs 6 boxes.</b> Each box has: the name of the part, a picture of the body part, and one sentence about the job.','海报需要 6 个方框。每个方框包括：部件名称、身体部位的图片，以及一句说明其工作的话。'))+'</div>'
+ +'<div class="stepcards">'
+ +[[T('Step 1: Plan your sentences','第 1 步：计划你的句子'),'5 min',T('Write one sentence for each part below. Press “Check my answer”.','在下面为每个部件写一句话，然后点击“Check my answer”。')],
+   [T('Step 2: Set up','第 2 步：设置'),'5 min',T('Open a blank slide or simple template. Add your title and 6 boxes.','打开空白幻灯片或简单模板，添加标题和 6 个方框。')],
+   [T('Step 3: Create','第 3 步：制作'),'20 min',T('Add the names, body pictures and your sentences. Use drawings, shapes or built-in pictures. Keep the words big.','添加名称、身体图片和你的句子。可以用绘图、形状或内置图片。文字要大。')],
+   [T('Step 4: Add a reminder','第 4 步：添加提醒'),'5 min',T('Explain what happens to RAM and storage when the power is off. Add: “Body comparisons are not exact.”','说明断电时 RAM 和存储设备会怎么样。再加上：“Body comparisons are not exact.”')],
+   [T('Step 5: Hand in','第 5 步：提交'),'5 min',T('Save your poster as a picture, or take a screenshot. Find your teacher’s post for this lesson on Teams. Press Reply and attach your picture. Then press Send.','把海报保存为图片或截图。在 Teams 上找到老师为这节课发的帖子，点击“回复”，附上你的图片，然后点击“发送”。')]]
+   .map(s=>'<div class="stepcard"><b>'+both(s[0])+'</b><span class="time">'+s[1]+'</span>'+line(s[2])+'</div>').join('')+'</div>'
+ +'<div><h3 style="margin-bottom:8px">Step 1: Plan your sentences</h3><div class="planlist">'+parts.map((p,i)=>'<details class="plan" '+(i===0?'open':'')+'><summary>'+p.name+(A('plan_'+p.k)?' ✓':'')+'</summary>'+ask('plan_'+p.k)+'</details>').join('')+'</div></div>'
+ +'<div><h3 style="margin-bottom:8px">A layout you can use</h3><div class="poster"><h3>THE HUMAN COMPUTER</h3>'+parts.map(p=>'<div class="mini">'+art(p.k)+'<b>'+p.short+'</b><p>Picture: '+p.body+'</p><p>'+p.starter+'</p></div>').join('')+'<div class="wide"><b>RAM ≠ storage</b><p>What happens to each one when the power is off?</p></div></div></div>'
+ +tip(T('Short sentences and big words make the best posters.','句子简短、文字够大，海报才好看。'))
+ +'<div><h3 style="margin-bottom:8px">Help! My problem is…</h3><div class="trouble">'
+ +[[T('I cannot find a picture','我找不到图片'),T('Search for the body word, like “brain” or “heart”. In Canva, use Elements. In Keynote, use the Shape button. You can also draw it.','搜索身体部位的词，例如 “brain” 或 “heart”。在 Canva 中用 Elements，在 Keynote 中用 Shape 按钮。也可以自己画。')],
+   [T('My words do not fit','文字放不下'),T('Use one short sentence in each box. Make the picture smaller. Do not make the words smaller.','每个方框只写一句短句。把图片缩小，不要缩小文字。')],
+   [T('I do not know what to write','我不知道写什么'),T('Use Step 1 above. Press “Get a clue” for that part.','使用上面的第 1 步，点击该部件的“Get a clue”。')],
+   [T('Keynote or Canva will not work','Keynote 或 Canva 打不开'),T('Make your poster in OneNote. Use a table with 6 boxes, and draw your pictures. Then take a screenshot and post it on Teams.','在 OneNote 中制作海报。用一个有 6 个格子的表格，再画上图片。然后截图，发到 Teams。')],
+   [T('How do I put my poster on Teams?','怎样把海报发到 Teams？'),T('First make a picture. Keynote: File, Export To, Images. Canva: Share, Download, PNG. Or take a screenshot (on a Mac: Command + Shift + 4). Then open Teams and find your teacher’s post for this lesson. Press Reply. Press the paperclip (Attach) button, choose Upload from this device, and pick your picture. Press Send.','先做成图片。Keynote：File → Export To → Images。Canva：Share → Download → PNG。也可以截图（Mac：Command + Shift + 4）。然后打开 Teams，找到老师为这节课发的帖子。点击“回复”，点击回形针（附加）按钮，选择“从此设备上传”，选中你的图片，再点击“发送”。')]]
+   .map(t=>'<details><summary>'+both(t[0])+'</summary><div>'+line(t[1])+'</div></details>').join('')+'</div></div>'
+ +'<div class="ask"><h3>Poster checklist</h3>'+line(T('Tick each one when it is true. You get feedback as you go.','完成一项就勾选一项，过程中会有反馈。'))
+ +'<div class="checks">'+[T('My poster has all 6 parts.','我的海报有全部 6 个部件。'),T('Every part has a picture of a body part.','每个部件都有身体部位的图片。'),T('Every part has a sentence about its real job.','每个部件都有一句话说明它真正的工作。'),T('I explained the difference between RAM and storage.','我解释了 RAM 和存储设备的不同。'),T('I replied to the Teams post with my poster picture, and I can read the words.','我已在 Teams 帖子下回复并附上海报图片，而且文字能看清。')].map((t,i)=>'<label><input type="checkbox" data-save="p'+i+'" data-poster id="p'+i+'"><span>'+both(t)+'</span></label>').join('')+'</div><div class="fb" id="fb-poster" aria-live="polite"></div></div>',
+
+()=>'<h2>Finish and hand in</h2>'
+ +todo([T('Answer the 3 questions. Check each one.','回答 3 个问题，并逐一检查。'),T('Press “Copy my answers”. Paste them into OneNote.','点击“Copy my answers”，粘贴到 OneNote。'),T('Check your poster is posted as a reply on Teams.','确认海报已作为回复发到 Teams。')])
+ +tip(T('Use the words RAM and storage in your first answer. Think about the demo.','第一题要用 RAM 和 storage 这两个词。想想那个演示。'))
+ +ask('e1')+ask('e2')+ask('e3')
+ +'<div class="scene">'+line(T('<b>Hand in 2 things:</b> your written answers in OneNote, and your poster as a reply to the Teams post. This page does not send your work to your teacher.','提交两样东西：书面答案放进 OneNote，海报回复到 Teams 帖子下。这个网页不会把作品发送给老师。'))
+ +'<div class="row" style="margin-top:12px"><button type="button" class="btn primary" data-act="copy">Copy my answers</button><button type="button" class="btn" data-act="download">Download my answers</button></div><p id="exportstatus" role="status" style="margin-top:8px;font-weight:600"></p>'
+ +'<details id="summarybox" style="margin-top:8px"><summary>Copy does not work? Open your answers here</summary><textarea id="summary" readonly aria-label="All your answers, ready to copy"></textarea></details></div>'
+ +'<div class="ask"><h3>Finished early? Choose a challenge</h3>'
+ +line(T('<b>Myth buster:</b> Why is “RAM and storage do the same job” wrong?','破除迷思：为什么说“RAM 和存储设备的工作相同”是错的？'))
+ +line(T('<b>Riddle:</b> Write 3 clues about a computer part. Do not say its name.','谜语：写 3 条关于某个计算机部件的线索，不要说出它的名称。'))
+ +line(T('<b>Think deeper:</b> How is a CPU like a brain? How is it different?','深入思考：CPU 和大脑有什么相似之处？又有什么不同？'))
+ +'</div>'+ask('challenge'),
+];
+
+/* Stage end feedback */
+function status(n){const a=id=>!!A(id).trim();
+  const correct=i=>A('b'+i)!==''&&+A('b'+i)===i;
+  return [
+   [[T('Write the parts you remember','写下你记得的部件'),a('recall')]],
+   [[T('Open all 6 cards','打开全部 6 张卡片'),state.opened.length>=6],[T('Get all 6 matches right','6 个配对全部正确'),parts.every((p,i)=>correct(i))],[T('Write your comparison','写下你的比较'),a('comparison')]],
+   [[T('Solve all 6 clues','解开全部 6 条线索'),clues.every((c,i)=>A('q'+i)!==''&&+A('q'+i)===c.a)]],
+   [[T('Try the demo','试用演示'),state.demo],[T('Answer question 1','回答第 1 题'),a('m1')],[T('Answer question 2','回答第 2 题'),a('m2')],[T('Answer question 3','回答第 3 题'),a('m3')],[T('Answer question 4','回答第 4 题'),a('m4')]],
+   [[T('Plan your 6 sentences','计划 6 个句子'),parts.every(p=>a('plan_'+p.k))],[T('Tick everything on the checklist','勾选清单上的所有项目'),[0,1,2,3,4].every(i=>!!state.answers['p'+i])]],
+   [[T('Answer question 1','回答第 1 题'),a('e1')],[T('Answer question 2','回答第 2 题'),a('e2')],[T('Answer question 3','回答第 3 题'),a('e3')],[T('Copy or download your answers','复制或下载你的答案'),state.exported]],
+  ][n]}
+const stageWell=[
+ T('You warmed up your memory. Next, meet the 6 parts. Look at the pictures carefully.','你已经热身了。接下来认识 6 个部件，请仔细看图片。'),
+ T('You know the parts and their jobs. Next, use the key words to solve the clues.','你认识了这些部件和它们的工作。接下来用关键词解开线索。'),
+ T('Great detective work! Next, think hard about RAM and storage.','侦探工作做得很棒！接下来好好想想 RAM 和存储设备。'),
+ T('Mystery solved! Next, make your poster. Your answers from this page will help.','谜题解开了！接下来制作海报，这个网页上的答案会帮助你。'),
+ T('Well done on your poster! One more stage. Remember to copy your answers.','海报做得很好！还有最后一个阶段，记得复制答案。'),
+ T('You finished the whole mission. Well done, computer detective!','你完成了全部任务。干得好，计算机侦探！'),
+];
+function finishStage(n){const list=status(n),el=document.getElementById('finishfb'),todoList=list.filter(x=>!x[1]);
+  if(!todoList.length){if(!state.done.includes(n))state.done.push(n);save();paintTrail();show(el,'good','<p class="next">'+both(T('Stage '+(n+1)+' complete!','第 '+(n+1)+' 阶段完成！'))+'</p><ul>'+list.map(x=>'<li>✓ '+both(x[0])+'</li>').join('')+'</ul><p>'+both(stageWell[n])+'</p>')}
+  else show(el,'try','<p class="next">'+both(T('Nearly there. You still need to:','快完成了。你还需要：'))+'</p><ul>'+list.map(x=>'<li>'+(x[1]?'✓ ':'○ ')+both(x[0])+'</li>').join('')+'</ul><p>'+both(T('You can do these now. If you are out of time, you can move on and come back later.','现在可以完成这些。如果时间不够，可以先继续，之后再回来。'))+'</p>')}
+
+/* Page drawing */
+const stages=document.getElementById('stages');
+function paintTrail(){const n=state.stage;
+  document.getElementById('trail').innerHTML=titles.map((t,i)=>'<li class="'+(state.done.includes(i)?'lit':'')+'"><button type="button" data-go="'+i+'" '+(n===i?'aria-current="step"':'')+' aria-label="Stage '+(i+1)+': '+t+(state.done.includes(i)?', complete':'')+'"><span class="dot">'+(state.done.includes(i)&&n!==i?'✓':(i+1))+'</span><span class="name">'+t+'</span></button></li>').join('');
+  document.getElementById('progress').textContent='Stage '+(n+1)+' of 6: '+titles[n]+' · '+state.done.length+' of 6 complete'}
+function render(){const n=Math.max(0,Math.min(5,state.stage||0));state.stage=n;paintTrail();
+  stages.innerHTML='<section><span class="tag">'+both(times[n])+'</span>'+stageHTML[n]()
+   +'<div class="finish"><div class="row"><button type="button" class="btn primary" data-act="finish">I have finished this stage</button>'
+   +(n<5?'<button type="button" class="btn" data-go="'+(n+1)+'">Next stage →</button>':'')+(n>0?'<button type="button" class="btn" data-go="'+(n-1)+'">← Back</button>':'')+'</div><div class="fb" id="finishfb" aria-live="polite"></div></div></section>';
+  stages.querySelectorAll('[data-save]').forEach(el=>{const v=state.answers[el.dataset.save];if(el.type==='checkbox')el.checked=!!v;else el.value=v??''});
+  if(n===1){paintOpened();parts.forEach((p,i)=>paintMatch(i));syncOptions()}
+  if(n===2){clues.forEach((c,i)=>paintPick(i));paintScore()}
+  if(n===3)paintSim();
+  if(n===4)paintPoster();
+  if(n===5)document.getElementById('summary').value=report()}
+function go(n){state.stage=n;save();speechCancel();closeWord();render();document.querySelector('nav').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'start'})}
+
+function paintOpened(){const el=document.getElementById('opened');if(el)el.textContent='Cards opened: '+state.opened.length+' of 6'+(state.opened.length>=6?' ✓':'')}
+function paintMatch(i){const v=A('b'+i),el=document.getElementById('fbm-'+i);if(!el)return;if(v===''){el.className='fb';el.innerHTML='';return}
+  +v===i?show(el,'good','<p>✓ '+both(T('Yes! '+parts[i].why.en,'对！'+parts[i].why.zh))+'</p>'):show(el,'try','<p>'+both(T('Not this one. Clue: '+parts[i].plain+' Which body part does a job like this?','不是这个。提示：'+parts[i].job.zh+' 哪个身体部位的工作与此相似？'))+'</p>')}
+function syncOptions(){stages.querySelectorAll('option[data-zh]').forEach(o=>o.textContent=state.zh?o.dataset.en+' · '+o.dataset.zh:o.dataset.en)}
+function paintPick(i){const c=clues[i],v=A('q'+i),box=document.getElementById('det-'+i),el=document.getElementById('fb-q'+i);
+  box.querySelectorAll('.choice').forEach(b=>{const on=v!==''&&+b.dataset.part===+v;b.setAttribute('aria-pressed',on);b.classList.toggle('right',on&&+v===c.a);b.classList.toggle('wrong',on&&+v!==c.a)});
+  if(v===''){el.className='fb';el.innerHTML='';return}
+  const pick=parts[+v],right=parts[c.a];
+  if(+v===c.a)show(el,'good','<p>✓ '+both(T('Correct! '+right.plain,'正确！'+right.job.zh))+'</p>');
+  else show(el,'try','<p>'+both(T('Not this one. '+pick.plain+' Read the clue again and look for the key words. Try another part.','不是这个。'+pick.job.zh+' 再读一遍线索，找出关键词，试试另一个部件。'))+'</p>')}
+function paintScore(){const s=clues.filter((c,i)=>A('q'+i)!==''&&+A('q'+i)===c.a).length,el=document.getElementById('score');if(el)el.textContent=s+' of 6 solved'+(s===6?'. Great detective work!':'')}
+function paintPoster(){const n=[0,1,2,3,4].filter(i=>state.answers['p'+i]).length,el=document.getElementById('fb-poster');if(!el)return;
+  const msg=[null,T('Good start. Keep going!','开了个好头，继续加油！'),T('2 done. Is every sentence about the real job of the part?','完成 2 项。每句话都在说部件真正的工作吗？'),T('3 done. Did you explain RAM and storage? Say what happens when the power is off.','完成 3 项。你解释 RAM 和存储设备了吗？说说断电时会怎样。'),T('Nearly there. Open your reply on Teams. Can you read your poster easily?','快完成了。打开你在 Teams 上的回复，能轻松看清海报吗？'),T('All 5 done. Excellent poster work!','5 项全部完成。海报做得太好了！')][n];
+  if(!msg){el.className='fb';el.innerHTML='';return}show(el,n===5?'good':'try','<p>'+both(msg)+'</p>')}
+
+/* RAM and storage demo */
+const sim={ram:'',store:'',on:true};
+function paintSim(){const t=document.getElementById('simtype');if(!t)return;
+  document.getElementById('simram').textContent=sim.on?(sim.ram||'(empty)'):'(empty, no power)';
+  document.getElementById('simstore').textContent=sim.store||'(nothing saved)';
+  document.getElementById('simrambox').classList.toggle('off',!sim.on);
+  t.disabled=!sim.on;if(t.value!==sim.ram)t.value=sim.ram;
+  document.getElementById('simoffbtn').textContent=sim.on?'Power off':'Start again'}
+function simMsg(cls,p){show(document.getElementById('simsay'),cls,'<p>'+both(p)+'</p>')}
+function simToggle(){
+  if(sim.on){const unsaved=sim.ram&&sim.ram!==sim.store;sim.on=false;sim.lost=unsaved;sim.ram='';state.demo=true;save();
+    simMsg(unsaved?'try':'good',unsaved?T('The power is off! RAM is empty. Your unsaved words are lost. Look at the Storage box. Now press Start again.','断电了！RAM 空了，没有保存的文字丢失了。看看 Storage 方框。现在按 Start again。'):T('The power is off. RAM is empty, but storage still has your saved work. Now press Start again.','断电了。RAM 空了，但存储设备里还有你保存的作品。现在按 Start again。'))}
+  else{sim.on=true;sim.ram=sim.store;
+    simMsg(sim.lost?'try':'good',sim.store?T('The computer opens your saved work from storage and puts it in RAM. Anything you did not save has gone.','计算机从存储设备打开你保存的作品，并放入 RAM。没有保存的内容都没有了。'):T('Nothing was saved, so there is nothing to open. Type again, and this time press Save first.','没有保存任何内容，所以没有东西可以打开。再输入一次，这次先按 Save。'))}
+  paintSim()}
+
+/* Answers for OneNote */
+function report(){let out='THE HUMAN COMPUTER\n\n';
+  const labels={recall:'Memory warm-up',comparison:'Body comparison',m1:'What RAM holds',m2:'What storage keeps',m3:'Why the work was lost',m4:'Advice for Alex'};
+  for(const[k,v]of Object.entries(labels))out+=v+'\n'+(A(k)||'(not done yet)')+'\n\n';
+  const p=parts.find(x=>x.k===A('comparisonPart'));if(p)out=out.replace('Body comparison\n','Body comparison ('+p.short+')\n');
+  out+='COMPUTER DETECTIVE\n';clues.forEach((c,i)=>{const a=A('q'+i);out+=(i+1)+'. '+strip(c.q.en)+'\n'+(a!==''?parts[+a].short+(+a===c.a?' (correct)':' (try again)'):'(not done yet)')+'\n'});
+  out+='Score: '+clues.filter((c,i)=>A('q'+i)!==''&&+A('q'+i)===c.a).length+' of 6\n\nPOSTER SENTENCES\n';
+  parts.forEach(x=>out+=x.short+': '+(A('plan_'+x.k)||'(not done yet)')+'\n');
+  const end={e1:'RAM and storage are different because',e2:'The part I understand best',e3:'What I still want to understand',challenge:'Challenge'};
+  out+='\n';for(const[k,v]of Object.entries(end))out+=v+'\n'+(A(k)||'(not done yet)')+'\n\n';
+  return out+'Remember to post your poster picture as a reply on Teams.\n'}
+function strip(h){const d=document.createElement('div');d.innerHTML=h;return d.textContent}
+
+/* Read aloud */
+const canSpeak='speechSynthesis' in window;if(!canSpeak)document.documentElement.classList.add('no-speech');
+function speechCancel(){if(canSpeak)speechSynthesis.cancel()}
+function speak(block){if(!canSpeak)return;const c=block.cloneNode(true);c.querySelectorAll('.zh,.say').forEach(x=>x.remove());
+  const u=new SpeechSynthesisUtterance(c.textContent.replace(/\s+/g,' ').replace(/_{2,}/g,'gap').trim());u.lang='en-GB';u.rate=.88;speechCancel();speechSynthesis.speak(u)}
+
+/* Word help */
+const wordbox=document.getElementById('wordbox');
+function openWord(k){wordbox.innerHTML='<div data-read><div class="rt">'+both(WORDS[k])+'</div>'+SAY+'<button type="button" class="btn" data-act="closeword">Close</button></div>';wordbox.hidden=false}
+function closeWord(){wordbox.hidden=true}
+
+/* Events */
+function act(e){const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.word){openWord(b.dataset.word);return}
+  if(b.dataset.go!==undefined){go(+b.dataset.go);return}
+  const a=b.dataset.act,id=b.dataset.id;
+  if(a==='say')speak(b.closest('[data-read]'));
+  if(a==='closeword')closeWord();
+  if(a==='check')runCheck(id);
+  if(a==='clue'){const s=state.clue[id]||0;if(s<CLUE_SETS[id].length){state.clue[id]=s+1;save();document.getElementById('clues-'+id).innerHTML=CLUE_SETS[id].slice(0,s+1).map(c=>line(c,'clueitem')).join('');b.textContent=clueLabel(id);b.disabled=s+1>=CLUE_SETS[id].length}}
+  if(a==='starter'||a==='add'){const t=document.getElementById('ans-'+id),add=a==='starter'?starterOf(id).replace(/…$/,' '):b.dataset.text+' ';
+    if(a==='starter'&&t.value.trim())t.value=add+t.value;else t.value=(t.value&&!/\s$/.test(t.value)?t.value+' ':t.value)+add;
+    state.answers[id]=t.value;save();t.focus();t.setSelectionRange(t.value.length,t.value.length)}
+  if(a==='pick'){const q=+b.dataset.q;state.answers['q'+q]=b.dataset.part;save();paintPick(q);paintScore()}
+  if(a==='finish')finishStage(state.stage);
+  if(a==='simsave'&&sim.on){if(!sim.ram){simMsg('try',T('Type something first.','请先输入一些内容。'))}else{sim.store=sim.ram;sim.lost=false;paintSim();simMsg('good',T('Saved! A copy is now in storage. Now press Power off and watch.','保存好了！存储设备里已有一份。现在按 Power off 看看。'))}}
+  if(a==='simoff')simToggle();
+  if(a==='copy'){const r=report();const done=()=>{state.exported=true;save();document.getElementById('exportstatus').textContent='Copied! Now paste into OneNote. Then post your poster as a reply on Teams.'};
+    const fail=()=>{document.getElementById('summarybox').open=true;const s=document.getElementById('summary');s.focus();s.select();state.exported=true;save();document.getElementById('exportstatus').textContent='Copy the answers in the box below. Then paste them into OneNote.'};
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(r).then(done,fail);else fail()}
+  if(a==='download'){const u=URL.createObjectURL(new Blob([report()],{type:'text/plain;charset=utf-8'})),l=document.createElement('a');l.href=u;l.download='human-computer-answers.txt';document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);state.exported=true;save();document.getElementById('exportstatus').textContent='Downloaded. Open the file and copy your answers into OneNote.'}
+}
+document.addEventListener('click',act);
+stages.addEventListener('input',e=>{const el=e.target;
+  if(el.id==='simtype'){sim.ram=el.value;document.getElementById('simram').textContent=sim.ram||'(empty)';if(sim.ram)simMsg('try',T('Your words are in RAM now. They are not saved yet.','你的文字现在在 RAM 里，还没有保存。'));return}
+  const k=el.dataset.save;if(!k)return;
+  state.answers[k]=el.type==='checkbox'?el.checked:el.value;save();
+  if(el.dataset.match!==undefined)paintMatch(+el.dataset.match);
+  if(el.dataset.poster!==undefined)paintPoster();
+  if(k==='comparisonPart'){const s=document.getElementById('st-comparison');if(s)s.textContent=starterOf('comparison')}
+  const sum=document.getElementById('summary');if(sum)sum.value=report()});
+stages.addEventListener('toggle',e=>{const k=e.target.dataset&&e.target.dataset.card;if(k&&e.target.open&&!state.opened.includes(k)){state.opened.push(k);save();paintOpened()}},true);
+
+const zhBtn=document.getElementById('zhtoggle');
+function paintZh(){document.documentElement.classList.toggle('zh-on',!!state.zh);zhBtn.setAttribute('aria-pressed',!!state.zh);syncOptions()}
+zhBtn.onclick=()=>{state.zh=!state.zh;save();paintZh()};
+
+document.getElementById('glossarybody').innerHTML=parts.map(p=>'<div data-read class="readline"><div class="rt"><b>'+p.name+'</b> · <span lang="zh-Hans">'+p.zh+'</span><br>'+p.plain+'</div></div>').join('')+Object.keys(WORDS).map(k=>'<div><b>'+WORDS[k].en.split(' = ')[0]+'</b> · <span lang="zh-Hans">'+WORDS[k].zh.split('：')[0]+'</span><br>'+WORDS[k].en.split(' = ')[1]+'</div>').join('');
+
+const resetRow=document.getElementById('resetrow');
+function resetButton(){resetRow.innerHTML='<button type="button" class="btn" id="reset">Clear my answers on this device</button>';document.getElementById('reset').onclick=resetAsk}
+function resetAsk(){resetRow.innerHTML='<span>Have you copied your answers to OneNote and posted your poster on Teams? This cannot be undone.</span> <button type="button" class="btn" id="resetyes">Yes, clear everything</button> <button type="button" class="btn" id="resetno">No, keep my work</button>';
+  document.getElementById('resetno').onclick=resetButton;
+  document.getElementById('resetyes').onclick=()=>{const z=state.zh;state={answers:{},done:[],stage:0,clue:{},opened:[],zh:z,demo:false,exported:false};sim.ram='';sim.store='';sim.on=true;save();resetButton();render()}}
+document.getElementById('reset').onclick=resetAsk;
+
+render();paintZh();
+</script>
+</body>
+</html>
